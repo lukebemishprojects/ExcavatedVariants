@@ -37,7 +37,7 @@ public class ModConfig {
                         new BaseStone("scorchia", new ResourceLocation("create","textures/block/palettes/stone_types/scorchia.png"), "Scorchia ", new ResourceLocation("create","scorchia")),
                         new BaseStone("scoria", new ResourceLocation("create","textures/block/palettes/stone_types/scoria.png"), "Scoria ", new ResourceLocation("create","scoria")),
                         new BaseStone("veridium", new ResourceLocation("create","textures/block/palettes/stone_types/veridium.png"), "Veridium ", new ResourceLocation("create","veridium"))),
-                Arrays.asList(new BaseOre("zinc_ore",Arrays.asList("stone"), new ResourceLocation("create","textures/block/zinc_ore.png"),new ResourceLocation("create","zinc_ore"), "Zinc Ore"))));
+                Arrays.asList(new BaseOre("zinc_ore",Arrays.asList("stone", "deepslate"), new ResourceLocation("create","textures/block/zinc_ore.png"),new ResourceLocation("create","zinc_ore"), "Zinc Ore"))));
         output.mods.add(new ModData("minecraft",
                 Arrays.asList(new BaseStone("stone", new ResourceLocation("minecraft","textures/block/stone.png"), "", new ResourceLocation("minecraft","stone")),
                         new BaseStone("deepslate", new ResourceLocation("minecraft","textures/block/deepslate.png"), "Deepslate ", new ResourceLocation("minecraft","deepslate")),
