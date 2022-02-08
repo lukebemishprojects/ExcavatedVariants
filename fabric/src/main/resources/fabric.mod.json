@@ -1,26 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "mod_template",
+  "id": "excavated_variants",
   "version": "${version}",
-  "name": "Mod Template",
+  "name": "Excavated Variants",
   "description": "Description",
   "authors": [
     "Luke Bemish"
   ],
   "contact": {
-    "sources": "https://github.com/lukebemish/mod_template"
+    "sources": "https://github.com/lukebemish/excavated_variants"
   },
   "license": "LGPL v3",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mod_template.fabric.ModTemplateFabric"
+      "excavated_variants.fabric.ExcavatedVariantsFabric"
     ],
     "client": [
-      "mod_template.fabric.ModTemplateClientFabric"
+      "excavated_variants.fabric.ExcavatedVariantsClientFabric"
     ]
   },
+  "mixins": [
+    "mixin.excavated_variants.json"
+  ],
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.18",

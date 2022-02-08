@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "excavated_variants.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "OreConfigurationMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

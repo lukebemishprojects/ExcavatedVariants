@@ -1,3 +1,3 @@
-# Mod Template
+# Excavated Variants
 
 README goes here

@@ -1,33 +1,33 @@
 modLoader = "javafml"
 loaderVersion = "[38,)"
-issueTrackerURL = "https://github.com/lukebemish/mod_template/issues"
+issueTrackerURL = "https://github.com/lukebemish/excavated_variants/issues"
 license = "LGPL v3"
 
 [[mods]]
-modId = "mod_template"
+modId = "excavated_variants"
 version = "${version}"
-displayName = "Mod Template"
+displayName = "Excavated Variants"
 authors = "Luke Bemish"
 description = '''
 Description here
 '''
 # logoFile = "icon.png"
 
-[[dependencies.mod_template]]
+[[dependencies.excavated_variants]]
 modId = "forge"
 mandatory = true
 versionRange = "[38,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.mod_template]]
+[[dependencies.excavated_variants]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.18,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.mod_template]]
+[[dependencies.excavated_variants]]
 modId = "architectury"
 mandatory = true
 versionRange = "[3.3.7,)"
