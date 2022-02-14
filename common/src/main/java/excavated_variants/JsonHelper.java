@@ -28,7 +28,7 @@ public class JsonHelper {
                 String ore_location = ExcavatedVariants.MOD_ID + ":" + "block/" + id;
                 InputStream read = null;
                 try {
-                    read = ClientPrePackRepository.getResource(new ResourceLocation(stone.block_id.getNamespace(), "models/block/" + stone.block_id.getPath() + ".json"));
+                    read = ClientPrePackRepository.getResource(new ResourceLocation(stone.rl_block_id.getNamespace(), "models/block/" + stone.rl_block_id.getPath() + ".json"));
                     StringBuilder textBuilder = new StringBuilder();
                     Reader reader = new BufferedReader(new InputStreamReader
                             (read, Charset.forName(StandardCharsets.UTF_8.name())));
@@ -37,7 +37,7 @@ public class JsonHelper {
                         textBuilder.append((char) c);
                     }
                     String readStr = textBuilder.toString();
-                    String stoneLoc = stone.texture_location.toString();
+                    String stoneLoc = stone.rl_texture_location.toString();
                     ResourceLocation stoneRl = ResourceLocation.of(stoneLoc,':');
                     String stonePath = stoneRl.getPath();
                     if (stonePath.length() > 14 && stonePath.endsWith(".png") && stonePath.startsWith("textures/")) {

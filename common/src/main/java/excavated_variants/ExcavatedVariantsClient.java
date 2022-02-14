@@ -19,7 +19,7 @@ public class ExcavatedVariantsClient {
         Map<String, BaseStone> stoneMap = new HashMap<>();
         Map<String, List<BaseOre>> oreMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.contains(mod.id)) {
+            if (modids.contains(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
                     if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
                         stoneMap.put(stone.id, stone);
@@ -36,7 +36,7 @@ public class ExcavatedVariantsClient {
         List<String> extractedOres = new ArrayList<>();
         Map<String, PaletteExtractor> extractorMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.contains(mod.id)) {
+            if (modids.contains(mod.mod_id)) {
                 Map<String, BaseStone> internalStoneMap = new HashMap<>();
                 for (BaseStone stone : mod.provided_stones) {
                     if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
@@ -47,12 +47,12 @@ public class ExcavatedVariantsClient {
                     if (!extractedOres.contains(ore.id)) {
                         for (String stone_id : ore.stone) {
                             if (internalStoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                                PaletteExtractor extractor = new PaletteExtractor(internalStoneMap.get(stone_id).texture_location,
-                                        ore.texture_location, 6);
+                                PaletteExtractor extractor = new PaletteExtractor(internalStoneMap.get(stone_id).rl_texture_location,
+                                        ore.rl_texture_location, 6, true, true, 0.2);
                                 extractorMap.put(ore.id, extractor);
                             } else if (stoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                                PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).texture_location,
-                                        ore.texture_location, 6);
+                                PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location,
+                                        ore.rl_texture_location, 6, true, true, 0.2);
                                 extractorMap.put(ore.id, extractor);
                             }
                         }
@@ -65,8 +65,8 @@ public class ExcavatedVariantsClient {
             BaseOre ore = oreList.get(0);
             for (String stone_id : ore.stone) {
                 if (stoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                    PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).texture_location,
-                            ore.texture_location, 6);
+                    PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location,
+                            ore.rl_texture_location, 6,true,true,0.2);
                     extractorMap.put(ore.id, extractor);
                 }
             }
@@ -79,10 +79,10 @@ public class ExcavatedVariantsClient {
                 stones.addAll(ore.stone);
             }
             for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id)) {
+                if (!stones.contains(stone.id) && oreList.stream().anyMatch((x)->x.types.stream().anyMatch(stone.type::contains))) {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                        IPalettePlan plan = new ForegroundTransferType(extractor, stone.texture_location,
+                        IPalettePlan plan = new ForegroundTransferType(extractor, stone.rl_texture_location,
                                 true, false);
                         DynAssetGeneratorClientAPI.planPaletteCombinedImage(new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/" + full_id + ".png"), plan);
                         DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/" + full_id + ".json"),

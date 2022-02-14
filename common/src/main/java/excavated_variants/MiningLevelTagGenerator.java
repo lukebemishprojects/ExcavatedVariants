@@ -27,7 +27,7 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
     }
 
     public void add(String full_id, BaseOre ore) {
-        toCheck.add(new CheckPair(full_id, ore.block_id.toString()));
+        toCheck.add(new CheckPair(full_id, ore.rl_block_id.toString()));
     }
 
     @Override

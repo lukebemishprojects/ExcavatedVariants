@@ -14,7 +14,7 @@ public class LangBuilder {
         if (internal.length() >= 1) {
             internal += ",";
         }
-        internal += "\"block."+ExcavatedVariants.MOD_ID+"."+full_id+"\":\""+stone.en_name+ore.en_name+"\"";
+        internal += "\"block."+ExcavatedVariants.MOD_ID+"."+full_id+"\":\""+stone.en_name+" "+ore.en_name+"\"";
     }
 
     public Supplier<InputStream> build() {

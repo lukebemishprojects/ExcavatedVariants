@@ -29,7 +29,7 @@ public class ModifiedOreBlock extends OreBlock {
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        Block target = RegistryUtil.getBlockById(ore.block_id);
+        Block target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
         if (target != null) {
             state = target.defaultBlockState();
             ResourceLocation resourceLocation = target.getLootTable();
@@ -54,7 +54,7 @@ public class ModifiedOreBlock extends OreBlock {
 
     @Override
     public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack) {
-        Block target = RegistryUtil.getBlockById(ore.block_id);
+        Block target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
         if (target != null) {
             BlockState targetState = target.defaultBlockState();
             target.spawnAfterBreak(state, level, pos, stack);
