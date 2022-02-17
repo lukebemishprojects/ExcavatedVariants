@@ -12,10 +12,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OreFinderUtil {
-    private static final List<Pair<Block, Pair<BaseOre, List<BaseStone>>>> lookup = new ArrayList<>();
-    private static final List<Block> nullList = new ArrayList<>();
+    private static final List<Pair<Block, Pair<BaseOre, List<BaseStone>>>> lookup = new CopyOnWriteArrayList<>();
+    private static  final List<Block> nullList = new CopyOnWriteArrayList<>();
 
     @Nullable
     public static Pair<BaseOre, List<BaseStone>> getBaseOre(BlockState state) {
