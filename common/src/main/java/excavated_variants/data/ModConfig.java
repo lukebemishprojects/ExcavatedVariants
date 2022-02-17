@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ModConfig {
@@ -39,6 +40,48 @@ public class ModConfig {
     @Expose
     public boolean attempt_ore_replacement = true;
 
+    private static final String[] UNEARTHED_STONE_LIST = new String[] {"beige_limestone","conglomerate","gabbro","granodiorite",
+            "grey_limestone","limestone","mudstone","phyllite","quartzite","rhyolite","siltstone","slate","white_granite"};
+    private static final String[] UNEARTHED_STONE_EN_LIST = new String[] {"Beige Limestone","Conglomerate","Gabbro","Granodiorite",
+            "Grey Limestone","Limestone","Mudstone","Phyllite","Quartzite","Rhyolite","Siltstone","Slate","White Granite"};
+
+    private static List<String> genUnearthedBlockIdList(String oreName, String... toAdd) {
+        ArrayList<String> output = new ArrayList<>();
+
+        for (String s : UNEARTHED_STONE_LIST) {
+            output.add("unearthed:"+s+"_"+oreName);
+        }
+
+        output.addAll(Arrays.asList(toAdd));
+        return output;
+    }
+
+    private static List<String> genUnearthedStoneIdList(String... toAdd) {
+        ArrayList<String> output = new ArrayList<>();
+
+        for (String s : UNEARTHED_STONE_LIST) {
+            output.add("unearthed_"+s);
+        }
+
+        output.addAll(Arrays.asList(toAdd));
+        return output;
+    }
+
+    private static List<BaseStone> genUnearthedStoneList(BaseStone... toAdd) {
+        ArrayList<BaseStone> output = new ArrayList<>(Arrays.asList(toAdd));
+
+        for (int i = 0; i < UNEARTHED_STONE_LIST.length; i++) {
+            String s = UNEARTHED_STONE_LIST[i];
+                String enName = UNEARTHED_STONE_EN_LIST[i];
+                BaseStone stone = new BaseStone("unearthed_" + s, "unearthed:textures/block/" + s + ".png", enName, "unearthed:"+s,List.of("stone"));
+                output.add(stone);
+        }
+
+        output.addAll(Arrays.asList(toAdd));
+
+        return output;
+    }
+
     public static ModConfig getDefault() {
         ModConfig output = new ModConfig();
         output.format = CURRENT_VERSION;
@@ -63,10 +106,29 @@ public class ModConfig {
                         new BaseOre("gold_ore",List.of("stone", "deepslate","netherrack"), new ResourceLocation("minecraft","textures/block/gold_ore.png"),List.of(new ResourceLocation("minecraft","gold_ore"),new ResourceLocation("minecraft","deepslate_gold_ore"),new ResourceLocation("minecraft","nether_gold_ore")), "Gold Ore", List.of("stone","nether")),
                         new BaseOre("copper_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/copper_ore.png"),List.of(new ResourceLocation("minecraft","copper_ore"),new ResourceLocation("minecraft","deepslate_copper_ore")), "Copper Ore", List.of("stone")),
                         new BaseOre("emerald_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/emerald_ore.png"),List.of(new ResourceLocation("minecraft","emerald_ore"),new ResourceLocation("minecraft","deepslate_emerald_ore")), "Emerald Ore", List.of("stone")),
-                        new BaseOre("lapis_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/lapis_ore.png"),List.of(new ResourceLocation("minecraft","lapis_ore"),new ResourceLocation("minecraft","deepslate_lapis_ore")), "Lapis Lazuli Ore", List.of("stone")),
+                        new BaseOre("lapis_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/lapis_ore.png"),List.of(new ResourceLocation("minecraft","lapis_ore"),new ResourceLocation("minecraft","deepslate_lapis_ore")), "Lapis Ore", List.of("stone")),
                         new BaseOre("diamond_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/diamond_ore.png"),List.of(new ResourceLocation("minecraft","diamond_ore"),new ResourceLocation("minecraft","deepslate_diamond_ore")), "Diamond Ore", List.of("stone")),
                         new BaseOre("quartz_ore", List.of("netherrack"), new ResourceLocation("minecraft","textures/block/nether_quartz_ore.png"),List.of(new ResourceLocation("minecraft","nether_quartz_ore")), "Quartz Ore", List.of("nether")),
                         new BaseOre("redstone_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/redstone_ore.png"),List.of(new ResourceLocation("minecraft","redstone_ore"),new ResourceLocation("minecraft","deepslate_redstone_ore")), "Redstone Ore", List.of("stone")))));
+        output.mods.add(new ModData("unearthed",
+                genUnearthedStoneList(),
+                List.of(new BaseOre("coal_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_coal_ore.png",genUnearthedBlockIdList("coal_ore","unearthed:sandstone_coal_ore"), "Coal Ore", List.of("stone")),
+                        new BaseOre("iron_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_iron_ore.png",genUnearthedBlockIdList("iron_ore","unearthed:sandstone_iron_ore"), "Iron Ore", List.of("stone")),
+                        new BaseOre("gold_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_gold_ore.png",genUnearthedBlockIdList("gold_ore","unearthed:sandstone_gold_ore"), "Gold Ore", List.of("stone")),
+                        new BaseOre("copper_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_copper_ore.png",genUnearthedBlockIdList("copper_ore","unearthed:sandstone_copper_ore"), "Copper Ore", List.of("stone")),
+                        new BaseOre("lapis_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_lapis_ore.png",genUnearthedBlockIdList("lapis_ore","unearthed:sandstone_lapis_ore"), "Lapis Ore", List.of("stone")),
+                        new BaseOre("emerald_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_emerald_ore.png",genUnearthedBlockIdList("emerald_ore","unearthed:sandstone_emerald_ore"), "Emerald Ore", List.of("stone")),
+                        new BaseOre("diamond_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_diamond_ore.png",genUnearthedBlockIdList("diamond_ore","unearthed:sandstone_diamond_ore"), "Diamond Ore", List.of("stone")),
+                        new BaseOre("redstone_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_redstone_ore.png",genUnearthedBlockIdList("redstone_ore","unearthed:sandstone_redstone_ore"), "Redstone Ore", List.of("stone")))));
+        output.mods.add(new ModData("promenade",
+                List.of(new BaseStone("promenade_blunite","promenade:textures/block/blunite.png","Blunite","promenade:blunite",List.of("stone")),
+                        new BaseStone("promenade_carbonite","promenade:textures/block/carbonite.png","Carbonite","promenade:carbonite",List.of("stone"))),
+                List.of()));
+        output.mods.add(new ModData("twigs",
+                List.of(new BaseStone("twigs_schist","twigs:textures/block/schist.png","Schist","twigs:schist",List.of("stone")),
+                        new BaseStone("twigs_rhyolite","twigs:textures/block/rhyolite.png","Rhyolite","twigs:rhyolite",List.of("stone")),
+                        new BaseStone("twigs_bloodstone","twigs:textures/block/bloodstone.png","Bloodstone","twigs:bloodstone",List.of("nether"))),
+                List.of()));
         output.mods.add(new ModData("techreborn",
                 List.of(),
                 List.of(new BaseOre("aluminum_ore",List.of("stone", "deepslate"), new ResourceLocation("techreborn","textures/block/ore/bauxite_ore.png"),List.of(new ResourceLocation("techreborn","bauxite_ore"),new ResourceLocation("techreborn","deepslate_bauxite_ore")), "Bauxite Ore", List.of("stone")),
@@ -96,6 +158,12 @@ public class ModConfig {
                 List.of(new BaseOre("thallasium_ore",List.of("end_stone"), new ResourceLocation("betterend","textures/block/thallasium_ore.png"),List.of(new ResourceLocation("betterend","thallasium_ore")), "Thallasium Ore", List.of("end")),
                         new BaseOre("amber_ore",List.of("end_stone"), new ResourceLocation("betterend","textures/block/amber_ore.png"),List.of(new ResourceLocation("betterend","amber_ore")), "Amber Ore", List.of("end")),
                         new BaseOre("ender_ore",List.of("end_stone"), new ResourceLocation("betterend","textures/block/ender_ore.png"),List.of(new ResourceLocation("betterend","ender_ore")), "Ender Ore", List.of("end")))));
+        output.mods.add(new ModData("betternether",
+                List.of(),
+                List.of(new BaseOre("redstone_ore",List.of("netherrack"), "betternether:textures/block/nether_redstone_ore.png",List.of("betternether:nether_redstone_ore"), "Redstone Ore", List.of("nether")),
+                        new BaseOre("lapis_ore",List.of("netherrack"), "betternether:textures/block/nether_lapis_ore.png",List.of("betternether:nether_lapis_ore"), "Lapis Ore", List.of("nether")),
+                        new BaseOre("cincinnasite_ore",List.of("netherrack"), "betternether:textures/block/cincinnasite_ore.png",List.of("betternether:cincinnasite_ore"), "Cincinnasite Ore", List.of("nether")),
+                        new BaseOre("ruby_ore",List.of("netherrack"), "betternether:textures/block/nether_ruby_ore.png",List.of("betternether:nether_ruby_ore"), "Ruby Ore", List.of("nether")))));
         output.mods.add(new ModData("blockus",
                 List.of(new BaseStone("blockus_limestone",new ResourceLocation("blockus","textures/block/limestone.png"),"Limestone",new ResourceLocation("blockus","limestone"),List.of("stone")),
                         new BaseStone("blockus_marble",new ResourceLocation("blockus","textures/block/marble.png"),"Marble",new ResourceLocation("blockus","marble"),List.of("stone")),

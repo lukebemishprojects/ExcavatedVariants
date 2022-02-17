@@ -1,3 +1,8 @@
+### Excavated Variants v0.2.2
+
+- Added compat for several mods.
+- Fixed rare ConcurrentModificationException during world-gen.
+
 ### Excavated Variants v0.2.1
 
 - Fix forge issue causing vanilla creative tabs to fail to load. Not sure what was up with Forge here, I figure it was some sort of DeferredRegsitry weirdness...
