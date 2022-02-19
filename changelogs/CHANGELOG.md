@@ -1,3 +1,8 @@
+### Excavated Variants v0.2.3
+
+- Alpha release with world-gen improvements
+- Hopefully makes ore replacement no longer cause crippling lag
+
 ### Excavated Variants v0.2.2
 
 - Added compat for several mods.
