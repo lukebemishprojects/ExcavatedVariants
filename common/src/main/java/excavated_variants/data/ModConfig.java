@@ -20,9 +20,9 @@ import java.util.List;
 public class ModConfig {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     public static final Path CONFIG_PATH = Platform.getConfigFolder();
-    public static final String FULL_PATH = CONFIG_PATH.toString() + "/"+ ExcavatedVariants.MOD_ID+".json";
-    public static final String DIR_PATH = CONFIG_PATH.toString() + "/"+ ExcavatedVariants.MOD_ID+"/";
-    public static final int CURRENT_VERSION = 1;
+    public static final String FULL_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+".json";
+    public static final String DIR_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+"/";
+    public static final int CURRENT_VERSION = 2;
 
     @Expose
     public int format = 0;
@@ -41,9 +41,9 @@ public class ModConfig {
     public boolean attempt_ore_replacement = true;
 
     private static final String[] UNEARTHED_STONE_LIST = new String[] {"beige_limestone","conglomerate","gabbro","granodiorite",
-            "grey_limestone","limestone","mudstone","phyllite","quartzite","rhyolite","siltstone","slate","white_granite"};
+            "grey_limestone","limestone","mudstone","phyllite","rhyolite","siltstone","slate","white_granite"};
     private static final String[] UNEARTHED_STONE_EN_LIST = new String[] {"Beige Limestone","Conglomerate","Gabbro","Granodiorite",
-            "Grey Limestone","Limestone","Mudstone","Phyllite","Quartzite","Rhyolite","Siltstone","Slate","White Granite"};
+            "Grey Limestone","Limestone","Mudstone","Phyllite","Rhyolite","Siltstone","Slate","White Granite"};
 
     private static List<String> genUnearthedBlockIdList(String oreName, String... toAdd) {
         ArrayList<String> output = new ArrayList<>();
@@ -87,7 +87,7 @@ public class ModConfig {
         output.format = CURRENT_VERSION;
         output.mods.add(new ModData("minecraft",
                 List.of(new BaseStone("stone", new ResourceLocation("minecraft","textures/block/stone.png"), "Stone", new ResourceLocation("minecraft","stone"), List.of("stone")),
-                        new BaseStone("deepslate", new ResourceLocation("minecraft","textures/block/deepslate.png"), "Deepslate", new ResourceLocation("minecraft","deepslate"), List.of("stone")),
+                        new BaseStone("deepslate", List.of("minecraft:textures/block/deepslate.png","minecraft:textures/block/deepslate_top.png"), "Deepslate", "minecraft:deepslate", List.of("stone")),
                         new BaseStone("andesite", new ResourceLocation("minecraft","textures/block/andesite.png"), "Andesite", new ResourceLocation("minecraft","andesite"), List.of("stone")),
                         new BaseStone("diorite", new ResourceLocation("minecraft","textures/block/diorite.png"), "Diorite", new ResourceLocation("minecraft","diorite"), List.of("stone")),
                         new BaseStone("granite", new ResourceLocation("minecraft","textures/block/granite.png"), "Granite", new ResourceLocation("minecraft","granite"), List.of("stone")),
@@ -96,10 +96,10 @@ public class ModConfig {
                         new BaseStone("dripstone", new ResourceLocation("minecraft","textures/block/dripstone_block.png"), "Dripstone", new ResourceLocation("minecraft","dripstone_block"), List.of("stone")),
                         new BaseStone("tuff", new ResourceLocation("minecraft","textures/block/tuff.png"), "Tuff", new ResourceLocation("minecraft","tuff"), List.of("stone")),
                         new BaseStone("smooth_basalt", new ResourceLocation("minecraft","textures/block/smooth_basalt.png"), "Smooth Basalt", new ResourceLocation("minecraft","smooth_basalt"), List.of("stone","nether")),
-                        new BaseStone("basalt", new ResourceLocation("minecraft","textures/block/basalt_top.png"), "Basalt", new ResourceLocation("minecraft","basalt"), List.of("nether")),
+                        new BaseStone("basalt", List.of("minecraft:textures/block/basalt_top.png","minecraft:textures/block/basalt_side.png"), "Basalt", "minecraft:basalt", List.of("nether")),
                         new BaseStone("calcite", new ResourceLocation("minecraft","textures/block/calcite.png"), "Calcite", new ResourceLocation("minecraft","calcite"), List.of("stone")),
                         new BaseStone("netherrack", new ResourceLocation("minecraft","textures/block/netherrack.png"), "Netherrack", new ResourceLocation("minecraft","netherrack"), List.of("nether")),
-                        new BaseStone("blackstone", new ResourceLocation("minecraft","textures/block/blackstone.png"), "Blackstone", new ResourceLocation("minecraft","blackstone"), List.of("nether")),
+                        new BaseStone("blackstone", List.of("minecraft:textures/block/blackstone.png","minecraft:textures/block/blackstone_top.png"), "Blackstone", "minecraft:blackstone", List.of("nether")),
                         new BaseStone("end_stone", new ResourceLocation("minecraft","textures/block/end_stone.png"), "End Stone", new ResourceLocation("minecraft","end_stone"), List.of("end"))),
                 List.of(new BaseOre("coal_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/coal_ore.png"),List.of(new ResourceLocation("minecraft","coal_ore"),new ResourceLocation("minecraft","deepslate_coal_ore")), "Coal Ore", List.of("stone")),
                         new BaseOre("iron_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/iron_ore.png"),List.of(new ResourceLocation("minecraft","iron_ore"),new ResourceLocation("minecraft","deepslate_iron_ore")), "Iron Ore", List.of("stone")),
@@ -111,7 +111,14 @@ public class ModConfig {
                         new BaseOre("quartz_ore", List.of("netherrack"), new ResourceLocation("minecraft","textures/block/nether_quartz_ore.png"),List.of(new ResourceLocation("minecraft","nether_quartz_ore")), "Quartz Ore", List.of("nether")),
                         new BaseOre("redstone_ore",List.of("stone", "deepslate"), new ResourceLocation("minecraft","textures/block/redstone_ore.png"),List.of(new ResourceLocation("minecraft","redstone_ore"),new ResourceLocation("minecraft","deepslate_redstone_ore")), "Redstone Ore", List.of("stone")))));
         output.mods.add(new ModData("unearthed",
-                genUnearthedStoneList(),
+                genUnearthedStoneList(
+                        new BaseStone("unearthed_quartzite","unearthed:textures/block/quartzite.png", "Quartzite", "unearthed:quartzite",List.of("stone")),
+                        new BaseStone("unearthed_weathered_rhyolite","unearthed:textures/block/weathered_rhyolite.png", "Weathered Rhyolite", "unearthed:weathered_rhyolite",List.of("stone")),
+                        new BaseStone("unearthed_dolerite","unearthed:textures/block/dolerite.png", "Dolerite", "unearthed:dolerite",List.of("stone")),
+                        new BaseStone("unearthed_schist",List.of("unearthed:textures/block/schist_end.png","unearthed:textures/block/schist_side.png"), "Schist", "unearthed:schist",List.of("stone")),
+                        new BaseStone("unearthed_pillow_basalt","unearthed:textures/block/pillow_basalt.png", "Pillow Basalt", "unearthed:pillow_basalt",List.of("stone")),
+                        new BaseStone("unearthed_dacite",List.of("unearthed:textures/block/dacite_end.png","unearthed:textures/block/dacite_side.png"), "Dacite", "unearthed:dacite",List.of("stone"))
+                ),
                 List.of(new BaseOre("coal_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_coal_ore.png",genUnearthedBlockIdList("coal_ore","unearthed:sandstone_coal_ore"), "Coal Ore", List.of("stone")),
                         new BaseOre("iron_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_iron_ore.png",genUnearthedBlockIdList("iron_ore","unearthed:sandstone_iron_ore"), "Iron Ore", List.of("stone")),
                         new BaseOre("gold_ore",genUnearthedStoneIdList("sandstone"), "unearthed:textures/block/ore/beige_limestone_gold_ore.png",genUnearthedBlockIdList("gold_ore","unearthed:sandstone_gold_ore"), "Gold Ore", List.of("stone")),
@@ -223,6 +230,10 @@ public class ModConfig {
         try {
             checkExistence();
             config = GSON.fromJson(new FileReader(FULL_PATH), ModConfig.class);
+            if (config.format != CURRENT_VERSION) {
+                ExcavatedVariants.LOGGER.error("Config is outdated! An attempt to load with this config would crash. Using default config instead...");
+                return getDefault();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JsonSyntaxException e) {
@@ -254,6 +265,8 @@ public class ModConfig {
                 loaded.add(p);
             } catch (FileNotFoundException e) {
                 ExcavatedVariants.LOGGER.error("Could not find referenced config: "+p);
+            } catch (JsonSyntaxException e) {
+                ExcavatedVariants.LOGGER.error("Issue reading config: "+p);
             }
         }
         try {
@@ -264,7 +277,9 @@ public class ModConfig {
                         ModData data = GSON.fromJson(new FileReader(DIR_PATH + p), ModData.class);
                         config.mods.add(data);
                     } catch (FileNotFoundException e) {
-                        ExcavatedVariants.LOGGER.error("Could not fin config: " + p + ".json");
+                        ExcavatedVariants.LOGGER.error("Could not find config: " + p + ".json");
+                    } catch (JsonSyntaxException e) {
+                        ExcavatedVariants.LOGGER.error("Issue reading config: "+p+".json");
                     }
                 }
             }

@@ -47,11 +47,11 @@ public class ExcavatedVariantsClient {
                     if (!extractedOres.contains(ore.id)) {
                         for (String stone_id : ore.stone) {
                             if (internalStoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                                PaletteExtractor extractor = new PaletteExtractor(internalStoneMap.get(stone_id).rl_texture_location,
+                                PaletteExtractor extractor = new PaletteExtractor(internalStoneMap.get(stone_id).rl_texture_location.get(0),
                                         ore.rl_texture_location, 6, true, true, 0.2);
                                 extractorMap.put(ore.id, extractor);
                             } else if (stoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                                PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location,
+                                PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location.get(0),
                                         ore.rl_texture_location, 6, true, true, 0.2);
                                 extractorMap.put(ore.id, extractor);
                             }
@@ -65,7 +65,7 @@ public class ExcavatedVariantsClient {
             BaseOre ore = oreList.get(0);
             for (String stone_id : ore.stone) {
                 if (stoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                    PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location,
+                    PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location.get(0),
                             ore.rl_texture_location, 6,true,true,0.2);
                     extractorMap.put(ore.id, extractor);
                 }
@@ -82,9 +82,13 @@ public class ExcavatedVariantsClient {
                 if (!stones.contains(stone.id) && oreList.stream().anyMatch((x)->x.types.stream().anyMatch(stone.type::contains))) {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                        IPalettePlan plan = new ForegroundTransferType(extractor, stone.rl_texture_location,
-                                true, false);
-                        DynAssetGeneratorClientAPI.planPaletteCombinedImage(new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/" + full_id + ".png"), plan);
+                        int index = 0;
+                        for (ResourceLocation rl : stone.rl_texture_location) {
+                            IPalettePlan plan = new ForegroundTransferType(extractor, rl,
+                                    true, false);
+                            DynAssetGeneratorClientAPI.planPaletteCombinedImage(new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/" + full_id +index+ ".png"), plan);
+                            index++;
+                        }
                         DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/" + full_id + ".json"),
                                 JsonHelper.getBlockstate(full_id));
                         DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/block/" + full_id + ".json"),

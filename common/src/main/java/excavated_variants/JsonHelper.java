@@ -24,7 +24,7 @@ public class JsonHelper {
 
             @Override
             public void reset() {
-                json = "{\"parent\": \"minecraft:block/cube_all\",\"textures\": {\"all\": \"" + ExcavatedVariants.MOD_ID + ":" + "block/" + id + "\"}}";
+                json = "{\"parent\": \"minecraft:block/cube_all\",\"textures\": {\"all\": \"" + ExcavatedVariants.MOD_ID + ":" + "block/" + id + "0\"}}";
                 String ore_location = ExcavatedVariants.MOD_ID + ":" + "block/" + id;
                 InputStream read = null;
                 try {
@@ -37,14 +37,17 @@ public class JsonHelper {
                         textBuilder.append((char) c);
                     }
                     String readStr = textBuilder.toString();
-                    String stoneLoc = stone.rl_texture_location.toString();
-                    ResourceLocation stoneRl = ResourceLocation.of(stoneLoc,':');
-                    String stonePath = stoneRl.getPath();
-                    if (stonePath.length() > 14 && stonePath.endsWith(".png") && stonePath.startsWith("textures/")) {
-                        stoneLoc = stoneRl.getNamespace() + ":" + stonePath.substring(9, stonePath.length() - 4);
-                        json = readStr.replace(stoneLoc + "\"", ore_location + "\"");
-                    } else {
-                        json = "{\"parent\": \"minecraft:block/cube_all\",\"textures\": {\"all\": \"" + ExcavatedVariants.MOD_ID + ":" + "block/" + id + "\"}}";
+                    json = readStr;
+                    int index = 0;
+                    for (ResourceLocation texRL : stone.rl_texture_location) {
+                        String stoneLoc = texRL.toString();
+                        ResourceLocation stoneRl = ResourceLocation.of(stoneLoc, ':');
+                        String stonePath = stoneRl.getPath();
+                        if (stonePath.length() > 14 && stonePath.endsWith(".png") && stonePath.startsWith("textures/")) {
+                            stoneLoc = stoneRl.getNamespace() + ":" + stonePath.substring(9, stonePath.length() - 4);
+                            json = json.replace(stoneLoc + "\"", ore_location + index + "\"");
+                        }
+                        index++;
                     }
                 } catch (IOException e) {
                     json = "{\"parent\": \"minecraft:block/cube_all\",\"textures\": {\"all\": \"" + ExcavatedVariants.MOD_ID + ":" + "block/" + id + "\"}}";

@@ -11,12 +11,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
 
 public class OreFinderUtil {
-    private static final List<Pair<Block, Pair<BaseOre, List<BaseStone>>>> lookup = new CopyOnWriteArrayList<>();
-    private static  final List<Block> nullList = new CopyOnWriteArrayList<>();
+    private static Map<Block, Pair<BaseOre,List<BaseStone>>> lookupMap;
 
     @Nullable
     public static Pair<BaseOre, List<BaseStone>> getBaseOre(BlockState state) {
@@ -24,31 +24,27 @@ public class OreFinderUtil {
         if (!ExcavatedVariants.isMapSetupCorrectly()) {
             return null;
         }
-        Block testing = state.getBlock();
-        if (nullList.stream().anyMatch(state::is)) {
-            return null;
-        }
-        for (Pair<Block, Pair<BaseOre, List<BaseStone>>> p : lookup) {
-            if (state.is(p.first())) {
-                return p.last();
-            }
-        }
-        for (Pair<BaseOre, List<BaseStone>> pair : ExcavatedVariants.oreStoneList) {
-            if (pair.first().pairedBlocks == null || pair.first().pairedBlocks.size() < 1) {
-                pair.first().pairedBlocks = new ArrayList<>();
-                for (ResourceLocation rl : pair.first().rl_block_id) {
-                    Block block = RegistryUtil.getBlockById(rl);
-                    if (block != null) {
-                        pair.first().pairedBlocks.add(block);
+        if (lookupMap == null) {
+            lookupMap = new HashMap<>();
+            for (Pair<BaseOre, List<BaseStone>> pair : ExcavatedVariants.oreStoneList) {
+                if (pair.first().pairedBlocks == null || pair.first().pairedBlocks.size() < 1) {
+                    pair.first().pairedBlocks = new ArrayList<>();
+                    for (ResourceLocation rl : pair.first().rl_block_id) {
+                        Block block = RegistryUtil.getBlockById(rl);
+                        if (block != null) {
+                            pair.first().pairedBlocks.add(block);
+                        }
                     }
                 }
-            }
-            if (pair.first().pairedBlocks.size() >= 1 && pair.first().pairedBlocks.stream().anyMatch(state::is)) {
-                lookup.add(new Pair<>(testing,pair));
-                return pair;
+                for (Block block : pair.first().pairedBlocks) {
+                    lookupMap.put(block, pair);
+                }
             }
         }
-        nullList.add(testing);
+        Block testing = state.getBlock();
+        if (lookupMap.containsKey(testing)) {
+            return lookupMap.get(testing);
+        }
         return null;
     }
 }

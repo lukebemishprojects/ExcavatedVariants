@@ -9,6 +9,10 @@ architectury {
     fabric()
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/excavated_variants.accessWidener")
+}
+
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.

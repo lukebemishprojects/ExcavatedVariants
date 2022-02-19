@@ -24,6 +24,7 @@
   "mixins": [
     "mixin.excavated_variants.json"
   ],
+  "accessWidener": "excavated_variants.accessWidener",
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.18",

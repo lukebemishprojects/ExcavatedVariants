@@ -12,6 +12,16 @@ architectury {
     common()
 }
 
+loom {
+    accessWidenerPath = gradle.rootProject.project("fabric").file("src/main/resources/excavated_variants.accessWidener")
+}
+
+afterEvaluate {
+    remapJar {
+        remapAccessWidener.set(false)
+    }
+}
+
 publishing {
     publications {
         mavenCommon(MavenPublication) {
