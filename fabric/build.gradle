@@ -30,6 +30,12 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
     modApi files("../../dynamic_asset_generator/fabric/build/libs/dynamic_asset_generator-fabric-${rootProject.lib_version}.jar")
+
+    modRuntimeOnly "curse.maven:techreborn-233564:3635132"
+    modRuntimeOnly "curse.maven:reborncore-237903:3635133"
+    modRuntimeOnly 'teamreborn:energy:2.2.0'
+
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:7.3.432"
 }
 
 processResources {

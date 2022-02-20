@@ -17,38 +17,26 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
     public OreReplacer() {
         super(NoneFeatureConfiguration.CODEC);
     }
 
-    public static Map<Pair<Integer, Integer>, Integer> edgeCount = Collections.synchronizedMap(new HashMap<Pair<Integer, Integer>, Integer>());
-    public static Map<Pair<Integer, Integer>, Boolean> ranMap = Collections.synchronizedMap(new HashMap<Pair<Integer, Integer>, Boolean>());
-
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
         return modifyUnmodifiedNeighboringChunks(ctx.level(), ctx.origin());
     }
 
-    public boolean modifyWorld(WorldGenLevel level, BlockPos pos) {
-        ChunkAccess chunkAccess = level.getChunk(pos);
-        int minY = level.getMinBuildHeight();
-        int maxY = level.getMaxBuildHeight();
-        return modifyChunk(chunkAccess,minY,maxY);
-    }
-
     public boolean modifyUnmodifiedNeighboringChunks(WorldGenLevel level, BlockPos pos) {
+        OreGenMapSavedData data = OreGenMapSavedData.getOrCreate(level);
         int minY = level.getMinBuildHeight();
         int maxY = level.getMaxBuildHeight();
-        if (edgeCount.containsKey(new Pair<>(pos.getX(),pos.getZ())) && edgeCount.get(new Pair<>(pos.getX(),pos.getZ())) == 8) {
+        if (data.edgeCount.containsKey(new Pair<>(pos.getX(),pos.getZ())) && data.edgeCount.get(new Pair<>(pos.getX(),pos.getZ())) == 8) {
             ChunkAccess chunkAccess = level.getChunk(pos);
             modifyChunk(chunkAccess,minY,maxY);
-            edgeCount.put(new Pair<>(pos.getX(),pos.getZ()),9);
+            data.edgeCount.put(new Pair<>(pos.getX(),pos.getZ()),9);
         }
         int[] xs = new int[] {-1, 0, 1, 1,-1,-1, 0, 1};
         int[] zs = new int[] {-1,-1,-1, 0, 0, 1, 1, 1};
@@ -56,15 +44,15 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
 
             BlockPos newPos = new BlockPos(pos.getX()+xs[i]*16, pos.getY(), pos.getZ()+zs[i]*16);
             Pair<Integer,Integer> chunkPos = new Pair<>(pos.getX() + xs[i] * 16, pos.getZ() + zs[i] * 16);
-            if (!edgeCount.containsKey(chunkPos)) edgeCount.put(chunkPos,0);
-            edgeCount.put(chunkPos, edgeCount.get(chunkPos)+1);
-            if (edgeCount.get(chunkPos) == 8 && ranMap.containsKey(chunkPos)&&ranMap.get(chunkPos)) {
+            if (!data.edgeCount.containsKey(chunkPos)) data.edgeCount.put(chunkPos,0);
+            data.edgeCount.put(chunkPos, data.edgeCount.get(chunkPos)+1);
+            if (data.edgeCount.get(chunkPos) == 8 && data.ranMap.containsKey(chunkPos)&&data.ranMap.get(chunkPos)) {
                 ChunkAccess chunkAccess = level.getChunk(newPos);
                 modifyChunk(chunkAccess, minY, maxY);
-                edgeCount.put(chunkPos,9);
+                data.edgeCount.put(chunkPos,9);
             }
         }
-        ranMap.put(new Pair<>(pos.getX(),pos.getZ()), true);
+        data.ranMap.put(new Pair<>(pos.getX(),pos.getZ()), true);
         return true;
     }
 

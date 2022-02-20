@@ -1,8 +1,7 @@
-package excavated_variants.forge;
+package excavated_variants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import excavated_variants.ExcavatedVariants;
 import excavated_variants.mixin.BiomeGenerationSettingsMixin;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.BuiltinRegistries;

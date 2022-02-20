@@ -16,7 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 public class OreFinderUtil {
-    private static Map<Block, Pair<BaseOre,List<BaseStone>>> lookupMap;
+    private static Map<ResourceLocation, Pair<BaseOre,List<BaseStone>>> lookupMap;
+
+    public static void reset() {
+        lookupMap = null;
+    }
 
     @Nullable
     public static Pair<BaseOre, List<BaseStone>> getBaseOre(BlockState state) {
@@ -27,21 +31,19 @@ public class OreFinderUtil {
         if (lookupMap == null) {
             lookupMap = new HashMap<>();
             for (Pair<BaseOre, List<BaseStone>> pair : ExcavatedVariants.oreStoneList) {
-                if (pair.first().pairedBlocks == null || pair.first().pairedBlocks.size() < 1) {
-                    pair.first().pairedBlocks = new ArrayList<>();
-                    for (ResourceLocation rl : pair.first().rl_block_id) {
-                        Block block = RegistryUtil.getBlockById(rl);
-                        if (block != null) {
-                            pair.first().pairedBlocks.add(block);
-                        }
+                ArrayList<Block> pairedBlocks = new ArrayList<>();
+                for (ResourceLocation rl : pair.first().rl_block_id) {
+                    Block block = RegistryUtil.getBlockById(rl);
+                    if (block != null) {
+                        pairedBlocks.add(block);
                     }
                 }
-                for (Block block : pair.first().pairedBlocks) {
-                    lookupMap.put(block, pair);
+                for (Block block : pairedBlocks) {
+                    lookupMap.put(RegistryUtil.getRlByBlock(block), pair);
                 }
             }
         }
-        Block testing = state.getBlock();
+        ResourceLocation testing = RegistryUtil.getRlByBlock(state.getBlock());
         if (lookupMap.containsKey(testing)) {
             return lookupMap.get(testing);
         }

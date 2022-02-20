@@ -22,7 +22,7 @@ public class ModConfig {
     public static final Path CONFIG_PATH = Platform.getConfigFolder();
     public static final String FULL_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+".json";
     public static final String DIR_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+"/";
-    public static final int CURRENT_VERSION = 2;
+    public static final int CURRENT_VERSION = 3;
 
     @Expose
     public int format = 0;
@@ -39,6 +39,8 @@ public class ModConfig {
     public boolean attempt_ore_generation_insertion = true;
     @Expose
     public boolean attempt_ore_replacement = true;
+    @Expose
+    public boolean add_conversion_recipes = true;
 
     private static final String[] UNEARTHED_STONE_LIST = new String[] {"beige_limestone","conglomerate","gabbro","granodiorite",
             "grey_limestone","limestone","mudstone","phyllite","rhyolite","siltstone","slate","white_granite"};

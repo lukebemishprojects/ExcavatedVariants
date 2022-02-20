@@ -1,8 +1,10 @@
 package excavated_variants.forge;
 
 
+import excavated_variants.BiomeInjector;
 import excavated_variants.ExcavatedVariants;
 import excavated_variants.mixin.MinecraftServerMixin;
+import excavated_variants.worldgen.OreFinderUtil;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +26,9 @@ public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onServerStarting(ServerAboutToStartEvent event) {
+        ExcavatedVariants.oreStoneList = null;
+        OreFinderUtil.reset();
+        ExcavatedVariants.setupMap();
         if (ExcavatedVariants.getConfig().attempt_ore_replacement) {
             MinecraftServer server = event.getServer();
             BiomeInjector.addFeatures(((MinecraftServerMixin)server).getRegistryHolder().registry(Registry.BIOME_REGISTRY).get(), server.registryAccess());

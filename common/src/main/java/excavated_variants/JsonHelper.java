@@ -18,6 +18,25 @@ public class JsonHelper {
         };
     }
 
+    public static Supplier<InputStream> getConversionRecipe(String id,String out_id) {
+        String json = "{\n" +
+                "  \"type\": \"minecraft:crafting_shapeless\",\n" +
+                "  \"group\": \""+id+"\",\n" +
+                "  \"ingredients\": [\n" +
+                "    {\n" +
+                "      \"tag\": \""+ExcavatedVariants.MOD_ID+":"+id+"\"\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"result\": {\n" +
+                "    \"item\": \""+out_id+"\",\n" +
+                "    \"count\": 1\n" +
+                "  }\n" +
+                "}";
+        return () -> {
+            return new ByteArrayInputStream(json.getBytes());
+        };
+    }
+
     public static ResettingSupplier<InputStream> getBlockModel(BaseStone stone, String id) {
         return new ResettingSupplier<InputStream>() {
             String json;
@@ -50,7 +69,7 @@ public class JsonHelper {
                         index++;
                     }
                 } catch (IOException e) {
-                    json = "{\"parent\": \"minecraft:block/cube_all\",\"textures\": {\"all\": \"" + ExcavatedVariants.MOD_ID + ":" + "block/" + id + "\"}}";
+                    json = "{\"parent\": \"minecraft:block/cube_all\",\"textures\": {\"all\": \"" + ExcavatedVariants.MOD_ID + ":" + "block/" + id + "0\"}}";
                 }
             }
 

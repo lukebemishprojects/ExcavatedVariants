@@ -19,6 +19,10 @@
     ],
     "client": [
       "excavated_variants.fabric.ExcavatedVariantsClientFabric"
+    ],
+    "rei": [
+      "excavated_variants.compat.rei.ExcavatedVariantsClientPlugin",
+      "excavated_variants.compat.rei.ExcavatedVariantsServerPlugin"
     ]
   },
   "mixins": [
@@ -29,6 +33,6 @@
     "fabric": "*",
     "minecraft": ">=1.18",
     "architectury": ">=3.4.9",
-    "dynamic_asset_generator": ">=0.2.0"
+    "dynamic_asset_generator": ">=0.2.2"
   }
 }

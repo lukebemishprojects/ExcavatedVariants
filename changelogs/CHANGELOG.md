@@ -1,3 +1,8 @@
+### Excavated Variants v0.2.4
+
+- Actually fixed the stuff from v0.2.4.
+- Automatic ore-conversion recipes added.
+
 ### Excavated Variants v0.2.3
 
 - Alpha release with world-gen improvements

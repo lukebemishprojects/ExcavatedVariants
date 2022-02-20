@@ -2,7 +2,6 @@ package excavated_variants.data;
 
 import com.google.gson.annotations.Expose;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 
 import java.util.List;
 
@@ -21,8 +20,6 @@ public class BaseOre {
     public String en_name;
     @Expose
     public List<String> types = List.of("stone");
-
-    public List<Block> pairedBlocks;
 
     public BaseOre(String id, List<String> stone, ResourceLocation texture_location, List<ResourceLocation> block_id, String en_name, List<String> types) {
         this.id = id;

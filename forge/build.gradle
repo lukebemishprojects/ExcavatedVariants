@@ -32,10 +32,12 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
     modApi files("../../dynamic_asset_generator/forge/build/libs/dynamic_asset_generator-forge-${rootProject.lib_version}.jar")
 
-    //modCompileOnly "curse.maven:create-328085:3623348"
-    //modCompileOnly "curse.maven:flywheel-486392:3623314"
     modRuntimeOnly "curse.maven:create-328085:3623348"
     modRuntimeOnly "curse.maven:flywheel-486392:3623314"
+
+    modImplementation "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}:api"
+    // at runtime, use the full JEI jar
+    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}"
 }
 
 processResources {

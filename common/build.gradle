@@ -6,6 +6,8 @@ dependencies {
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     //DON'T use fabric stuff though
     modApi files("../../dynamic_asset_generator/fabric/build/libs/dynamic_asset_generator-fabric-${rootProject.lib_version}.jar")
+
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:7.3.432"
 }
 
 architectury {

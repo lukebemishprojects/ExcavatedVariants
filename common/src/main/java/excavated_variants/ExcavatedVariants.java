@@ -4,15 +4,19 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.block.BlockProperties;
 import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
 import dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
 import excavated_variants.data.BaseOre;
 import excavated_variants.data.BaseStone;
 import excavated_variants.data.ModConfig;
 import excavated_variants.data.ModData;
+import excavated_variants.recipe.OreConversionRecipe;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Material;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +28,10 @@ public class ExcavatedVariants {
     public static final String MOD_ID = "excavated_variants";
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_REGISTRY);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_REGISTRY);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(MOD_ID, Registry.RECIPE_SERIALIZER_REGISTRY);
+
+    public static final RegistrySupplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = RECIPE_SERIALIZERS.register("ore_conversion",()->
+            new SimpleRecipeSerializer<>(OreConversionRecipe::new));
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -61,11 +69,14 @@ public class ExcavatedVariants {
             }
             TagBuilder oreDictBuilder = new TagBuilder();
             for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id) && oreList.stream().anyMatch((x)->x.types.stream().anyMatch(stone.type::contains))) {
+                if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.type::contains))) {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
                         BLOCKS.register(full_id, () -> makeDefaultOreBlock(full_id, oreList.get(0)));
                         ITEMS.register(full_id, () -> new BlockItem(blocks.get(full_id), new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB)));
+                        if (getConfig().add_conversion_recipes) {
+                            OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), oreList.get(0).rl_block_id.get(0));
+                        }
                         blockTagBuilder.add(full_id);
                         stoneTag.add(full_id, oreList.get(0));
                         ironTag.add(full_id, oreList.get(0));
@@ -111,7 +122,8 @@ public class ExcavatedVariants {
                 diamondTag);
         BLOCKS.register();
         ITEMS.register();
-
+        RECIPE_SERIALIZERS.register();
+        
         registerFeatures();
     }
 
@@ -158,7 +170,7 @@ public class ExcavatedVariants {
                 Pair<BaseOre, List<BaseStone>> pair = new Pair<>(oreList.get(0), new ArrayList<>());
                 oreStoneList.add(pair);
                 for (BaseStone stone : stoneMap.values()) {
-                    if (!stones.contains(stone.id) && oreList.get(0).types.stream().anyMatch(stone.type::contains)) {
+                    if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.type::contains))) {
                         String full_id = stone.id + "_" + id;
                         if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
                             pair.last().add(stone);
