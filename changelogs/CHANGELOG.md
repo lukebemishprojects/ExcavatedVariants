@@ -1,3 +1,7 @@
+### Excavated Variants v0.2.5
+
+- Fix dependency version
+
 ### Excavated Variants v0.2.4
 
 - Actually fixed the stuff from v0.2.4.
