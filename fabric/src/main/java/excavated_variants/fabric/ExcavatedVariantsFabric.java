@@ -1,6 +1,7 @@
 package excavated_variants.fabric;
 
 import excavated_variants.ExcavatedVariants;
+import excavated_variants.RegistryUtil;
 import excavated_variants.worldgen.OreFinderUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -17,6 +18,7 @@ public class ExcavatedVariantsFabric implements ModInitializer {
     public void onInitialize() {
         ExcavatedVariants.init();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            RegistryUtil.reset();
             ExcavatedVariants.oreStoneList = null;
             OreFinderUtil.reset();
             ExcavatedVariants.setupMap();

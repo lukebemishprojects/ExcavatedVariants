@@ -9,6 +9,11 @@ import org.jetbrains.annotations.Nullable;
 public class RegistryUtil {
     @ExpectPlatform
     @Nullable
+    public static void reset() {
+        throw new AssertionError();
+    }
+    @ExpectPlatform
+    @Nullable
     public static Block getBlockById(ResourceLocation rl) {
         throw new AssertionError();
     }

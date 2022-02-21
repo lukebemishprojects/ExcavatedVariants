@@ -13,6 +13,12 @@ public class RegistryUtilImpl {
     public static Map<Block, ResourceLocation> block_rl_cache = new ConcurrentHashMap<>();
     public static Map<ResourceLocation, Item> item_cache = new ConcurrentHashMap<>();
 
+    public static void reset() {
+        block_cache.clear();
+        block_rl_cache.clear();
+        item_cache.clear();
+    }
+
     public static Block getBlockById(ResourceLocation rl) {
         if (block_cache.containsKey(rl)) {
             return block_cache.get(rl);

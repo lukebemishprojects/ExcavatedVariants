@@ -3,6 +3,7 @@ package excavated_variants.forge;
 
 import excavated_variants.BiomeInjector;
 import excavated_variants.ExcavatedVariants;
+import excavated_variants.RegistryUtil;
 import excavated_variants.mixin.MinecraftServerMixin;
 import excavated_variants.worldgen.OreFinderUtil;
 import net.minecraft.core.Registry;
@@ -26,6 +27,7 @@ public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onServerStarting(ServerAboutToStartEvent event) {
+        RegistryUtil.reset();
         ExcavatedVariants.oreStoneList = null;
         OreFinderUtil.reset();
         ExcavatedVariants.setupMap();
