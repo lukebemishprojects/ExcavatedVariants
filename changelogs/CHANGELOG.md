@@ -1,3 +1,7 @@
+### Excavated Variants v0.3.0
+
+- Release version; fixed compat by resetting caches on world load.
+
 ### Excavated Variants v0.2.5
 
 - Fix dependency version
