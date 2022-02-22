@@ -16,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -43,7 +42,7 @@ public class ExcavatedVariantsForge {
         ModList.get().getModContainerById("unearthed").ifPresent(container -> {
             int major = container.getModInfo().getVersion().getMajorVersion();
             int minor = container.getModInfo().getVersion().getMinorVersion();
-            if (major >= 2 && minor >= 2 && ExcavatedVariants.isMapSetupCorrectly())
+            if (major >= 2 && minor >= 2 && ExcavatedVariants.setupMap())
                 MinecraftForge.EVENT_BUS.register(new UECompat());
         });
     }

@@ -24,8 +24,7 @@ public class OreFinderUtil {
 
     @Nullable
     public static Pair<BaseOre, List<BaseStone>> getBaseOre(BlockState state) {
-        ExcavatedVariants.setupMap();
-        if (!ExcavatedVariants.isMapSetupCorrectly()) {
+        if (!ExcavatedVariants.setupMap()) {
             return null;
         }
         if (lookupMap == null) {

@@ -33,7 +33,7 @@ public class ExcavatedVariantsFabric implements ModInitializer {
             });
         }
 
-        if (FabricLoader.getInstance().isModLoaded("unearthed") && ExcavatedVariants.isMapSetupCorrectly()) {
+        if (FabricLoader.getInstance().isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
             UECompat.init();
         }
     }

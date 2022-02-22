@@ -36,6 +36,8 @@ dependencies {
     modRuntimeOnly 'teamreborn:energy:2.2.0'
     modImplementation "curse.maven:unearthed-406825:3652854"
 
+    modRuntimeOnly "curse.maven:unearthed-406825:3652854"
+
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:7.3.432"
 }
 

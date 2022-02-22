@@ -5,8 +5,6 @@ import excavated_variants.Pair;
 import excavated_variants.RegistryUtil;
 import excavated_variants.data.BaseOre;
 import excavated_variants.data.BaseStone;
-import excavated_variants.data.ModData;
-import excavated_variants.worldgen.OreFinderUtil;
 import lilypuree.unearthed.compat.StoneTypeCallback;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -22,14 +20,10 @@ public class UECompat {
         StoneTypeCallback.EVENT.register(stoneType -> {
             if (excavatedVariantsOres == null) {
                 excavatedVariantsOres = new IdentityHashMap<>();
-                for (ModData modData : ExcavatedVariants.getConfig().mods) {
-                    for (BaseOre baseOre : modData.provided_ores) {
-                        Block baseOreBlock = RegistryUtil.getBlockById(new ResourceLocation(modData.mod_id, baseOre.id));
-                        if (baseOreBlock != null) {
-                            var pair = OreFinderUtil.getBaseOre(baseOreBlock.defaultBlockState());
-                            if (pair != null)
-                                excavatedVariantsOres.put(baseOreBlock, pair);
-                        }
+                for (Pair<BaseOre, List<BaseStone>> p : ExcavatedVariants.oreStoneList) {
+                    for (ResourceLocation block_id : p.first().rl_block_id) {
+                        Block baseOreBlock = RegistryUtil.getBlockById(block_id);
+                        excavatedVariantsOres.put(baseOreBlock, p);
                     }
                 }
             }
