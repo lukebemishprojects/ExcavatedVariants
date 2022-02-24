@@ -1,3 +1,8 @@
+### Excavated Variants v0.3.1
+
+- Better *Unearthed* using API
+- Update dependency version.
+
 ### Excavated Variants v0.3.0
 
 - Release version; fixed compat by resetting caches on world load.
