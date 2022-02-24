@@ -2,7 +2,6 @@ package excavated_variants;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
-import dev.architectury.registry.block.BlockProperties;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
@@ -18,7 +17,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,7 +70,11 @@ public class ExcavatedVariants {
                 if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.type::contains))) {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                        BLOCKS.register(full_id, () -> makeDefaultOreBlock(full_id, oreList.get(0)));
+                        BLOCKS.register(full_id, () -> {
+                            Block block = makeDefaultOreBlock(full_id, oreList.get(0));
+                            blocks.put(full_id, block);
+                            return block;
+                        });
                         ITEMS.register(full_id, () -> new BlockItem(blocks.get(full_id), new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB)));
                         if (getConfig().add_conversion_recipes) {
                             OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), oreList.get(0).rl_block_id.get(0));
@@ -197,9 +199,8 @@ public class ExcavatedVariants {
 
     private static final Map<String, Block> blocks = new HashMap<>();
 
+    @ExpectPlatform
     public static Block makeDefaultOreBlock(String id, BaseOre ore) {
-        Block block = new ModifiedOreBlock(BlockProperties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), ore);
-        blocks.put(id, block);
-        return block;
+        throw new AssertionError();
     }
 }

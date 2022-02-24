@@ -56,7 +56,6 @@ public class ModifiedOreBlock extends OreBlock {
     public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack) {
         Block target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
         if (target != null) {
-            BlockState targetState = target.defaultBlockState();
             target.spawnAfterBreak(state, level, pos, stack);
         } else {
             super.spawnAfterBreak(state, level, pos, stack);
