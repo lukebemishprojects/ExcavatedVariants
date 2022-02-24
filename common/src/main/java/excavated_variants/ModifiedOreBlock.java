@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -22,9 +23,34 @@ import java.util.List;
 public class ModifiedOreBlock extends OreBlock {
     private final BaseOre ore;
 
+    private Block target;
+
     public ModifiedOreBlock(Properties properties, BaseOre ore) {
         super(properties);
         this.ore = ore;
+    }
+
+    public void copyProperties() {
+        this.target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
+        if (this.target != null) {
+            this.properties.strength(target.defaultDestroyTime()).color(target.defaultMaterialColor());
+        }
+    }
+
+    @Override
+    public MaterialColor defaultMaterialColor() {
+        if (target != null) {
+            return this.target.defaultMaterialColor();
+        }
+        return super.defaultMaterialColor();
+    }
+
+    @Override
+    public float defaultDestroyTime() {
+        if (target != null) {
+            return this.target.defaultDestroyTime();
+        }
+        return super.defaultDestroyTime();
     }
 
     @Override

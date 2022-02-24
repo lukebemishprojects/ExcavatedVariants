@@ -8,7 +8,6 @@ import excavated_variants.worldgen.OreReplacer;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -24,8 +23,8 @@ public class ExcavatedVariantsImpl {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_CONFIGURED);
         Registry.register(BuiltinRegistries.PLACED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_PLACED);
     }
-    public static Block makeDefaultOreBlock(String id, BaseOre ore) {
-        Block block = new ModifiedOreBlock(BlockProperties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), ore);
+    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore) {
+        ModifiedOreBlock block = new ModifiedOreBlock(BlockProperties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), ore);
         return block;
     }
 }

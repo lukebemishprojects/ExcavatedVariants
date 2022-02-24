@@ -71,7 +71,7 @@ public class ExcavatedVariants {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
                         BLOCKS.register(full_id, () -> {
-                            Block block = makeDefaultOreBlock(full_id, oreList.get(0));
+                            ModifiedOreBlock block = makeDefaultOreBlock(full_id, oreList.get(0));
                             blocks.put(full_id, block);
                             return block;
                         });
@@ -206,10 +206,14 @@ public class ExcavatedVariants {
         throw new AssertionError();
     }
 
-    private static final Map<String, Block> blocks = new HashMap<>();
+    public static Map<String, ModifiedOreBlock> getBlocks() {
+        return blocks;
+    }
+
+    private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
 
     @ExpectPlatform
-    public static Block makeDefaultOreBlock(String id, BaseOre ore) {
+    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore) {
         throw new AssertionError();
     }
 }

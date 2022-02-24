@@ -3,6 +3,7 @@ package excavated_variants.forge;
 
 import excavated_variants.BiomeInjector;
 import excavated_variants.ExcavatedVariants;
+import excavated_variants.ModifiedOreBlock;
 import excavated_variants.RegistryUtil;
 import excavated_variants.mixin.MinecraftServerMixin;
 import excavated_variants.worldgen.OreFinderUtil;
@@ -27,6 +28,11 @@ public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onServerStarting(ServerAboutToStartEvent event) {
+        //Properties
+        for (ModifiedOreBlock block : ExcavatedVariants.getBlocks().values()) {
+            block.copyProperties();
+        }
+        //Ore Gen
         RegistryUtil.reset();
         ExcavatedVariants.oreStoneList = null;
         OreFinderUtil.reset();

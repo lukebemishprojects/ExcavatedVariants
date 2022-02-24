@@ -1,6 +1,7 @@
 package excavated_variants.fabric;
 
 import excavated_variants.ExcavatedVariants;
+import excavated_variants.ModifiedOreBlock;
 import excavated_variants.RegistryUtil;
 import excavated_variants.fabric.compat.UECompat;
 import excavated_variants.worldgen.OreFinderUtil;
@@ -20,6 +21,11 @@ public class ExcavatedVariantsFabric implements ModInitializer {
     public void onInitialize() {
         ExcavatedVariants.init();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            //Properties
+            for (ModifiedOreBlock block : ExcavatedVariants.getBlocks().values()) {
+                block.copyProperties();
+            }
+            //Ore gen map setup
             RegistryUtil.reset();
             ExcavatedVariants.oreStoneList = null;
             OreFinderUtil.reset();
