@@ -39,6 +39,10 @@ dependencies {
     modRuntimeOnly "curse.maven:unearthed-406825:3652854"
 
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:7.3.432"
+
+    modImplementation("net.devtech:arrp:${rootProject.arrp_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 }
 
 processResources {
