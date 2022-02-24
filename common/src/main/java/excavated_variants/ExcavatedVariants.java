@@ -129,21 +129,14 @@ public class ExcavatedVariants {
         registerFeatures();
     }
 
-    private static boolean mapSetupCorrectly = false;
-
-    public static boolean isMapSetupCorrectly() {
-        return mapSetupCorrectly;
-    }
-
-    public static void setupMap() {
+    public static boolean setupMap() {
         if (oreStoneList == null || oreStoneList.size() == 0) {
             Collection<String> modids;
             try {
                 modids = Platform.getModIds();
-                mapSetupCorrectly = true;
             } catch (NullPointerException e) {
                 oreStoneList = new ArrayList<>();
-                return;
+                return false;
             }
             oreStoneList = new ArrayList<>();
             Map<String, BaseStone> stoneMap = new HashMap<>();
@@ -169,7 +162,22 @@ public class ExcavatedVariants {
                 for (BaseOre ore : oreList) {
                     stones.addAll(ore.stone);
                 }
-                Pair<BaseOre, List<BaseStone>> pair = new Pair<>(oreList.get(0), new ArrayList<>());
+                Pair<BaseOre, List<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new ArrayList<>());
+                if (oreList.size() > 1) {
+                    pair.first().rl_block_id = new ArrayList<>();
+                    pair.first().block_id = new ArrayList<>();
+                    pair.first().stone = new ArrayList<>();
+                    pair.first().types = new ArrayList<>();
+                    for (BaseOre baseOre : oreList) {
+                        pair.first().rl_block_id.addAll(baseOre.rl_block_id);
+                        pair.first().block_id.addAll(baseOre.block_id);
+                        pair.first().stone.addAll(baseOre.stone);
+                        pair.first().types.addAll(baseOre.types);
+                    }
+                    List<String> types = new HashSet<>(pair.first().types).stream().toList();
+                    pair.first().types.clear();
+                    pair.first().types.addAll(types);
+                }
                 oreStoneList.add(pair);
                 for (BaseStone stone : stoneMap.values()) {
                     if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.type::contains))) {
@@ -181,6 +189,7 @@ public class ExcavatedVariants {
                 }
             }
         }
+        return true;
     }
 
     private static ModConfig configs;

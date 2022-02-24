@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public class BaseOre {
+public class BaseOre implements Cloneable {
     @Expose
     public String id;
     @Expose
@@ -57,6 +57,15 @@ public class BaseOre {
             this.rl_texture_location = ResourceLocation.of(texture_location, ':');
         } else if (texture_location==null) {
             this.texture_location = rl_texture_location.toString();
+        }
+    }
+
+    public BaseOre clone() {
+        try {
+            return (BaseOre)super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Why would this happen?
+            return null;
         }
     }
 }
