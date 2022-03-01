@@ -1,6 +1,6 @@
 ### Excavated Variants v0.3.1
 
-- Better *Unearthed* using API
+- Better *Unearthed* compat using API
 - Update dependency version.
 
 ### Excavated Variants v0.3.0
