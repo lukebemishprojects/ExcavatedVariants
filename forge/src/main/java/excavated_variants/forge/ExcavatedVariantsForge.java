@@ -38,7 +38,6 @@ public class ExcavatedVariantsForge {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ExcavatedVariantsClient::init);
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
-
         ModList.get().getModContainerById("unearthed").ifPresent(container -> {
             int major = container.getModInfo().getVersion().getMajorVersion();
             int minor = container.getModInfo().getVersion().getMinorVersion();
