@@ -5,11 +5,13 @@ import excavated_variants.ExcavatedVariants;
 import excavated_variants.ExcavatedVariantsClient;
 import excavated_variants.forge.compat.UECompat;
 import excavated_variants.worldgen.OreReplacer;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,6 +25,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.List;
 
 @Mod(ExcavatedVariants.MOD_ID)
 public class ExcavatedVariantsForge {
@@ -48,10 +52,10 @@ public class ExcavatedVariantsForge {
 
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            final ConfiguredFeature<NoneFeatureConfiguration, ?> ORE_REPLACER_CONFIGURED = ExcavatedVariantsForge.ORE_REPLACER.get().configured(NoneFeatureConfiguration.NONE);
-            final PlacedFeature ORE_REPLACER_PLACED = ORE_REPLACER_CONFIGURED.placed();
-            Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ORE_REPLACER_CONFIGURED);
-            Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ORE_REPLACER_PLACED);
+            ExcavatedVariants.ORE_REPLACER_CONFIGURED = new ConfiguredFeature<>(ORE_REPLACER.get(), FeatureConfiguration.NONE);
+            ExcavatedVariants.ORE_REPLACER_PLACED = new PlacedFeature(Holder.direct(ExcavatedVariants.ORE_REPLACER_CONFIGURED), List.of());
+            Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_CONFIGURED);
+            Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_PLACED);
         });
     }
 }

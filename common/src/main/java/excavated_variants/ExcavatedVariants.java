@@ -17,6 +17,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,7 +74,7 @@ public class ExcavatedVariants {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
                         BLOCKS.register(full_id, () -> {
-                            ModifiedOreBlock block = makeDefaultOreBlock(full_id, oreList.get(0));
+                            ModifiedOreBlock block = ExcavatedVariants.makeDefaultOreBlock(full_id, oreList.get(0));
                             blocks.put(full_id, block);
                             return block;
                         });
@@ -216,4 +219,7 @@ public class ExcavatedVariants {
     public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore) {
         throw new AssertionError();
     }
+
+    public static ConfiguredFeature<NoneFeatureConfiguration,?> ORE_REPLACER_CONFIGURED;
+    public static PlacedFeature ORE_REPLACER_PLACED;
 }

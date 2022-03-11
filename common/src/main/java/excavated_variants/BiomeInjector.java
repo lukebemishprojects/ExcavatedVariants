@@ -3,12 +3,17 @@ package excavated_variants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import excavated_variants.mixin.BiomeGenerationSettingsMixin;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -16,27 +21,28 @@ import java.util.stream.Collectors;
 public class BiomeInjector {
     private static int addingOrdinal = 0;
 
-    public static void addFeatures(Iterable<Biome> biomes, RegistryAccess registryAccess) {
+    public static void addFeatures(Iterable<Biome> biomes) {
         ExcavatedVariants.LOGGER.info("Feature injection started...");
         long start = System.currentTimeMillis();
 
         for (Biome biome : biomes) {
-            addSingleFeature(biome, () -> BuiltinRegistries.PLACED_FEATURE.get(new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer")));
+            addSingleFeature(biome, Holder.direct(ExcavatedVariants.ORE_REPLACER_PLACED));
         }
         long timeTook = System.currentTimeMillis() - start;
         ExcavatedVariants.LOGGER.info("Feature injection took {} ms to complete.", timeTook);
     }
 
-    public static void addSingleFeature(Biome biome, Supplier<PlacedFeature> supplier) {
-        List<List<Supplier<PlacedFeature>>> biomeFeatures = biome.getGenerationSettings().features();
-        biomeFeatures = biomeFeatures instanceof ImmutableList ? biomeFeatures.stream().map(Lists::newArrayList).collect(Collectors.toList()) : biomeFeatures;
+    public static void addSingleFeature(Biome biome, Holder<PlacedFeature> supplier) {
+        List<HolderSet<PlacedFeature>> biomeFeatures = biome.getGenerationSettings().features();
+        ArrayList<ArrayList<Holder<PlacedFeature>>> featureList = biomeFeatures.stream().map(Lists::newArrayList).collect(Collectors.toCollection(ArrayList::new));
         if (addingOrdinal == 0) {
-            addingOrdinal = biomeFeatures.size();
+            addingOrdinal = featureList.size();
         }
-        while (biomeFeatures.size() <= addingOrdinal) {
-            biomeFeatures.add(Lists.newArrayList());
+        while (featureList.size() <= addingOrdinal) {
+            featureList.add(Lists.newArrayList());
         }
-        biomeFeatures.get(addingOrdinal).add(supplier);
-        ((BiomeGenerationSettingsMixin) biome.getGenerationSettings()).setFeatures(biomeFeatures.stream().map(ImmutableList::copyOf).collect(ImmutableList.toImmutableList()));
+        featureList.get(addingOrdinal).add(supplier);
+        List<HolderSet<PlacedFeature>> outList = featureList.stream().map((x) -> (HolderSet<PlacedFeature>)HolderSet.direct(x)).toList();
+        ((BiomeGenerationSettingsMixin) biome.getGenerationSettings()).setFeatures(outList);
     }
 }
