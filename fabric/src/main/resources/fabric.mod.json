@@ -15,14 +15,14 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "excavated_variants.fabric.ExcavatedVariantsFabric"
+      "com.github.lukebemish.excavated_variants.fabric.ExcavatedVariantsFabric"
     ],
     "client": [
-      "excavated_variants.fabric.ExcavatedVariantsClientFabric"
+      "com.github.lukebemish.excavated_variants.fabric.ExcavatedVariantsClientFabric"
     ],
     "rei": [
-      "excavated_variants.compat.rei.ExcavatedVariantsClientPlugin",
-      "excavated_variants.compat.rei.ExcavatedVariantsServerPlugin"
+      "com.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsClientPlugin",
+      "com.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsServerPlugin"
     ]
   },
   "mixins": [
