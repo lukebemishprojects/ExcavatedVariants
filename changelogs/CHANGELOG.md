@@ -1,3 +1,7 @@
+### Excavated Variants v0.4.0
+
+- Fix bug with new tag stuff.
+
 ### Excavated Variants v0.3.2
 
 - 1.18.2 compat (*cannot run on 1.18.1*)
