@@ -4,10 +4,10 @@ import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.data.ModData;
 import dev.architectury.platform.Platform;
-import dynamic_asset_generator.client.api.DynAssetGeneratorClientAPI;
-import dynamic_asset_generator.client.api.ForegroundTransferType;
-import dynamic_asset_generator.client.api.PaletteExtractor;
-import dynamic_asset_generator.client.util.IPalettePlan;
+import com.github.lukebemish.dynamic_asset_generator.client.api.DynAssetGeneratorClientAPI;
+import com.github.lukebemish.dynamic_asset_generator.client.api.ForegroundTransferType;
+import com.github.lukebemish.dynamic_asset_generator.client.api.PaletteExtractor;
+import com.github.lukebemish.dynamic_asset_generator.client.util.IPalettePlan;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;

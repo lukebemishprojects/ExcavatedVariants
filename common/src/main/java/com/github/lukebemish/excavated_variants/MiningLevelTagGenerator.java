@@ -3,8 +3,8 @@ package com.github.lukebemish.excavated_variants;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import dynamic_asset_generator.api.ResettingSupplier;
-import dynamic_asset_generator.api.ServerPrePackRepository;
+import com.github.lukebemish.dynamic_asset_generator.api.ResettingSupplier;
+import com.github.lukebemish.dynamic_asset_generator.api.ServerPrePackRepository;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.*;
@@ -68,7 +68,11 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
                     }
                 }
                 if (to_add.size()==0) {
-                    return null;
+                    ExcavatedVariants.LOGGER.info("Couldn't find any tagged items with mining level {}; ignore the following error", level);
+                    internal = "{\"replace\":false,\"values\":["+internal+"]}";
+                    String finalStr = internal;
+                    internal = null;
+                    return new ByteArrayInputStream(finalStr.getBytes());
                 }
                 internal = "";
                 for (String full_id : to_add) {
@@ -79,7 +83,11 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
                 }
                 internal = "{\"replace\":false,\"values\":["+internal+"]}";
             } catch (IOException e) {
-                return null;
+                ExcavatedVariants.LOGGER.error("Could not load mining level tag for {}; erroring...\n{}", level, e);
+                internal = "{\"replace\":false,\"values\":["+internal+"]}";
+                String finalStr = internal;
+                internal = null;
+                return new ByteArrayInputStream(finalStr.getBytes());
             }
         }
         String finalStr = internal;

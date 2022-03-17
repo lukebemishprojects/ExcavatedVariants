@@ -1,8 +1,8 @@
 package com.github.lukebemish.excavated_variants;
 
 import com.github.lukebemish.excavated_variants.data.BaseStone;
-import dynamic_asset_generator.api.ResettingSupplier;
-import dynamic_asset_generator.client.api.ClientPrePackRepository;
+import com.github.lukebemish.dynamic_asset_generator.api.ResettingSupplier;
+import com.github.lukebemish.dynamic_asset_generator.client.api.ClientPrePackRepository;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.*;

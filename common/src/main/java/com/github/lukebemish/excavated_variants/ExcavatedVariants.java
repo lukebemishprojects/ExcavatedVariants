@@ -5,7 +5,7 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
+import com.github.lukebemish.dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.data.ModConfig;
 import com.github.lukebemish.excavated_variants.data.ModData;
