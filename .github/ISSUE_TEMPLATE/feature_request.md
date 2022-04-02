@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+**Have you checked that your feature can't be implemented through a default config?**
+If your feature can be implemented through a config (see the README), then you should write that config and create a pull request, adding it under `common/src/main/resource/default_configs`.
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

@@ -1,6 +1,6 @@
 name: Mod Compatibility Request
 description: Request compatibility for a mod
-title: "[MOD COMPAT] "
+title: "[MOD COMPAT] Mod compat request..."
 labels: ["enhancement"]
 body:
   - type: markdown
