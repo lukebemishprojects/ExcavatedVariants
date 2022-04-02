@@ -5,16 +5,17 @@ import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import dev.architectury.platform.Platform;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ModConfig {
@@ -215,6 +216,33 @@ public class ModConfig {
                         new BaseStone("create_scoria", new ResourceLocation("create","textures/block/palettes/stone_types/scoria.png"), "Scoria", new ResourceLocation("create","scoria"), List.of("stone","nether")),
                         new BaseStone("create_veridium", new ResourceLocation("create","textures/block/palettes/stone_types/veridium.png"), "Veridium", new ResourceLocation("create","veridium"), List.of("stone"))),
                 List.of(new BaseOre("zinc_ore",List.of("stone", "deepslate"), new ResourceLocation("create","textures/block/zinc_ore.png"),List.of(new ResourceLocation("create","zinc_ore"),new ResourceLocation("create","deepslate_zinc_ore")), "Zinc Ore", List.of("stone")))));
+
+        try {
+            var url = ModConfig.class.getResource("/default_configs/");
+            if (url==null) throw new IOException("default_configs resource not found!");
+            Path path;
+            try {
+                path = Paths.get(url.toURI());
+            } catch (FileSystemNotFoundException e) {
+                // If this is thrown, then it means that we are running the JAR directly (example: not from an IDE)
+                var env = new HashMap<String, String>();
+                path = FileSystems.newFileSystem(url.toURI(), env).getPath("/default_configs/");
+            }
+            Files.list(path).forEach(s -> {
+                String p = s.getFileName().toString();
+                try {
+                    ModData data = GSON.fromJson(new FileReader(DIR_PATH + p), ModData.class);
+                    output.mods.add(data);
+                } catch (FileNotFoundException e) {
+                    ExcavatedVariants.LOGGER.error("Could not find default config: " + p + ".json");
+                } catch (JsonSyntaxException e) {
+                    ExcavatedVariants.LOGGER.error("Issue reading default config: "+p+".json");
+                }
+            });
+        } catch (URISyntaxException | IOException e) {
+            ExcavatedVariants.LOGGER.error("Could not load some default configs.", e);
+        }
+
         for (ModData m : output.mods) {
             for (BaseOre o : m.provided_ores) {
                 o.setupBlockId();
