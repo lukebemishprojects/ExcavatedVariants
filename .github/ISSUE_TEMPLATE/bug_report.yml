@@ -1,0 +1,37 @@
+name: Bug report
+description: Create a report to help us improve
+title: '[BUG] Issue with...'
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what_broke
+    attributes:
+      label: What went wrong?
+      description: What unexpected behavior occured? What did you expect to have happened?
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Which platform are you using?
+      options:
+        - 'Fabric'
+        - 'Forge'
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version are you using? (vX.Y.Z)
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Logs and Screenshots
+      description: Please provide us with the log and any applicable screenshots here.
+      placeholder: >-
+        You should upload them and post the link here.
+

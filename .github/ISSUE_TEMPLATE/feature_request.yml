@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest an idea for this project
+title: '[ENHANCEMENT] Suggestion...'
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If you want compatibility with another mod, you should first look into whether you can accomplish your goal through the config system. See the README for details. If you can accomplish this compatibility through a config, feel free to open a pull request to add it as a default config. It should be placed under `common/src/main/resource/default_configs`. If the config system is not enough to implement your feature, please continue below.
+  - type: textarea
+    id: what
+    attributes:
+      label: What feature would improve this mod?
+      description: Please give details for what new features or changes to existing features are being requested.
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Why would this feature be useful?
+      description: Please give details about potential use cases for this feature, or problems it would solve.
+    validations:
+      required: true
+  - type: textarea
+    id: otherinfo
+    attributes:
+      label: Is there any other relevant info about this feature request?
+      description: Add any other relevant information here
+  - type: checkboxes
+    attributes:
+      label: Mod Compatibility
+      description: This form is *not* for requesting more default configs
+      options:
+        - label: This feature cannot be added through the config
+          required: true
