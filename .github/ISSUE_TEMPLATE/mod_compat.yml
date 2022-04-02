@@ -19,6 +19,8 @@ body:
     attributes:
       label: Why can't this be done through a config?
       description: Please give details for what new features or changes to existing features are required to add compatibility.
+    validations:
+      required: true
   - type: textarea
     id: otherinfo
     attributes:
