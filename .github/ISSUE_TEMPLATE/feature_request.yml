@@ -15,7 +15,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: what
+    id: why
     attributes:
       label: Why would this feature be useful?
       description: Please give details about potential use cases for this feature, or problems it would solve.
@@ -27,6 +27,7 @@ body:
       label: Is there any other relevant info about this feature request?
       description: Add any other relevant information here
   - type: checkboxes
+    id: notconfig
     attributes:
       label: Mod Compatibility
       description: This form is *not* for requesting more default configs
