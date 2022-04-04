@@ -1,3 +1,7 @@
+### Excavated Variants v0.4.1
+
+- Fix yet another tag-related bug (needs Dynamic Asset Generator 0.4.3)
+
 ### Excavated Variants v0.4.0
 
 - Fix bug with new tag stuff.

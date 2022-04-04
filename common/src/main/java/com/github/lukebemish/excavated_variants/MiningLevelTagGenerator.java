@@ -32,6 +32,7 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
     @Override
     public InputStream get() {
         if (internal == null) {
+            internal = "";
             try {
                 List<InputStream> read = ServerPrePackRepository.getResources(new ResourceLocation("minecraft", "tags/blocks/needs_" + level + "_tool.json"));
                 ArrayList<String> to_add = new ArrayList<>();
@@ -47,7 +48,7 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
                     JsonElement parser = JsonParser.parseString(readStr);
                     if (parser.isJsonObject()) {
                         JsonElement replace = parser.getAsJsonObject().get("replace");
-                        if (replace.isJsonPrimitive() && replace.getAsJsonPrimitive().isBoolean() && replace.getAsBoolean()) {
+                        if (!(replace == null) && replace.isJsonPrimitive() && replace.getAsJsonPrimitive().isBoolean() && replace.getAsBoolean()) {
                             to_add.clear();
                         }
                         JsonElement values = parser.getAsJsonObject().get("values");
@@ -68,24 +69,25 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
                     }
                 }
                 if (to_add.size()==0) {
-                    ExcavatedVariants.LOGGER.info("Couldn't find any tagged items with mining level {}; ignore the following error", level);
-                    internal = "{\"replace\":false,\"values\":["+internal+"]}";
-                    String finalStr = internal;
+                    internal = "{\n  \"replace\":false,\n  \"values\":[]\n}";
+                    final String finalStr = internal;
                     internal = null;
                     return new ByteArrayInputStream(finalStr.getBytes());
                 }
-                internal = "";
+                StringBuilder vals = new StringBuilder();
+                boolean counter = false;
                 for (String full_id : to_add) {
-                    if (internal.length() >= 1) {
-                        internal += ",";
+                    if (counter) {
+                        vals.append(",\n    ");
                     }
-                    internal += "\"" + ExcavatedVariants.MOD_ID + ":" + full_id + "\"";
+                    vals.append("\"").append(ExcavatedVariants.MOD_ID).append(":").append(full_id).append("\"");
+                    counter = true;
                 }
-                internal = "{\"replace\":false,\"values\":["+internal+"]}";
+                internal = "{\n  \"replace\":false,\n  \"values\":[\n    "+ vals +"\n  ]\n}";
             } catch (IOException e) {
                 ExcavatedVariants.LOGGER.error("Could not load mining level tag for {}; erroring...\n{}", level, e);
-                internal = "{\"replace\":false,\"values\":["+internal+"]}";
-                String finalStr = internal;
+                internal = "{\n  \"replace\":false,\n  \"values\":[]\n}";
+                final String finalStr = internal;
                 internal = null;
                 return new ByteArrayInputStream(finalStr.getBytes());
             }
