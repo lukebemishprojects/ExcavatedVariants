@@ -5,8 +5,7 @@
     {
       "id": "lead_ore",
       "stone": [
-        "stone",
-        "deepslate"
+        "stone"
       ],
       "texture_location": "oreganized:textures/block/lead_ore.png",
       "block_id": [
@@ -21,8 +20,7 @@
     {
       "id": "silver_ore",
       "stone": [
-        "stone",
-        "deepslate"
+        "stone"
       ],
       "texture_location": "oreganized:textures/block/silver_ore.png",
       "block_id": [
