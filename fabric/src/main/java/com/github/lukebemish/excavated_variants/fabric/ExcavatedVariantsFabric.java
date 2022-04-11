@@ -23,7 +23,7 @@ public class ExcavatedVariantsFabric implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             //Properties
             for (ModifiedOreBlock block : ExcavatedVariants.getBlocks().values()) {
-                block.copyProperties();
+                block.copyBlockstateDefs();
             }
             //Ore gen map setup
             RegistryUtil.reset();

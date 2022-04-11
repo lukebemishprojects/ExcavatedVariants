@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(MinecraftServer.class)
-public interface MinecraftServerMixin {
+public interface IMinecraftServerMixin {
     @Accessor
     RegistryAccess.Frozen getRegistryHolder();
 }

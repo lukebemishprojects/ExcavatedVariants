@@ -2,6 +2,7 @@ package com.github.lukebemish.excavated_variants.forge;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
+import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import dev.architectury.platform.forge.EventBuses;
 import com.github.lukebemish.excavated_variants.forge.compat.UECompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreReplacer;
@@ -56,6 +57,11 @@ public class ExcavatedVariantsForge {
             ExcavatedVariants.ORE_REPLACER_PLACED = new PlacedFeature(Holder.direct(ExcavatedVariants.ORE_REPLACER_CONFIGURED), List.of());
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_CONFIGURED);
             Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_PLACED);
+
+            //Properties
+            for (ModifiedOreBlock block : ExcavatedVariants.getBlocks().values()) {
+                block.copyBlockstateDefs();
+            }
         });
     }
 }

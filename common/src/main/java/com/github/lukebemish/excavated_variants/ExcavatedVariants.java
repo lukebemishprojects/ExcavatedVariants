@@ -74,11 +74,11 @@ public class ExcavatedVariants {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
                         BLOCKS.register(full_id, () -> {
-                            ModifiedOreBlock block = ExcavatedVariants.makeDefaultOreBlock(full_id, oreList.get(0));
+                            ModifiedOreBlock block = ExcavatedVariants.makeDefaultOreBlock(full_id, oreList.get(0), stone);
                             blocks.put(full_id, block);
                             return block;
                         });
-                        ITEMS.register(full_id, () -> new BlockItem(blocks.get(full_id), new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB)));
+                        items.add(ITEMS.register(full_id, () -> new BlockItem(blocks.get(full_id), new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB))));
                         if (getConfig().add_conversion_recipes) {
                             OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), oreList.get(0).rl_block_id.get(0));
                         }
@@ -130,6 +130,8 @@ public class ExcavatedVariants {
         RECIPE_SERIALIZERS.register();
         
         registerFeatures();
+
+        loaded = true;
     }
 
     public static boolean setupMap() {
@@ -213,13 +215,26 @@ public class ExcavatedVariants {
         return blocks;
     }
 
+    public static List<RegistrySupplier<Item>> getItems() {
+        return items;
+    }
+
+    private static final List<RegistrySupplier<Item>> items = new ArrayList<>();
     private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
 
     @ExpectPlatform
-    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore) {
+    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {
         throw new AssertionError();
     }
 
     public static ConfiguredFeature<NoneFeatureConfiguration,?> ORE_REPLACER_CONFIGURED;
     public static PlacedFeature ORE_REPLACER_PLACED;
+
+    private static boolean loaded = false;
+
+    public static boolean hasLoaded() {
+        return loaded;
+    }
+
+    public static List<ResourceLocation> loadedBlockRLs = new ArrayList<>();
 }

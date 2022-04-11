@@ -1,6 +1,6 @@
 package com.github.lukebemish.excavated_variants;
 
-import com.github.lukebemish.excavated_variants.mixin.BiomeGenerationSettingsMixin;
+import com.github.lukebemish.excavated_variants.mixin.IBiomeGenerationSettingsMixin;
 import com.google.common.collect.Lists;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -36,6 +36,6 @@ public class BiomeInjector {
         }
         featureList.get(addingOrdinal).add(supplier);
         List<HolderSet<PlacedFeature>> outList = featureList.stream().map((x) -> (HolderSet<PlacedFeature>)HolderSet.direct(x)).toList();
-        ((BiomeGenerationSettingsMixin) biome.getGenerationSettings()).setFeatures(outList);
+        ((IBiomeGenerationSettingsMixin) biome.getGenerationSettings()).setFeatures(outList);
     }
 }

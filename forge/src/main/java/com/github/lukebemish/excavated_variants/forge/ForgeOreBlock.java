@@ -3,6 +3,7 @@ package com.github.lukebemish.excavated_variants.forge;
 import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
+import com.github.lukebemish.excavated_variants.data.BaseStone;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -11,11 +12,8 @@ import net.minecraftforge.common.extensions.IForgeBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class ForgeOreBlock extends ModifiedOreBlock implements IForgeBlock {
-    private final BaseOre ore;
-
-    public ForgeOreBlock(Properties properties, BaseOre ore) {
-        super(properties, ore);
-        this.ore = ore;
+    public ForgeOreBlock(Properties properties, BaseOre ore, BaseStone stone) {
+        super(properties, ore, stone);
     }
 
     @Override
