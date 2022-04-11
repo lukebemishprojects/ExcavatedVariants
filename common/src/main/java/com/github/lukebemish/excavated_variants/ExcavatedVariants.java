@@ -76,6 +76,7 @@ public class ExcavatedVariants {
                         BLOCKS.register(full_id, () -> {
                             ModifiedOreBlock block = ExcavatedVariants.makeDefaultOreBlock(full_id, oreList.get(0), stone);
                             blocks.put(full_id, block);
+                            blockList.add(block);
                             return block;
                         });
                         items.add(ITEMS.register(full_id, () -> new BlockItem(blocks.get(full_id), new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB))));
@@ -215,12 +216,17 @@ public class ExcavatedVariants {
         return blocks;
     }
 
+    public static List<ModifiedOreBlock> getBlockList() {
+        return blockList;
+    }
+
     public static List<RegistrySupplier<Item>> getItems() {
         return items;
     }
 
     private static final List<RegistrySupplier<Item>> items = new ArrayList<>();
     private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
+    private static final ArrayList<ModifiedOreBlock> blockList = new ArrayList<>();
 
     @ExpectPlatform
     public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {

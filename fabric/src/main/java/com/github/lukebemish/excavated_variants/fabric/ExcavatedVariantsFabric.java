@@ -20,11 +20,13 @@ public class ExcavatedVariantsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         ExcavatedVariants.init();
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            //Properties
-            for (ModifiedOreBlock block : ExcavatedVariants.getBlocks().values()) {
-                block.copyBlockstateDefs();
+        for (ModifiedOreBlock b : ExcavatedVariants.getBlockList()) {
+            if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.rl_block_id.get(0)) &&
+                    ExcavatedVariants.loadedBlockRLs.contains(b.stone.rl_block_id)) {
+                b.copyBlockstateDefs();
             }
+        }
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             //Ore gen map setup
             RegistryUtil.reset();
             ExcavatedVariants.oreStoneList = null;

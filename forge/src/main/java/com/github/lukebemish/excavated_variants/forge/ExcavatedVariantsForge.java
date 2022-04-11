@@ -59,7 +59,7 @@ public class ExcavatedVariantsForge {
             Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_PLACED);
 
             //Properties
-            for (ModifiedOreBlock block : ExcavatedVariants.getBlocks().values()) {
+            for (ModifiedOreBlock block : ExcavatedVariants.getBlockList()) {
                 block.copyBlockstateDefs();
             }
         });
