@@ -5,8 +5,8 @@ import com.github.lukebemish.excavated_variants.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
-import lilypuree.unearthed.compat.IStoneType;
-import lilypuree.unearthed.compat.StoneTypeEvent;
+import lilypuree.hyle.compat.IStoneType;
+import lilypuree.hyle.compat.StoneTypeEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,7 +15,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UECompat {
+public class HyleCompat {
     private Map<Block, Pair<BaseOre, List<BaseStone>>> excavatedVariantsOres;
 
     @SubscribeEvent

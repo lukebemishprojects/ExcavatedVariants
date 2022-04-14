@@ -3,7 +3,7 @@ package com.github.lukebemish.excavated_variants.fabric;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
-import com.github.lukebemish.excavated_variants.fabric.compat.UECompat;
+import com.github.lukebemish.excavated_variants.fabric.compat.HyleCompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -42,7 +42,7 @@ public class ExcavatedVariantsFabric implements ModInitializer {
         }
 
         if (FabricLoader.getInstance().isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
-            UECompat.init();
+            HyleCompat.init();
         }
     }
 }
