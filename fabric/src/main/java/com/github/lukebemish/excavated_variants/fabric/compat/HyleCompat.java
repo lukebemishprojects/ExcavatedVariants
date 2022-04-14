@@ -5,7 +5,7 @@ import com.github.lukebemish.excavated_variants.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
-import lilypuree.unearthed.compat.StoneTypeCallback;
+import lilypuree.hyle.compat.StoneTypeCallback;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
@@ -13,7 +13,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UECompat {
+public class HyleCompat {
     private static Map<Block, Pair<BaseOre, List<BaseStone>>> excavatedVariantsOres;
 
     public static void init() {

@@ -3,7 +3,7 @@ package com.github.lukebemish.excavated_variants.forge;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
 import dev.architectury.platform.forge.EventBuses;
-import com.github.lukebemish.excavated_variants.forge.compat.UECompat;
+import com.github.lukebemish.excavated_variants.forge.compat.HyleCompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreReplacer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -46,7 +46,7 @@ public class ExcavatedVariantsForge {
             int major = container.getModInfo().getVersion().getMajorVersion();
             int minor = container.getModInfo().getVersion().getMinorVersion();
             if (major >= 2 && minor >= 2 && ExcavatedVariants.setupMap())
-                MinecraftForge.EVENT_BUS.register(new UECompat());
+                MinecraftForge.EVENT_BUS.register(new HyleCompat());
         });
     }
 
