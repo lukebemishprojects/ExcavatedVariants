@@ -1,0 +1,22 @@
+{
+  "mod_id": "magnificent_malachite",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "id": "malachite_ore",
+      "stone": [
+        "stone",
+        "deepslate"
+      ],
+      "texture_location": "magnificent_malachite:textures/block/malachite_ore.png",
+      "block_id": [
+        "magnificent_malachite:malachite_ore",
+        "magnificent_malachite:deepslate_malachite_ore"
+      ],
+      "en_name": "Malachite Ore",
+      "types": [
+        "stone"
+      ]
+    }
+  ]
+}
