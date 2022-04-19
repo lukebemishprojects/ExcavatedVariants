@@ -34,12 +34,12 @@ public class BlockStateAssembler {
         int_to_make=to_make;
         for (Pair<BaseOre,BaseStone> p : to_make) {
             var full_id = p.last().id+"_"+p.first().id;
-            //Assume that they have, at most, 20 models/textures. I'll need to actually enforce this at some point.
-            //null textures *should* just be ignored. In theory...
+            //null textures *should* just be ignored. In theory, since they won't ever be referenced...
+            int max_tex_num = p.first().texture_count*p.last().texture_count;
             ArrayList<ResourceLocation> targets = new ArrayList<>(List.of(
                     new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/" + full_id + ".json")
             ));
-            for (int i = 0; i<25; i++) {
+            for (int i = 0; i<max_tex_num; i++) {
                 targets.add(new ResourceLocation(ExcavatedVariants.MOD_ID,"models/block/"+full_id+i+".json"));
                 targets.add(new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/"+full_id+i+".png"));
             }
@@ -207,18 +207,6 @@ public class BlockStateAssembler {
 
 
                     int i2 = 0;
-                    ResourceLocation mainOreTex = null;
-                    for (ResourceLocation m : defaultModels) {
-                        var oreRead = ClientPrePackRepository.getResource(new ResourceLocation(m.getNamespace(), "models/" + m.getPath() + ".json"));
-                        BlockModelParser oreModel = GSON.fromJson(new BufferedReader(new InputStreamReader(oreRead, StandardCharsets.UTF_8)), BlockModelParser.class);
-                        String maybeTex = oreModel.textures.values().stream().filter(x ->
-                                !stoneLocs.contains(ResourceLocation.of(x, ':')) && newTexMap.keySet().stream().anyMatch(y->{
-                                    var rl = ResourceLocation.of(x,':');
-                                    return y.last().equals(rl);
-                                }))
-                                .findFirst().orElse(null);
-                        if (mainOreTex == null && maybeTex != null) mainOreTex = ResourceLocation.of(maybeTex, ':');
-                    }
                     for (ResourceLocation m : defaultModels) {
                         var stoneRead = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
                         BlockModelParser outputModel = GSON.fromJson(new BufferedReader(new InputStreamReader(stoneRead, StandardCharsets.UTF_8)), BlockModelParser.class);
@@ -233,6 +221,13 @@ public class BlockStateAssembler {
                             oreTextBuilder.append((char) oreC);
                         }
                         BlockModelParser oreModel = GSON.fromJson(oreTextBuilder.toString(), BlockModelParser.class);
+                        String maybeTex = oreModel.textures.values().stream().filter(x ->
+                                        !stoneLocs.contains(ResourceLocation.of(x, ':')) && newTexMap.keySet().stream().anyMatch(y->{
+                                            var rl = ResourceLocation.of(x,':');
+                                            return y.last().equals(rl);
+                                        }))
+                                .findFirst().orElse(null);
+                        ResourceLocation mainOreTex = maybeTex==null?null:ResourceLocation.of(maybeTex, ':');
                         var overlayTextures = oreModel.textures.values().stream().filter(x->
                                 newTexMap.entrySet().stream().anyMatch(e->{
                                     var y = e.getKey();

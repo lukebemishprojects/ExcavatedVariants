@@ -4,6 +4,7 @@ import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.mixin.IBlockPropertiesMixin;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -102,7 +103,16 @@ public class ModifiedOreBlock extends OreBlock {
             ArrayList<Property<?>> propBuilder = new ArrayList<>();
             for (Property<?> p : target.defaultBlockState().getProperties()) {
                 if (p == BlockStateProperties.LIT) {
-                    propBuilder.add(BlockStateProperties.LIT);
+                    propBuilder.add(p);
+                }
+            }
+            for (Property<?> p : stoneTarget.defaultBlockState().getProperties()) {
+                if (p == BlockStateProperties.AXIS
+                        || p == BlockStateProperties.HORIZONTAL_AXIS
+                        || p == BlockStateProperties.FACING
+                        || p == BlockStateProperties.FACING_HOPPER
+                        || p == BlockStateProperties.HORIZONTAL_FACING) {
+                    propBuilder.add(p);
                 }
             }
             staticProps = propBuilder.toArray(new Property<?>[]{});
@@ -124,6 +134,26 @@ public class ModifiedOreBlock extends OreBlock {
                     this.isLit = true;
                     bs = bs.setValue(BlockStateProperties.LIT, false);
                 }
+                if (p == BlockStateProperties.FACING) {
+                    this.isFacing = true;
+                    bs = bs.setValue(BlockStateProperties.FACING, Direction.NORTH);
+                }
+                if (p == BlockStateProperties.FACING_HOPPER) {
+                    this.isHopperFacing = true;
+                    bs = bs.setValue(BlockStateProperties.FACING_HOPPER, Direction.NORTH);
+                }
+                if (p == BlockStateProperties.HORIZONTAL_FACING) {
+                    this.isHorizontalFacing = true;
+                    bs = bs.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH);
+                }
+                if (p == BlockStateProperties.AXIS) {
+                    this.isAxis = true;
+                    bs = bs.setValue(BlockStateProperties.AXIS, Direction.Axis.Y);
+                }
+                if (p == BlockStateProperties.HORIZONTAL_AXIS) {
+                    this.isHorizontalAxis = true;
+                    bs = bs.setValue(BlockStateProperties.AXIS, Direction.Axis.Y);
+                }
             }
             this.registerDefaultState(bs);
         }
@@ -134,8 +164,11 @@ public class ModifiedOreBlock extends OreBlock {
     }
 
     private boolean isLit = false;
-    private boolean isAxis = false;
+    private boolean isHorizontalFacing = false;
     private boolean isFacing = false;
+    private boolean isHopperFacing = false;
+    private boolean isAxis = false;
+    private boolean isHorizontalAxis = false;
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
@@ -249,14 +282,41 @@ public class ModifiedOreBlock extends OreBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState def = this.defaultBlockState();
+        if (isAxis) {
+            def = def.setValue(BlockStateProperties.AXIS, context.getClickedFace().getAxis());
+        } else if (isHorizontalAxis) {
+            def = def.setValue(BlockStateProperties.HORIZONTAL_AXIS, context.getHorizontalDirection().getAxis());
+        } else if (isFacing) {
+            def = def.setValue(BlockStateProperties.FACING, context.getClickedFace().getOpposite());
+        } else if (isHopperFacing) {
+            var d = context.getClickedFace().getOpposite();
+            def = def.setValue(BlockStateProperties.FACING_HOPPER, d.getAxis()== Direction.Axis.Y?Direction.DOWN:d);
+        } else if (isHorizontalFacing) {
+            def = def.setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection());
+        }
         return def;
     }
 
-    public boolean isAxis() {
-        return isAxis;
+    public boolean isAxisType() {
+        return isAxis||isHorizontalAxis;
     }
 
-    public boolean isFacing() {
-        return isFacing;
+    public boolean isFacingType() {
+        return isFacing||isHorizontalFacing||isHopperFacing;
+    }
+
+    public BlockState getStateForReplacement(BlockState thisState) {
+        if (isFacing && thisState.hasProperty(BlockStateProperties.FACING)) {
+            return defaultBlockState().setValue(BlockStateProperties.FACING,thisState.getValue(BlockStateProperties.FACING));
+        } else if (isHorizontalFacing && thisState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
+            return defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING,thisState.getValue(BlockStateProperties.HORIZONTAL_FACING));
+        } else if (isHopperFacing && thisState.hasProperty(BlockStateProperties.FACING_HOPPER)) {
+            return defaultBlockState().setValue(BlockStateProperties.FACING_HOPPER,thisState.getValue(BlockStateProperties.FACING_HOPPER));
+        } else if (isAxis && thisState.hasProperty(BlockStateProperties.AXIS)) {
+            return defaultBlockState().setValue(BlockStateProperties.AXIS,thisState.getValue(BlockStateProperties.AXIS));
+        } else if (isHorizontalAxis && thisState.hasProperty(BlockStateProperties.HORIZONTAL_AXIS)) {
+            return defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_AXIS,thisState.getValue(BlockStateProperties.HORIZONTAL_AXIS));
+        }
+        return defaultBlockState();
     }
 }

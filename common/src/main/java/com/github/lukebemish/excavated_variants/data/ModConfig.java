@@ -3,20 +3,17 @@ package com.github.lukebemish.excavated_variants.data;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.google.gson.*;
 import com.google.gson.annotations.Expose;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.architectury.platform.Platform;
-import net.minecraft.resources.ResourceLocation;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class ModConfig {
     public static final Path CONFIG_PATH = Platform.getConfigFolder();
     public static final String FULL_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+".json";
     public static final String DIR_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+"/";
-    public static final int CURRENT_VERSION = 3;
+    public static final int CURRENT_VERSION = 4;
 
     @Expose
     public int format = 0;

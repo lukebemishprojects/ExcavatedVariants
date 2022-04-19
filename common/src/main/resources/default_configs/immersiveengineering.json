@@ -8,7 +8,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_lead.png",
       "block_id": [
         "immersiveengineering:ore_lead",
         "immersiveengineering:deepslate_ore_lead"
@@ -24,7 +23,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_nickel.png",
       "block_id": [
         "immersiveengineering:ore_nickel",
         "immersiveengineering:deepslate_ore_nickel"
@@ -40,7 +38,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_silver.png",
       "block_id": [
         "immersiveengineering:ore_silver",
         "immersiveengineering:deepslate_ore_silver"
@@ -56,7 +53,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_uranium.png",
       "block_id": [
         "immersiveengineering:ore_uranium",
         "immersiveengineering:deepslate_ore_uranium"
@@ -72,7 +68,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_aluminum.png",
       "block_id": [
         "immersiveengineering:ore_aluminum",
         "immersiveengineering:deepslate_ore_aluminum"

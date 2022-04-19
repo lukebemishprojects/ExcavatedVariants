@@ -8,7 +8,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/bauxite_ore.png",
       "block_id": [
         "techreborn:bauxite_ore",
         "techreborn:deepslate_bauxite_ore"
@@ -23,7 +22,6 @@
       "stone": [
         "netherrack"
       ],
-      "texture_location": "techreborn:textures/block/ore/cinnabar_ore.png",
       "block_id": [
         "techreborn:cinnabar_ore"
       ],
@@ -38,7 +36,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/galena_ore.png",
       "block_id": [
         "techreborn:galena_ore",
         "techreborn:deepslate_galena_ore"
@@ -54,7 +51,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/iridium_ore.png",
       "block_id": [
         "techreborn:iridium_ore",
         "techreborn:deepslate_iridium_ore"
@@ -70,7 +66,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/lead_ore.png",
       "block_id": [
         "techreborn:lead_ore",
         "techreborn:deepslate_lead_ore"
@@ -85,7 +80,6 @@
       "stone": [
         "end_stone"
       ],
-      "texture_location": "techreborn:textures/block/ore/peridot_ore.png",
       "block_id": [
         "techreborn:peridot_ore"
       ],
@@ -100,7 +94,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/ruby_ore.png",
       "block_id": [
         "techreborn:ruby_ore",
         "techreborn:deepslate_ruby_ore"
@@ -116,7 +109,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/sapphire_ore.png",
       "block_id": [
         "techreborn:sapphire_ore",
         "techreborn:deepslate_sapphire_ore"
@@ -132,7 +124,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/silver_ore.png",
       "block_id": [
         "techreborn:silver_ore",
         "techreborn:deepslate_silver_ore"
@@ -148,7 +139,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "techreborn:textures/block/ore/tin_ore.png",
       "block_id": [
         "techreborn:tin_ore",
         "techreborn:deepslate_tin_ore"
@@ -163,7 +153,6 @@
       "stone": [
         "end_stone"
       ],
-      "texture_location": "techreborn:textures/block/ore/sheldonite_ore.png",
       "block_id": [
         "techreborn:sheldonite_ore"
       ],
@@ -177,7 +166,6 @@
       "stone": [
         "end_stone"
       ],
-      "texture_location": "techreborn:textures/block/ore/sodalite_ore.png",
       "block_id": [
         "techreborn:sodalite_ore"
       ],
@@ -191,7 +179,6 @@
       "stone": [
         "end_stone"
       ],
-      "texture_location": "techreborn:textures/block/ore/tungsten_ore.png",
       "block_id": [
         "techreborn:tungsten_ore"
       ],
@@ -205,7 +192,6 @@
       "stone": [
         "netherrack"
       ],
-      "texture_location": "techreborn:textures/block/ore/pyrite_ore.png",
       "block_id": [
         "techreborn:pyrite_ore"
       ],
@@ -219,7 +205,6 @@
       "stone": [
         "netherrack"
       ],
-      "texture_location": "techreborn:textures/block/ore/sphalerite_ore.png",
       "block_id": [
         "techreborn:sphalerite_ore"
       ],

@@ -14,7 +14,7 @@ public class BlockstateModelParser {
 
     public static BlockstateModelParser create(ModifiedOreBlock block, List<ResourceLocation> modelLocs) {
         var assembler = new BlockstateModelParser();
-        if (block.isFacing()) {
+        if (block.isFacingType()) {
             for (Direction d : Direction.values()) {
                 ArrayList<VariantAssembler> vars = new ArrayList<>();
                 for (ResourceLocation rl : modelLocs) {
@@ -23,7 +23,7 @@ public class BlockstateModelParser {
                 assembler.variants.put("facing="+d.getName(),vars);
 
             }
-        } else if (block.isAxis()) {
+        } else if (block.isAxisType()) {
             for (Direction.Axis a : Direction.Axis.values()) {
                 ArrayList<VariantAssembler> vars = new ArrayList<>();
                 for (ResourceLocation rl : modelLocs) {

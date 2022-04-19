@@ -5,7 +5,7 @@
       "id": "blockus_limestone",
       "en_name": "Limestone",
       "block_id": "blockus:limestone",
-      "type": [
+      "types": [
         "stone"
       ]
     },
@@ -16,7 +16,7 @@
       ],
       "en_name": "Marble",
       "block_id": "blockus:marble",
-      "type": [
+      "types": [
         "stone"
       ]
     },
@@ -24,7 +24,7 @@
       "id": "blockus_bluestone",
       "en_name": "Bluestone",
       "block_id": "blockus:bluestone",
-      "type": [
+      "types": [
         "stone"
       ]
     }

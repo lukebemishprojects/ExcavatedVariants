@@ -5,7 +5,7 @@
       "id": "byg_red_rock",
       "en_name": "Red Rock",
       "block_id": "byg:red_rock",
-      "type": [
+      "types": [
         "stone"
       ]
     },
@@ -13,7 +13,7 @@
       "id": "byg_dacite",
       "en_name": "Dacite",
       "block_id": "byg:dacite",
-      "type": [
+      "types": [
         "stone"
       ]
     },
@@ -21,7 +21,7 @@
       "id": "byg_brimstone",
       "en_name": "Brimstone",
       "block_id": "byg:brimstone",
-      "type": [
+      "types": [
         "nether"
       ]
     },
@@ -29,7 +29,7 @@
       "id": "byg_ether_stone",
       "en_name": "Ether Stone",
       "block_id": "byg:ether_stone",
-      "type": [
+      "types": [
         "end"
       ]
     },
@@ -37,7 +37,7 @@
       "id": "byg_soapstone",
       "en_name": "Soapstone",
       "block_id": "byg:soapstone",
-      "type": [
+      "types": [
         "stone"
       ]
     },
@@ -45,7 +45,7 @@
       "id": "byg_blue_netherrack",
       "en_name": "Blue Netherrack",
       "block_id": "byg:blue_netherrack",
-      "type": [
+      "types": [
         "nether"
       ]
     },
@@ -53,7 +53,7 @@
       "id": "byg_scoria",
       "en_name": "Scoria",
       "block_id": "byg:scoria_stone",
-      "type": [
+      "types": [
         "nether"
       ]
     },
@@ -61,7 +61,7 @@
       "id": "byg_travertine",
       "en_name": "Travertine",
       "block_id": "byg:travertine",
-      "type": [
+      "types": [
         "stone"
       ]
     },
@@ -69,7 +69,7 @@
       "id": "byg_rocky",
       "en_name": "Rocky",
       "block_id": "byg:rocky_stone",
-      "type": [
+      "types": [
         "stone"
       ]
     },
@@ -77,7 +77,7 @@
       "id": "byg_cryptic",
       "en_name": "Cryptic",
       "block_id": "byg:cryptic_stone",
-      "type": [
+      "types": [
         "end"
       ]
     },
@@ -85,7 +85,7 @@
       "id": "byg_purpur",
       "en_name": "Purpur",
       "block_id": "byg:purpur_stone",
-      "type": [
+      "types": [
         "end"
       ]
     },
@@ -93,7 +93,7 @@
       "id": "byg_mossy_stone",
       "en_name": "Mossy Stone",
       "block_id": "byg:mossy_stone",
-      "type": [
+      "types": [
         "stone"
       ]
     }
