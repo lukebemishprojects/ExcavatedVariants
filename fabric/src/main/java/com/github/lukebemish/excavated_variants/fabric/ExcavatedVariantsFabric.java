@@ -1,7 +1,6 @@
 package com.github.lukebemish.excavated_variants.fabric;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.fabric.compat.HyleCompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
@@ -20,10 +19,10 @@ public class ExcavatedVariantsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         ExcavatedVariants.init();
-        for (ModifiedOreBlock b : ExcavatedVariants.getBlockList()) {
-            if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.rl_block_id.get(0)) &&
-                    ExcavatedVariants.loadedBlockRLs.contains(b.stone.rl_block_id)) {
-                b.copyBlockstateDefs();
+        for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
+            if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
+                    ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
+                ExcavatedVariants.registerBlockAndItem(b);
             }
         }
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {

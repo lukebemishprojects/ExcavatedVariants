@@ -3,9 +3,6 @@
   "provided_stones": [
     {
       "id": "blockus_limestone",
-      "texture_location": [
-        "blockus:textures/block/limestone.png"
-      ],
       "en_name": "Limestone",
       "block_id": "blockus:limestone",
       "type": [
@@ -25,9 +22,6 @@
     },
     {
       "id": "blockus_bluestone",
-      "texture_location": [
-        "blockus:textures/block/bluestone.png"
-      ],
       "en_name": "Bluestone",
       "block_id": "blockus:bluestone",
       "type": [

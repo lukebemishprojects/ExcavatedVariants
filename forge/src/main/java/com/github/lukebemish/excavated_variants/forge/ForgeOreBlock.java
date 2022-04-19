@@ -18,7 +18,7 @@ public class ForgeOreBlock extends ModifiedOreBlock implements IForgeBlock {
 
     @Override
     public int getExpDrop(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos, int fortune, int silktouch) {
-        Block target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
+        Block target = RegistryUtil.getBlockById(ore.block_id.get(0));
         if (target != null) {
             return target.getExpDrop(target.defaultBlockState(), level, pos, fortune, silktouch);
         } else {

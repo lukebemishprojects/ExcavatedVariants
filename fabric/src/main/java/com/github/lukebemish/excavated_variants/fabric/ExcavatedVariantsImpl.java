@@ -30,6 +30,6 @@ public class ExcavatedVariantsImpl {
         Registry.register(BuiltinRegistries.PLACED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_PLACED);
     }
     public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {
-        return new ModifiedOreBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), ore, stone);
+        return new ModifiedOreBlock(ore, stone);
     }
 }

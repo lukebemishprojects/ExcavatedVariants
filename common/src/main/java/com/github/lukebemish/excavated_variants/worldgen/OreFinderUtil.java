@@ -1,7 +1,7 @@
 package com.github.lukebemish.excavated_variants.worldgen;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
@@ -31,7 +31,7 @@ public class OreFinderUtil {
             lookupMap = new HashMap<>();
             for (Pair<BaseOre, List<BaseStone>> pair : ExcavatedVariants.oreStoneList) {
                 ArrayList<Block> pairedBlocks = new ArrayList<>();
-                for (ResourceLocation rl : pair.first().rl_block_id) {
+                for (ResourceLocation rl : pair.first().block_id) {
                     Block block = RegistryUtil.getBlockById(rl);
                     if (block != null) {
                         pairedBlocks.add(block);

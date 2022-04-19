@@ -1,7 +1,7 @@
 package com.github.lukebemish.excavated_variants.forge.compat;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
@@ -45,7 +45,7 @@ public class JeiCompat implements IModPlugin {
                         items.add(item);
                     }
                 }
-                Item outItem = RegistryUtil.getItemById(p.first().rl_block_id.get(0));
+                Item outItem = RegistryUtil.getItemById(p.first().block_id.get(0));
                 if (items.size() > 0 && outItem!=null) {
                     Ingredient input = Ingredient.of(items.stream().map(ItemStack::new));
                     ItemStack output = new ItemStack(outItem);

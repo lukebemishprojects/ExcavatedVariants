@@ -3,7 +3,7 @@ package com.github.lukebemish.excavated_variants.mixin;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +37,7 @@ public abstract class OreConfigurationMixin {
                 ArrayList<OreConfiguration.TargetBlockState> outList = new ArrayList<>(targetStates);
                 for (BaseStone stone : stoneList) {
                     Block oreBlock = RegistryUtil.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + ore.id));
-                    Block stoneBlock = RegistryUtil.getBlockById(stone.rl_block_id);
+                    Block stoneBlock = RegistryUtil.getBlockById(stone.block_id);
                     if (oreBlock != null && stoneBlock != null) {
                         OreConfiguration.TargetBlockState state = OreConfiguration.target(new BlockMatchTest(stoneBlock), oreBlock.defaultBlockState());
                         outList.add(0,state);

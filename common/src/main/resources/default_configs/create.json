@@ -2,6 +2,18 @@
   "mod_id": "create",
   "provided_stones": [
     {
+      "id": "create_smooth_basalt",
+      "texture_location": [
+        "minecraft:textures/block/smooth_basalt.png"
+      ],
+      "en_name": "Smooth Basalt",
+      "block_id": "minecraft:smooth_basalt",
+      "type": [
+        //Same as vanilla, but in the nether.
+        "nether"
+      ]
+    },
+    {
       "id": "create_asurine",
       "texture_location": [
         "create:textures/block/palettes/stone_types/asurine.png"

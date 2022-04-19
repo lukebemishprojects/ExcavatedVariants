@@ -2,11 +2,7 @@ package com.github.lukebemish.excavated_variants;
 
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
-import com.github.lukebemish.excavated_variants.mixin.IBlockBehaviorMixin;
-import com.github.lukebemish.excavated_variants.mixin.IBlockMixin;
 import com.github.lukebemish.excavated_variants.mixin.IBlockPropertiesMixin;
-import com.github.lukebemish.excavated_variants.mixin.IBlockStateBaseMixin;
-import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -21,10 +17,12 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -32,6 +30,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,10 +44,15 @@ public class ModifiedOreBlock extends OreBlock {
     private Block target;
     private Block stoneTarget;
 
-    public ModifiedOreBlock(Properties properties, BaseOre ore, BaseStone stone) {
-        super(properties);
+    public ModifiedOreBlock(BaseOre ore, BaseStone stone) {
+        super(copyProperties(ore, stone));
         this.ore = ore;
         this.stone = stone;
+        if (staticProps != null) {
+            this.props = staticProps.clone();
+            staticProps = null;
+            copyBlockstateDefs();
+        }
     }
 
     private static float avgF(float a, float b) {
@@ -70,7 +74,9 @@ public class ModifiedOreBlock extends OreBlock {
         return MaterialColor.byId(lowest);
     }
 
-    private void copyProperties() {
+    private static Properties copyProperties(BaseOre ore, BaseStone stone) {
+        Block target = RegistryUtil.getBlockById(ore.block_id.get(0));
+        Block stoneTarget = RegistryUtil.getBlockById(stone.block_id);
         if (target != null && stoneTarget != null) {
             Properties properties = Properties.copy(stoneTarget);
             Properties oreProperties = Properties.copy(target);
@@ -83,49 +89,53 @@ public class ModifiedOreBlock extends OreBlock {
             newProperties.setHasCollision(true);
             newProperties.setIsRandomlyTicking(oreProps.getIsRandomlyTicking());
             newProperties.setLightEmission(oreProps.getLightEmission());
-            IBlockBehaviorMixin setter = (IBlockBehaviorMixin) this;
-            setter.setMaterial(newProperties.getMaterial());
-            setter.setExplosionResistance(newProperties.getExplosionResistance());
-            setter.setIsRandomlyTicking(newProperties.getIsRandomlyTicking());
-            setter.setSoundType(newProperties.getSoundType());
-            setter.setFriction(newProperties.getFriction());
-            setter.setSpeedFactor(newProperties.getSpeedFactor());
-            setter.setJumpFactor(newProperties.getJumpFactor());
-            setter.setProperties(properties);
+            return properties;
         }
+        return BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f);
     }
 
-    public void copyBlockstateDefs() {
-        if (target==null || stoneTarget==null) {
-            this.target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
-            this.stoneTarget = RegistryUtil.getBlockById(stone.rl_block_id);
-            this.copyProperties();
-
+    static Property<?>[] staticProps;
+    public static void setupStaticWrapper(BaseOre ore, BaseStone stone) {
+        Block target = RegistryUtil.getBlockById(ore.block_id.get(0));
+        Block stoneTarget = RegistryUtil.getBlockById(stone.block_id);
+        if (target!=null && stoneTarget!=null) {
             ArrayList<Property<?>> propBuilder = new ArrayList<>();
             for (Property<?> p : target.defaultBlockState().getProperties()) {
-                System.out.println(stone.id+"_"+ore.id+", "+p);
                 if (p == BlockStateProperties.LIT) {
                     propBuilder.add(BlockStateProperties.LIT);
                 }
             }
-            props = propBuilder.toArray(new Property<?>[]{});
+            staticProps = propBuilder.toArray(new Property<?>[]{});
+        } else {
+            ExcavatedVariants.LOGGER.warn("Could not find block properties for: {}, {}",ore.block_id.get(0),stone.block_id);
+        }
 
-            StateDefinition.Builder<Block, BlockState> builder = new StateDefinition.Builder<>(this);
-            this.createBlockStateDefinition(builder);
-            ((IBlockMixin) this).setStateDefinition(builder.create(Block::defaultBlockState, BlockState::new));
-            this.registerDefaultState(this.stateDefinition.any());
+    }
 
+    public void copyBlockstateDefs() {
+        if (target==null || stoneTarget==null) {
+            target = RegistryUtil.getBlockById(ore.block_id.get(0));
+            stoneTarget = RegistryUtil.getBlockById(stone.block_id);
+        }
+        if (target != null && stoneTarget != null) {
             BlockState bs = this.defaultBlockState();
             for (Property<?> p : props) {
                 if (p == BlockStateProperties.LIT) {
-                    bs.setValue(BlockStateProperties.LIT,target.defaultBlockState().getValue(BlockStateProperties.LIT));
+                    this.isLit = true;
+                    bs = bs.setValue(BlockStateProperties.LIT, false);
                 }
             }
             this.registerDefaultState(bs);
         }
     }
 
+    public boolean isLit() {
+        return isLit;
+    }
+
     private boolean isLit = false;
+    private boolean isAxis = false;
+    private boolean isFacing = false;
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
@@ -158,7 +168,12 @@ public class ModifiedOreBlock extends OreBlock {
         if (!level.isClientSide) {
             interact(state, level, pos);
         }
-        return super.use(state, level, pos, player, hand, hit);
+        if (isLit) {
+            ItemStack itemStack = player.getItemInHand(hand);
+            return itemStack.getItem() instanceof BlockItem && (new BlockPlaceContext(player, hand, itemStack, hit)).canPlace() ? InteractionResult.PASS : InteractionResult.SUCCESS;
+        }
+        return super.use(state,level,pos,player,hand,hit);
+
     }
 
     @Override
@@ -179,17 +194,25 @@ public class ModifiedOreBlock extends OreBlock {
         return super.defaultDestroyTime();
     }
 
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        if (target!=null) target.animateTick(state,level,pos,random);
+        if (stoneTarget!=null) stoneTarget.animateTick(state,level,pos,random);
+    }
+
     private Property<?>[] props;
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        if (props != null && props.length != 0) {
-            builder.add(props);
+        if (props != null) {
+            if (props.length != 0) {
+                builder.add(props);
+            }
+        } else if (staticProps != null && staticProps.length != 0) {
+            builder.add(staticProps);
         }
     }
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        Block target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
         if (target != null) {
             state = target.defaultBlockState();
             ResourceLocation resourceLocation = target.getLootTable();
@@ -214,11 +237,26 @@ public class ModifiedOreBlock extends OreBlock {
 
     @Override
     public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack) {
-        Block target = RegistryUtil.getBlockById(ore.rl_block_id.get(0));
+        Block target = RegistryUtil.getBlockById(ore.block_id.get(0));
         if (target != null) {
             target.spawnAfterBreak(state, level, pos, stack);
         } else {
             super.spawnAfterBreak(state, level, pos, stack);
         }
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState def = this.defaultBlockState();
+        return def;
+    }
+
+    public boolean isAxis() {
+        return isAxis;
+    }
+
+    public boolean isFacing() {
+        return isFacing;
     }
 }
