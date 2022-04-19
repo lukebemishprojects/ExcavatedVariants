@@ -26,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -232,7 +233,7 @@ public class ExcavatedVariants {
         }
     }
 
-    public static void registerBlockAndItem(RegistryFuture future) {
+    public static void registerBlockAndItem(BiConsumer<ResourceLocation,Block> blockRegistrar, BiConsumer<ResourceLocation,Item> itemRegistrar, RegistryFuture future) {
         if (!future.done) {
             future.done = true;
             String id = future.full_id;
@@ -241,10 +242,10 @@ public class ExcavatedVariants {
             ResourceLocation rlToReg = new ResourceLocation(ExcavatedVariants.MOD_ID, future.full_id);
             ModifiedOreBlock.setupStaticWrapper(o, s);
             ModifiedOreBlock b = new ModifiedOreBlock(o, s);
-            Registry.register(Registry.BLOCK, rlToReg, b);
+            blockRegistrar.accept(rlToReg, b);
             blocks.put(id, b);
             Item i = new BlockItem(b, new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB));
-            Registry.register(Registry.ITEM, rlToReg, i);
+            itemRegistrar.accept(rlToReg, i);
             items.add(()->i);
 
             RenderTypeHandler.setRenderTypeMipped(b);

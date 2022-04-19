@@ -22,7 +22,9 @@ public class ExcavatedVariantsFabric implements ModInitializer {
         for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
             if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                     ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
-                ExcavatedVariants.registerBlockAndItem(b);
+                ExcavatedVariants.registerBlockAndItem(
+                        (rl,bl)->Registry.register(Registry.BLOCK,rl,bl),
+                        (rl,i)->Registry.register(Registry.ITEM,rl,i),b);
             }
         }
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {

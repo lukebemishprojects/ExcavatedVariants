@@ -12,8 +12,8 @@ import net.minecraftforge.common.extensions.IForgeBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class ForgeOreBlock extends ModifiedOreBlock implements IForgeBlock {
-    public ForgeOreBlock(Properties properties, BaseOre ore, BaseStone stone) {
-        super(properties, ore, stone);
+    public ForgeOreBlock(BaseOre ore, BaseStone stone) {
+        super(ore, stone);
     }
 
     @Override

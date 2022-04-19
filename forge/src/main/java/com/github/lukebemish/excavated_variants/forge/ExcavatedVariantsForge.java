@@ -2,10 +2,9 @@ package com.github.lukebemish.excavated_variants.forge;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
-import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
-import dev.architectury.platform.forge.EventBuses;
 import com.github.lukebemish.excavated_variants.forge.compat.HyleCompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreReplacer;
+import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -40,7 +39,10 @@ public class ExcavatedVariantsForge {
         EventBuses.registerModEventBus(ExcavatedVariants.MOD_ID, modbus);
         ExcavatedVariants.init();
         FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ExcavatedVariantsClient::init);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            ExcavatedVariantsClient.init();
+            modbus.addListener(ExcavatedVariantsForgeClient::clientSetup);
+        });
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         ModList.get().getModContainerById("unearthed").ifPresent(container -> {
@@ -57,11 +59,6 @@ public class ExcavatedVariantsForge {
             ExcavatedVariants.ORE_REPLACER_PLACED = new PlacedFeature(Holder.direct(ExcavatedVariants.ORE_REPLACER_CONFIGURED), List.of());
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_CONFIGURED);
             Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_PLACED);
-
-            //Properties
-            for (ModifiedOreBlock block : ExcavatedVariants.getBlockList()) {
-                block.copyBlockstateDefs();
-            }
         });
     }
 }

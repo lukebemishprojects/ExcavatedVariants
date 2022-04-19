@@ -21,7 +21,9 @@ public class RegistryMixin {
                 for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
                     if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                             ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
-                        ExcavatedVariants.registerBlockAndItem(b);
+                        ExcavatedVariants.registerBlockAndItem(
+                                (orl,bl)->Registry.register(Registry.BLOCK,orl,bl),
+                                (orl,i)->Registry.register(Registry.ITEM,orl,i),b);
                     }
                 }
             }
