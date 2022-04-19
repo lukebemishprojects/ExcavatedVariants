@@ -26,7 +26,8 @@
     ]
   },
   "mixins": [
-    "mixin.excavated_variants.json"
+    "mixin.excavated_variants.json",
+    "mixin.excavated_variants_fabric.json"
   ],
   "accessWidener": "excavated_variants.accessWidener",
   "depends": {

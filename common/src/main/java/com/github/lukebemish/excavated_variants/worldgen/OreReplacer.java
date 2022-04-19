@@ -1,7 +1,8 @@
 package com.github.lukebemish.excavated_variants.worldgen;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
@@ -87,10 +88,10 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                                     cache[i + as[c]][y + ys[c] & 15][j + bs[c]] = thisState;
                                 }
                                 for (BaseStone stone : pair.last()) {
-                                    Block stoneBlock = RegistryUtil.getBlockById(stone.rl_block_id);
+                                    Block stoneBlock = RegistryUtil.getBlockById(stone.block_id);
                                     Block oreBlock = RegistryUtil.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
-                                    if (oreBlock != null && stoneBlock != null && thisState.is(stoneBlock)) {
-                                        BlockState def = oreBlock.defaultBlockState();
+                                    if (oreBlock != null && stoneBlock != null && thisState.is(stoneBlock) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
+                                        BlockState def = modifiedOreBlock.getStateForReplacement(thisState);
                                         chunkSection.setBlockState(i,y & 15,j,def,false);
                                         continue inner_loop;
                                     }

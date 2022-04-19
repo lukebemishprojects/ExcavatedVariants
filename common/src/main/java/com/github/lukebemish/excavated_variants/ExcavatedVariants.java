@@ -1,6 +1,8 @@
 package com.github.lukebemish.excavated_variants;
 
+import com.github.lukebemish.excavated_variants.client.RenderTypeHandler;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -24,6 +26,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ExcavatedVariants {
     public static final String MOD_ID = "excavated_variants";
@@ -64,23 +69,19 @@ public class ExcavatedVariants {
         }
         for (String id : oreMap.keySet()) {
             List<BaseOre> oreList = oreMap.get(id);
+            Set<String> oreNames = oreList.stream().map(x->x.orename).collect(Collectors.toSet());
             List<String> stones = new ArrayList<>();
             for (BaseOre ore : oreList) {
                 stones.addAll(ore.stone);
             }
             TagBuilder oreDictBuilder = new TagBuilder();
             for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.type::contains))) {
+                if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                        BLOCKS.register(full_id, () -> {
-                            ModifiedOreBlock block = ExcavatedVariants.makeDefaultOreBlock(full_id, oreList.get(0));
-                            blocks.put(full_id, block);
-                            return block;
-                        });
-                        ITEMS.register(full_id, () -> new BlockItem(blocks.get(full_id), new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB)));
+                        blockList.add(new RegistryFuture(full_id,oreList.get(0), stone));
                         if (getConfig().add_conversion_recipes) {
-                            OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), oreList.get(0).rl_block_id.get(0));
+                            OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), oreList.get(0).block_id.get(0));
                         }
                         blockTagBuilder.add(full_id);
                         stoneTag.add(full_id, oreList.get(0));
@@ -90,25 +91,27 @@ public class ExcavatedVariants {
                     }
                 }
             }
-            if (Platform.isFabric()) {
-                DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("c", "tags/items/" + id + "s.json"),
-                        oreDictBuilder.build());
-                DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("c", "tags/blocks/" + id + "s.json"),
-                        oreDictBuilder.build());
-            } else {
-                if (id.endsWith("_ore")) {
-                    String oreTypeName = id.substring(0, id.length() - 4);
-                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/items/ores/" + oreTypeName + ".json"),
+            for (String orename : oreNames) {
+                if (Platform.isFabric()) {
+                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("c", "tags/items/" + orename + "s.json"),
                             oreDictBuilder.build());
-                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/blocks/ores/" + oreTypeName + ".json"),
+                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("c", "tags/blocks/" + orename + "s.json"),
+                            oreDictBuilder.build());
+                } else {
+                    if (orename.endsWith("_ore")) {
+                        String oreTypeName = orename.substring(0, orename.length() - 4);
+                        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/items/ores/" + oreTypeName + ".json"),
+                                oreDictBuilder.build());
+                        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/blocks/ores/" + oreTypeName + ".json"),
+                                oreDictBuilder.build());
+                    }
+                }
+                if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore").contains(orename)) {
+                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/items/" + orename + "s.json"),
+                            oreDictBuilder.build());
+                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/" + orename + "s.json"),
                             oreDictBuilder.build());
                 }
-            }
-            if (Arrays.asList("iron_ore","gold_ore","coal_ore","emerald_ore","diamond_ore","redstone_ore","quartz_ore","copper_ore").contains(id)) {
-                DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/items/" + id + "s.json"),
-                        oreDictBuilder.build());
-                DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/" + id + "s.json"),
-                        oreDictBuilder.build());
             }
         }
         DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/mineable/pickaxe.json"),
@@ -130,6 +133,8 @@ public class ExcavatedVariants {
         RECIPE_SERIALIZERS.register();
         
         registerFeatures();
+
+        loaded = true;
     }
 
     public static boolean setupMap() {
@@ -167,12 +172,12 @@ public class ExcavatedVariants {
                 }
                 Pair<BaseOre, List<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new ArrayList<>());
                 if (oreList.size() > 1) {
-                    pair.first().rl_block_id = new ArrayList<>();
+                    pair.first().block_id = new ArrayList<>();
                     pair.first().block_id = new ArrayList<>();
                     pair.first().stone = new ArrayList<>();
                     pair.first().types = new ArrayList<>();
                     for (BaseOre baseOre : oreList) {
-                        pair.first().rl_block_id.addAll(baseOre.rl_block_id);
+                        pair.first().block_id.addAll(baseOre.block_id);
                         pair.first().block_id.addAll(baseOre.block_id);
                         pair.first().stone.addAll(baseOre.stone);
                         pair.first().types.addAll(baseOre.types);
@@ -183,7 +188,7 @@ public class ExcavatedVariants {
                 }
                 oreStoneList.add(pair);
                 for (BaseStone stone : stoneMap.values()) {
-                    if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.type::contains))) {
+                    if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
                         String full_id = stone.id + "_" + id;
                         if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
                             pair.last().add(stone);
@@ -213,13 +218,61 @@ public class ExcavatedVariants {
         return blocks;
     }
 
+    public static List<RegistryFuture> getBlockList() {
+        return blockList;
+    }
+    public static class RegistryFuture {
+        public final BaseOre ore;
+        public final BaseStone stone;
+        public final String full_id;
+        public Boolean done = false;
+        public RegistryFuture(String s, BaseOre ore, BaseStone stone) {
+            this.full_id = s;
+            this.ore = ore;
+            this.stone = stone;
+        }
+    }
+
+    public static void registerBlockAndItem(BiConsumer<ResourceLocation,Block> blockRegistrar, BiConsumer<ResourceLocation,Item> itemRegistrar, RegistryFuture future) {
+        if (!future.done) {
+            future.done = true;
+            String id = future.full_id;
+            BaseOre o = future.ore;
+            BaseStone s = future.stone;
+            ResourceLocation rlToReg = new ResourceLocation(ExcavatedVariants.MOD_ID, future.full_id);
+            ModifiedOreBlock.setupStaticWrapper(o, s);
+            ModifiedOreBlock b = new ModifiedOreBlock(o, s);
+            blockRegistrar.accept(rlToReg, b);
+            blocks.put(id, b);
+            Item i = new BlockItem(b, new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB));
+            itemRegistrar.accept(rlToReg, i);
+            items.add(()->i);
+
+            RenderTypeHandler.setRenderTypeMipped(b);
+        }
+    }
+
+    public static List<Supplier<Item>> getItems() {
+        return items;
+    }
+
+    private static final List<Supplier<Item>> items = new ArrayList<>();
     private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
+    private static final List<RegistryFuture> blockList = new ArrayList<>();
 
     @ExpectPlatform
-    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore) {
+    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {
         throw new AssertionError();
     }
 
     public static ConfiguredFeature<NoneFeatureConfiguration,?> ORE_REPLACER_CONFIGURED;
     public static PlacedFeature ORE_REPLACER_PLACED;
+
+    private static boolean loaded = false;
+
+    public static boolean hasLoaded() {
+        return loaded;
+    }
+
+    public static List<ResourceLocation> loadedBlockRLs = new ArrayList<>();
 }

@@ -1,7 +1,7 @@
 package com.github.lukebemish.excavated_variants.worldgen;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
@@ -30,15 +30,22 @@ public class OreFinderUtil {
         if (lookupMap == null) {
             lookupMap = new HashMap<>();
             for (Pair<BaseOre, List<BaseStone>> pair : ExcavatedVariants.oreStoneList) {
-                ArrayList<Block> pairedBlocks = new ArrayList<>();
-                for (ResourceLocation rl : pair.first().rl_block_id) {
+                ArrayList<ResourceLocation> pairedBlocks = new ArrayList<>();
+                for (ResourceLocation rl : pair.first().block_id) {
                     Block block = RegistryUtil.getBlockById(rl);
                     if (block != null) {
-                        pairedBlocks.add(block);
+                        pairedBlocks.add(rl);
                     }
                 }
-                for (Block block : pairedBlocks) {
-                    lookupMap.put(RegistryUtil.getRlByBlock(block), pair);
+                for (BaseStone stone : pair.last()) {
+                    ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID,stone.id+"_"+pair.first().id);
+                    Block block = RegistryUtil.getBlockById(rl);
+                    if (block != null) {
+                        pairedBlocks.add(rl);
+                    }
+                }
+                for (ResourceLocation rl : pairedBlocks) {
+                    lookupMap.put(rl, pair);
                 }
             }
         }

@@ -8,9 +8,9 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_lead.png",
       "block_id": [
-        "immersiveengineering:ore_lead"
+        "immersiveengineering:ore_lead",
+        "immersiveengineering:deepslate_ore_lead"
       ],
       "en_name": "Lead Ore",
       "types": [
@@ -23,9 +23,9 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_nickel.png",
       "block_id": [
-        "immersiveengineering:ore_nickel"
+        "immersiveengineering:ore_nickel",
+        "immersiveengineering:deepslate_ore_nickel"
       ],
       "en_name": "Nickel Ore",
       "types": [
@@ -38,9 +38,9 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_silver.png",
       "block_id": [
-        "immersiveengineering:ore_silver"
+        "immersiveengineering:ore_silver",
+        "immersiveengineering:deepslate_ore_silver"
       ],
       "en_name": "Silver Ore",
       "types": [
@@ -53,9 +53,9 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_uranium.png",
       "block_id": [
-        "immersiveengineering:ore_uranium"
+        "immersiveengineering:ore_uranium",
+        "immersiveengineering:deepslate_ore_uranium"
       ],
       "en_name": "Uranium Ore",
       "types": [
@@ -68,9 +68,9 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "immersiveengineering:textures/block/metal/ore_aluminum.png",
       "block_id": [
-        "immersiveengineering:ore_aluminum"
+        "immersiveengineering:ore_aluminum",
+        "immersiveengineering:deepslate_ore_aluminum"
       ],
       "en_name": "Bauxite Ore",
       "types": [

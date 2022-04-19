@@ -1,7 +1,7 @@
 package com.github.lukebemish.excavated_variants.forge.compat;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
@@ -23,7 +23,7 @@ public class HyleCompat {
         if (excavatedVariantsOres == null) {
             excavatedVariantsOres = new IdentityHashMap<>();
             for (Pair<BaseOre, List<BaseStone>> p : ExcavatedVariants.oreStoneList) {
-                for (ResourceLocation block_id : p.first().rl_block_id) {
+                for (ResourceLocation block_id : p.first().block_id) {
                     Block baseOreBlock = RegistryUtil.getBlockById(block_id);
                     excavatedVariantsOres.put(baseOreBlock, p);
                 }
@@ -34,7 +34,7 @@ public class HyleCompat {
         Block baseBlock = stoneType.getBaseBlock().getBlock();
         excavatedVariantsOres.forEach((baseOreBlock, pair) -> {
             List<BaseStone> Stones = pair.last();
-            Stones.stream().filter(stone -> RegistryUtil.getBlockById(stone.rl_block_id) == baseBlock).findAny().ifPresent(stone -> {
+            Stones.stream().filter(stone -> RegistryUtil.getBlockById(stone.block_id) == baseBlock).findAny().ifPresent(stone -> {
                 Block oreBlock = RegistryUtil.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
                 stoneType.getOreMap().put(baseOreBlock, oreBlock.defaultBlockState());
             });

@@ -12,6 +12,7 @@ architectury {
 loom {
     forge {
         mixinConfig "mixin.excavated_variants.json"
+        mixinConfig "mixin.excavated_variants_forge.json"
     }
 }
 
@@ -35,12 +36,14 @@ dependencies {
     //modRuntimeOnly "curse.maven:create-328085:3623348"
     //modRuntimeOnly "curse.maven:flywheel-486392:3623314"
 
-    modRuntimeOnly "curse.maven:unearthed-406825:3749850"
-    modImplementation "curse.maven:hyle-609850:3748968"
+    //modRuntimeOnly "curse.maven:unearthed-406825:3749850"
+    modCompileOnly "curse.maven:hyle-609850:3748968"
 
     modImplementation "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}:api"
     // at runtime, use the full JEI jar
     modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}"
+
+    modRuntimeOnly "curse.maven:immersive-engineering-231951:3721708"
 }
 
 processResources {

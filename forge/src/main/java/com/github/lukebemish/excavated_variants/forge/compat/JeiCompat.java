@@ -1,14 +1,14 @@
-package com.github.lukebemish.excavated_variants.forge;
+package com.github.lukebemish.excavated_variants.forge.compat;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JeiPlugin
-public class JeiPluginRecipeAdder implements IModPlugin {
+public class JeiCompat implements IModPlugin {
 
     @Override
     @NotNull
@@ -45,7 +45,7 @@ public class JeiPluginRecipeAdder implements IModPlugin {
                         items.add(item);
                     }
                 }
-                Item outItem = RegistryUtil.getItemById(p.first().rl_block_id.get(0));
+                Item outItem = RegistryUtil.getItemById(p.first().block_id.get(0));
                 if (items.size() > 0 && outItem!=null) {
                     Ingredient input = Ingredient.of(items.stream().map(ItemStack::new));
                     ItemStack output = new ItemStack(outItem);
@@ -54,7 +54,7 @@ public class JeiPluginRecipeAdder implements IModPlugin {
                     recipes.add(new ShapelessRecipe(new ResourceLocation(ExcavatedVariants.MOD_ID, ore_id + "_conversion"), "excavated_variants.ore_conversion", output, inputs));
                 }
             }
-            registration.addRecipes(recipes, VanillaRecipeCategoryUid.CRAFTING);
+            registration.addRecipes(RecipeTypes.CRAFTING,recipes);
         }
     }
 }

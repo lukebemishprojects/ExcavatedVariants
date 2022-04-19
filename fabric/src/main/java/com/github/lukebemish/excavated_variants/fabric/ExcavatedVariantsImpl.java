@@ -3,6 +3,7 @@ package com.github.lukebemish.excavated_variants.fabric;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
+import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.worldgen.OreReplacer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -28,7 +29,7 @@ public class ExcavatedVariantsImpl {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_CONFIGURED);
         Registry.register(BuiltinRegistries.PLACED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_PLACED);
     }
-    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore) {
-        return new ModifiedOreBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), ore);
+    public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {
+        return new ModifiedOreBlock(ore, stone);
     }
 }
