@@ -8,7 +8,6 @@
         "deepslate",
         "netherrack"
       ],
-      "texture_location": "sulfurpotassiummod:textures/block/sulfur_ore.png",
       "block_id": [
         "sulfurpotassiummod:sulfur_ore",
         "sulfurpotassiummod:sulfur_nether_ore"
@@ -23,7 +22,6 @@
       "stone": [
         "stone"
       ],
-      "texture_location": "sulfurpotassiummod:textures/block/potassium_ore.png",
       "block_id": [
         "sulfurpotassiummod:potassium_ore"
       ],
