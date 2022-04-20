@@ -26,7 +26,7 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>> {
     private BiMap<ResourceLocation, V> names;
 
     @Inject(method = "freeze", at = @At("HEAD"))
-    private void onFreeze(CallbackInfo ci) {
+    private void excavated_variants$registryFreezeHackery(CallbackInfo ci) {
         if (superType == Block.class) {
             this.names.forEach((rl, value) -> {
                 ExcavatedVariants.loadedBlockRLs.add(rl);
