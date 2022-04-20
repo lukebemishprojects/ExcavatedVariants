@@ -45,7 +45,7 @@ dependencies {
     // at runtime, use the full JEI jar
     modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}"
 
-    modRuntimeOnly "curse.maven:immersive-engineering-231951:3721708"
+    //modRuntimeOnly "curse.maven:immersive-engineering-231951:3721708"
 }
 
 processResources {

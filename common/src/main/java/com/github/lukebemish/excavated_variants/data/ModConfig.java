@@ -73,7 +73,7 @@ public class ModConfig {
         } catch (URISyntaxException | IOException e) {
             ExcavatedVariants.LOGGER.error("Could not load some default configs.", e);
         }
-        output.priority = List.of("minecraft.json");
+        output.priority = List.of("geolosys.json","minecraft.json");
         return output;
     }
 
