@@ -1,3 +1,7 @@
+### Excavated Variants v0.5.0
+
+- Copy blockstate properties from parent blocks; change how textures/models are generated. Definitely an alpha version.
+
 ### Excavated Variants v0.4.1
 
 - Fix yet another tag-related bug (needs Dynamic Asset Generator 0.4.3)
