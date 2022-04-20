@@ -1,14 +1,21 @@
 package com.github.lukebemish.excavated_variants.client;
 
+import com.github.lukebemish.dynamic_asset_generator.client.api.ClientPrePackRepository;
+import com.github.lukebemish.excavated_variants.ExcavatedVariants;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class BlockModelParser {
+    public String parent;
     public Map<String, String> textures;
-    public List<Object> elements;
+    public JsonArray elements;
 
     @Override
     public String toString() {
@@ -26,6 +33,31 @@ public class BlockModelParser {
     }
 
     public void addOverlay(int index, ResourceLocation overlay_loc) {
+        if (elements == null) {
+            BlockModelParser finder = this;
+            boolean found = false;
+            while (!found) {
+                ResourceLocation parentRl = ResourceLocation.of(finder.parent,':');
+                try (var read = ClientPrePackRepository.getResource(new ResourceLocation(parentRl.getNamespace(), "models/" + parentRl.getPath() + ".json"))) {
+                    BlockModelParser parentModel = BlockStateAssembler.GSON.fromJson(new BufferedReader(new InputStreamReader(read, StandardCharsets.UTF_8)), BlockModelParser.class);
+                    if (parentModel.elements!=null) {
+                        elements = parentModel.elements;
+                        found = true;
+                    } else {
+                        if (parentModel.parent == null) {
+                            elements = new JsonArray();
+                            found = true;
+                        } else {
+                            finder = parentModel;
+                        }
+                    }
+                } catch (IOException e) {
+                    elements = new JsonArray();
+                    found = true;
+                    ExcavatedVariants.LOGGER.warn("Could not find parent model {}",parentRl.toString());
+                }
+            }
+        }
         String initial = """
                 {
                       "from": [ 0, 0, 0 ],

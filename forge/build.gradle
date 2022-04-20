@@ -39,6 +39,8 @@ dependencies {
     //modRuntimeOnly "curse.maven:unearthed-406825:3749850"
     modCompileOnly "curse.maven:hyle-609850:3748968"
 
+    modRuntimeOnly fileTree(dir: "libs", includes: ['*.jar'])
+
     modImplementation "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}:api"
     // at runtime, use the full JEI jar
     modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}"

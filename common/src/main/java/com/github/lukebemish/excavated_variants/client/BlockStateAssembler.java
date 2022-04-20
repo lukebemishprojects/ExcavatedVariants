@@ -10,10 +10,7 @@ import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.util.Triple;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.renderer.block.model.BlockModelDefinition;
 import net.minecraft.client.renderer.block.model.MultiVariant;
@@ -247,7 +244,7 @@ public class BlockStateAssembler {
                             i++;
                         }
                         outputMap.add("textures",GSON.toJsonTree(outputModel.textures));
-                        if (outputModel.elements!=null&&outputModel.elements.size()!=0) outputMap.add("elements",GSON.toJsonTree(outputModel.elements));
+                        if (outputModel.elements!=null&&outputModel.elements.size()!=0) outputMap.add("elements",outputModel.elements);
 
                         var outModelRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+full_id + i2);
                         outModelRLs.add(outModelRL);
