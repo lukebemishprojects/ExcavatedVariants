@@ -33,7 +33,7 @@ public class JeiCompat implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        if (ExcavatedVariants.getConfig().add_conversion_recipes) {
+        if (ExcavatedVariants.getConfig().add_conversion_recipes && ExcavatedVariants.getConfig().jei_rei_compat) {
             List<CraftingRecipe> recipes = new ArrayList<>();
             OreConversionRecipe.assembleOrNull();
             for (Pair<BaseOre, List<BaseStone>> p :ExcavatedVariants.oreStoneList) {

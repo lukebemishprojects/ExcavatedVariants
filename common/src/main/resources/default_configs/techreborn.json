@@ -3,214 +3,259 @@
   "provided_stones": [],
   "provided_ores": [
     {
-      "id": "aluminum_ore",
-      "stone": [
-        "stone",
-        "deepslate"
-      ],
-      "block_id": [
-        "techreborn:bauxite_ore",
-        "techreborn:deepslate_bauxite_ore"
-      ],
-      "en_name": "Bauxite Ore",
-      "types": [
-        "stone"
-      ]
-    },
-    {
-      "id": "cinnabar_ore",
-      "stone": [
-        "netherrack"
-      ],
-      "block_id": [
-        "techreborn:cinnabar_ore"
-      ],
-      "en_name": "Cinnabar Ore",
-      "types": [
-        "nether"
-      ]
-    },
-    {
       "id": "galena_ore",
-      "stone": [
-        "stone",
-        "deepslate"
-      ],
+      "en_name": "Galena Ore",
       "block_id": [
         "techreborn:galena_ore",
         "techreborn:deepslate_galena_ore"
       ],
-      "en_name": "Galena Ore",
+      "orename": [
+        "galena_ore"
+      ],
       "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    },
+    {
+      "id": "bauxite_ore",
+      "en_name": "Bauxite Ore",
+      "block_id": [
+        "techreborn:deepslate_bauxite_ore",
+        "techreborn:bauxite_ore"
+      ],
+      "orename": [
+        "bauxite_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "deepslate",
         "stone"
       ]
     },
     {
       "id": "iridium_ore",
-      "stone": [
-        "stone",
-        "deepslate"
-      ],
+      "en_name": "Iridium Ore",
       "block_id": [
         "techreborn:iridium_ore",
         "techreborn:deepslate_iridium_ore"
       ],
-      "en_name": "Iridium Ore",
+      "orename": [
+        "iridium_ore"
+      ],
       "types": [
         "stone"
-      ]
-    },
-    {
-      "id": "lead_ore",
+      ],
       "stone": [
         "stone",
         "deepslate"
-      ],
+      ]
+    },
+    {
+      "id": "tin_ore",
+      "en_name": "Tin Ore",
       "block_id": [
-        "techreborn:lead_ore",
-        "techreborn:deepslate_lead_ore"
+        "techreborn:tin_ore",
+        "techreborn:deepslate_tin_ore"
       ],
-      "en_name": "Lead Ore",
+      "orename": [
+        "tin_ore"
+      ],
       "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    },
+    {
+      "id": "sapphire_ore",
+      "en_name": "Sapphire Ore",
+      "block_id": [
+        "techreborn:deepslate_sapphire_ore",
+        "techreborn:sapphire_ore"
+      ],
+      "orename": [
+        "sapphire_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "deepslate",
         "stone"
       ]
     },
     {
       "id": "peridot_ore",
-      "stone": [
-        "end_stone"
-      ],
+      "en_name": "Peridot Ore",
       "block_id": [
         "techreborn:peridot_ore"
       ],
-      "en_name": "Peridot Ore",
+      "orename": [
+        "peridot_ore"
+      ],
       "types": [
         "end"
-      ]
-    },
-    {
-      "id": "ruby_ore",
-      "stone": [
-        "stone",
-        "deepslate"
       ],
-      "block_id": [
-        "techreborn:ruby_ore",
-        "techreborn:deepslate_ruby_ore"
-      ],
-      "en_name": "Ruby Ore",
-      "types": [
-        "stone"
-      ]
-    },
-    {
-      "id": "sapphire_ore",
-      "stone": [
-        "stone",
-        "deepslate"
-      ],
-      "block_id": [
-        "techreborn:sapphire_ore",
-        "techreborn:deepslate_sapphire_ore"
-      ],
-      "en_name": "Sapphire Ore",
-      "types": [
-        "stone"
-      ]
-    },
-    {
-      "id": "silver_ore",
-      "stone": [
-        "stone",
-        "deepslate"
-      ],
-      "block_id": [
-        "techreborn:silver_ore",
-        "techreborn:deepslate_silver_ore"
-      ],
-      "en_name": "Silver Ore",
-      "types": [
-        "stone"
-      ]
-    },
-    {
-      "id": "tin_ore",
-      "stone": [
-        "stone",
-        "deepslate"
-      ],
-      "block_id": [
-        "techreborn:tin_ore",
-        "techreborn:deepslate_tin_ore"
-      ],
-      "en_name": "Tin Ore",
-      "types": [
-        "stone"
-      ]
-    },
-    {
-      "id": "sheldonite_ore",
       "stone": [
         "end_stone"
-      ],
-      "block_id": [
-        "techreborn:sheldonite_ore"
-      ],
-      "en_name": "Sheldonite Ore",
-      "types": [
-        "end"
-      ]
-    },
-    {
-      "id": "sodalite_ore",
-      "stone": [
-        "end_stone"
-      ],
-      "block_id": [
-        "techreborn:sodalite_ore"
-      ],
-      "en_name": "Sodalite Ore",
-      "types": [
-        "end"
-      ]
-    },
-    {
-      "id": "tungsten_ore",
-      "stone": [
-        "end_stone"
-      ],
-      "block_id": [
-        "techreborn:tungsten_ore"
-      ],
-      "en_name": "Tungsten Ore",
-      "types": [
-        "end"
       ]
     },
     {
       "id": "pyrite_ore",
-      "stone": [
-        "netherrack"
-      ],
+      "en_name": "Pyrite Ore",
       "block_id": [
         "techreborn:pyrite_ore"
       ],
-      "en_name": "Pyrite Ore",
+      "orename": [
+        "pyrite_ore"
+      ],
       "types": [
         "nether"
+      ],
+      "stone": [
+        "netherrack"
+      ]
+    },
+    {
+      "id": "cinnabar_ore",
+      "en_name": "Cinnabar Ore",
+      "block_id": [
+        "techreborn:cinnabar_ore"
+      ],
+      "orename": [
+        "cinnabar_ore"
+      ],
+      "types": [
+        "nether"
+      ],
+      "stone": [
+        "netherrack"
+      ]
+    },
+    {
+      "id": "ruby_ore",
+      "en_name": "Ruby Ore",
+      "block_id": [
+        "techreborn:ruby_ore",
+        "techreborn:deepslate_ruby_ore"
+      ],
+      "orename": [
+        "ruby_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    },
+    {
+      "id": "lead_ore",
+      "en_name": "Lead Ore",
+      "block_id": [
+        "techreborn:deepslate_lead_ore",
+        "techreborn:lead_ore"
+      ],
+      "orename": [
+        "lead_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "deepslate",
+        "stone"
       ]
     },
     {
       "id": "sphalerite_ore",
-      "stone": [
-        "netherrack"
-      ],
+      "en_name": "Sphalerite Ore",
       "block_id": [
         "techreborn:sphalerite_ore"
       ],
-      "en_name": "Sphalerite Ore",
+      "orename": [
+        "sphalerite_ore"
+      ],
       "types": [
         "nether"
+      ],
+      "stone": [
+        "netherrack"
+      ]
+    },
+    {
+      "id": "sheldonite_ore",
+      "en_name": "Sheldonite Ore",
+      "block_id": [
+        "techreborn:sheldonite_ore"
+      ],
+      "orename": [
+        "sheldonite_ore"
+      ],
+      "types": [
+        "end"
+      ],
+      "stone": [
+        "end_stone"
+      ]
+    },
+    {
+      "id": "sodalite_ore",
+      "en_name": "Sodalite Ore",
+      "block_id": [
+        "techreborn:sodalite_ore"
+      ],
+      "orename": [
+        "sodalite_ore"
+      ],
+      "types": [
+        "end"
+      ],
+      "stone": [
+        "end_stone"
+      ]
+    },
+    {
+      "id": "tungsten_ore",
+      "en_name": "Tungsten Ore",
+      "block_id": [
+        "techreborn:tungsten_ore"
+      ],
+      "orename": [
+        "tungsten_ore"
+      ],
+      "types": [
+        "end"
+      ],
+      "stone": [
+        "end_stone"
+      ]
+    },
+    {
+      "id": "silver_ore",
+      "en_name": "Silver Ore",
+      "block_id": [
+        "techreborn:deepslate_silver_ore",
+        "techreborn:silver_ore"
+      ],
+      "orename": [
+        "silver_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "deepslate",
+        "stone"
       ]
     }
   ]

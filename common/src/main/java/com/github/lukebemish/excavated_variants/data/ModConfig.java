@@ -40,7 +40,11 @@ public class ModConfig {
     @Expose
     public boolean attempt_ore_replacement = true;
     @Expose
-    public boolean add_conversion_recipes = true;
+    public boolean add_conversion_recipes = true;;
+    @Expose
+    public boolean jei_rei_compat = true;
+    @Expose
+    public boolean unobtainable_variants = false;
 
     public static ModConfig getDefault() {
         ModConfig output = new ModConfig();

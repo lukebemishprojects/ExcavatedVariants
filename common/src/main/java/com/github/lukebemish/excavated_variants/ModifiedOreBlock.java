@@ -257,7 +257,7 @@ public class ModifiedOreBlock extends OreBlock {
             LootTable lootTable = serverLevel.getServer().getLootTables().get(resourceLocation);
             List<ItemStack> items = lootTable.getRandomItems(lootContext);
             return items.stream().map((x) -> {
-                if (x.is(target.asItem()) && this.asItem() != Items.AIR) {
+                if (x.is(target.asItem()) && this.asItem() != Items.AIR && !ExcavatedVariants.getConfig().unobtainable_variants) {
                     int count = x.getCount();
                     ItemStack out = new ItemStack(this.asItem(), count);
                     return out;
