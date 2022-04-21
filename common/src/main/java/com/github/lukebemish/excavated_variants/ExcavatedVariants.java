@@ -1,17 +1,17 @@
 package com.github.lukebemish.excavated_variants;
 
+import com.github.lukebemish.dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
 import com.github.lukebemish.excavated_variants.client.RenderTypeHandler;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
+import com.github.lukebemish.excavated_variants.data.BaseStone;
+import com.github.lukebemish.excavated_variants.data.ModConfig;
+import com.github.lukebemish.excavated_variants.data.ModData;
+import com.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
 import com.github.lukebemish.excavated_variants.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import com.github.lukebemish.dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
-import com.github.lukebemish.excavated_variants.data.BaseStone;
-import com.github.lukebemish.excavated_variants.data.ModConfig;
-import com.github.lukebemish.excavated_variants.data.ModData;
-import com.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class ExcavatedVariants {
 
     public static void init() {
         setupMap();
-        TagBuilder blockTagBuilder = new TagBuilder();
+        List<ResourceLocation> blockTagBuilder = new ArrayList<>();
         MiningLevelTagGenerator stoneTag = new MiningLevelTagGenerator("stone");
         MiningLevelTagGenerator ironTag = new MiningLevelTagGenerator("iron");
         MiningLevelTagGenerator diamondTag = new MiningLevelTagGenerator("diamond");
@@ -67,7 +68,6 @@ public class ExcavatedVariants {
                 }
             }
         }
-        Map<ResourceLocation, TagBuilder> builders = new HashMap<>();
         for (String id : oreMap.keySet()) {
             List<BaseOre> oreList = oreMap.get(id);
             Set<String> oreNames = oreList.stream().flatMap(x->x.orename.stream()).collect(Collectors.toSet());
@@ -84,7 +84,7 @@ public class ExcavatedVariants {
                         if (getConfig().add_conversion_recipes) {
                             OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), oreList.get(0).block_id.get(0));
                         }
-                        blockTagBuilder.add(full_id);
+                        blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,full_id));
                         stoneTag.add(full_id, oreList.get(0));
                         ironTag.add(full_id, oreList.get(0));
                         diamondTag.add(full_id, oreList.get(0));
@@ -95,42 +95,36 @@ public class ExcavatedVariants {
             for (String orename : oreNames) {
                 for (String this_id : ids) {
                     if (Platform.isFabric()) {
-                        builders.computeIfAbsent(new ResourceLocation("c", "tags/items/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
-                        builders.computeIfAbsent(new ResourceLocation("c", "tags/blocks/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
+                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                     } else {
                         if (orename.endsWith("_ore")) {
                             String oreTypeName = orename.substring(0, orename.length() - 4);
-                            builders.computeIfAbsent(new ResourceLocation("forge", "tags/items/ores/" + oreTypeName + ".json"), k->new TagBuilder()).add(this_id);
-                            builders.computeIfAbsent(new ResourceLocation("forge", "tags/blocks/ores/" + oreTypeName + ".json"), k->new TagBuilder()).add(this_id);
+                            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge","blocks/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                         }
                     }
                     if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore", "netherite_scrap_ore").contains(orename)) {
-                        builders.computeIfAbsent(new ResourceLocation("minecraft", "tags/items/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
-                        builders.computeIfAbsent(new ResourceLocation("minecraft", "tags/blocks/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
+                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("minecraft", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("minecraft", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                     }
                 }
             }
         }
-        for (ResourceLocation key : builders.keySet()) {
-            DynAssetGeneratorServerAPI.planLoadingStream(key,builders.get(key).build());
+
+        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("minecraft", "blocks/mineable/pickaxe"),blockTagBuilder);
+        if (!Platform.isFabric()) {
+            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge", "blocks/ores"),blockTagBuilder);
+            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge", "items/ores"),blockTagBuilder);
         }
 
-        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/mineable/pickaxe.json"),
-                blockTagBuilder.build());
-        if (!Platform.isFabric()) {
-            DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/blocks/ores.json"),
-                    blockTagBuilder.build());
-            DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/items/ores.json"),
-                    blockTagBuilder.build());
-        }
-        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/needs_stone_tool.json"),
-                stoneTag);
-        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/needs_iron_tool.json"),
-                ironTag);
-        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/needs_diamond_tool.json"),
-                diamondTag);
-        BLOCKS.register();
-        ITEMS.register();
+        DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_stone_tool"),
+                stoneTag.suppliers());
+        DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_iron_tool"),
+                ironTag.suppliers());
+        DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_diamond_tool"),
+                diamondTag.suppliers());
+
         RECIPE_SERIALIZERS.register();
         
         registerFeatures();
@@ -234,7 +228,7 @@ public class ExcavatedVariants {
         }
     }
 
-    public static void registerBlockAndItem(BiConsumer<ResourceLocation,Block> blockRegistrar, BiConsumer<ResourceLocation,Item> itemRegistrar, RegistryFuture future) {
+    public static void registerBlockAndItem(BiConsumer<ResourceLocation,Block> blockRegistrar, BiFunction<ResourceLocation,Supplier<Item>,Supplier<Item>> itemRegistrar, RegistryFuture future) {
         if (!future.done) {
             future.done = true;
             String id = future.full_id;
@@ -245,9 +239,8 @@ public class ExcavatedVariants {
             ModifiedOreBlock b = new ModifiedOreBlock(o, s);
             blockRegistrar.accept(rlToReg, b);
             blocks.put(id, b);
-            Item i = new BlockItem(b, new Item.Properties().tab(CreativeTabLoader.EXCAVATED_VARIANTS_TAB));
-            itemRegistrar.accept(rlToReg, i);
-            items.add(()->i);
+            Supplier<Item> i = itemRegistrar.apply(rlToReg, ()->new BlockItem(b, new Item.Properties().tab(CreativeTabLoader.getCreativeTab())));
+            items.add(i);
 
             RenderTypeHandler.setRenderTypeMipped(b);
         }

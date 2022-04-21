@@ -1,6 +1,8 @@
 package com.github.lukebemish.excavated_variants.forge.mixin;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
+import com.github.lukebemish.excavated_variants.RegistryUtil;
+import com.github.lukebemish.excavated_variants.forge.ExcavatedVariantsForge;
 import com.google.common.collect.BiMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -39,8 +41,8 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>> {
                             bl.setRegistryName(rlr);
                             ForgeRegistries.BLOCKS.register(bl);
                         },(rlr,it)->{
-                            it.setRegistryName(rlr);
-                            ForgeRegistries.ITEMS.register(it);
+                            ExcavatedVariantsForge.toRegister.add(()->it.get().setRegistryName(rlr));
+                            return ()->RegistryUtil.getItemById(rlr);
                         },b);
                     }
                 }

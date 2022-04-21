@@ -12,6 +12,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
@@ -24,7 +25,10 @@ public class ExcavatedVariantsFabric implements ModInitializer {
                     ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
                 ExcavatedVariants.registerBlockAndItem(
                         (rl,bl)->Registry.register(Registry.BLOCK,rl,bl),
-                        (rl,i)->Registry.register(Registry.ITEM,rl,i),b);
+                        (rl,i)->{
+                            Item out = Registry.register(Registry.ITEM,rl,i.get());
+                            return ()->out;
+                        },b);
             }
         }
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {

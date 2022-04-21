@@ -4,6 +4,7 @@ import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,7 +24,10 @@ public class RegistryMixin {
                             ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
                         ExcavatedVariants.registerBlockAndItem(
                                 (orl,bl)->Registry.register(Registry.BLOCK,orl,bl),
-                                (orl,i)->Registry.register(Registry.ITEM,orl,i),b);
+                                (orl,i)-> {
+                                    Item out = Registry.register(Registry.ITEM, orl, i.get());
+                                    return ()->out;
+                                },b);
                     }
                 }
             }

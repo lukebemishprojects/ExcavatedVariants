@@ -12,10 +12,10 @@
         "netherite_scrap_ore"
       ],
       "types": [
-        "stone"
+        "nether"
       ],
       "stone": [
-        "stone"
+        "netherrack"
       ]
     },
     {
@@ -58,8 +58,8 @@
       "id": "lignite_ore",
       "en_name": "Lignite",
       "block_id": [
-        "geolosys:deepslate_lignite_ore",
-        "geolosys:lignite_ore"
+        "geolosys:lignite_ore",
+        "geolosys:deepslate_lignite_ore"
       ],
       "orename": [
         "coal_ore"
@@ -68,16 +68,16 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "id": "cassiterite_ore",
       "en_name": "Cassiterite",
       "block_id": [
-        "geolosys:deepslate_cassiterite_ore",
-        "geolosys:cassiterite_ore"
+        "geolosys:cassiterite_ore",
+        "geolosys:deepslate_cassiterite_ore"
       ],
       "orename": [
         "tin_ore"
@@ -86,8 +86,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -113,8 +113,8 @@
       "id": "bauxite_ore",
       "en_name": "Bauxite",
       "block_id": [
-        "geolosys:deepslate_bauxite_ore",
-        "geolosys:bauxite_ore"
+        "geolosys:bauxite_ore",
+        "geolosys:deepslate_bauxite_ore"
       ],
       "orename": [
         "aluminum_ore"
@@ -123,16 +123,16 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "id": "teallite_ore",
       "en_name": "Teallite",
       "block_id": [
-        "geolosys:deepslate_teallite_ore",
-        "geolosys:teallite_ore"
+        "geolosys:teallite_ore",
+        "geolosys:deepslate_teallite_ore"
       ],
       "orename": [
         "emerald_ore",
@@ -142,8 +142,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -168,8 +168,8 @@
       "id": "kimberlite_ore",
       "en_name": "Kimberlite",
       "block_id": [
-        "geolosys:deepslate_kimberlite_ore",
-        "geolosys:kimberlite_ore"
+        "geolosys:kimberlite_ore",
+        "geolosys:deepslate_kimberlite_ore"
       ],
       "orename": [
         "diamond_ore"
@@ -178,8 +178,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -223,8 +223,8 @@
       "id": "azurite_ore",
       "en_name": "Azurite",
       "block_id": [
-        "geolosys:deepslate_azurite_ore",
-        "geolosys:azurite_ore"
+        "geolosys:azurite_ore",
+        "geolosys:deepslate_azurite_ore"
       ],
       "orename": [
         "copper_ore"
@@ -233,16 +233,16 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "id": "lapis_ore",
       "en_name": "Lapis Lazuli",
       "block_id": [
-        "geolosys:deepslate_lapis_ore",
-        "geolosys:lapis_ore"
+        "geolosys:lapis_ore",
+        "geolosys:deepslate_lapis_ore"
       ],
       "orename": [
         "lapis_ore"
@@ -251,16 +251,16 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "id": "gold_ore",
       "en_name": "Gold",
       "block_id": [
-        "geolosys:deepslate_gold_ore",
-        "geolosys:gold_ore"
+        "geolosys:gold_ore",
+        "geolosys:deepslate_gold_ore"
       ],
       "orename": [
         "gold_ore"
@@ -269,8 +269,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -312,8 +312,8 @@
       "id": "platinum_ore",
       "en_name": "Platinum",
       "block_id": [
-        "geolosys:deepslate_platinum_ore",
-        "geolosys:platinum_ore"
+        "geolosys:platinum_ore",
+        "geolosys:deepslate_platinum_ore"
       ],
       "orename": [
         "platinum_ore",
@@ -323,16 +323,16 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "id": "sphalerite_ore",
       "en_name": "Sphalerite",
       "block_id": [
-        "geolosys:deepslate_sphalerite_ore",
-        "geolosys:sphalerite_ore"
+        "geolosys:sphalerite_ore",
+        "geolosys:deepslate_sphalerite_ore"
       ],
       "orename": [
         "zinc_ore"
@@ -341,16 +341,16 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "id": "malachite_ore",
       "en_name": "Malachite",
       "block_id": [
-        "geolosys:deepslate_malachite_ore",
-        "geolosys:malachite_ore"
+        "geolosys:malachite_ore",
+        "geolosys:deepslate_malachite_ore"
       ],
       "orename": [
         "copper_ore"
@@ -359,8 +359,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -385,8 +385,8 @@
       "id": "cinnabar_ore",
       "en_name": "Cinnabar",
       "block_id": [
-        "geolosys:deepslate_cinnabar_ore",
-        "geolosys:cinnabar_ore"
+        "geolosys:cinnabar_ore",
+        "geolosys:deepslate_cinnabar_ore"
       ],
       "orename": [
         "redstone_ore"
@@ -395,8 +395,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {

@@ -1,25 +1,27 @@
 package com.github.lukebemish.excavated_variants;
 
+import com.github.lukebemish.dynamic_asset_generator.Pair;
+import com.github.lukebemish.dynamic_asset_generator.api.ResettingSupplier;
+import com.github.lukebemish.dynamic_asset_generator.api.ServerPrePackRepository;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.github.lukebemish.dynamic_asset_generator.api.ResettingSupplier;
-import com.github.lukebemish.dynamic_asset_generator.api.ServerPrePackRepository;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.function.Supplier;
 
-public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
+public class MiningLevelTagGenerator {
     private final String level;
     private final ArrayList<CheckPair> toCheck = new ArrayList<>();
 
-    private String internal;
-
     private record CheckPair(String full_id, String base_id) { }
+    HashSet<String> to_add;
 
     public MiningLevelTagGenerator(String level) {
         this.level = level;
@@ -28,14 +30,33 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
     public void add(String full_id, BaseOre ore) {
         toCheck.add(new CheckPair(full_id, ore.block_id.get(0).toString()));
     }
+    public List<Pair<ResourceLocation,Supplier<Boolean>>> suppliers() {
+        List<Pair<ResourceLocation, Supplier<Boolean>>> outList = new ArrayList<>();
+        for (CheckPair c : toCheck) {
+            outList.add(new Pair<>(new ResourceLocation(ExcavatedVariants.MOD_ID,c.full_id()),supplyFor(c.full_id())));
+        }
+        return outList;
+    }
+    public ResettingSupplier<Boolean> supplyFor(String full_id) {
+        return new ResettingSupplier<Boolean>() {
+            @Override
+            public void reset() {
+                MiningLevelTagGenerator.this.reset();
+            }
 
-    @Override
-    public InputStream get() {
-        if (internal == null) {
-            internal = "";
+            @Override
+            public Boolean get() {
+                MiningLevelTagGenerator.this.get();
+                return to_add.contains(full_id);
+            }
+        };
+    }
+
+    public void get() {
+        if (to_add==null) {
+            to_add = new HashSet<>();
             try {
                 List<InputStream> read = ServerPrePackRepository.getResources(new ResourceLocation("minecraft", "tags/blocks/needs_" + level + "_tool.json"));
-                ArrayList<String> to_add = new ArrayList<>();
                 for (InputStream is : read) {
                     StringBuilder textBuilder = new StringBuilder();
                     Reader reader = new BufferedReader(new InputStreamReader
@@ -67,37 +88,15 @@ public class MiningLevelTagGenerator implements ResettingSupplier<InputStream> {
                             }
                         }
                     }
+                    is.close();
                 }
-                if (to_add.size()==0) {
-                    internal = "{\n  \"replace\":false,\n  \"values\":[]\n}";
-                    final String finalStr = internal;
-                    internal = null;
-                    return new ByteArrayInputStream(finalStr.getBytes());
-                }
-                StringBuilder vals = new StringBuilder();
-                boolean counter = false;
-                for (String full_id : to_add) {
-                    if (counter) {
-                        vals.append(",\n    ");
-                    }
-                    vals.append("\"").append(ExcavatedVariants.MOD_ID).append(":").append(full_id).append("\"");
-                    counter = true;
-                }
-                internal = "{\n  \"replace\":false,\n  \"values\":[\n    "+ vals +"\n  ]\n}";
             } catch (IOException e) {
-                ExcavatedVariants.LOGGER.error("Could not load mining level tag for {}; erroring...\n{}", level, e);
-                internal = "{\n  \"replace\":false,\n  \"values\":[]\n}";
-                final String finalStr = internal;
-                internal = null;
-                return new ByteArrayInputStream(finalStr.getBytes());
+                ExcavatedVariants.LOGGER.error("Could not load mining level tag for {}; will be empty...\n{}", level, e);
             }
         }
-        String finalStr = internal;
-        return new ByteArrayInputStream(finalStr.getBytes());
     }
 
-    @Override
     public void reset() {
-        internal = null;
+        to_add = null;
     }
 }
