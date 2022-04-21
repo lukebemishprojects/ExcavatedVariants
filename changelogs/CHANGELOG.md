@@ -1,3 +1,7 @@
+### Excavated Variants v0.5.1
+
+- Bugfixes, major internal changes, more compat. Still an alpha version.
+
 ### Excavated Variants v0.5.0
 
 - Copy blockstate properties from parent blocks; change how textures/models are generated. Definitely an alpha version.
