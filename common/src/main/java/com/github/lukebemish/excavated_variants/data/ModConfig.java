@@ -22,7 +22,7 @@ public class ModConfig {
     public static final Path CONFIG_PATH = Platform.getConfigFolder();
     public static final String FULL_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+".json";
     public static final String DIR_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+"/";
-    public static final int CURRENT_VERSION = 4;
+    public static final int CURRENT_VERSION = 5;
 
     @Expose
     public int format = 0;

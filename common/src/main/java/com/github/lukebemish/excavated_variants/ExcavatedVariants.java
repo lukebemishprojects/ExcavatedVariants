@@ -67,14 +67,15 @@ public class ExcavatedVariants {
                 }
             }
         }
+        Map<ResourceLocation, TagBuilder> builders = new HashMap<>();
         for (String id : oreMap.keySet()) {
             List<BaseOre> oreList = oreMap.get(id);
-            Set<String> oreNames = oreList.stream().map(x->x.orename).collect(Collectors.toSet());
+            Set<String> oreNames = oreList.stream().flatMap(x->x.orename.stream()).collect(Collectors.toSet());
             List<String> stones = new ArrayList<>();
             for (BaseOre ore : oreList) {
                 stones.addAll(ore.stone);
             }
-            TagBuilder oreDictBuilder = new TagBuilder();
+            List<String> ids = new ArrayList<>();
             for (BaseStone stone : stoneMap.values()) {
                 if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
                     String full_id = stone.id+"_"+id;
@@ -87,33 +88,33 @@ public class ExcavatedVariants {
                         stoneTag.add(full_id, oreList.get(0));
                         ironTag.add(full_id, oreList.get(0));
                         diamondTag.add(full_id, oreList.get(0));
-                        oreDictBuilder.add(full_id);
+                        ids.add(full_id);
                     }
                 }
             }
             for (String orename : oreNames) {
-                if (Platform.isFabric()) {
-                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("c", "tags/items/" + orename + "s.json"),
-                            oreDictBuilder.build());
-                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("c", "tags/blocks/" + orename + "s.json"),
-                            oreDictBuilder.build());
-                } else {
-                    if (orename.endsWith("_ore")) {
-                        String oreTypeName = orename.substring(0, orename.length() - 4);
-                        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/items/ores/" + oreTypeName + ".json"),
-                                oreDictBuilder.build());
-                        DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("forge", "tags/blocks/ores/" + oreTypeName + ".json"),
-                                oreDictBuilder.build());
+                for (String this_id : ids) {
+                    if (Platform.isFabric()) {
+                        builders.computeIfAbsent(new ResourceLocation("c", "tags/items/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
+                        builders.computeIfAbsent(new ResourceLocation("c", "tags/blocks/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
+                    } else {
+                        if (orename.endsWith("_ore")) {
+                            String oreTypeName = orename.substring(0, orename.length() - 4);
+                            builders.computeIfAbsent(new ResourceLocation("forge", "tags/items/ores/" + oreTypeName + ".json"), k->new TagBuilder()).add(this_id);
+                            builders.computeIfAbsent(new ResourceLocation("forge", "tags/blocks/ores/" + oreTypeName + ".json"), k->new TagBuilder()).add(this_id);
+                        }
                     }
-                }
-                if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore").contains(orename)) {
-                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/items/" + orename + "s.json"),
-                            oreDictBuilder.build());
-                    DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/" + orename + "s.json"),
-                            oreDictBuilder.build());
+                    if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore", "netherite_scrap_ore").contains(orename)) {
+                        builders.computeIfAbsent(new ResourceLocation("minecraft", "tags/items/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
+                        builders.computeIfAbsent(new ResourceLocation("minecraft", "tags/blocks/" + orename + "s.json"), k->new TagBuilder()).add(this_id);
+                    }
                 }
             }
         }
+        for (ResourceLocation key : builders.keySet()) {
+            DynAssetGeneratorServerAPI.planLoadingStream(key,builders.get(key).build());
+        }
+
         DynAssetGeneratorServerAPI.planLoadingStream(new ResourceLocation("minecraft", "tags/blocks/mineable/pickaxe.json"),
                 blockTagBuilder.build());
         if (!Platform.isFabric()) {
