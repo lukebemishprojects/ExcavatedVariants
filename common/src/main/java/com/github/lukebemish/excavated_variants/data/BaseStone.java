@@ -13,8 +13,7 @@ public class BaseStone {
             ResourceLocation.CODEC.listOf().optionalFieldOf("texture_location").forGetter(bs->Optional.empty()),
             Codec.STRING.fieldOf("en_name").forGetter(bs-> bs.en_name),
             ResourceLocation.CODEC.fieldOf("block_id").forGetter(bs->bs.block_id),
-            Codec.STRING.listOf().optionalFieldOf("types").forGetter(bs->Optional.of(bs.types)),
-            Codec.STRING.listOf().optionalFieldOf("type").forGetter(bs->Optional.empty()),
+            Codec.STRING.listOf().fieldOf("types").forGetter(bs->bs.types),
             Codec.INT.optionalFieldOf("texture_count",5).forGetter(bs->bs.texture_count)
     ).apply(instance,BaseStone::new));
 
@@ -24,11 +23,11 @@ public class BaseStone {
     public List<String> types;
     public int texture_count = 5;
 
-    public BaseStone(String id, Optional<List<ResourceLocation>> texture_location, String en_name, ResourceLocation block_id, Optional<List<String>> type, Optional<List<String>> types, int texture_count) {
+    public BaseStone(String id, Optional<List<ResourceLocation>> texture_location, String en_name, ResourceLocation block_id, List<String> types, int texture_count) {
         this.id = id;
         this.en_name = en_name;
         this.block_id = block_id;
-        this.types = types.isEmpty()?type.get():types.get();
+        this.types = types;
         this.texture_count = texture_count;
     }
 
