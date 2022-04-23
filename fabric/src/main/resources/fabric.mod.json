@@ -34,6 +34,6 @@
     "fabric": "*",
     "minecraft": ">=1.18",
     "architectury": ">=3.4.9",
-    "dynamic_asset_generator": ">=0.5.0"
+    "dynamic_asset_generator": ">=0.5.1"
   }
 }
