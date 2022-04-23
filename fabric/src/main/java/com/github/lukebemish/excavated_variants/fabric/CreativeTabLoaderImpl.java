@@ -27,7 +27,7 @@ public class CreativeTabLoaderImpl {
                 if (ExcavatedVariants.getItems().isEmpty()) {
                     return new ItemStack(Items.DEEPSLATE_COPPER_ORE);
                 }
-                return new ItemStack(ExcavatedVariants.getItems().get(((int)System.currentTimeMillis())/1000 % ExcavatedVariants.getItems().size()).get());
+                return new ItemStack(ExcavatedVariants.getItems().get((((int)System.currentTimeMillis())/1000)*((int)System.currentTimeMillis())/1000 % ExcavatedVariants.getItems().size()).get());
             }
         };
     }

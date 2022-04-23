@@ -24,8 +24,8 @@
       "id": "bauxite_ore",
       "en_name": "Bauxite Ore",
       "block_id": [
-        "techreborn:deepslate_bauxite_ore",
-        "techreborn:bauxite_ore"
+        "techreborn:bauxite_ore",
+        "techreborn:deepslate_bauxite_ore"
       ],
       "orename": [
         "bauxite_ore"
@@ -34,8 +34,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -78,8 +78,8 @@
       "id": "sapphire_ore",
       "en_name": "Sapphire Ore",
       "block_id": [
-        "techreborn:deepslate_sapphire_ore",
-        "techreborn:sapphire_ore"
+        "techreborn:sapphire_ore",
+        "techreborn:deepslate_sapphire_ore"
       ],
       "orename": [
         "sapphire_ore"
@@ -88,8 +88,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -162,8 +162,8 @@
       "id": "lead_ore",
       "en_name": "Lead Ore",
       "block_id": [
-        "techreborn:deepslate_lead_ore",
-        "techreborn:lead_ore"
+        "techreborn:lead_ore",
+        "techreborn:deepslate_lead_ore"
       ],
       "orename": [
         "lead_ore"
@@ -172,8 +172,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
@@ -244,8 +244,8 @@
       "id": "silver_ore",
       "en_name": "Silver Ore",
       "block_id": [
-        "techreborn:deepslate_silver_ore",
-        "techreborn:silver_ore"
+        "techreborn:silver_ore",
+        "techreborn:deepslate_silver_ore"
       ],
       "orename": [
         "silver_ore"
@@ -254,8 +254,8 @@
         "stone"
       ],
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ]
     }
   ]

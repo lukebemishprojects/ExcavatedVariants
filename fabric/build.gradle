@@ -38,6 +38,8 @@ dependencies {
     //modRuntimeOnly "curse.maven:unearthed-406825:3749846"
     modCompileOnly "curse.maven:hyle-609850:3746990"
 
+    modRuntimeOnly fileTree(dir: "libs", includes: ['*.jar'])
+
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:7.3.432"
 
     modImplementation("net.devtech:arrp:${rootProject.arrp_version}") {

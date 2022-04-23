@@ -124,7 +124,7 @@ public class BlockStateAssembler {
                             }
                         }
 
-                        PaletteExtractor extractor = isTransparent?null:new PaletteExtractor(stoneInfo.last().get(0),rl, 6,true,true,0.2);
+                        PaletteExtractor extractor = isTransparent?null:new PaletteExtractor(stoneInfo.last().get(0),rl, 6,true,true,0.2).fillHoles(true);
                         extractors.add(new Triple<>(extractor,rl,!isTransparent));
                     }
                 } else {
