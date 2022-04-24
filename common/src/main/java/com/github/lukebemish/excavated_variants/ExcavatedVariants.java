@@ -33,8 +33,6 @@ import java.util.stream.Collectors;
 
 public class ExcavatedVariants {
     public static final String MOD_ID = "excavated_variants";
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_REGISTRY);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_REGISTRY);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(MOD_ID, Registry.RECIPE_SERIALIZER_REGISTRY);
 
     public static final RegistrySupplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = RECIPE_SERIALIZERS.register("ore_conversion",()->

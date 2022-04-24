@@ -29,7 +29,8 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-    modApi files("../../dynamic_asset_generator/fabric/build/libs/dynamic_asset_generator-fabric-${rootProject.lib_version}.jar")
+
+    modApi("com.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-fabric:${rootProject.lib_version}")
 
     //modRuntimeOnly "curse.maven:techreborn-233564:3635132"
     //modRuntimeOnly "curse.maven:reborncore-237903:3635133"

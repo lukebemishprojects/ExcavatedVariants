@@ -31,7 +31,8 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-    modApi files("../../dynamic_asset_generator/forge/build/libs/dynamic_asset_generator-forge-${rootProject.lib_version}.jar")
+
+    modApi("com.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-forge:${rootProject.lib_version}")
 
     //modRuntimeOnly "curse.maven:create-328085:3623348"
     //modRuntimeOnly "curse.maven:flywheel-486392:3623314"

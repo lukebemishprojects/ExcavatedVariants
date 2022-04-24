@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class CreativeTabLoaderImpl {
+    private static final int MAX_INT_VAL = (int) Math.sqrt(Integer.MAX_VALUE);
     public static final CreativeModeTab EXCAVATED_VARIANTS_TAB = setup();
 
     private static CreativeModeTab setup() {
@@ -27,7 +28,8 @@ public class CreativeTabLoaderImpl {
                 if (ExcavatedVariants.getItems().isEmpty()) {
                     return new ItemStack(Items.DEEPSLATE_COPPER_ORE);
                 }
-                return new ItemStack(ExcavatedVariants.getItems().get((((int)System.currentTimeMillis())/1000)*((int)System.currentTimeMillis())/1000 % ExcavatedVariants.getItems().size()).get());
+                int time = (int) ((System.currentTimeMillis()/1000) % MAX_INT_VAL);
+                return new ItemStack(ExcavatedVariants.getItems().get((time*time) % ExcavatedVariants.getItems().size()).get());
             }
         };
     }

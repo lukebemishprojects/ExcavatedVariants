@@ -58,6 +58,7 @@ allprojects {
             // for 0.4.2 and older
             // url uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/")
         }
+        mavenLocal()
     }
 
     tasks.withType(JavaCompile) {
