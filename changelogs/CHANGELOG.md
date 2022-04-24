@@ -1,3 +1,7 @@
+### Excavated Variants v0.5.4
+
+- Fix breaking crash on servers.
+
 ### Excavated Variants v0.5.3
 
 - Fix bug causing creative inventory crashes.
