@@ -1,3 +1,11 @@
+### Excavated Variants v0.5.3
+
+- Fix bug causing creative inventory crashes.
+
+### Excavated Variants v0.5.2
+
+- More bugfixes, more config changes. Should fix some weird compat stuff. Now uses DynAssetGen 0.5.1+.
+
 ### Excavated Variants v0.5.1
 
 - Bugfixes, major internal changes, more compat. Still an alpha version.
