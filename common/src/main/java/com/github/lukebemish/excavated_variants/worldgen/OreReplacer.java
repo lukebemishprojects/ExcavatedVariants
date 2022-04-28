@@ -88,11 +88,13 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                                     cache[i + as[c]][y + ys[c] & 15][j + bs[c]] = thisState;
                                 }
                                 BaseStone stone = ((IOreFound)thisState.getBlock()).excavated_variants$get_stone();
-                                Block oreBlock = RegistryUtil.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
-                                if (stone != null && pair.last().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
-                                    BlockState def = modifiedOreBlock.getStateForReplacement(thisState);
-                                    chunkSection.setBlockState(i,y & 15,j,def,false);
-                                    continue inner_loop;
+                                if (stone != null) {
+                                    Block oreBlock = RegistryUtil.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
+                                    if (pair.last().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
+                                        BlockState def = modifiedOreBlock.getStateForReplacement(thisState);
+                                        chunkSection.setBlockState(i, y & 15, j, def, false);
+                                        continue inner_loop;
+                                    }
                                 }
                             }
                         }
