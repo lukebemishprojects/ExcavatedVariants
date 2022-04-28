@@ -5,16 +5,17 @@
     {
       "id": "sulfur_ore",
       "stone": [
-        "deepslate",
-        "netherrack"
+        "netherrack",
+        "deepslate"
       ],
       "block_id": [
-        "sulfurpotassiummod:sulfur_ore",
-        "sulfurpotassiummod:sulfur_nether_ore"
+        "sulfurpotassiummod:sulfur_nether_ore",
+        "sulfurpotassiummod:sulfur_ore"
       ],
       "en_name": "Sulfur Ore",
       "types": [
-        "stone"
+        "stone",
+        "nether"
       ]
     },
     {

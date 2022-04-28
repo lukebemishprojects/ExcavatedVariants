@@ -136,61 +136,69 @@ public class ExcavatedVariants {
             try {
                 modids = Platform.getModIds();
             } catch (NullPointerException e) {
+                //no need to lock up the class, but we have to guarantee that oreStoneList is NonNull after this.
                 oreStoneList = new ArrayList<>();
                 return false;
             }
-            oreStoneList = new ArrayList<>();
-            Map<String, BaseStone> stoneMap = new HashMap<>();
-            Map<String, List<BaseOre>> oreMap = new HashMap<>();
-            for (ModData mod : ExcavatedVariants.getConfig().mods) {
-                if (modids.contains(mod.mod_id)) {
-                    for (BaseStone stone : mod.provided_stones) {
-                        if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
-                            stoneMap.put(stone.id, stone);
-                        }
-                    }
-                    for (BaseOre ore : mod.provided_ores) {
-                        if (!ExcavatedVariants.getConfig().blacklist_ores.contains(ore.id)) {
-                            oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
-                            oreMap.get(ore.id).add(ore);
-                        }
+            internalSetupMap(modids);
+        }
+        return true;
+    }
+
+    private static synchronized void internalSetupMap(Collection<String> modids) {
+        // Yeah, yeah, I don't like static synchronized either. This way, though, it should only ever fire once, since
+        // this is an internal method and only ever locks if the list is null or empty. And I don't really want to
+        // build the list more than once, since that causes issues, so...
+        oreStoneList = new ArrayList<>();
+        Map<String, BaseStone> stoneMap = new HashMap<>();
+        Map<String, List<BaseOre>> oreMap = new HashMap<>();
+        for (ModData mod : ExcavatedVariants.getConfig().mods) {
+            if (modids.contains(mod.mod_id)) {
+                for (BaseStone stone : mod.provided_stones) {
+                    if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
+                        stoneMap.put(stone.id, stone);
                     }
                 }
-            }
-            for (String id : oreMap.keySet()) {
-                List<BaseOre> oreList = oreMap.get(id);
-                List<String> stones = new ArrayList<>();
-                for (BaseOre ore : oreList) {
-                    stones.addAll(ore.stone);
-                }
-                Pair<BaseOre, List<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new ArrayList<>());
-                if (oreList.size() > 1) {
-                    pair.first().block_id = new ArrayList<>();
-                    pair.first().block_id = new ArrayList<>();
-                    pair.first().stone = new ArrayList<>();
-                    pair.first().types = new ArrayList<>();
-                    for (BaseOre baseOre : oreList) {
-                        pair.first().block_id.addAll(baseOre.block_id);
-                        pair.first().block_id.addAll(baseOre.block_id);
-                        pair.first().stone.addAll(baseOre.stone);
-                        pair.first().types.addAll(baseOre.types);
-                    }
-                    List<String> types = new HashSet<>(pair.first().types).stream().toList();
-                    pair.first().types.clear();
-                    pair.first().types.addAll(types);
-                }
-                oreStoneList.add(pair);
-                for (BaseStone stone : stoneMap.values()) {
-                    if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
-                        String full_id = stone.id + "_" + id;
-                        if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                            pair.last().add(stone);
-                        }
+                for (BaseOre ore : mod.provided_ores) {
+                    if (!ExcavatedVariants.getConfig().blacklist_ores.contains(ore.id)) {
+                        oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
+                        oreMap.get(ore.id).add(ore);
                     }
                 }
             }
         }
-        return true;
+        for (String id : oreMap.keySet()) {
+            List<BaseOre> oreList = oreMap.get(id);
+            List<String> stones = new ArrayList<>();
+            for (BaseOre ore : oreList) {
+                stones.addAll(ore.stone);
+            }
+            Pair<BaseOre, List<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new ArrayList<>());
+            if (oreList.size() > 1) {
+                pair.first().block_id = new ArrayList<>();
+                pair.first().block_id = new ArrayList<>();
+                pair.first().stone = new ArrayList<>();
+                pair.first().types = new ArrayList<>();
+                for (BaseOre baseOre : oreList) {
+                    pair.first().block_id.addAll(baseOre.block_id);
+                    pair.first().block_id.addAll(baseOre.block_id);
+                    pair.first().stone.addAll(baseOre.stone);
+                    pair.first().types.addAll(baseOre.types);
+                }
+                List<String> types = new HashSet<>(pair.first().types).stream().toList();
+                pair.first().types.clear();
+                pair.first().types.addAll(types);
+            }
+            oreStoneList.add(pair);
+            for (BaseStone stone : stoneMap.values()) {
+                if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
+                    String full_id = stone.id + "_" + id;
+                    if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
+                        pair.last().add(stone);
+                    }
+                }
+            }
+        }
     }
 
     private static ModConfig configs;

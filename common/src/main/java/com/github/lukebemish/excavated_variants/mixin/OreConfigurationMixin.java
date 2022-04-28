@@ -23,7 +23,6 @@ public abstract class OreConfigurationMixin {
     @ModifyVariable(method="<init>",at=@At(value = "HEAD"),argsOnly = true)
     private static List<OreConfiguration.TargetBlockState> excavated_variants_oreConfigInit(List<OreConfiguration.TargetBlockState> targetStates) {
         if (ExcavatedVariants.getConfig().attempt_ore_generation_insertion) {
-            boolean addStuff = false;
             Pair<BaseOre, List<BaseStone>> pair = null;
             for (OreConfiguration.TargetBlockState tbs : targetStates) {
                 pair = OreFinderUtil.getBaseOre(tbs.state);

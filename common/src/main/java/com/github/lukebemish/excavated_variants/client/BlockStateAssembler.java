@@ -198,18 +198,37 @@ public class BlockStateAssembler {
                         .stream().map(Variant::getModelLocation).findFirst().get();
                 var outModelRLs = new ArrayList<ResourceLocation>();
                 try {
-                    var read = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
+                    InputStream read;
+                    try {
+                        read = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
+                    } catch (IOException e) {
+                        read = BackupFetcher.provideBlockModelFile(stoneModel);
+                    }
                     BlockModelParser parentModel = GSON.fromJson(new BufferedReader(new InputStreamReader(read, StandardCharsets.UTF_8)), BlockModelParser.class);
                     List<ResourceLocation> stoneLocs = parentModel.textures.values().stream().map(x->ResourceLocation.of(x,':')).toList();
 
 
                     int i2 = 0;
                     for (ResourceLocation m : defaultModels) {
-                        var stoneRead = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
+                        InputStream stoneRead;
+                        try {
+                            stoneRead = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
+                        } catch (IOException e) {
+                            stoneRead = BackupFetcher.provideBlockModelFile(stoneModel);
+                        }
                         BlockModelParser outputModel = GSON.fromJson(new BufferedReader(new InputStreamReader(stoneRead, StandardCharsets.UTF_8)), BlockModelParser.class);
-                        stoneRead = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
+                        try {
+                            stoneRead = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
+                        } catch (IOException e) {
+                            stoneRead = BackupFetcher.provideBlockModelFile(stoneModel);
+                        }
                         JsonObject outputMap = GSON.fromJson(new BufferedReader(new InputStreamReader(stoneRead, StandardCharsets.UTF_8)), JsonObject.class);
-                        var oreRead = ClientPrePackRepository.getResource(new ResourceLocation(m.getNamespace(), "models/" + m.getPath() + ".json"));
+                        InputStream oreRead;
+                        try {
+                            oreRead = ClientPrePackRepository.getResource(new ResourceLocation(m.getNamespace(), "models/" + m.getPath() + ".json"));
+                        } catch (IOException e) {
+                            oreRead = BackupFetcher.provideBlockModelFile(m);
+                        }
                         StringBuilder oreTextBuilder = new StringBuilder();
                         Reader oreReader = new BufferedReader(new InputStreamReader
                                 (oreRead, Charset.forName(StandardCharsets.UTF_8.name())));
@@ -278,7 +297,12 @@ public class BlockStateAssembler {
 
     private static Pair<BlockModelDefinition,List<ResourceLocation>> getInfoFromBlockstate(ResourceLocation oreRl, BlockModelDefinition.Context ctx) throws IOException {
         ResourceLocation oreBS = new ResourceLocation(oreRl.getNamespace(), "blockstates/" + oreRl.getPath() + ".json");
-        InputStream oreBSIS = ClientPrePackRepository.getResource(oreBS);
+        InputStream oreBSIS;
+        try {
+            oreBSIS = ClientPrePackRepository.getResource(oreBS);
+        } catch (IOException e) {
+            oreBSIS = BackupFetcher.provideBlockstateFile(oreRl);
+        }
         BlockModelDefinition oreBMD = BlockModelDefinition.fromStream(ctx, new BufferedReader(new InputStreamReader(oreBSIS, StandardCharsets.UTF_8)));
 
         if (!oreBMD.isMultiPart()) {
@@ -290,7 +314,12 @@ public class BlockStateAssembler {
             List<ResourceLocation> oreTextures = new ArrayList<>();
             for (ResourceLocation mRl : oreModels) {
                 ResourceLocation actual = new ResourceLocation(mRl.getNamespace(), "models/" + mRl.getPath() + ".json");
-                InputStream is = ClientPrePackRepository.getResource(actual);
+                InputStream is;
+                try {
+                    is = ClientPrePackRepository.getResource(actual);
+                } catch (IOException e) {
+                    is = BackupFetcher.provideBlockModelFile(mRl);
+                }
                 BlockModelParser map = GSON.fromJson(new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)), BlockModelParser.class);
                 if (map.textures != null) {
                     for (String i : map.textures.values()) {
