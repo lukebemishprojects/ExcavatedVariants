@@ -3,7 +3,6 @@ package com.github.lukebemish.excavated_variants.forge;
 
 import com.github.lukebemish.excavated_variants.BiomeInjector;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.mixin.IMinecraftServerMixin;
 import com.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
@@ -19,7 +18,7 @@ public class EventHandler {
         //Ore Gen
         RegistryUtil.reset();
         ExcavatedVariants.oreStoneList = null;
-        OreFinderUtil.reset();
+        OreFinderUtil.setupBlocks();
         ExcavatedVariants.setupMap();
         if (ExcavatedVariants.getConfig().attempt_ore_replacement) {
             MinecraftServer server = event.getServer();

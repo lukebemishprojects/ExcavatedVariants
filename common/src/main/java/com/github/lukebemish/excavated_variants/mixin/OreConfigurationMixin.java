@@ -3,9 +3,9 @@ package com.github.lukebemish.excavated_variants.mixin;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
-import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
-import com.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
+import com.github.lukebemish.excavated_variants.util.Pair;
+import com.github.lukebemish.excavated_variants.worldgen.IOreFound;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
@@ -25,7 +25,7 @@ public abstract class OreConfigurationMixin {
         if (ExcavatedVariants.getConfig().attempt_ore_generation_insertion) {
             Pair<BaseOre, List<BaseStone>> pair = null;
             for (OreConfiguration.TargetBlockState tbs : targetStates) {
-                pair = OreFinderUtil.getBaseOre(tbs.state);
+                pair = ((IOreFound)tbs.state.getBlock()).excavated_variants$get();
                 if (pair != null) {
                     break;
                 }

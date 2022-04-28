@@ -72,7 +72,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                 inner_loop:
                 for (int j=0;j<16;j++) {
                     BlockState newState = cache[i][y&15][j]==null ? chunkSection.getBlockState(i,y & 15,j) : cache[i][y&15][j];
-                    @Nullable Pair<BaseOre, List<BaseStone>> pair = OreFinderUtil.getBaseOre(newState);
+                    @Nullable Pair<BaseOre, List<BaseStone>> pair = ((IOreFound)newState.getBlock()).excavated_variants$get();
                     if (cache[i][y&15][j]==null) {
                         cache[i][y&15][j] = newState;
                     }

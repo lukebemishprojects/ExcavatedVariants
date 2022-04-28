@@ -1,14 +1,13 @@
 package com.github.lukebemish.excavated_variants.worldgen;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
+import com.github.lukebemish.excavated_variants.util.Pair;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,12 +17,18 @@ import java.util.Map;
 public class OreFinderUtil {
     private static Map<ResourceLocation, Pair<BaseOre,List<BaseStone>>> lookupMap;
 
-    public static void reset() {
+    private static void reset() {
         lookupMap = null;
     }
 
-    @Nullable
-    public static Pair<BaseOre, List<BaseStone>> getBaseOre(BlockState state) {
+    public static void setupBlocks() {
+        reset();
+        for (Block block : Registry.BLOCK) {
+            ((IOreFound)block).excavated_variants$set(getBaseOre(block));
+        }
+    }
+
+    private static Pair<BaseOre, List<BaseStone>> getBaseOre(Block block2) {
         if (!ExcavatedVariants.setupMap()) {
             return null;
         }
@@ -49,7 +54,7 @@ public class OreFinderUtil {
                 }
             }
         }
-        ResourceLocation testing = RegistryUtil.getRlByBlock(state.getBlock());
+        ResourceLocation testing = RegistryUtil.getRlByBlock(block2);
         if (lookupMap.containsKey(testing)) {
             return lookupMap.get(testing);
         }

@@ -35,7 +35,7 @@ public class ExcavatedVariantsFabric implements ModInitializer {
             //Ore gen map setup
             RegistryUtil.reset();
             ExcavatedVariants.oreStoneList = null;
-            OreFinderUtil.reset();
+            OreFinderUtil.setupBlocks();
             ExcavatedVariants.setupMap();
         });
         if (ExcavatedVariants.getConfig().attempt_ore_replacement) {
