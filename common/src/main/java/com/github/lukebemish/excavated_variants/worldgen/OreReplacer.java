@@ -72,7 +72,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                 inner_loop:
                 for (int j=0;j<16;j++) {
                     BlockState newState = cache[i][y&15][j]==null ? chunkSection.getBlockState(i,y & 15,j) : cache[i][y&15][j];
-                    @Nullable Pair<BaseOre, List<BaseStone>> pair = ((IOreFound)newState.getBlock()).excavated_variants$get();
+                    @Nullable Pair<BaseOre, List<BaseStone>> pair = ((IOreFound)newState.getBlock()).excavated_variants$get_pair();
                     if (cache[i][y&15][j]==null) {
                         cache[i][y&15][j] = newState;
                     }
@@ -87,14 +87,12 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                                     thisState = chunkSection.getBlockState(i + as[c], y + ys[c] & 15, j + bs[c]);
                                     cache[i + as[c]][y + ys[c] & 15][j + bs[c]] = thisState;
                                 }
-                                for (BaseStone stone : pair.last()) {
-                                    Block stoneBlock = RegistryUtil.getBlockById(stone.block_id);
-                                    Block oreBlock = RegistryUtil.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
-                                    if (oreBlock != null && stoneBlock != null && thisState.is(stoneBlock) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
-                                        BlockState def = modifiedOreBlock.getStateForReplacement(thisState);
-                                        chunkSection.setBlockState(i,y & 15,j,def,false);
-                                        continue inner_loop;
-                                    }
+                                BaseStone stone = ((IOreFound)thisState.getBlock()).excavated_variants$get_stone();
+                                Block oreBlock = RegistryUtil.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
+                                if (stone != null && pair.last().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
+                                    BlockState def = modifiedOreBlock.getStateForReplacement(thisState);
+                                    chunkSection.setBlockState(i,y & 15,j,def,false);
+                                    continue inner_loop;
                                 }
                             }
                         }

@@ -25,7 +25,7 @@ public abstract class OreConfigurationMixin {
         if (ExcavatedVariants.getConfig().attempt_ore_generation_insertion) {
             Pair<BaseOre, List<BaseStone>> pair = null;
             for (OreConfiguration.TargetBlockState tbs : targetStates) {
-                pair = ((IOreFound)tbs.state.getBlock()).excavated_variants$get();
+                pair = ((IOreFound)tbs.state.getBlock()).excavated_variants$get_pair();
                 if (pair != null) {
                     break;
                 }

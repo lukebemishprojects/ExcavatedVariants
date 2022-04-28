@@ -24,7 +24,17 @@ public class OreFinderUtil {
     public static void setupBlocks() {
         reset();
         for (Block block : Registry.BLOCK) {
-            ((IOreFound)block).excavated_variants$set(getBaseOre(block));
+            ((IOreFound)block).excavated_variants$set_pair(getBaseOre(block));
+            ((IOreFound) block).excavated_variants$set_stone(null);
+            if (ExcavatedVariants.setupMap()) {
+                for (Pair<BaseOre, List<BaseStone>> p : ExcavatedVariants.oreStoneList) {
+                    for (BaseStone stone : p.last()) {
+                        if (stone.block_id.equals(RegistryUtil.getRlByBlock(block))) {
+                            ((IOreFound) block).excavated_variants$set_stone(stone);
+                        }
+                    }
+                }
+            }
         }
     }
 

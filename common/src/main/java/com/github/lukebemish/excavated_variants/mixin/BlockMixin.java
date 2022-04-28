@@ -14,14 +14,26 @@ import java.util.List;
 public class BlockMixin implements IOreFound {
     @Unique
     private Pair<BaseOre, List<BaseStone>> excavated_variants$ore_pair;
+    @Unique
+    private BaseStone excavated_variants$stone;
 
     @Override
-    public Pair<BaseOre, List<BaseStone>> excavated_variants$get() {
+    public Pair<BaseOre, List<BaseStone>> excavated_variants$get_pair() {
         return excavated_variants$ore_pair;
     }
 
     @Override
-    public void excavated_variants$set(Pair<BaseOre, List<BaseStone>> p) {
-        excavated_variants$ore_pair = p;
+    public void excavated_variants$set_pair(Pair<BaseOre, List<BaseStone>> p) {
+        this.excavated_variants$ore_pair = p;
+    }
+
+    @Override
+    public BaseStone excavated_variants$get_stone() {
+        return excavated_variants$stone;
+    }
+
+    @Override
+    public void excavated_variants$set_stone(BaseStone stone) {
+        this.excavated_variants$stone = stone;
     }
 }
