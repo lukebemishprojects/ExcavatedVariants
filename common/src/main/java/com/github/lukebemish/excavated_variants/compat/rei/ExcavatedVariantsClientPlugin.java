@@ -18,10 +18,7 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ExcavatedVariantsClientPlugin implements REIClientPlugin {
     @Override
@@ -29,7 +26,7 @@ public class ExcavatedVariantsClientPlugin implements REIClientPlugin {
         if (ExcavatedVariants.getConfig().add_conversion_recipes && ExcavatedVariants.getConfig().jei_rei_compat) {
             List<CraftingRecipe> recipes = new ArrayList<>();
             OreConversionRecipe.assembleOrNull();
-            for (Pair<BaseOre, List<BaseStone>> p : ExcavatedVariants.oreStoneList) {
+            for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
                 ArrayList<Item> items = new ArrayList<>();
                 for (BaseStone stone : p.last()) {
                     ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + p.first().id);

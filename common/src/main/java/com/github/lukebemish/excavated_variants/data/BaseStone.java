@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class BaseStone {
@@ -31,4 +32,16 @@ public class BaseStone {
         this.texture_count = texture_count;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseStone baseStone = (BaseStone) o;
+        return texture_count == baseStone.texture_count && id.equals(baseStone.id) && Objects.equals(en_name, baseStone.en_name) && block_id.equals(baseStone.block_id) && Objects.equals(types, baseStone.types);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -20,6 +20,7 @@ import net.minecraft.world.item.crafting.ShapelessRecipe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @JeiPlugin
@@ -36,7 +37,7 @@ public class JeiCompat implements IModPlugin {
         if (ExcavatedVariants.getConfig().add_conversion_recipes && ExcavatedVariants.getConfig().jei_rei_compat) {
             List<CraftingRecipe> recipes = new ArrayList<>();
             OreConversionRecipe.assembleOrNull();
-            for (Pair<BaseOre, List<BaseStone>> p :ExcavatedVariants.oreStoneList) {
+            for (Pair<BaseOre, HashSet<BaseStone>> p :ExcavatedVariants.oreStoneList) {
                 ArrayList<Item> items = new ArrayList<>();
                 for (BaseStone stone : p.last()) {
                     ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID,stone.id+"_"+p.first().id);

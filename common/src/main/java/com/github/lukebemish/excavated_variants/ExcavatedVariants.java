@@ -40,7 +40,7 @@ public class ExcavatedVariants {
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-    public static List<Pair<BaseOre, List<BaseStone>>> oreStoneList;
+    public static List<Pair<BaseOre, HashSet<BaseStone>>> oreStoneList;
 
     public static void init() {
         setupMap();
@@ -173,7 +173,7 @@ public class ExcavatedVariants {
             for (BaseOre ore : oreList) {
                 stones.addAll(ore.stone);
             }
-            Pair<BaseOre, List<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new ArrayList<>());
+            Pair<BaseOre, HashSet<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new HashSet<>());
             if (oreList.size() > 1) {
                 pair.first().block_id = new ArrayList<>();
                 pair.first().block_id = new ArrayList<>();

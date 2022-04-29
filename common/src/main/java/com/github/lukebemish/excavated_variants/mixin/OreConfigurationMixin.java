@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Mixin(OreConfiguration.class)
@@ -23,7 +24,7 @@ public abstract class OreConfigurationMixin {
     @ModifyVariable(method="<init>",at=@At(value = "HEAD"),argsOnly = true)
     private static List<OreConfiguration.TargetBlockState> excavated_variants_oreConfigInit(List<OreConfiguration.TargetBlockState> targetStates) {
         if (ExcavatedVariants.getConfig().attempt_ore_generation_insertion) {
-            Pair<BaseOre, List<BaseStone>> pair = null;
+            Pair<BaseOre, HashSet<BaseStone>> pair = null;
             for (OreConfiguration.TargetBlockState tbs : targetStates) {
                 pair = ((IOreFound)tbs.state.getBlock()).excavated_variants$get_pair();
                 if (pair != null) {
@@ -31,7 +32,7 @@ public abstract class OreConfigurationMixin {
                 }
             }
             if (pair!=null) {
-                List<BaseStone> stoneList = pair.last();
+                HashSet<BaseStone> stoneList = pair.last();
                 BaseOre ore = pair.first();
                 ArrayList<OreConfiguration.TargetBlockState> outList = new ArrayList<>(targetStates);
                 for (BaseStone stone : stoneList) {

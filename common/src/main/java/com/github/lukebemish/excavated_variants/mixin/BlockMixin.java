@@ -8,22 +8,22 @@ import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-import java.util.List;
+import java.util.HashSet;
 
 @Mixin(Block.class)
 public class BlockMixin implements IOreFound {
     @Unique
-    private Pair<BaseOre, List<BaseStone>> excavated_variants$ore_pair;
+    private Pair<BaseOre, HashSet<BaseStone>> excavated_variants$ore_pair;
     @Unique
     private BaseStone excavated_variants$stone;
 
     @Override
-    public Pair<BaseOre, List<BaseStone>> excavated_variants$get_pair() {
+    public Pair<BaseOre, HashSet<BaseStone>> excavated_variants$get_pair() {
         return excavated_variants$ore_pair;
     }
 
     @Override
-    public void excavated_variants$set_pair(Pair<BaseOre, List<BaseStone>> p) {
+    public void excavated_variants$set_pair(Pair<BaseOre, HashSet<BaseStone>> p) {
         this.excavated_variants$ore_pair = p;
     }
 

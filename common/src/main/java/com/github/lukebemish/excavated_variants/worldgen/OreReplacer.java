@@ -2,10 +2,10 @@ package com.github.lukebemish.excavated_variants.worldgen;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
-import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.HashSet;
 
 public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
     public OreReplacer() {
@@ -72,7 +72,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                 inner_loop:
                 for (int j=0;j<16;j++) {
                     BlockState newState = cache[i][y&15][j]==null ? chunkSection.getBlockState(i,y & 15,j) : cache[i][y&15][j];
-                    @Nullable Pair<BaseOre, List<BaseStone>> pair = ((IOreFound)newState.getBlock()).excavated_variants$get_pair();
+                    @Nullable Pair<BaseOre, HashSet<BaseStone>> pair = ((IOreFound)newState.getBlock()).excavated_variants$get_pair();
                     if (cache[i][y&15][j]==null) {
                         cache[i][y&15][j] = newState;
                     }

@@ -94,8 +94,8 @@
       "id": "galena_ore",
       "en_name": "Galena",
       "block_id": [
-        "geolosys:galena_ore",
-        "geolosys:deepslate_galena_ore"
+        "geolosys:deepslate_galena_ore",
+        "geolosys:galena_ore"
       ],
       "orename": [
         "lead_ore",
@@ -105,8 +105,8 @@
         "stone"
       ],
       "stone": [
-        "stone",
-        "deepslate"
+        "deepslate",
+        "stone"
       ]
     },
     {

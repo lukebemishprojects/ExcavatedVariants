@@ -51,4 +51,8 @@ public class RegistryUtilImpl {
         block_rl_cache.put(block,rl);
         return rl;
     }
+
+    public static Iterable<Block> getAllBlocks() {
+        return ForgeRegistries.BLOCKS.getValues();
+    }
 }
