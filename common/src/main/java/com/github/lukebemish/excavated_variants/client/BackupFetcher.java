@@ -31,7 +31,7 @@ public class BackupFetcher {
             out = ClientPrePackRepository.getResource(testBS);
         } catch (IOException e) {
             ExcavatedVariants.LOGGER.info("Could not get backup block model for {}; wildly guessing at texture location.",oreRl);
-            String model = "{\"parent\":\"block:cube_all\",\"textures\":{\"all\":\""+oreRl.getNamespace()+":block/"+oreRl.getPath()+"\"}}";
+            String model = "{\"parent\":\"block/cube_all\",\"textures\":{\"all\":\""+oreRl.getNamespace()+":"+oreRl.getPath()+"\"}}";
             out = new ByteArrayInputStream(model.getBytes());
         }
         return out;
