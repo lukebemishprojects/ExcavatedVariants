@@ -174,7 +174,7 @@ public class ModConfig {
                     ExcavatedVariants.LOGGER.error("Default config file is corrupted during write. Something is very wrong: {}",e);
                 });
                 if (json != null) {
-                    FileWriter w = new FileWriter(DIR_PATH+m.mod_id +".json");
+                    FileWriter w = new FileWriter(DIR_PATH+String.join("_",m.mod_id) +".json");
                     GSON.toJson(json, w);
                     w.flush();
                     w.close();

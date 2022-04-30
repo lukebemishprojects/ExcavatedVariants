@@ -18,7 +18,7 @@ public class ExcavatedVariantsClient {
         Map<String, BaseStone> stoneMap = new HashMap<>();
         Map<String, List<BaseOre>> oreMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.contains(mod.mod_id)) {
+            if (modids.containsAll(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
                     if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
                         stoneMap.put(stone.id, stone);
@@ -35,7 +35,7 @@ public class ExcavatedVariantsClient {
         List<String> extractedOres = new ArrayList<>();
         Map<String, Pair<BaseOre,BaseStone>> extractorMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.contains(mod.mod_id)) {
+            if (modids.containsAll(mod.mod_id)) {
                 Map<String, BaseStone> internalStoneMap = new HashMap<>();
                 for (BaseStone stone : mod.provided_stones) {
                     if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
