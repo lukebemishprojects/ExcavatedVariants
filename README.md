@@ -17,7 +17,7 @@ The main config file, "excavated_variants.json", contains several options:
 
 Configs for adding stones or ores are placed in the "excavated_variants" directory. These take the following format:
 
-* **mod\_id**: The ID of the mod necessary for this config to load.
+* **mod\_id**: The ID of the mod necessary for this config to load, or a list of IDs for the required mods.
 * **provided_stones**: A list of stones provided by the config.
 * **provided_ores**: A list of ores provided by the config.
 
@@ -25,7 +25,7 @@ Each ore object takes the following format:
 
 * **id**: A name for this ore. Can be shared to avoid duplicate ores.
 * **stone**: A list of stones, by id, that this ore already appears in.
-* **texture_location**: The location of the texture of this ore. The background material of this texture should be the same as that of the first stone listed in **stone**.
+* **ore\_name**: A list of other names for this ore, to be used when adding the ore to tags. Optional; if not supplied, defaults to **id**.
 * **block\_id**: A list of blocks of this ore, in the same order as **stone**.
 * **en\_name**: The name to be given to this ore in-game.
 * **types**: A list of types that this ore is classified as. Matched at runtime with the types specified in stone configs.
@@ -33,7 +33,6 @@ Each ore object takes the following format:
 Each stone object takes the following format:
 
 * **id**: A name for this ore. Can be shared to avoid duplicate ores.
-* **texture_location**: A list of locations of the texture of this stone.
 * **block\_id**: The block ID of this stone.
 * **en\_name**: The name to be given to this stone in-game.
 * **types**: A list of types that this stone is classified as. Matched at runtime with the types specified in ore configs.
