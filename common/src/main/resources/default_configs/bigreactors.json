@@ -1,0 +1,23 @@
+{
+  "mod_id": "bigreactors",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "id": "yellorite_ore",
+      "en_name": "Yellorite Ore",
+      "block_id": [
+        "bigreactors:yellorite_ore"
+      ],
+      "orename": [
+        "uranium_ore",
+        "yellorite_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone"
+      ]
+    }
+  ]
+}

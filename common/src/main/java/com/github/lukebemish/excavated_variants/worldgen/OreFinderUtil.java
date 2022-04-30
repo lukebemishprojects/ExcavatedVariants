@@ -1,51 +1,36 @@
 package com.github.lukebemish.excavated_variants.worldgen;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
 
 public class OreFinderUtil {
-    private static Map<ResourceLocation, Pair<BaseOre,List<BaseStone>>> lookupMap;
 
-    public static void reset() {
-        lookupMap = null;
-    }
-
-    @Nullable
-    public static Pair<BaseOre, List<BaseStone>> getBaseOre(BlockState state) {
-        if (!ExcavatedVariants.setupMap()) {
-            return null;
-        }
-        if (lookupMap == null) {
-            lookupMap = new HashMap<>();
-            for (Pair<BaseOre, List<BaseStone>> pair : ExcavatedVariants.oreStoneList) {
-                ArrayList<Block> pairedBlocks = new ArrayList<>();
-                for (ResourceLocation rl : pair.first().rl_block_id) {
-                    Block block = RegistryUtil.getBlockById(rl);
-                    if (block != null) {
-                        pairedBlocks.add(block);
+    public static void setupBlocks() {
+        for (Block block : RegistryUtil.getAllBlocks()) {
+            ((IOreFound)block).excavated_variants$set_pair(null);
+            ((IOreFound) block).excavated_variants$set_stone(null);
+            if (ExcavatedVariants.setupMap()) {
+                for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
+                    for (ResourceLocation rl : p.first().block_id) {
+                        Block bl2 = RegistryUtil.getBlockById(rl);
+                        if (bl2==block) {
+                            ((IOreFound)block).excavated_variants$set_pair(p);
+                        }
                     }
-                }
-                for (Block block : pairedBlocks) {
-                    lookupMap.put(RegistryUtil.getRlByBlock(block), pair);
+                    for (BaseStone stone : p.last()) {
+                        if (stone.block_id.equals(RegistryUtil.getRlByBlock(block))) {
+                            ((IOreFound) block).excavated_variants$set_stone(stone);
+                        }
+                    }
                 }
             }
         }
-        ResourceLocation testing = RegistryUtil.getRlByBlock(state.getBlock());
-        if (lookupMap.containsKey(testing)) {
-            return lookupMap.get(testing);
-        }
-        return null;
     }
 }

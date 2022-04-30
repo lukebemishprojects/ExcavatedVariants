@@ -1,0 +1,160 @@
+{
+  "mod_id": "mythicmetals",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "id": "adamantite_ore",
+      "en_name": "Adamantite Ore",
+      "block_id": [
+        "mythicmetals:deepslate_adamantite_ore",
+        "mythicmetals:adamantite_ore"
+      ],
+      "orename": [
+        "adamantite_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "deepslate",
+        "stone"
+      ]
+    },
+    {
+      "id": "orichalcum_ore",
+      "en_name": "Orichalcum Ore",
+      "block_id": [
+        "mythicmetals:tuff_orichalcum_ore",
+        "mythicmetals:deepslate_orichalcum_ore",
+        "mythicmetals:smooth_basalt_orichalcum_ore",
+        "mythicmetals:orichalcum_ore"
+      ],
+      "orename": [
+        "orichalcum_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "tuff",
+        "deepslate",
+        "smooth_basalt",
+        "stone"
+      ]
+    },
+    {
+      "id": "platinum_ore",
+      "en_name": "Platinum Ore",
+      "block_id": [
+        "mythicmetals:platinum_ore"
+      ],
+      "orename": [
+        "platinum_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone"
+      ]
+    },
+    {
+      "id": "osmium_ore",
+      "en_name": "Osmium Ore",
+      "block_id": [
+        "mythicmetals:osmium_ore"
+      ],
+      "orename": [
+        "osmium_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone"
+      ]
+    },
+    {
+      "id": "tin_ore",
+      "en_name": "Tin Ore",
+      "block_id": [
+        "mythicmetals:tin_ore"
+      ],
+      "orename": [
+        "tin_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone"
+      ]
+    },
+    {
+      "id": "palladium_ore",
+      "en_name": "Palladium Ore",
+      "block_id": [
+        "mythicmetals:palladium_ore"
+      ],
+      "orename": [
+        "palladium_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone"
+      ]
+    },
+    {
+      "id": "manganese_ore",
+      "en_name": "Manganese Ore",
+      "block_id": [
+        "mythicmetals:manganese_ore"
+      ],
+      "orename": [
+        "manganese_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone"
+      ]
+    },
+    {
+      "id": "mythril_ore",
+      "en_name": "Mythril Ore",
+      "block_id": [
+        "mythicmetals:mythril_ore",
+        "mythicmetals:deepslate_mythril_ore"
+      ],
+      "orename": [
+        "mythril_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    },
+    {
+      "id": "silver_ore",
+      "en_name": "Silver Ore",
+      "block_id": [
+        "mythicmetals:silver_ore"
+      ],
+      "orename": [
+        "silver_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone"
+      ]
+    }
+  ]
+}

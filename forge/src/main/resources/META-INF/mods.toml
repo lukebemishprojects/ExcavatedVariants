@@ -16,7 +16,7 @@ Description here
 [[dependencies.excavated_variants]]
 modId = "forge"
 mandatory = true
-versionRange = "[40,)"
+versionRange = "[40.1.0,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -37,6 +37,6 @@ side = "BOTH"
 [[dependencies.excavated_variants]]
 modId = "dynamic_asset_generator"
 mandatory = true
-versionRange = "[0.4.3,)"
+versionRange = "[0.5.1,)"
 ordering = "AFTER"
 side = "BOTH"

@@ -26,13 +26,14 @@
     ]
   },
   "mixins": [
-    "mixin.excavated_variants.json"
+    "mixin.excavated_variants.json",
+    "mixin.excavated_variants_fabric.json"
   ],
   "accessWidener": "excavated_variants.accessWidener",
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.18",
     "architectury": ">=3.4.9",
-    "dynamic_asset_generator": ">=0.4.3"
+    "dynamic_asset_generator": ">=0.5.1"
   }
 }

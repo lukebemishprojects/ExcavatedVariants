@@ -3,170 +3,121 @@
   "provided_stones": [
     {
       "id": "stone",
-      "texture_location": [
-        "minecraft:textures/block/stone.png"
-      ],
       "en_name": "Stone",
       "block_id": "minecraft:stone",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "deepslate",
-      "texture_location": [
-        "minecraft:textures/block/deepslate.png",
-        "minecraft:textures/block/deepslate_top.png"
-      ],
       "en_name": "Deepslate",
       "block_id": "minecraft:deepslate",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "andesite",
-      "texture_location": [
-        "minecraft:textures/block/andesite.png"
-      ],
       "en_name": "Andesite",
       "block_id": "minecraft:andesite",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "diorite",
-      "texture_location": [
-        "minecraft:textures/block/diorite.png"
-      ],
       "en_name": "Diorite",
       "block_id": "minecraft:diorite",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "granite",
-      "texture_location": [
-        "minecraft:textures/block/granite.png"
-      ],
       "en_name": "Granite",
       "block_id": "minecraft:granite",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "sandstone",
-      "texture_location": [
-        "minecraft:textures/block/sandstone.png"
-      ],
       "en_name": "Sandstone",
       "block_id": "minecraft:sandstone",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "red_sandstone",
-      "texture_location": [
-        "minecraft:textures/block/red_sandstone.png"
-      ],
       "en_name": "Red Sandstone",
       "block_id": "minecraft:red_sandstone",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "dripstone",
-      "texture_location": [
-        "minecraft:textures/block/dripstone_block.png"
-      ],
       "en_name": "Dripstone",
       "block_id": "minecraft:dripstone_block",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "tuff",
-      "texture_location": [
-        "minecraft:textures/block/tuff.png"
-      ],
       "en_name": "Tuff",
       "block_id": "minecraft:tuff",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "smooth_basalt",
-      "texture_location": [
-        "minecraft:textures/block/smooth_basalt.png"
-      ],
       "en_name": "Smooth Basalt",
       "block_id": "minecraft:smooth_basalt",
-      "type": [
-        "stone",
-        "nether"
+      "types": [
+        "stone"
       ]
     },
     {
       "id": "basalt",
-      "texture_location": [
-        "minecraft:textures/block/basalt_top.png",
-        "minecraft:textures/block/basalt_side.png"
-      ],
       "en_name": "Basalt",
       "block_id": "minecraft:basalt",
-      "type": [
+      "types": [
         "nether"
       ]
     },
     {
       "id": "calcite",
-      "texture_location": [
-        "minecraft:textures/block/calcite.png"
-      ],
       "en_name": "Calcite",
       "block_id": "minecraft:calcite",
-      "type": [
+      "types": [
         "stone"
       ]
     },
     {
       "id": "netherrack",
-      "texture_location": [
-        "minecraft:textures/block/netherrack.png"
-      ],
       "en_name": "Netherrack",
       "block_id": "minecraft:netherrack",
-      "type": [
+      "types": [
         "nether"
       ]
     },
     {
       "id": "blackstone",
-      "texture_location": [
-        "minecraft:textures/block/blackstone.png",
-        "minecraft:textures/block/blackstone_top.png"
-      ],
       "en_name": "Blackstone",
       "block_id": "minecraft:blackstone",
-      "type": [
+      "types": [
         "nether"
       ]
     },
     {
       "id": "end_stone",
-      "texture_location": [
-        "minecraft:textures/block/end_stone.png"
-      ],
       "en_name": "End Stone",
       "block_id": "minecraft:end_stone",
-      "type": [
+      "types": [
         "end"
       ]
     }
@@ -178,7 +129,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/coal_ore.png",
       "block_id": [
         "minecraft:coal_ore",
         "minecraft:deepslate_coal_ore"
@@ -194,7 +144,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/iron_ore.png",
       "block_id": [
         "minecraft:iron_ore",
         "minecraft:deepslate_iron_ore"
@@ -208,18 +157,28 @@
       "id": "gold_ore",
       "stone": [
         "stone",
-        "deepslate",
-        "netherrack"
+        "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/gold_ore.png",
       "block_id": [
         "minecraft:gold_ore",
-        "minecraft:deepslate_gold_ore",
-        "minecraft:nether_gold_ore"
+        "minecraft:deepslate_gold_ore"
       ],
       "en_name": "Gold Ore",
       "types": [
-        "stone",
+        "stone"
+      ]
+    },
+    {
+      "id": "nether_gold_ore",
+      "orename": "gold_ore",
+      "stone": [
+        "netherrack"
+      ],
+      "block_id": [
+        "minecraft:nether_gold_ore"
+      ],
+      "en_name": "Nether Gold Ore",
+      "types": [
         "nether"
       ]
     },
@@ -229,7 +188,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/copper_ore.png",
       "block_id": [
         "minecraft:copper_ore",
         "minecraft:deepslate_copper_ore"
@@ -245,7 +203,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/emerald_ore.png",
       "block_id": [
         "minecraft:emerald_ore",
         "minecraft:deepslate_emerald_ore"
@@ -261,7 +218,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/lapis_ore.png",
       "block_id": [
         "minecraft:lapis_ore",
         "minecraft:deepslate_lapis_ore"
@@ -277,7 +233,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/diamond_ore.png",
       "block_id": [
         "minecraft:diamond_ore",
         "minecraft:deepslate_diamond_ore"
@@ -292,7 +247,6 @@
       "stone": [
         "netherrack"
       ],
-      "texture_location": "minecraft:textures/block/nether_quartz_ore.png",
       "block_id": [
         "minecraft:nether_quartz_ore"
       ],
@@ -307,7 +261,6 @@
         "stone",
         "deepslate"
       ],
-      "texture_location": "minecraft:textures/block/redstone_ore.png",
       "block_id": [
         "minecraft:redstone_ore",
         "minecraft:deepslate_redstone_ore"

@@ -1,3 +1,27 @@
+### Excavated Variants v0.5.5
+
+- Increase performance during worldgen (the way I do this is *really* hacky, so please report any issues this causes.)
+
+### Excavated Variants v0.5.4
+
+- Fix breaking crash on servers.
+
+### Excavated Variants v0.5.3
+
+- Fix bug causing creative inventory crashes.
+
+### Excavated Variants v0.5.2
+
+- More bugfixes, more config changes. Should fix some weird compat stuff. Now uses DynAssetGen 0.5.1+.
+
+### Excavated Variants v0.5.1
+
+- Bugfixes, major internal changes, more compat. Still an alpha version.
+
+### Excavated Variants v0.5.0
+
+- Copy blockstate properties from parent blocks; change how textures/models are generated. Definitely an alpha version.
+
 ### Excavated Variants v0.4.1
 
 - Fix yet another tag-related bug (needs Dynamic Asset Generator 0.4.3)

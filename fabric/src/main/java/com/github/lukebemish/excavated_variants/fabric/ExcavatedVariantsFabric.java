@@ -1,7 +1,6 @@
 package com.github.lukebemish.excavated_variants.fabric;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.fabric.compat.HyleCompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
@@ -13,6 +12,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
@@ -20,15 +20,22 @@ public class ExcavatedVariantsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         ExcavatedVariants.init();
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            //Properties
-            for (ModifiedOreBlock block : ExcavatedVariants.getBlocks().values()) {
-                block.copyProperties();
+        for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
+            if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
+                    ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
+                ExcavatedVariants.registerBlockAndItem(
+                        (rl,bl)->Registry.register(Registry.BLOCK,rl,bl),
+                        (rl,i)->{
+                            Item out = Registry.register(Registry.ITEM,rl,i.get());
+                            return ()->out;
+                        },b);
             }
+        }
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             //Ore gen map setup
             RegistryUtil.reset();
             ExcavatedVariants.oreStoneList = null;
-            OreFinderUtil.reset();
+            OreFinderUtil.setupBlocks();
             ExcavatedVariants.setupMap();
         });
         if (ExcavatedVariants.getConfig().attempt_ore_replacement) {

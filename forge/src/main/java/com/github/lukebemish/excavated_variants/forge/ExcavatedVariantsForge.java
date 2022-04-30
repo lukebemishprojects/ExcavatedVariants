@@ -2,13 +2,14 @@ package com.github.lukebemish.excavated_variants.forge;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
-import dev.architectury.platform.forge.EventBuses;
 import com.github.lukebemish.excavated_variants.forge.compat.HyleCompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreReplacer;
+import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -26,11 +28,15 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Mod(ExcavatedVariants.MOD_ID)
 public class ExcavatedVariantsForge {
     private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, ExcavatedVariants.MOD_ID);
+
+    public static final ArrayList<Supplier<Item>> toRegister = new ArrayList<>();
 
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> ORE_REPLACER = FEATURES.register("ore_replacer", OreReplacer::new);
 
@@ -39,8 +45,12 @@ public class ExcavatedVariantsForge {
         EventBuses.registerModEventBus(ExcavatedVariants.MOD_ID, modbus);
         ExcavatedVariants.init();
         FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ExcavatedVariantsClient::init);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            ExcavatedVariantsClient.init();
+            modbus.addListener(ExcavatedVariantsForgeClient::clientSetup);
+        });
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
+        modbus.addGenericListener(Item.class, ExcavatedVariantsForge::registerItems);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         ModList.get().getModContainerById("unearthed").ifPresent(container -> {
             int major = container.getModInfo().getVersion().getMajorVersion();
@@ -58,4 +68,11 @@ public class ExcavatedVariantsForge {
             Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_PLACED);
         });
     }
+
+    public static void registerItems(RegistryEvent.Register<Item> e) {
+        for (Supplier<Item> si : toRegister) {
+            e.getRegistry().register(si.get());
+        }
+    }
+
 }

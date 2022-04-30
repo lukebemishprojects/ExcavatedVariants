@@ -3,7 +3,7 @@ package com.github.lukebemish.excavated_variants.compat.rei;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
@@ -18,18 +18,15 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ExcavatedVariantsClientPlugin implements REIClientPlugin {
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        if (ExcavatedVariants.getConfig().add_conversion_recipes) {
+        if (ExcavatedVariants.getConfig().add_conversion_recipes && ExcavatedVariants.getConfig().jei_rei_compat) {
             List<CraftingRecipe> recipes = new ArrayList<>();
             OreConversionRecipe.assembleOrNull();
-            for (Pair<BaseOre, List<BaseStone>> p : ExcavatedVariants.oreStoneList) {
+            for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
                 ArrayList<Item> items = new ArrayList<>();
                 for (BaseStone stone : p.last()) {
                     ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + p.first().id);
@@ -38,7 +35,7 @@ public class ExcavatedVariantsClientPlugin implements REIClientPlugin {
                         items.add(item);
                     }
                 }
-                Item outItem = RegistryUtil.getItemById(p.first().rl_block_id.get(0));
+                Item outItem = RegistryUtil.getItemById(p.first().block_id.get(0));
                 if (items.size() > 0 && outItem != null) {
                     Ingredient input = Ingredient.of(items.stream().map(ItemStack::new));
                     ItemStack output = new ItemStack(outItem);

@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class RegistryUtil {
     @ExpectPlatform
-    @Nullable
     public static void reset() {
         throw new AssertionError();
     }
@@ -25,6 +24,11 @@ public class RegistryUtil {
     @ExpectPlatform
     @Nullable
     public static ResourceLocation getRlByBlock(Block block) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static Iterable<Block> getAllBlocks() {
         throw new AssertionError();
     }
 }

@@ -1,7 +1,7 @@
 package com.github.lukebemish.excavated_variants.recipe;
 
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
-import com.github.lukebemish.excavated_variants.Pair;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import com.github.lukebemish.excavated_variants.RegistryUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;

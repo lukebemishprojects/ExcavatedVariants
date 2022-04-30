@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.lukebemish.excavated_variants.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ForgeRegistryMixin",
+    "GameDataMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

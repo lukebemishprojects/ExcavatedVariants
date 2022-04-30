@@ -1,13 +1,12 @@
 package com.github.lukebemish.excavated_variants;
 
+import com.github.lukebemish.dynamic_asset_generator.client.api.DynAssetGeneratorClientAPI;
+import com.github.lukebemish.excavated_variants.client.BlockStateAssembler;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.data.ModData;
+import com.github.lukebemish.excavated_variants.util.Pair;
 import dev.architectury.platform.Platform;
-import com.github.lukebemish.dynamic_asset_generator.client.api.DynAssetGeneratorClientAPI;
-import com.github.lukebemish.dynamic_asset_generator.client.api.ForegroundTransferType;
-import com.github.lukebemish.dynamic_asset_generator.client.api.PaletteExtractor;
-import com.github.lukebemish.dynamic_asset_generator.client.util.IPalettePlan;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;
@@ -19,7 +18,7 @@ public class ExcavatedVariantsClient {
         Map<String, BaseStone> stoneMap = new HashMap<>();
         Map<String, List<BaseOre>> oreMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.contains(mod.mod_id)) {
+            if (modids.containsAll(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
                     if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
                         stoneMap.put(stone.id, stone);
@@ -34,9 +33,9 @@ public class ExcavatedVariantsClient {
             }
         }
         List<String> extractedOres = new ArrayList<>();
-        Map<String, PaletteExtractor> extractorMap = new HashMap<>();
+        Map<String, Pair<BaseOre,BaseStone>> extractorMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.contains(mod.mod_id)) {
+            if (modids.containsAll(mod.mod_id)) {
                 Map<String, BaseStone> internalStoneMap = new HashMap<>();
                 for (BaseStone stone : mod.provided_stones) {
                     if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
@@ -47,12 +46,10 @@ public class ExcavatedVariantsClient {
                     if (!extractedOres.contains(ore.id)) {
                         for (String stone_id : ore.stone) {
                             if (internalStoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                                PaletteExtractor extractor = new PaletteExtractor(internalStoneMap.get(stone_id).rl_texture_location.get(0),
-                                        ore.rl_texture_location, 6, true, true, 0.2);
+                                var extractor = new Pair<>(ore,internalStoneMap.get(stone_id));
                                 extractorMap.put(ore.id, extractor);
                             } else if (stoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                                PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location.get(0),
-                                        ore.rl_texture_location, 6, true, true, 0.2);
+                                var extractor = new Pair<>(ore,stoneMap.get(stone_id));
                                 extractorMap.put(ore.id, extractor);
                             }
                         }
@@ -65,34 +62,23 @@ public class ExcavatedVariantsClient {
             BaseOre ore = oreList.get(0);
             for (String stone_id : ore.stone) {
                 if (stoneMap.get(stone_id) != null && extractorMap.get(ore.id) == null) {
-                    PaletteExtractor extractor = new PaletteExtractor(stoneMap.get(stone_id).rl_texture_location.get(0),
-                            ore.rl_texture_location, 6,true,true,0.2);
+                    var extractor = new Pair<>(ore,stoneMap.get(stone_id));
                     extractorMap.put(ore.id, extractor);
                 }
             }
         }
+        List<Pair<BaseOre,BaseStone>> to_make = new ArrayList<>();
         for (String id : oreMap.keySet()) {
-            PaletteExtractor extractor = extractorMap.get(id);
             List<BaseOre> oreList = oreMap.get(id);
             List<String> stones = new ArrayList<>();
             for (BaseOre ore : oreList) {
                 stones.addAll(ore.stone);
             }
             for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id) && oreList.stream().anyMatch((x)->x.types.stream().anyMatch(stone.type::contains))) {
+                if (!stones.contains(stone.id) && oreList.stream().anyMatch((x)->x.types.stream().anyMatch(stone.types::contains))) {
                     String full_id = stone.id+"_"+id;
                     if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                        int index = 0;
-                        for (ResourceLocation rl : stone.rl_texture_location) {
-                            IPalettePlan plan = new ForegroundTransferType(extractor, rl,
-                                    true, false);
-                            DynAssetGeneratorClientAPI.planPaletteCombinedImage(new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/" + full_id +index+ ".png"), plan);
-                            index++;
-                        }
-                        DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/" + full_id + ".json"),
-                                JsonHelper.getBlockstate(full_id));
-                        DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/block/" + full_id + ".json"),
-                                JsonHelper.getBlockModel(stone, full_id));
+                        to_make.add(new Pair<>(oreList.get(0),stone));
                         DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + full_id + ".json"),
                                 JsonHelper.getItemModel(full_id));
                         langBuilder.add(full_id, stone, oreList.get(0));
@@ -101,5 +87,6 @@ public class ExcavatedVariantsClient {
             }
         }
         DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "lang/en_us.json"),langBuilder.build());
+        BlockStateAssembler.setupClientAssets(extractorMap.values(),to_make);
     }
 }
