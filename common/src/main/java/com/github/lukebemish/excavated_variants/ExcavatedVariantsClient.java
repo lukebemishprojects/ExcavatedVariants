@@ -15,6 +15,8 @@ public class ExcavatedVariantsClient {
     public static void init() {
         LangBuilder langBuilder = new LangBuilder();
         Collection<String> modids = Platform.getModIds();
+
+        // Texture/asset extraction. Not shared with common code, so it's not visible from the oreStoneList.
         Map<String, BaseStone> stoneMap = new HashMap<>();
         Map<String, List<BaseOre>> oreMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
@@ -68,24 +70,19 @@ public class ExcavatedVariantsClient {
             }
         }
         List<Pair<BaseOre,BaseStone>> to_make = new ArrayList<>();
-        for (String id : oreMap.keySet()) {
-            List<BaseOre> oreList = oreMap.get(id);
-            List<String> stones = new ArrayList<>();
-            for (BaseOre ore : oreList) {
-                stones.addAll(ore.stone);
-            }
-            for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id) && oreList.stream().anyMatch((x)->x.types.stream().anyMatch(stone.types::contains))) {
-                    String full_id = stone.id+"_"+id;
-                    if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                        to_make.add(new Pair<>(oreList.get(0),stone));
-                        DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + full_id + ".json"),
-                                JsonHelper.getItemModel(full_id));
-                        langBuilder.add(full_id, stone, oreList.get(0));
-                    }
-                }
+
+        ExcavatedVariants.setupMap();
+        for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
+            var ore = p.first();
+            for (BaseStone stone : p.last()) {
+                String full_id = stone.id+"_"+ore.id;
+                to_make.add(new Pair<>(ore,stone));
+                DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + full_id + ".json"),
+                        JsonHelper.getItemModel(full_id));
+                langBuilder.add(full_id, stone, ore);
             }
         }
+
         DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "lang/en_us.json"),langBuilder.build());
         BlockStateAssembler.setupClientAssets(extractorMap.values(),to_make);
     }

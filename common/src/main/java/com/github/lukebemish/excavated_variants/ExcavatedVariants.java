@@ -29,7 +29,6 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class ExcavatedVariants {
     public static final String MOD_ID = "excavated_variants";
@@ -48,49 +47,24 @@ public class ExcavatedVariants {
         MiningLevelTagGenerator stoneTag = new MiningLevelTagGenerator("stone");
         MiningLevelTagGenerator ironTag = new MiningLevelTagGenerator("iron");
         MiningLevelTagGenerator diamondTag = new MiningLevelTagGenerator("diamond");
-        Collection<String> modids = Platform.getModIds();
-        Map<String, BaseStone> stoneMap = new HashMap<>();
-        Map<String, List<BaseOre>> oreMap = new HashMap<>();
-        for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.containsAll(mod.mod_id)) {
-                for (BaseStone stone : mod.provided_stones) {
-                    if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
-                        stoneMap.put(stone.id, stone);
-                    }
-                }
-                for (BaseOre ore : mod.provided_ores) {
-                    if (!ExcavatedVariants.getConfig().blacklist_ores.contains(ore.id)) {
-                        oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
-                        oreMap.get(ore.id).add(ore);
-                    }
-                }
-            }
-        }
-        for (String id : oreMap.keySet()) {
-            List<BaseOre> oreList = oreMap.get(id);
-            Set<String> oreNames = oreList.stream().flatMap(x->x.orename.stream()).collect(Collectors.toSet());
-            List<String> stones = new ArrayList<>();
-            for (BaseOre ore : oreList) {
-                stones.addAll(ore.stone);
-            }
+
+        ExcavatedVariants.setupMap();
+        for (Pair<BaseOre,HashSet<BaseStone>> p : oreStoneList) {
+            BaseOre ore = p.first();
             List<String> ids = new ArrayList<>();
-            for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
-                    String full_id = stone.id+"_"+id;
-                    if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
-                        blockList.add(new RegistryFuture(full_id,oreList.get(0), stone));
-                        if (getConfig().add_conversion_recipes) {
-                            OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), oreList.get(0).block_id.get(0));
-                        }
-                        blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,full_id));
-                        stoneTag.add(full_id, oreList.get(0));
-                        ironTag.add(full_id, oreList.get(0));
-                        diamondTag.add(full_id, oreList.get(0));
-                        ids.add(full_id);
-                    }
+            for (BaseStone stone : p.last()) {
+                String full_id = stone.id+"_"+ore.id;
+                blockList.add(new RegistryFuture(full_id,ore, stone));
+                if (getConfig().add_conversion_recipes) {
+                    OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), ore.block_id.get(0));
                 }
+                blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,full_id));
+                stoneTag.add(full_id, ore);
+                ironTag.add(full_id, ore);
+                diamondTag.add(full_id, ore);
+                ids.add(full_id);
             }
-            for (String orename : oreNames) {
+            for (String orename : ore.orename) {
                 for (String this_id : ids) {
                     if (Platform.isFabric()) {
                         DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
@@ -176,18 +150,21 @@ public class ExcavatedVariants {
             Pair<BaseOre, HashSet<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new HashSet<>());
             if (oreList.size() > 1) {
                 pair.first().block_id = new ArrayList<>();
-                pair.first().block_id = new ArrayList<>();
+                pair.first().orename = new ArrayList<>();
                 pair.first().stone = new ArrayList<>();
                 pair.first().types = new ArrayList<>();
                 for (BaseOre baseOre : oreList) {
                     pair.first().block_id.addAll(baseOre.block_id);
-                    pair.first().block_id.addAll(baseOre.block_id);
+                    pair.first().orename.addAll(baseOre.orename);
                     pair.first().stone.addAll(baseOre.stone);
                     pair.first().types.addAll(baseOre.types);
                 }
                 List<String> types = new HashSet<>(pair.first().types).stream().toList();
                 pair.first().types.clear();
                 pair.first().types.addAll(types);
+                List<String> orenames = new HashSet<>(pair.first().orename).stream().toList();
+                pair.first().orename.clear();
+                pair.first().orename.addAll(orenames);
             }
             oreStoneList.add(pair);
             for (BaseStone stone : stoneMap.values()) {
