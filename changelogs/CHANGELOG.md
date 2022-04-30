@@ -1,3 +1,7 @@
+### Excavated Variants v0.5.5
+
+- Increase performance during worldgen (the way I do this is *really* hacky, so please report any issues this causes.)
+
 ### Excavated Variants v0.5.4
 
 - Fix breaking crash on servers.
