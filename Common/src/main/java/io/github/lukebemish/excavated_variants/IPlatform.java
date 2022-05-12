@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 
 public interface IPlatform {
-    boolean isFabric();
+    boolean isFabriquilt();
     boolean isForge();
     Collection<String> getModIds();
     Path getConfigFolder();

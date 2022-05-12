@@ -1,12 +1,12 @@
 package io.github.lukebemish.excavated_variants.fabric;
 
+import com.google.auto.service.AutoService;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.IMainPlatformTarget;
 import io.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.worldgen.OreReplacer;
-import com.google.auto.service.AutoService;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -24,11 +24,19 @@ import java.util.function.Supplier;
 
 @AutoService(IMainPlatformTarget.class)
 public class MainPlatformTargetImpl implements IMainPlatformTarget {
-    public static final Feature<NoneFeatureConfiguration> ORE_REPLACER = new OreReplacer();
-    static {}
-    public static final ConfiguredFeature<NoneFeatureConfiguration,?> ORE_REPLACER_CONFIGURED = new ConfiguredFeature<>(ORE_REPLACER, FeatureConfiguration.NONE);
-    public static final PlacedFeature ORE_REPLACER_PLACED = new PlacedFeature(Holder.direct(ORE_REPLACER_CONFIGURED), List.of());
+    public Feature<NoneFeatureConfiguration> ORE_REPLACER;
+    public ConfiguredFeature<NoneFeatureConfiguration,?> ORE_REPLACER_CONFIGURED;
+    public PlacedFeature ORE_REPLACER_PLACED;
     public void registerFeatures() {
+        if (ORE_REPLACER==null) {
+            ORE_REPLACER = new OreReplacer();
+        }
+        if (ORE_REPLACER_CONFIGURED==null) {
+            ORE_REPLACER_CONFIGURED = new ConfiguredFeature<>(ORE_REPLACER, FeatureConfiguration.NONE);
+        }
+        if (ORE_REPLACER_PLACED==null) {
+            ORE_REPLACER_PLACED = new PlacedFeature(Holder.direct(ORE_REPLACER_CONFIGURED), List.of());
+        }
         Registry.register(Registry.FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_CONFIGURED);
         Registry.register(BuiltinRegistries.PLACED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_PLACED);

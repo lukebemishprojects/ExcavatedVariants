@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-archivesBaseName = "${mod_name}-fabric-${minecraft_version}"
+archivesBaseName = "${mod_id}-fabric-${minecraft_version}"
 
 configurations {
     testCompileOnly.extendsFrom(compileOnly)
@@ -29,6 +29,8 @@ dependencies {
 }
 
 loom {
+    accessWidenerPath = file("src/main/resources/excavated_variants.accessWidener")
+
     runs {
         client {
             client()
@@ -42,6 +44,10 @@ loom {
             ideConfigGenerated(true)
             runDir("run")
         }
+    }
+
+    mixin {
+        defaultRefmapName = "excavated_variants.refmap.json"
     }
 }
 

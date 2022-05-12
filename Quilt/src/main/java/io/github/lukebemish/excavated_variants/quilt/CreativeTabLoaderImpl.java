@@ -15,14 +15,24 @@ public class CreativeTabLoaderImpl implements ICreativeTabLoader {
     public static final CreativeModeTab EXCAVATED_VARIANTS_TAB = setup();
 
     private static CreativeModeTab setup() {
+        // I hate it, you hate it, there's no better option... because of how the built-in builder works.
+        ((TODO_STUFF_HERE) CreativeModeTab.TAB_BUILDING_BLOCKS).fabric_expandArray();
         var rl = new ResourceLocation(ExcavatedVariants.MOD_ID, "excavated_variants");
-        return QuiltItemGroup.createWithIcon(rl, () -> {
-                    if (ExcavatedVariants.getItems().isEmpty()) {
-                        return new ItemStack(Items.DEEPSLATE_COPPER_ORE);
-                    }
-                    int time = (int) ((System.currentTimeMillis()/1000) % MAX_INT_VAL);
-                    return new ItemStack(ExcavatedVariants.getItems().get((time*time) % ExcavatedVariants.getItems().size()).get());
-                });
+        return new CreativeModeTab(CreativeModeTab.TABS.length - 1, String.format("%s.%s", rl.getNamespace(), rl.getPath())) {
+            @Override
+            public ItemStack makeIcon() {
+                return new ItemStack(Items.DEEPSLATE_COPPER_ORE);
+            }
+
+            @Override
+            public ItemStack getIconItem() {
+                if (ExcavatedVariants.getItems().isEmpty()) {
+                    return new ItemStack(Items.DEEPSLATE_COPPER_ORE);
+                }
+                int time = (int) ((System.currentTimeMillis()/1000) % MAX_INT_VAL);
+                return new ItemStack(ExcavatedVariants.getItems().get((time*time) % ExcavatedVariants.getItems().size()).get());
+            }
+        };
     }
 
     public CreativeModeTab getCreativeTab() {

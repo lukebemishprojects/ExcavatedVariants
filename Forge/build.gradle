@@ -17,7 +17,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-archivesBaseName = "${mod_name}-forge-${minecraft_version}"
+archivesBaseName = "${mod_id}-forge-${minecraft_version}"
 
 minecraft {
     mappings channel: 'parchment', version: "${parchment_version}-${minecraft_version}"
@@ -102,8 +102,10 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, 'modid.mixins.refmap.json'
-    config 'modid.mixins.json'
+    add sourceSets.main, 'excavated_variants.refmap.json'
+    config 'mixin.excavated_variants_forge.json'
+    add project(":Common").sourceSets.main, 'excavated_variants.refmap.json'
+    config 'mixin.excavated_variants.json'
 }
 
 tasks.withType(JavaCompile) {

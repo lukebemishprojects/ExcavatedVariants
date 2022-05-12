@@ -3,7 +3,7 @@ plugins {
 	id 'maven-publish'
 }
 
-archivesBaseName = "${mod_name}-quilt-${minecraft_version}"
+archivesBaseName = "${mod_id}-quilt-${minecraft_version}"
 
 repositories {
 
@@ -48,6 +48,8 @@ dependencies {
 }
 
 loom {
+	accessWidenerPath = file("src/main/resources/excavated_variants.accessWidener")
+
 	runs {
 		client {
 			client()
@@ -61,6 +63,10 @@ loom {
 			ideConfigGenerated(true)
 			runDir("run")
 		}
+	}
+
+	mixin {
+		defaultRefmapName "excavated_variants.refmap.json"
 	}
 }
 

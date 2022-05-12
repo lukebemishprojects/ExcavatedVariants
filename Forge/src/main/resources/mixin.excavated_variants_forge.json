@@ -4,12 +4,13 @@
   "package": "io.github.lukebemish.excavated_variants.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "io.github.lukebemish.excavated_variants.forge.mixin.ForgeRegistryMixin",
-    "io.github.lukebemish.excavated_variants.forge.mixin.GameDataMixin"
+    "ForgeRegistryMixin",
+    "GameDataMixin"
   ],
   "client": [],
   "server": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "refmap": "excavated_variants.refmap.json"
 }

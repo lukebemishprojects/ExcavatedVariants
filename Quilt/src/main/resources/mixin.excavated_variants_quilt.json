@@ -4,11 +4,12 @@
   "package": "io.github.lukebemish.excavated_variants.quilt.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "io.github.lukebemish.excavated_variants.quilt.mixin.RegistryMixin"
+    "RegistryMixin"
   ],
   "client": [],
   "server": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "refmap": "excavated_variants.refmap.json"
 }

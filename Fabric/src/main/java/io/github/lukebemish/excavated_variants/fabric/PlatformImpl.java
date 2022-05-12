@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @AutoService(IPlatform.class)
 public class PlatformImpl implements IPlatform {
-    public boolean isFabric() {
+    public boolean isFabriquilt() {
         return true;
     }
 

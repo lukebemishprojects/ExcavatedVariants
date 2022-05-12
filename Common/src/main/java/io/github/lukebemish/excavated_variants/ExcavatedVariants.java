@@ -30,7 +30,8 @@ import java.util.function.Supplier;
 public class ExcavatedVariants {
     public static final String MOD_ID = "excavated_variants";
 
-    public static final Supplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = Services.MAIN_PLATFORM_TARGET.registerRecipeSerializer("ore_conversion",()->
+    public static final IMainPlatformTarget MAIN_PLATFORM_TARGET = Services.load(IMainPlatformTarget.class);
+    public static final Supplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = MAIN_PLATFORM_TARGET.registerRecipeSerializer("ore_conversion",()->
             new SimpleRecipeSerializer<>(OreConversionRecipe::new));
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
@@ -63,7 +64,7 @@ public class ExcavatedVariants {
             for (String orename : ore.orename) {
                 for (String this_id : ids) {
                     String oreTypeName = orename.substring(0, orename.length() - 4);
-                    if (Services.PLATFORM.isFabric()) {
+                    if (Services.PLATFORM.isFabriquilt()) {
                         DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                         DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                         DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
@@ -83,9 +84,12 @@ public class ExcavatedVariants {
         }
 
         DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("minecraft", "blocks/mineable/pickaxe"),blockTagBuilder);
-        if (!Services.PLATFORM.isFabric()) {
+        if (!Services.PLATFORM.isFabriquilt()) {
             DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge", "blocks/ores"),blockTagBuilder);
             DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge", "items/ores"),blockTagBuilder);
+        } else {
+            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "blocks/ores"),blockTagBuilder);
+            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "items/ores"),blockTagBuilder);
         }
 
         DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_stone_tool"),
@@ -95,7 +99,7 @@ public class ExcavatedVariants {
         DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_diamond_tool"),
                 diamondTag.suppliers());
 
-        Services.MAIN_PLATFORM_TARGET.registerFeatures();
+        MAIN_PLATFORM_TARGET.registerFeatures();
 
         loaded = true;
     }

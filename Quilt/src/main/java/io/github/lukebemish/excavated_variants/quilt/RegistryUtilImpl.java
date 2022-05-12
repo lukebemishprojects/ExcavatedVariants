@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @AutoService(IRegistryUtil.class)
-public class RegistryUtilImpl {
+public class RegistryUtilImpl implements IRegistryUtil {
     public static Map<ResourceLocation, Block> block_cache = new ConcurrentHashMap<>();
     public static Map<Block, ResourceLocation> block_rl_cache = new ConcurrentHashMap<>();
     public static Map<ResourceLocation, Item> item_cache = new ConcurrentHashMap<>();
