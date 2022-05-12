@@ -62,12 +62,14 @@ public class ExcavatedVariants {
             }
             for (String orename : ore.orename) {
                 for (String this_id : ids) {
+                    String oreTypeName = orename.substring(0, orename.length() - 4);
                     if (Services.PLATFORM.isFabric()) {
                         DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                         DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c","blocks/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                     } else {
                         if (orename.endsWith("_ore")) {
-                            String oreTypeName = orename.substring(0, orename.length() - 4);
                             DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                             DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge","blocks/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                         }
