@@ -9,15 +9,16 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.material.Material;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ExcavatedVariantsImpl {
     public static final Feature<NoneFeatureConfiguration> ORE_REPLACER = new OreReplacer();
@@ -31,5 +32,10 @@ public class ExcavatedVariantsImpl {
     }
     public static ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {
         return new ModifiedOreBlock(ore, stone);
+    }
+
+    public static <T extends Recipe<?>> Supplier<RecipeSerializer<T>> registerRecipeSerializer(String name, Supplier<RecipeSerializer<T>> supplier) {
+        RecipeSerializer<T> out = Registry.register(Registry.RECIPE_SERIALIZER,new ResourceLocation(ExcavatedVariants.MOD_ID,name),supplier.get());
+        return ()->out;
     }
 }

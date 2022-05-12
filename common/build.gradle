@@ -2,12 +2,10 @@ dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-    //DON'T use fabric stuff though
-    modApi("com.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-fabric:${rootProject.lib_version}")
 
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:7.3.432"
+    modCompileOnly("com.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator:${rootProject.lib_version}")
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:7.3.432"){transitive=false}
 }
 
 architectury {
@@ -28,6 +26,7 @@ publishing {
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
+        mavenLocal()
         // Add repositories to publish to here.
     }
 }

@@ -4,7 +4,6 @@ import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
 import com.github.lukebemish.excavated_variants.forge.compat.HyleCompat;
 import com.github.lukebemish.excavated_variants.worldgen.OreReplacer;
-import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -42,7 +41,6 @@ public class ExcavatedVariantsForge {
 
     public ExcavatedVariantsForge() {
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
-        EventBuses.registerModEventBus(ExcavatedVariants.MOD_ID, modbus);
         ExcavatedVariants.init();
         FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
@@ -58,6 +56,7 @@ public class ExcavatedVariantsForge {
             if (major >= 2 && minor >= 2 && ExcavatedVariants.setupMap())
                 MinecraftForge.EVENT_BUS.register(new HyleCompat());
         });
+        ExcavatedVariantsImpl.RECIPE_SERIALIZERS.register(modbus);
     }
 
     public static void commonSetup(FMLCommonSetupEvent event) {

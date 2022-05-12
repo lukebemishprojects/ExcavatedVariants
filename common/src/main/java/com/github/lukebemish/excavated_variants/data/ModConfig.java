@@ -1,10 +1,10 @@
 package com.github.lukebemish.excavated_variants.data;
 
+import com.github.lukebemish.excavated_variants.Platform;
 import com.github.lukebemish.excavated_variants.ExcavatedVariants;
 import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import com.mojang.serialization.JsonOps;
-import dev.architectury.platform.Platform;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

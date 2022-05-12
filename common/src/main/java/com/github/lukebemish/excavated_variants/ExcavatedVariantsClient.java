@@ -6,7 +6,6 @@ import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
 import com.github.lukebemish.excavated_variants.data.ModData;
 import com.github.lukebemish.excavated_variants.util.Pair;
-import dev.architectury.platform.Platform;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;

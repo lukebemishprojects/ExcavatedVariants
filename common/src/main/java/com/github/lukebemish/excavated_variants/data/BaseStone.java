@@ -37,7 +37,7 @@ public class BaseStone {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BaseStone baseStone = (BaseStone) o;
-        return texture_count == baseStone.texture_count && id.equals(baseStone.id) && Objects.equals(en_name, baseStone.en_name) && block_id.equals(baseStone.block_id) && Objects.equals(types, baseStone.types);
+        return id.equals(baseStone.id);
     }
 
     @Override

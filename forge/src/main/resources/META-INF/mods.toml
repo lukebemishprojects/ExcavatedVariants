@@ -28,13 +28,6 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.excavated_variants]]
-modId = "architectury"
-mandatory = true
-versionRange = "[3.4.9,)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies.excavated_variants]]
 modId = "dynamic_asset_generator"
 mandatory = true
 versionRange = "[0.5.1,)"

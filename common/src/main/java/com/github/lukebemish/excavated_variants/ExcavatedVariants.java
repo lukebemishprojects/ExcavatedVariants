@@ -1,6 +1,7 @@
 package com.github.lukebemish.excavated_variants;
 
 import com.github.lukebemish.dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
+import com.github.lukebemish.excavated_variants.api.IOreListModifier;
 import com.github.lukebemish.excavated_variants.client.RenderTypeHandler;
 import com.github.lukebemish.excavated_variants.data.BaseOre;
 import com.github.lukebemish.excavated_variants.data.BaseStone;
@@ -9,13 +10,10 @@ import com.github.lukebemish.excavated_variants.data.ModData;
 import com.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
 import com.github.lukebemish.excavated_variants.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.platform.Platform;
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
@@ -32,10 +30,14 @@ import java.util.function.Supplier;
 
 public class ExcavatedVariants {
     public static final String MOD_ID = "excavated_variants";
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(MOD_ID, Registry.RECIPE_SERIALIZER_REGISTRY);
 
-    public static final RegistrySupplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = RECIPE_SERIALIZERS.register("ore_conversion",()->
+    public static final Supplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = registerRecipeSerializer("ore_conversion",()->
             new SimpleRecipeSerializer<>(OreConversionRecipe::new));
+
+    @ExpectPlatform
+    public static <T extends Recipe<?>> Supplier<RecipeSerializer<T>> registerRecipeSerializer(String name, Supplier<RecipeSerializer<T>> supplier) {
+        throw new AssertionError();
+    }
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -96,8 +98,6 @@ public class ExcavatedVariants {
                 ironTag.suppliers());
         DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_diamond_tool"),
                 diamondTag.suppliers());
-
-        RECIPE_SERIALIZERS.register();
         
         registerFeatures();
 
@@ -176,6 +176,28 @@ public class ExcavatedVariants {
                 }
             }
         }
+        var listListeners = Compat.getOreListModifiers();
+        for (IOreListModifier listListener : listListeners) {
+            oreStoneList = listListener.modify(oreStoneList,stoneMap.values());
+        }
+
+        HashSet<String> done_ids = new HashSet<>();
+        ArrayList<Pair<BaseOre,HashSet<BaseStone>>> out = new ArrayList<>();
+        for (Pair<BaseOre,HashSet<BaseStone>> p : oreStoneList) {
+            BaseOre ore = p.first();
+            if (!done_ids.contains(ore.id)) {
+                done_ids.add(ore.id);
+                Pair<BaseOre,HashSet<BaseStone>> o = new Pair<>(ore,new HashSet<>());
+                out.add(o);
+                for (BaseStone stone : p.last()) {
+                    String full_id = stone.id + "_" + ore.id;
+                    if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
+                        o.last().add(stone);
+                    }
+                }
+            }
+        }
+        oreStoneList = out;
     }
 
     private static ModConfig configs;

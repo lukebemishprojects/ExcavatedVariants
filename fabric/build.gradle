@@ -23,14 +23,12 @@ configurations {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    modApi("com.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-fabric:${rootProject.lib_version}")
+    modImplementation("com.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-fabric:${rootProject.lib_version}")
 
     //modRuntimeOnly "curse.maven:techreborn-233564:3635132"
     //modRuntimeOnly "curse.maven:reborncore-237903:3635133"
@@ -94,6 +92,7 @@ publishing {
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
+        mavenLocal()
         // Add repositories to publish to here.
     }
 }
@@ -119,7 +118,6 @@ curseforge {
             mainArtifact(remapJar) {
                 displayName = "Excavated Variants [Fabric 1.18.2] v$project.version"
                 relations {
-                    requiredDependency 'architectury-fabric'
                     requiredDependency 'fabric-api'
                     requiredDependency 'dynamic-asset-generator'
                 }
