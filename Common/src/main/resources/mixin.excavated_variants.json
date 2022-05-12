@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.lukebemish.excavated_variants.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "io.github.lukebemish.excavated_variants.mixin.BlockMixin",
+    "io.github.lukebemish.excavated_variants.mixin.IBiomeGenerationSettingsMixin",
+    "io.github.lukebemish.excavated_variants.mixin.IBlockBehaviorMixin",
+    "io.github.lukebemish.excavated_variants.mixin.IBlockMixin",
+    "io.github.lukebemish.excavated_variants.mixin.IBlockPropertiesMixin",
+    "io.github.lukebemish.excavated_variants.mixin.IBlockStateBaseMixin",
+    "io.github.lukebemish.excavated_variants.mixin.IMinecraftServerMixin",
+    "io.github.lukebemish.excavated_variants.mixin.OreConfigurationMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

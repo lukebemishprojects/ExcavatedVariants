@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "io.github.lukebemish.excavated_variants",
+    "id": "excavated_variants",
+    "version": "${version}",
+    "metadata": {
+      "name": "Excavated Variants",
+      "description": "Description",
+      "contributors": {
+        "Luke Bemish": "Author"
+      },
+      "contact": {
+        "sources": "https://github.com/lukebemish/excavated_variants"
+      },
+      "icon": "icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "init": [
+        "io.github.lukebemish.excavated_variants.quilt.ExcavatedVariantsQuilt"
+      ],
+      "client_init": [
+        "io.github.lukebemish.excavated_variants.quilt.ExcavatedVariantsClientQuilt"
+      ],
+      "rei": [
+        "io.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsClientPlugin",
+        "io.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsServerPlugin"
+      ]
+    },
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "versions": ">=0.16.0-"
+      },
+      {
+        "id": "quilted_fabric_api",
+        "versions": ">=1.0.0-"
+      },
+      {
+        "id": "minecraft",
+        "versions": ">=1.18.2"
+      },
+      {
+        "id": "dynamic_asset_generator",
+        "versions": ">=0.6.0"
+      }
+    ]
+  },
+  "accessWidener": "excavated_variants.accessWidener",
+  "mixins": [
+    "mixin.excavated_variants.json",
+    "mixin.excavated_variants_quilt.json"
+  ]
+ }
