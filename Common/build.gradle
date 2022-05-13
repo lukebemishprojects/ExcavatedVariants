@@ -12,6 +12,11 @@ repositories {
     }
 }
 
+jar {
+    classifier null
+    getDestinationDirectory().set(new File(project.getBuildDir(),"libs"))
+}
+
 loom {
     remapArchives = false
     setupRemappedVariants = false
@@ -58,13 +63,12 @@ publishing {
             artifactId project.archivesBaseName
             version project.version
             from components.java
+            artifact sourcesJar
         }
     }
 
     repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
-        }
+        mavenLocal()
     }
 }
 

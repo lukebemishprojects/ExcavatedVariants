@@ -1,15 +1,15 @@
 package io.github.lukebemish.excavated_variants.quilt.client;
 
-import io.github.lukebemish.excavated_variants.client.IRenderTypeHandler;
 import com.google.auto.service.AutoService;
+import io.github.lukebemish.excavated_variants.client.IRenderTypeHandler;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.level.block.Block;
+import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 
 @AutoService(IRenderTypeHandler.class)
 public class RenderTypeHandlerImpl implements IRenderTypeHandler {
     public void setRenderTypeMipped(Block block) {
-        if (FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT)) {
+        if (MinecraftQuiltLoader.getEnvironmentType().equals(EnvType.CLIENT)) {
             RenderTypeClientExecutor.setMipped(block);
         }
     }

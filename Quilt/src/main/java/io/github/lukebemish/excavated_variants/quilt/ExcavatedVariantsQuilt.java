@@ -1,13 +1,11 @@
 package io.github.lukebemish.excavated_variants.quilt;
 
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
-import io.github.lukebemish.excavated_variants.quilt.compat.HyleCompat;
 import io.github.lukebemish.excavated_variants.platform.Services;
+import io.github.lukebemish.excavated_variants.quilt.compat.HyleCompat;
 import io.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
 
@@ -48,7 +47,7 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
             });
         }
 
-        if (FabricLoader.getInstance().isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
+        if (QuiltLoader.isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
             HyleCompat.init();
         }
     }

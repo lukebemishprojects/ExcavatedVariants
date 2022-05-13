@@ -48,7 +48,7 @@
     ]
   },
   "accessWidener": "excavated_variants.accessWidener",
-  "mixins": [
+  "mixin": [
     "mixin.excavated_variants.json",
     "mixin.excavated_variants_quilt.json"
   ]

@@ -37,4 +37,4 @@ pluginManagement {
 }
 
 rootProject.name = 'excavated_variants'
-include("Common", "Fabric", "Forge")//, "Quilt")
+include("Common", "Fabric", "Forge", "Quilt")

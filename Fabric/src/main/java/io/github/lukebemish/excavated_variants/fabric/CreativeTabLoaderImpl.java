@@ -3,7 +3,6 @@ package io.github.lukebemish.excavated_variants.fabric;
 import com.google.auto.service.AutoService;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.ICreativeTabLoader;
-import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -15,9 +14,7 @@ public class CreativeTabLoaderImpl implements ICreativeTabLoader {
     public static final CreativeModeTab EXCAVATED_VARIANTS_TAB = setup();
 
     private static CreativeModeTab setup() {
-        // I hate it, you hate it, there's no better option... because of how the built-in builder works.
-        // (unless I want to make my own mixin; I'll have to consider it)
-        ((ItemGroupExtensions) CreativeModeTab.TAB_BUILDING_BLOCKS).fabric_expandArray();
+        ((ICreativeTabExtender) CreativeModeTab.TAB_BUILDING_BLOCKS).excavated_variants$extend_array();
         var rl = new ResourceLocation(ExcavatedVariants.MOD_ID, "excavated_variants");
         return new CreativeModeTab(CreativeModeTab.TABS.length - 1, String.format("%s.%s", rl.getNamespace(), rl.getPath())) {
             @Override

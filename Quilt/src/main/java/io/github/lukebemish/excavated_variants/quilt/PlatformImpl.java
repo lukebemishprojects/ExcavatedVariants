@@ -1,18 +1,17 @@
 package io.github.lukebemish.excavated_variants.quilt;
 
-import io.github.lukebemish.excavated_variants.IPlatform;
 import com.google.auto.service.AutoService;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.metadata.ModMetadata;
+import io.github.lukebemish.excavated_variants.IPlatform;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.loader.api.ModMetadata;
+import org.quiltmc.loader.api.QuiltLoader;
 
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @AutoService(IPlatform.class)
 public class PlatformImpl implements IPlatform {
-    public boolean isFabric() {
+    public boolean isFabriquilt() {
         return true;
     }
 
@@ -21,10 +20,10 @@ public class PlatformImpl implements IPlatform {
     }
 
     public Collection<String> getModIds() {
-        return FabricLoader.getInstance().getAllMods().stream().map(ModContainer::getMetadata).map(ModMetadata::getId).collect(Collectors.toList());
+        return QuiltLoader.getAllMods().stream().map(ModContainer::metadata).map(ModMetadata::id).toList();
     }
 
     public Path getConfigFolder() {
-        return FabricLoader.getInstance().getConfigDir().toAbsolutePath().normalize();
+        return QuiltLoader.getConfigDir().toAbsolutePath().normalize();
     }
 }
