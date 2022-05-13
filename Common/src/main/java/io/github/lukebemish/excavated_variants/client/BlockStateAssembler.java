@@ -47,7 +47,6 @@ public class BlockStateAssembler {
                 DynAssetGeneratorClientAPI.planLoadingStream(rl,new ResettingHolder(rl));
             }
         }
-
     }
 
     private static Map<ResourceLocation,Supplier<InputStream>> intMap ;

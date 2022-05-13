@@ -216,6 +216,7 @@ public class ExcavatedVariants {
     public static List<RegistryFuture> getBlockList() {
         return blockList;
     }
+
     public static class RegistryFuture {
         public final BaseOre ore;
         public final BaseStone stone;
@@ -264,5 +265,5 @@ public class ExcavatedVariants {
         return loaded;
     }
 
-    public static List<ResourceLocation> loadedBlockRLs = new ArrayList<>();
+    public static Set<ResourceLocation> loadedBlockRLs = new HashSet<>();
 }
