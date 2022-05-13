@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.lukebemish.excavated_variants.fabric.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "RegistryMixin",
+    "CreativeModeTabMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "excavated_variants.refmap.json"
+}
