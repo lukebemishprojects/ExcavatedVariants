@@ -33,6 +33,6 @@
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.18",
-    "dynamic_asset_generator": ">=0.5.1"
+    "dynamic_asset_generator": ">=0.6.0"
   }
 }
