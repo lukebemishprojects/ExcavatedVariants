@@ -1,3 +1,10 @@
+### Excavated Variants v0.6.0
+
+- Switch to MultiLoader-Template from Architectury, allowing for Quilt support.
+- Major internal refactoring.
+- Update to post-refactor DynAssetGen versions.
+- Fix game-load lag due to terrible lookup design.
+
 ### Excavated Variants v0.5.5
 
 - Increase performance during worldgen (the way I do this is *really* hacky, so please report any issues this causes.)
