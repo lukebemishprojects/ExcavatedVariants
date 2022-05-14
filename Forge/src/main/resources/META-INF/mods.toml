@@ -5,7 +5,7 @@ license = "LGPL v3"
 
 [[mods]]
 modId = "excavated_variants"
-version = "${version}"
+version = "${file.jarVersion}"
 displayName = "Excavated Variants"
 authors = "Luke Bemish"
 description = '''

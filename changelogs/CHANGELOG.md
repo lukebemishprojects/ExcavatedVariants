@@ -1,3 +1,7 @@
+### Excavated Variants v0.6.1
+
+- Fix breaking crash on Forge due to version issues.
+
 ### Excavated Variants v0.6.0
 
 - Switch to MultiLoader-Template from Architectury, allowing for Quilt support.
