@@ -1,3 +1,7 @@
+### Excavated Variants v0.6.2
+
+- Fix more bugs related to loading order by making services load lazily.
+
 ### Excavated Variants v0.6.1
 
 - Fix breaking crash on Forge due to version issues.

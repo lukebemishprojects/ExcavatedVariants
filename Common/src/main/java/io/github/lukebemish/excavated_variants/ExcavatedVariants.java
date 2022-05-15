@@ -30,8 +30,7 @@ import java.util.function.Supplier;
 public class ExcavatedVariants {
     public static final String MOD_ID = "excavated_variants";
 
-    public static final IMainPlatformTarget MAIN_PLATFORM_TARGET = Services.load(IMainPlatformTarget.class);
-    public static final Supplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = MAIN_PLATFORM_TARGET.registerRecipeSerializer("ore_conversion",()->
+    public static final Supplier<RecipeSerializer<OreConversionRecipe>> ORE_CONVERSION = Services.MAIN_PLATFORM_TARGET.get().registerRecipeSerializer("ore_conversion",()->
             new SimpleRecipeSerializer<>(OreConversionRecipe::new));
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
@@ -99,7 +98,7 @@ public class ExcavatedVariants {
         DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_diamond_tool"),
                 diamondTag.suppliers());
 
-        MAIN_PLATFORM_TARGET.registerFeatures();
+        Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
 
         loaded = true;
     }
@@ -240,7 +239,7 @@ public class ExcavatedVariants {
             ModifiedOreBlock b = new ModifiedOreBlock(o, s);
             blockRegistrar.accept(rlToReg, b);
             blocks.put(id, b);
-            Supplier<Item> i = itemRegistrar.apply(rlToReg, ()->new BlockItem(b, new Item.Properties().tab(Services.CREATIVE_TAB_LOADER.getCreativeTab())));
+            Supplier<Item> i = itemRegistrar.apply(rlToReg, ()->new BlockItem(b, new Item.Properties().tab(Services.CREATIVE_TAB_LOADER.get().getCreativeTab())));
             items.add(i);
 
             ClientServices.RENDER_TYPE_HANDLER.setRenderTypeMipped(b);
