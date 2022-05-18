@@ -20,10 +20,7 @@ public class BaseOre implements Cloneable {
             ResourceLocation.CODEC.listOf().fieldOf("block_id").forGetter(bs->bs.block_id),
             Codec.STRING.fieldOf("en_name").forGetter(bs-> bs.en_name),
             Codec.STRING.listOf().fieldOf("types").forGetter(bs->bs.types),
-            Codec.INT.optionalFieldOf("texture_count").forGetter(bs->{
-                if (bs.orename.size()==5) return Optional.empty();
-                return Optional.of(bs.texture_count);
-            })
+            Codec.INT.optionalFieldOf("texture_count", 5).forGetter(bs->bs.texture_count)
             ).apply(instance,BaseOre::new));
 
     public String id;
@@ -34,7 +31,7 @@ public class BaseOre implements Cloneable {
     public List<String> types;
     public int texture_count;
 
-    public BaseOre(String id, Optional<Either<String,List<String>>> orename, List<String> stone, List<ResourceLocation> block_id, String en_name, List<String> types,Optional<Integer> texture_count) {
+    public BaseOre(String id, Optional<Either<String,List<String>>> orename, List<String> stone, List<ResourceLocation> block_id, String en_name, List<String> types, int texture_count) {
         this.id = id;
         this.orename = new ArrayList<>();
         if (orename.isPresent()) {
@@ -53,7 +50,7 @@ public class BaseOre implements Cloneable {
         this.block_id = block_id;
         this.en_name = en_name;
         this.types = types;
-        this.texture_count = texture_count.orElse(5);
+        this.texture_count = texture_count;
     }
     public BaseOre clone() {
         try {
