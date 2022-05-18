@@ -1,5 +1,10 @@
 package io.github.lukebemish.excavated_variants.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.mojang.blaze3d.platform.NativeImage;
 import io.github.lukebemish.dynamic_asset_generator.client.api.ClientPrePackRepository;
 import io.github.lukebemish.dynamic_asset_generator.client.api.DynAssetGeneratorClientAPI;
 import io.github.lukebemish.dynamic_asset_generator.client.api.ForegroundTransferType;
@@ -10,11 +15,6 @@ import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.util.Pair;
 import io.github.lukebemish.excavated_variants.util.Triple;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.renderer.block.model.BlockModelDefinition;
 import net.minecraft.client.renderer.block.model.MultiVariant;
 import net.minecraft.client.renderer.block.model.Variant;
@@ -49,15 +49,19 @@ public class BlockStateAssembler {
         }
     }
 
-    private static Map<ResourceLocation,Supplier<InputStream>> intMap ;
+    private static volatile Map<ResourceLocation,Supplier<InputStream>> intMap ;
     private static Collection<Pair<BaseOre,BaseStone>> int_original_pairs;
     private static List<Pair<BaseOre,BaseStone>> int_to_make;
 
     public static Map<ResourceLocation,Supplier<InputStream>> updateMap() {
         if (intMap==null) {
-            intMap = getMap(int_original_pairs,int_to_make);
+            synchronized (BlockStateAssembler.class) {
+                if (intMap==null) {
+                    intMap = getMap(int_original_pairs, int_to_make);
+                }
+            }
         }
-        return intMap==null?new HashMap<>():intMap;
+        return intMap;
     }
 
     public static void reset() {

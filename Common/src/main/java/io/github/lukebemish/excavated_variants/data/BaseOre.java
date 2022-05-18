@@ -20,7 +20,7 @@ public class BaseOre implements Cloneable {
             ResourceLocation.CODEC.listOf().fieldOf("block_id").forGetter(bs->bs.block_id),
             Codec.STRING.fieldOf("en_name").forGetter(bs-> bs.en_name),
             Codec.STRING.listOf().fieldOf("types").forGetter(bs->bs.types),
-            Codec.INT.optionalFieldOf("texture_count", 5).forGetter(bs->bs.texture_count)
+            Codec.INT.optionalFieldOf("texture_count", 10).forGetter(bs->bs.texture_count)
             ).apply(instance,BaseOre::new));
 
     public String id;
