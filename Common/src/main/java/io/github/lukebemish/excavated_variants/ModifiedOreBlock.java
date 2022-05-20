@@ -6,7 +6,6 @@ import io.github.lukebemish.excavated_variants.mixin.IBlockPropertiesMixin;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -26,16 +25,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -249,15 +243,8 @@ public class ModifiedOreBlock extends OreBlock {
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         if (target != null) {
             state = target.defaultBlockState();
-            ResourceLocation resourceLocation = target.getLootTable();
-            if (resourceLocation == BuiltInLootTables.EMPTY) {
-                return Collections.emptyList();
-            }
-            LootContext lootContext = builder.withParameter(LootContextParams.BLOCK_STATE, state).create(LootContextParamSets.BLOCK);
-            ServerLevel serverLevel = lootContext.getLevel();
-            LootTable lootTable = serverLevel.getServer().getLootTables().get(resourceLocation);
-            List<ItemStack> items = lootTable.getRandomItems(lootContext);
-            return items.stream().map((x) -> {
+            List<ItemStack> items = target.getDrops(state, builder);
+            return items.stream().map(x -> {
                 if (x.is(target.asItem()) && this.asItem() != Items.AIR && !ExcavatedVariants.getConfig().unobtainable_variants) {
                     int count = x.getCount();
                     ItemStack out = new ItemStack(this.asItem(), count);

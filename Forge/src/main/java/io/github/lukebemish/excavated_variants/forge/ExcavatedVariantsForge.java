@@ -50,10 +50,7 @@ public class ExcavatedVariantsForge {
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
         modbus.addGenericListener(Item.class, ExcavatedVariantsForge::registerItems);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
-        ModList.get().getModContainerById("hyle").ifPresent(container -> {
-            if (major >= 2 && minor >= 2 && ExcavatedVariants.setupMap())
-                MinecraftForge.EVENT_BUS.register(new HyleCompat());
-        });
+        ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
         MainPlatformTargetImpl.RECIPE_SERIALIZERS.register(modbus);
     }
 
