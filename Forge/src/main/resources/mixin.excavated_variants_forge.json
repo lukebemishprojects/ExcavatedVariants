@@ -4,8 +4,7 @@
   "package": "io.github.lukebemish.excavated_variants.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ForgeRegistryMixin",
-    "GameDataMixin"
+    "ForgeRegistryMixin"
   ],
   "client": [],
   "server": [],

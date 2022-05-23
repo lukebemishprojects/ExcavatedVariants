@@ -1,5 +1,6 @@
 package io.github.lukebemish.excavated_variants.forge;
 
+import com.google.common.base.Suppliers;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
 import io.github.lukebemish.excavated_variants.forge.compat.HyleCompat;
@@ -19,7 +20,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -63,10 +66,15 @@ public class ExcavatedVariantsForge {
         });
     }
 
+    private static final Supplier<ModContainer> EV_CONTAINER = Suppliers.memoize(() -> ModList.get().getModContainerById(ExcavatedVariants.MOD_ID).orElseThrow());
+
     public static void registerItems(RegistryEvent.Register<Item> e) {
+        final ModContainer activeContainer = ModLoadingContext.get().getActiveContainer();
+        ModLoadingContext.get().setActiveContainer(EV_CONTAINER.get());
         for (Supplier<Item> si : toRegister) {
             e.getRegistry().register(si.get());
         }
+        ModLoadingContext.get().setActiveContainer(activeContainer);
     }
 
 }
