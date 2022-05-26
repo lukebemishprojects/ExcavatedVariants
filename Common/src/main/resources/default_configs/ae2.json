@@ -1,0 +1,22 @@
+{
+  "mod_id": "ae2",
+  "provided_stones": [],
+  "provided_ores": [
+	{
+      "block_id": [
+        "ae2:quartz_ore",
+        "ae2:deepslate_quartz_ore"
+      ],
+	  "en_name": "Certus Quartz Ore",
+	  "types": [
+        "stone"
+      ],
+      "texture_count" : 5,
+      "id": "certus_quartz_ore",
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    }      
+  ]
+}
