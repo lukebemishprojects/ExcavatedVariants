@@ -22,8 +22,8 @@
     {
      "id": "tanzanite_ore",
      "stone": [
-       "deepslate",
-       "stone"
+       "stone",
+       "deepslate"
       ],
       "block_id": [
        "enriched:tanzanite_ore",
@@ -37,8 +37,8 @@
     {
       "id": "ruby_ore",
       "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ],
       "block_id": [
         "enriched:ruby_ore",
@@ -52,8 +52,8 @@
     { 
      "id": "sapphire_ore",
      "stone": [
-        "deepslate",
-        "stone"
+        "stone",
+        "deepslate"
       ],
       "block_id": [
         "enriched:sapphire_ore",
