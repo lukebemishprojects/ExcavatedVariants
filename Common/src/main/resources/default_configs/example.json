@@ -1,29 +1,29 @@
 {
-  "mod_id": "", #add mod_id
+  "mod_id": "", //unique name, to differentiate it from others. Normally the name of the mod
   "provided_stones": [
     {
-	  "id": "modid_itemid", #Don't add ":"
-	  "block_id": "modid:itemid", #e.g. enriched:dark_granite
-	  "en_name": "", #Actual name, e.g. "Dark Granite
+	  "id": "modid_itemid", //Don't add ":"
+	  "block_id": "modid:itemid", //e.g. enriched:dark_granite
+	  "en_name": "name", //English Translation name, e.g. "Dark Granite"
       "types": [
-        "stone" #stone=overworld, end=end,nether=nether. Add the following for the dimension the blocks will spawn in
+        "stone"  //Category for stone types
       ]
-    } #add a comma after this bracket to make more than one. But don't have a comma at the last curly bracket in this array.
-  ], #array=provided_ores and provided_stones
+    } //add a comma after this bracket to make more than one. But don't have a comma at the last curly bracket in this array.
+  ], //array=provided_ores and provided_stones, inside []. Use commas like provided in line 11
   "provided_ores": [
     {
-	  "id": "itemid", #Don't add modid because i will make duplicate ores
-	  "stone": [
-        "deepslate", #add the stone types that this ore already has.
-        "stone"
+      "id": "itemid", //Unique name. Normally add name/type of the ore
+      "stone": [
+        "stone", //add the stone types that this ore already has.
+        "deepslate"
       ],
       "block_id": [
-        "enriched:tanzanite_ore",   #first id is the reference one.
-        "enriched:deepslate_tanzanite_ore" #make sure the block_id[] and stone[] are in the *exact* same order.
+        "enriched:tanzanite_ore",   //first id is the reference ID.
+        "enriched:deepslate_tanzanite_ore" //make sure the block_id[] and stone[] are in the *exact* same order.
       ],
-	  "en_name": "", #Actual Name, e.g. Ruby Ore
+      "en_name": "", //English Translation name, e.g. "Ruby Ore"
       "types": [
-        "stone" #refer to line 9
+        "stone" //refer to line 9
       ] 
     }
   ]
