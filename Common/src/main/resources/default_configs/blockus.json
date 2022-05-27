@@ -27,6 +27,14 @@
       "types": [
         "stone"
       ]
+    },
+    {
+      "block_id": "blockus:viridite",
+      "types": [
+        "stone"
+      ],
+      "id": "blockus_viridite",
+      "en_name": "Viridite"
     }
   ],
   "provided_ores": []

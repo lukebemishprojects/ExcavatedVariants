@@ -1,0 +1,37 @@
+{
+  "mod_id": "", // Mod ID of the mod which must be present to load the config
+  "provided_stones": [
+    {
+	  "id": "examplemod_examplestone", // Unique identifier for this stone
+	  "block_id": "examplemod:examplestone", // Block ID for the stone
+	  "en_name": "Example Stone", // English translation name for the stone
+      "types": [ // Categories the stone is part of - categories in the default configs include "stone", "nether", and "end"
+        "stone"
+      ],
+      "texture_count": 5 // The maximum number of textures provided by this stone; optional, defaults to 5
+    }
+  ],
+  "provided_ores": [
+    {
+      "id": "example_ore", // Identifier for this ore - their can be duplicate ores with the same id
+      "orename": [ // Optional; a list of names for the ore for use in constructing tags. If not provided, the id is used
+        "random_ore"
+      ],
+      "stone": [ // List of stone IDs already present for this ore
+        "stone",
+        "deepslate",
+        "examplemod_examplestone"
+      ],
+      "block_id": [ // Corresponding block ids for the already present stones
+        "examplemod:example_ore", // The first provided ID will be used to extract textures and models
+        "examplemod:deepslate_example_ore",
+        "examplemod:examplestone_example_ore"
+      ],
+      "en_name": "Example Ore", // English translation name for this ore
+      "types": [ // Categories the ore is part of - categories in the default configs include "stone", "nether", and "end"
+        "stone"
+      ],
+      "texture_count": 5 // The maximum number of textures provided by this ore; optional, defaults to 5
+    }
+  ]
+}
