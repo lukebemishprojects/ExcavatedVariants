@@ -1,8 +1,3 @@
-### Excavated Variants v0.6.3
-
-- Added more mod compatibility.
-- (Luke Bemish's changes replace with bracket)
-
 ### Excavated Variants v0.6.2
 
 - Fix more bugs related to loading order by making services load lazily.
