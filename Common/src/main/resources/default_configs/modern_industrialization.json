@@ -167,11 +167,11 @@
       "id": "tin_ore",
       "stone": [
         "stone",
-	"deepslate"
+	    "deepslate"
       ],
       "block_id": [
         "modern_industrialization:tin_ore",
-	"modern_industrialization:deepslate_tin_ore"
+	    "modern_industrialization:deepslate_tin_ore"
       ],
       "en_name": "Tin Ore",
       "types": [
@@ -195,11 +195,11 @@
       "id": "tungsten_ore",
       "stone": [
         "stone",
-	"deepslate"
+	    "deepslate"
       ],
       "block_id": [
-        "modern_industrialization:titanium_ore",
-	"modern_industrialization:deepslate_tungsten_ore"
+        "modern_industrialization:tungsten_ore",
+	    "modern_industrialization:deepslate_tungsten_ore"
       ],
       "en_name": "Tungsten Ore",
       "types": [
