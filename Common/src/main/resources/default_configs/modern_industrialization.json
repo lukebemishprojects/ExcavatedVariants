@@ -17,7 +17,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "bauxite_ore",
       "stone": [
         "stone",
@@ -32,7 +32,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "iridium_ore",
       "stone": [
         "stone",
@@ -47,7 +47,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "lead_ore",
       "stone": [
         "stone",
@@ -62,7 +62,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "lignite_coal_ore",
       "stone": [
         "stone",
@@ -92,7 +92,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "nickel_ore",
       "stone": [
         "stone",
@@ -107,7 +107,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "salt_ore",
       "stone": [
         "stone",
@@ -122,7 +122,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "uranium_ore",
       "stone": [
         "stone",
@@ -137,7 +137,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "quartz_ore",
       "stone": [
         "stone"
@@ -150,7 +150,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "platinum_ore",
       "stone": [
         "stone"
@@ -163,7 +163,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "tin_ore",
       "stone": [
         "stone",
@@ -178,7 +178,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "titanium_ore",
       "stone": [
         "stone"
@@ -191,7 +191,7 @@
         "stone"
       ]
     },
-	{
+    {
       "id": "tungsten_ore",
       "stone": [
         "stone",
