@@ -2,17 +2,17 @@
   "mod_id": "enriched",
   "provided_stones": [
     {
-	  "id": "enriched_dark_granite",
-	  "block_id": "enriched:dark_granite",
-	  "en_name": "Dark Granite",
+      "id": "enriched_dark_granite",
+      "block_id": "enriched:dark_granite",
+      "en_name": "Dark Granite",
       "types": [
         "stone"
       ]
     },
-	{
-	  "id": "enriched_marble",
+    {
+      "id": "enriched_marble",
       "block_id": "enriched:marble",
-	  "en_name": "Marble",
+      "en_name": "Marble",
       "types": [
         "stone"
       ]
@@ -20,23 +20,23 @@
   ],
   "provided_ores": [
     {
-	  "id": "tanzanite_ore",
-	  "stone": [
-        "deepslate",
-        "stone"
+     "id": "tanzanite_ore",
+     "stone": [
+       "deepslate",
+       "stone"
       ],
       "block_id": [
-        "enriched:tanzanite_ore",
-        "enriched:deepslate_tanzanite_ore"
+       "enriched:tanzanite_ore",
+       "enriched:deepslate_tanzanite_ore"
       ],
-	  "en_name": "Tanzanite Ore",
+      "en_name": "Tanzanite Ore",
       "types": [
         "stone"
       ]
     },
-	{
-	  "id": "ruby_ore",
-	  "stone": [
+    {
+      "id": "ruby_ore",
+      "stone": [
         "deepslate",
         "stone"
       ],
@@ -44,14 +44,14 @@
         "enriched:ruby_ore",
         "enriched:deepslate_ruby_ore"
       ],
-	  "en_name": "Ruby Ore",
+      "en_name": "Ruby Ore",
       "types": [
         "stone"
       ]
     },
-	{
-	  "id": "sapphire_ore",
-	  "stone": [
+    { 
+     "id": "sapphire_ore",
+     "stone": [
         "deepslate",
         "stone"
       ],
@@ -59,7 +59,7 @@
         "enriched:sapphire_ore",
         "enriched:deepslate_sapphire_ore"
       ],
-	  "en_name": "Sapphire Ore",
+      "en_name": "Sapphire Ore",
       "types": [
         "stone"
       ]
