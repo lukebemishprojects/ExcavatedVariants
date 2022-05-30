@@ -13,7 +13,7 @@
   ],
   "provided_ores": [
     {
-      "id": "example_ore", // Identifier for this ore - their can be duplicate ores with the same id
+      "id": "example_ore", // Identifier for this ore - there can be duplicate ores with the same id
       "orename": [ // Optional; a list of names for the ore for use in constructing tags. If not provided, the id is used
         "random_ore"
       ],
