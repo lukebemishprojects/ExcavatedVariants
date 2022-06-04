@@ -100,10 +100,10 @@
         "palladium_ore"
       ],
       "types": [
-        "stone"
+        "nether"
       ],
       "stone": [
-        "stone"
+        "netherrack"
       ]
     },
     {
