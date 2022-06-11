@@ -4,8 +4,7 @@
   "package": "io.github.lukebemish.excavated_variants.quilt.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "CreativeModeTabMixin",
-    "RegistryMixin"
+    "CreativeModeTabMixin"
   ],
   "client": [],
   "server": [],

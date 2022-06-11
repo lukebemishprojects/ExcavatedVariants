@@ -5,6 +5,7 @@ import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,12 +18,12 @@ public class ForgeOreBlock extends ModifiedOreBlock implements IForgeBlock {
     }
 
     @Override
-    public int getExpDrop(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos, int fortune, int silktouch) {
+    public int getExpDrop(@NotNull BlockState state, @NotNull LevelReader level, @NotNull RandomSource randomSource, @NotNull BlockPos pos, int fortune, int silktouch) {
         Block target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
         if (target != null) {
-            return target.getExpDrop(target.defaultBlockState(), level, pos, fortune, silktouch);
+            return target.getExpDrop(target.defaultBlockState(), level, randomSource, pos, fortune, silktouch);
         } else {
-            return super.getExpDrop(state,level,pos,fortune,silktouch);
+            return super.getExpDrop(state,level,randomSource,pos,fortune,silktouch);
         }
     }
 }

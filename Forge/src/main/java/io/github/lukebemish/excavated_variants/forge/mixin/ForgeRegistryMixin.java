@@ -5,14 +5,14 @@ import com.google.common.collect.BiMap;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.forge.ExcavatedVariantsForge;
 import io.github.lukebemish.excavated_variants.platform.Services;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,11 +24,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Supplier;
 
 @Mixin(value=ForgeRegistry.class,remap=false)
-public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>> {
+public abstract class ForgeRegistryMixin<V> {
 
     @Shadow
     @Final
-    private Class<V> superType;
+    private ResourceKey<Registry<V>> key;
 
     @Shadow
     @Final
@@ -39,7 +39,7 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>> {
 
     @Inject(method = "freeze", at = @At("HEAD"))
     private void excavated_variants$registryFreezeHackery(CallbackInfo ci) {
-        if (superType == Block.class) {
+        if (key.equals(ForgeRegistries.Keys.BLOCKS)) {
             this.names.forEach((rl, value) -> {
                 ExcavatedVariants.loadedBlockRLs.add(rl);
             });
@@ -50,11 +50,10 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>> {
                         ExcavatedVariants.registerBlockAndItem((rlr,bl)->{
                             final ModContainer activeContainer = ModLoadingContext.get().getActiveContainer();
                             ModLoadingContext.get().setActiveContainer(EV_CONTAINER.get());
-                            bl.setRegistryName(rlr);
-                            ForgeRegistries.BLOCKS.register(bl);
+                            ForgeRegistries.BLOCKS.register(rlr, bl);
                             ModLoadingContext.get().setActiveContainer(activeContainer);
                         },(rlr,it)->{
-                            ExcavatedVariantsForge.toRegister.add(()->it.get().setRegistryName(rlr));
+                            ExcavatedVariantsForge.toRegister.register(rlr.getPath(), it);
                             return ()-> Services.REGISTRY_UTIL.getItemById(rlr);
                         },b);
                     }

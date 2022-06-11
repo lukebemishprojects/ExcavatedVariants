@@ -16,11 +16,17 @@ import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
+import org.quiltmc.qsl.registry.api.event.RegistryEvents;
+
+import java.util.HashSet;
 
 public class ExcavatedVariantsQuilt implements ModInitializer {
     @Override
     public void onInitialize(ModContainer modContainer) {
         ExcavatedVariants.init();
+
+        ExcavatedVariants.loadedBlockRLs.addAll(Registry.BLOCK.keySet());
+
         for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
             if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                     ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
@@ -32,6 +38,23 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
                         },b);
             }
         }
+
+        RegistryEvents.getEntryAddEvent(Registry.BLOCK).register(ctx -> {
+            ResourceLocation rl = ctx.id();
+            ExcavatedVariants.loadedBlockRLs.add(rl);
+            for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
+                if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
+                        ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
+                    ExcavatedVariants.registerBlockAndItem(
+                            (orl,bl)->Registry.register(Registry.BLOCK,orl,bl),
+                            (orl,i)-> {
+                                Item out = Registry.register(Registry.ITEM, orl, i.get());
+                                return ()->out;
+                            },b);
+                }
+            }
+        });
+
         ServerLifecycleEvents.STARTING.register(server -> {
             //Ore gen map setup
             Services.REGISTRY_UTIL.reset();

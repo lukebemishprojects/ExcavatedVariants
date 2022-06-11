@@ -17,7 +17,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
@@ -26,11 +25,10 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -38,20 +36,20 @@ import java.util.function.Supplier;
 public class ExcavatedVariantsForge {
     private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, ExcavatedVariants.MOD_ID);
 
-    public static final ArrayList<Supplier<Item>> toRegister = new ArrayList<>();
+    public static final DeferredRegister<Item> toRegister = DeferredRegister.create(ForgeRegistries.ITEMS, ExcavatedVariants.MOD_ID);
 
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> ORE_REPLACER = FEATURES.register("ore_replacer", OreReplacer::new);
 
     public ExcavatedVariantsForge() {
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
         ExcavatedVariants.init();
-        FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        FEATURES.register(modbus);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             ExcavatedVariantsClient.init();
             modbus.addListener(ExcavatedVariantsForgeClient::clientSetup);
         });
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
-        modbus.addGenericListener(Item.class, ExcavatedVariantsForge::registerItems);
+        toRegister.register(modbus);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
         MainPlatformTargetImpl.RECIPE_SERIALIZERS.register(modbus);
@@ -67,14 +65,5 @@ public class ExcavatedVariantsForge {
     }
 
     private static final Supplier<ModContainer> EV_CONTAINER = Suppliers.memoize(() -> ModList.get().getModContainerById(ExcavatedVariants.MOD_ID).orElseThrow());
-
-    public static void registerItems(RegistryEvent.Register<Item> e) {
-        final ModContainer activeContainer = ModLoadingContext.get().getActiveContainer();
-        ModLoadingContext.get().setActiveContainer(EV_CONTAINER.get());
-        for (Supplier<Item> si : toRegister) {
-            e.getRegistry().register(si.get());
-        }
-        ModLoadingContext.get().setActiveContainer(activeContainer);
-    }
 
 }

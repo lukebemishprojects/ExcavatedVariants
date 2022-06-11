@@ -7,6 +7,7 @@ import io.github.lukebemish.excavated_variants.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +18,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ModifiedOreBlock extends OreBlock {
+public class ModifiedOreBlock extends DropExperienceBlock {
     public final BaseOre ore;
     public final BaseStone stone;
 
@@ -205,7 +206,7 @@ public class ModifiedOreBlock extends OreBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (isLit) {
             if (state.getValue(BlockStateProperties.LIT)) {
                 level.setBlock(pos, state.setValue(BlockStateProperties.LIT, false), 3);
@@ -222,7 +223,7 @@ public class ModifiedOreBlock extends OreBlock {
         return super.defaultDestroyTime();
     }
 
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (target!=null) target.animateTick(state,level,pos,random);
         if (stoneTarget!=null) stoneTarget.animateTick(state,level,pos,random);
     }
@@ -257,12 +258,12 @@ public class ModifiedOreBlock extends OreBlock {
     }
 
     @Override
-    public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack) {
+    public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean bl) {
         Block target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
         if (target != null) {
-            target.spawnAfterBreak(state, level, pos, stack);
+            target.spawnAfterBreak(state, level, pos, stack, bl);
         } else {
-            super.spawnAfterBreak(state, level, pos, stack);
+            super.spawnAfterBreak(state, level, pos, stack, bl);
         }
     }
 
