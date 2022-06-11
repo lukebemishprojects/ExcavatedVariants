@@ -16,20 +16,20 @@ Description here
 [[dependencies.excavated_variants]]
 modId = "forge"
 mandatory = true
-versionRange = "[40.1.0,)"
+versionRange = "[41.0.17,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.excavated_variants]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.2,)"
+versionRange = "[1.19,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.excavated_variants]]
 modId = "dynamic_asset_generator"
 mandatory = true
-versionRange = "[0.6.0,)"
+versionRange = "[0.6.3,)"
 ordering = "AFTER"
 side = "BOTH"

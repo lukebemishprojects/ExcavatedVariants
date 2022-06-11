@@ -39,11 +39,11 @@
       },
       {
         "id": "minecraft",
-        "versions": ">=1.18.2"
+        "versions": ">=1.19"
       },
       {
         "id": "dynamic_asset_generator",
-        "versions": ">=0.6.0"
+        "versions": ">=0.6.3"
       }
     ]
   },
