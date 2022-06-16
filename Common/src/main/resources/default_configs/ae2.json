@@ -11,7 +11,7 @@
       "types": [
         "stone"
       ],
-      "texture_count" : 5,
+      "texture_count" : 10,
       "id": "certus_quartz_ore",
       "stone": [
         "stone",
