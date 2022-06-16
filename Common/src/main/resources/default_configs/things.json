@@ -1,0 +1,22 @@
+{
+  "mod_id": "things",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "block_id": [
+        "things:gleaming_ore",
+        "things:deepslate_gleaming_ore"
+      ],
+      "en_name": "Gleaming Ore",
+      "types": [
+        "stone"
+      ],
+      "texture_count": 5,
+      "id": "gleaming_ore",
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    }
+  ]
+}

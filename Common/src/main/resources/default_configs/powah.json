@@ -1,0 +1,48 @@
+{
+  "mod_id": "powah",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "block_id": [
+        "powah:uraninite_ore_poor"
+      ],
+      "en_name": "Uraninite Ore (Poor)",
+      "types": [
+        "stone"
+      ],
+      "texture_count": 5,
+      "id": "uraninite_ore_poor",
+      "stone": [
+        "stone"
+      ]
+    },
+    {
+      "block_id": [
+        "powah:uraninite_ore"
+      ],
+      "en_name": "Uraninite Ore",
+      "types": [
+        "stone"
+      ],
+      "texture_count": 5,
+      "id": "uraninite_ore",
+      "stone": [
+        "stone"
+      ]
+    },
+    {
+      "block_id": [
+        "powah:uraninite_ore_dense"
+      ],
+      "en_name": "Uraninite Ore (Dense)",
+      "types": [
+        "stone"
+      ],
+      "texture_count": 5,
+      "id": "uraninite_ore_dense",
+      "stone": [
+        "stone"
+      ]
+    }
+  ]
+}
