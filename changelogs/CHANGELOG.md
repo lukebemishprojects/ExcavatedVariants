@@ -1,3 +1,9 @@
+### Excavated Variants v0.6.3
+
+- Update for 1.19
+- Add more default mod compat
+- End fabric support (use Quilt instead!)
+
 ### Excavated Variants v0.6.2
 
 - Fix more bugs related to loading order by making services load lazily.
