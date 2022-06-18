@@ -32,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ModifiedOreBlock extends DropExperienceBlock {
     public final BaseOre ore;
@@ -52,8 +51,8 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         }
     }
 
-    private static float avgF(float a, float b) {
-        return (a+b)/2f;
+    private static float avgF(float a, float b, float weight) {
+        return (a*(weight)+b*(1-weight));
     }
 
     private static MaterialColor avgColor(MaterialColor a, MaterialColor b, float weight) {
@@ -80,15 +79,41 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             properties.requiresCorrectToolForDrops();
             IBlockPropertiesMixin newProperties = (IBlockPropertiesMixin) properties;
             IBlockPropertiesMixin oreProps = (IBlockPropertiesMixin) oreProperties;
-            properties.strength(avgF(target.defaultDestroyTime(),stoneTarget.defaultDestroyTime()),avgF(target.getExplosionResistance(),stoneTarget.getExplosionResistance()))
+            properties.strength(avgStrength(target.defaultDestroyTime(),stoneTarget.defaultDestroyTime(),0.5f),
+                            avgF(target.getExplosionResistance(),stoneTarget.getExplosionResistance(),0.5f))
                     .color(avgColor(stoneTarget.defaultMaterialColor(),target.defaultMaterialColor(),0.8F));
             newProperties.setDynamicShape(false);
             newProperties.setHasCollision(true);
             newProperties.setIsRandomlyTicking(oreProps.getIsRandomlyTicking());
-            newProperties.setLightEmission(oreProps.getLightEmission());
+            newProperties.setLightEmission(blockstate -> oreProps.getLightEmission().applyAsInt(withProperties(blockstate, target)));
             return properties;
         }
         return BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f);
+    }
+
+    public static float avgStrength(float a, float b, float weight) {
+        if (a<0 || b<0) return -1f;
+        return avgF(a,b,weight);
+    }
+
+    private static BlockState withProperties(BlockState state, Block target) {
+        BlockState blockState = target.defaultBlockState();
+        Block block = state.getBlock();
+        if (block instanceof ModifiedOreBlock self) {
+
+            var arr = self.props == null ? staticProps : self.props;
+            for (Property<?> property : arr) {
+                if (blockState.hasProperty(property)) {
+                    blockState = copyProperty(state, blockState, property);
+                }
+            }
+        }
+
+        return blockState;
+    }
+
+    private static <T extends Comparable<T>> BlockState copyProperty(BlockState sourceState, BlockState targetState, Property<T> property) {
+        return targetState.setValue(property, sourceState.getValue(property));
     }
 
     static Property<?>[] staticProps;
@@ -148,7 +173,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
                 }
                 if (p == BlockStateProperties.HORIZONTAL_AXIS) {
                     this.isHorizontalAxis = true;
-                    bs = bs.setValue(BlockStateProperties.AXIS, Direction.Axis.Y);
+                    bs = bs.setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.Y);
                 }
             }
             this.registerDefaultState(bs);
@@ -292,20 +317,5 @@ public class ModifiedOreBlock extends DropExperienceBlock {
 
     public boolean isFacingType() {
         return isFacing||isHorizontalFacing||isHopperFacing;
-    }
-
-    public BlockState getStateForReplacement(BlockState thisState) {
-        if (isFacing && thisState.hasProperty(BlockStateProperties.FACING)) {
-            return defaultBlockState().setValue(BlockStateProperties.FACING,thisState.getValue(BlockStateProperties.FACING));
-        } else if (isHorizontalFacing && thisState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-            return defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING,thisState.getValue(BlockStateProperties.HORIZONTAL_FACING));
-        } else if (isHopperFacing && thisState.hasProperty(BlockStateProperties.FACING_HOPPER)) {
-            return defaultBlockState().setValue(BlockStateProperties.FACING_HOPPER,thisState.getValue(BlockStateProperties.FACING_HOPPER));
-        } else if (isAxis && thisState.hasProperty(BlockStateProperties.AXIS)) {
-            return defaultBlockState().setValue(BlockStateProperties.AXIS,thisState.getValue(BlockStateProperties.AXIS));
-        } else if (isHorizontalAxis && thisState.hasProperty(BlockStateProperties.HORIZONTAL_AXIS)) {
-            return defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_AXIS,thisState.getValue(BlockStateProperties.HORIZONTAL_AXIS));
-        }
-        return defaultBlockState();
     }
 }

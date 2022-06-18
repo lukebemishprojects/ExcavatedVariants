@@ -91,7 +91,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                                 if (stone != null) {
                                     Block oreBlock = Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
                                     if (pair.last().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
-                                        BlockState def = modifiedOreBlock.getStateForReplacement(thisState);
+                                        BlockState def = modifiedOreBlock.withPropertiesOf(thisState);
                                         chunkSection.setBlockState(i, y & 15, j, def, false);
                                         continue inner_loop;
                                     }

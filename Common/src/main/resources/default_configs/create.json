@@ -2,7 +2,7 @@
   "mod_id": "create",
   "provided_stones": [
     {
-      "id": "create_smooth_basalt",
+      "id": "smooth_basalt",
       "en_name": "Smooth Basalt",
       "block_id": "minecraft:smooth_basalt",
       "types": [

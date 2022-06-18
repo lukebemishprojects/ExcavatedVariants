@@ -129,7 +129,13 @@ public class ExcavatedVariants {
             if (modids.containsAll(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
                     if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
-                        stoneMap.put(stone.id, stone);
+                        if (!stoneMap.containsKey(stone.id)) stoneMap.put(stone.id, stone);
+                        else {
+                            BaseStone stoneOld = stoneMap.get(stone.id);
+                            List<String> types = new ArrayList<>(stoneOld.types);
+                            types.addAll(stone.types.stream().filter(s->!stoneOld.types.contains(s)).toList());
+                            stoneOld.types = types;
+                        }
                     }
                 }
                 for (BaseOre ore : mod.provided_ores) {
