@@ -11,7 +11,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "soulstone_ore",
       "stone": [
         "stone",
@@ -24,12 +23,11 @@
       ],
       "en_name": "Blazing Quartz Ore",
       "types": [
-	"nether"
+        "nether"
       ],
-      "texture_count": 5,
       "id": "blazing_quartz_ore",
       "stone": [
-	"netherrack"
+         "netherrack"
       ]
     }
   ]

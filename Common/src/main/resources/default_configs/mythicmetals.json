@@ -11,7 +11,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "adamantite_ore",
       "stone": [
         "deepslate",
@@ -26,13 +25,12 @@
       "en_name": "Banglum Ore",
       "types": [
         "stone",
-	"nether"
+        "nether"
       ],
-      "texture_count": 5,
       "id": "banglum_ore",
       "stone": [
         "stone",
-	"netherrack"
+        "netherrack"
       ]
     },
     {
@@ -43,7 +41,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "aquarium_ore",
       "stone": [
         "stone"
@@ -58,11 +55,10 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "carmot_ore",
       "stone": [
         "stone",
-	"deepslate"
+        "deepslate"
       ]
     },
     {
@@ -74,11 +70,10 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "kyber_ore",
       "stone": [
         "stone",
-	"calcite"
+        "calcite"
       ]
     },
     {
@@ -89,7 +84,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "manganese_ore",
       "stone": [
         "stone"
@@ -104,11 +98,10 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "morkite_ore",
       "stone": [
         "stone",
-	"deepslate"
+        "deepslate"
       ]
     },
     {
@@ -119,10 +112,9 @@
       "types": [
         "nether"
       ],
-      "texture_count": 5,
       "id": "midas_gold_ore",
       "stone": [
-	"netherrack"
+        "netherrack"
       ]
     },
     {
@@ -134,7 +126,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "mythril_ore",
       "stone": [
         "stone",
@@ -152,7 +143,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "orichalcum_ore",
       "stone": [
         "tuff",
@@ -169,7 +159,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "osmium_ore",
       "stone": [
         "stone"
@@ -183,7 +172,6 @@
       "types": [
         "nether"
       ],
-      "texture_count": 5,
       "id": "palladium_ore",
       "stone": [
         "netherrack"
@@ -197,7 +185,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "platinum_ore",
       "stone": [
         "stone"
@@ -212,11 +199,10 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "prometheum_ore",
       "stone": [
         "stone",
-	"deepslate"
+        "deepslate"
       ]
     },
     {
@@ -227,7 +213,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "quadrillum_ore",
       "stone": [
         "stone"
@@ -241,7 +226,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "runite_ore",
       "stone": [
         "stone"
@@ -255,7 +239,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "silver_ore",
       "stone": [
         "stone"
@@ -270,14 +253,13 @@
       "en_name": "Starrite Ore",
       "types": [
         "stone",
-	"end"
+        "end"
       ],
-      "texture_count": 5,
       "id": "starrite_ore",
       "stone": [
         "stone",
-	"calcite",
-	"end_stone"
+        "calcite",
+        "end_stone"
       ]
     },
     {
@@ -289,11 +271,10 @@
       "types": [
         "nether"
       ],
-      "texture_count": 5,
       "id": "stormyx_ore",
       "stone": [
         "netherrack",
-	"blackstone"
+        "blackstone"
       ]
     },
     {
@@ -304,7 +285,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "tin_ore",
       "stone": [
         "stone"
@@ -319,11 +299,10 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "unobtainium_ore",
       "stone": [
         "stone",
-	"deepslate"
+        "deepslate"
       ]
     }
   ]

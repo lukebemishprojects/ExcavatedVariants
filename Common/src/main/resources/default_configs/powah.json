@@ -10,7 +10,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "uraninite_ore_poor",
       "stone": [
         "stone"
@@ -24,7 +23,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "uraninite_ore",
       "stone": [
         "stone"
@@ -38,7 +36,6 @@
       "types": [
         "stone"
       ],
-      "texture_count": 5,
       "id": "uraninite_ore_dense",
       "stone": [
         "stone"
