@@ -6,10 +6,7 @@ import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import com.mojang.serialization.JsonOps;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -61,6 +58,7 @@ public class ModConfig {
                 path = FileSystems.newFileSystem(url.toURI(), env).getPath("/default_configs/");
             }
             Files.list(path).forEach(p -> {
+                if (p.getFileName().toString().contains("EXAMPLE.json")) return;
                 try {
                     JsonObject json = GSON.fromJson(Files.newBufferedReader(p,StandardCharsets.UTF_8),JsonObject.class);
                     ModData data = ModData.CODEC.parse(JsonOps.INSTANCE,json).getOrThrow(false,(e)-> {
@@ -192,6 +190,27 @@ public class ModConfig {
         if (!Files.exists(path)) {
             Files.createFile(path);
             save(getDefault());
+            try {
+                var url = ModConfig.class.getResource("/default_configs/EXAMPLE.json");
+                if (url == null) throw new IOException("default_configs resource not found!");
+                Path exPath;
+                try {
+                    exPath = Paths.get(url.toURI());
+                } catch (FileSystemNotFoundException e) {
+                    // If this is thrown, then it means that we are running the JAR directly (example: not from an IDE)
+                    var env = new HashMap<String, String>();
+                    exPath = FileSystems.newFileSystem(url.toURI(), env).getPath("/default_configs/EXAMPLE.json");
+                }
+                try (var br = Files.newBufferedReader(exPath,StandardCharsets.UTF_8);
+                     var bw = new BufferedWriter(new FileWriter(DIR_PATH+"EXAMPLE.json"))) {
+                    String data;
+                    while ((data = br.readLine()) != null) {
+                        bw.append(data).append("\n");
+                    }
+                }
+            } catch (IOException | URISyntaxException e) {
+                ExcavatedVariants.LOGGER.info("Could not copy example config. What's up with that?");
+            }
         }
     }
 }

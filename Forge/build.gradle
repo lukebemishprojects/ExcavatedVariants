@@ -51,7 +51,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('runserver')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
             property 'mixin.env.remapRefMap', 'true'
@@ -98,11 +98,12 @@ dependencies {
 
     compileOnly(fg.deobf("curse.maven:hyle-609850:3748968"))
 
-    compileOnly(fg.deobf("mezz.jei:jei-${rootProject.jei_minecraft_version}:${rootProject.jei_version}:api"))
+    compileOnly(fg.deobf("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${rootProject.jei_minecraft_version}-forge-api:${rootProject.jei_version}"))
     // at runtime, use the full JEI jar
     //runtimeOnly(fg.deobf("mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}"))
 
-    compileOnly("me.shedaniel:RoughlyEnoughItems-api:9.0.475"){transitive=false}
+    compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
 
     implementation(fg.deobf("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-forge-${rootProject.minecraft_version}:${rootProject.lib_version}"))
 }

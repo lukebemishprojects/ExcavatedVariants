@@ -48,11 +48,10 @@ dependencies {
 
 	modCompileOnly "curse.maven:hyle-609850:3746990"
 	modImplementation("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-quilt-${rootProject.minecraft_version}:${rootProject.lib_version}")
-	compileOnly("me.shedaniel:RoughlyEnoughItems-api:9.0.475"){transitive=false}
+	compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
 
-	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilted_fabric_api}") {
-		exclude group: "org.quiltmc", module:" qsl"
-	}
+	modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")
+	modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-fabric-api:${rootProject.jei_version}")
 }
 
 loom {
@@ -69,7 +68,7 @@ loom {
 			server()
 			setConfigName("Quilt Server")
 			ideConfigGenerated(true)
-			runDir("run")
+			runDir("runserver")
 		}
 	}
 

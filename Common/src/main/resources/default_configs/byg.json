@@ -180,22 +180,6 @@
       ]
     },
     {
-      "id": "lignite_ore",
-      "en_name": "Lignite Ore",
-      "block_id": [
-        "byg:lignite_ore"
-      ],
-      "orename": [
-        "lignite_ore"
-      ],
-      "types": [
-        "end"
-      ],
-      "stone": [
-        "byg_ether_stone"
-      ]
-    },
-    {
       "id": "quartz_ore",
       "stone": [
         "byg_brimstone",

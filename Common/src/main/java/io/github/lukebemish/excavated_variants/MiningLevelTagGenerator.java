@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import io.github.lukebemish.dynamic_asset_generator.Pair;
 import io.github.lukebemish.dynamic_asset_generator.api.ResettingSupplier;
 import io.github.lukebemish.dynamic_asset_generator.api.ServerPrePackRepository;
+import io.github.lukebemish.excavated_variants.platform.Services;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.*;
@@ -38,7 +39,7 @@ public class MiningLevelTagGenerator {
         return outList;
     }
     public ResettingSupplier<Boolean> supplyFor(String full_id) {
-        return new ResettingSupplier<Boolean>() {
+        return new ResettingSupplier<>() {
             @Override
             public void reset() {
                 MiningLevelTagGenerator.this.reset();
@@ -47,7 +48,7 @@ public class MiningLevelTagGenerator {
             @Override
             public Boolean get() {
                 MiningLevelTagGenerator.this.get();
-                return to_add.contains(full_id);
+                return to_add.contains(full_id) && Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID,full_id))!=null;
             }
         };
     }

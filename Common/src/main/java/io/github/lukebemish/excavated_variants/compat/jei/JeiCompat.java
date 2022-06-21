@@ -1,4 +1,4 @@
-package io.github.lukebemish.excavated_variants.forge.compat;
+package io.github.lukebemish.excavated_variants.compat.jei;
 
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.data.BaseOre;

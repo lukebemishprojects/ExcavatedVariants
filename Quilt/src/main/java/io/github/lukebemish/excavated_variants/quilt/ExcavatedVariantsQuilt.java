@@ -1,11 +1,10 @@
 package io.github.lukebemish.excavated_variants.quilt;
 
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
+import io.github.lukebemish.excavated_variants.S2CConfigAgreementPacket;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import io.github.lukebemish.excavated_variants.quilt.compat.HyleCompat;
 import io.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -16,11 +15,16 @@ import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
+import org.quiltmc.qsl.networking.api.PacketByteBufs;
+import org.quiltmc.qsl.networking.api.ServerLoginConnectionEvents;
 import org.quiltmc.qsl.registry.api.event.RegistryEvents;
+import org.quiltmc.qsl.worldgen.biome.api.BiomeModifications;
+import org.quiltmc.qsl.worldgen.biome.api.ModificationPhase;
 
-import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class ExcavatedVariantsQuilt implements ModInitializer {
+    public static final ResourceLocation S2C_CONFIG_AGREEMENT_PACKET = new ResourceLocation(ExcavatedVariants.MOD_ID, "config_agreement");
     @Override
     public void onInitialize(ModContainer modContainer) {
         ExcavatedVariants.init();
@@ -73,5 +77,14 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
         if (QuiltLoader.isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
             HyleCompat.init();
         }
+
+        ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) -> {
+            var packet = new S2CConfigAgreementPacket(ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.last().stream().map(
+                    stone -> new ResourceLocation(ExcavatedVariants.MOD_ID,
+                            stone.id + "_" + p.first().id))).collect(Collectors.toSet()));
+            var buf = PacketByteBufs.create();
+            packet.encoder(buf);
+            sender.sendPacket(sender.createPacket(S2C_CONFIG_AGREEMENT_PACKET, buf));
+        });
     }
 }

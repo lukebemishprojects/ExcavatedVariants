@@ -3,11 +3,13 @@ package io.github.lukebemish.excavated_variants.forge;
 import com.google.common.base.Suppliers;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
+import io.github.lukebemish.excavated_variants.S2CConfigAgreementPacket;
 import io.github.lukebemish.excavated_variants.forge.compat.HyleCompat;
 import io.github.lukebemish.excavated_variants.worldgen.OreReplacer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -21,14 +23,13 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.*;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -53,6 +54,13 @@ public class ExcavatedVariantsForge {
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
         MainPlatformTargetImpl.RECIPE_SERIALIZERS.register(modbus);
+
+        EVPacketHandler.INSTANCE.registerMessage(0, S2CConfigAgreementPacket.class, S2CConfigAgreementPacket::encoder, S2CConfigAgreementPacket::decoder, (msg, c) -> {
+            c.get().enqueueWork(() -> {
+                msg.consumeMessage(string -> c.get().getNetworkManager().disconnect(Component.literal(string)));
+            });
+            c.get().setPacketHandled(true);
+        });
     }
 
     public static void commonSetup(FMLCommonSetupEvent event) {
