@@ -1,0 +1,34 @@
+{
+  "mod_id": "malum",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "block_id": [
+        "malum:soulstone_ore",
+        "malum:deepslate_soulstone_ore"
+      ],
+      "en_name": "Soulstone Ore",
+      "types": [
+        "stone"
+      ],
+      "id": "soulstone_ore",
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    },
+    {
+      "block_id": [
+        "malum:blazing_quartz_ore"
+      ],
+      "en_name": "Blazing Quartz Ore",
+      "types": [
+        "nether"
+      ],
+      "id": "blazing_quartz_ore",
+      "stone": [
+         "netherrack"
+      ]
+    }
+  ]
+}

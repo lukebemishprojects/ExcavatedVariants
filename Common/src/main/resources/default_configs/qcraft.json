@@ -1,0 +1,21 @@
+{
+  "mod_id": "qcraft",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "block_id": [
+        "qcraft:quantum_ore",
+        "qcraft:deepslate_quantum_ore"
+      ],
+      "en_name": "Quantum Ore",
+      "types": [
+        "stone"
+      ],
+      "id": "quantum_ore",
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    }
+  ]
+}
