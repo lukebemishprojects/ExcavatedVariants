@@ -1,0 +1,19 @@
+{
+  "mod_id": "purpeille",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "block_id": [
+        "purpeille:purpur_remnants"
+      ],
+      "en_name": "Purpur Remnants",
+      "types": [
+        "end"
+      ],
+      "id": "purpur_remnants",
+      "stone": [
+        "end_stone"
+      ]
+    }
+  ]
+}
