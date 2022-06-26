@@ -33,3 +33,10 @@ mandatory = true
 versionRange = "[0.6.3,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.excavated_variants]]
+modId = "defaultresources"
+mandatory = true
+versionRange = "[0.1.0,)"
+ordering = "AFTER"
+side = "BOTH"

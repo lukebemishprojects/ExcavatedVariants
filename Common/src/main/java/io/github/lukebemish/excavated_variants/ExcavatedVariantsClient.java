@@ -23,7 +23,7 @@ public class ExcavatedVariantsClient {
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
             if (modids.containsAll(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
-                    if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
+                    if (!ExcavatedVariants.getConfig().configResource.blacklist_stones.contains(stone.id)) {
                         stoneMap.put(stone.id, stone);
                     }
                 }

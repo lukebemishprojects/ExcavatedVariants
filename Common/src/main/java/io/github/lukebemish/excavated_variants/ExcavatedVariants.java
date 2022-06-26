@@ -1,5 +1,6 @@
 package io.github.lukebemish.excavated_variants;
 
+import io.github.lukebemish.dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
 import io.github.lukebemish.excavated_variants.api.IOreListModifier;
 import io.github.lukebemish.excavated_variants.client.ClientServices;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
@@ -9,7 +10,6 @@ import io.github.lukebemish.excavated_variants.data.ModData;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import io.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
 import io.github.lukebemish.excavated_variants.util.Pair;
-import io.github.lukebemish.dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -128,7 +128,7 @@ public class ExcavatedVariants {
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
             if (modids.containsAll(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
-                    if (!ExcavatedVariants.getConfig().blacklist_stones.contains(stone.id)) {
+                    if (!ExcavatedVariants.getConfig().configResource.blacklist_stones.contains(stone.id)) {
                         if (!stoneMap.containsKey(stone.id)) stoneMap.put(stone.id, stone);
                         else {
                             BaseStone stoneOld = stoneMap.get(stone.id);
@@ -139,7 +139,7 @@ public class ExcavatedVariants {
                     }
                 }
                 for (BaseOre ore : mod.provided_ores) {
-                    if (!ExcavatedVariants.getConfig().blacklist_ores.contains(ore.id)) {
+                    if (!ExcavatedVariants.getConfig().configResource.blacklist_ores.contains(ore.id)) {
                         oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
                         oreMap.get(ore.id).add(ore);
                     }
@@ -175,7 +175,7 @@ public class ExcavatedVariants {
             for (BaseStone stone : stoneMap.values()) {
                 if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
                     String full_id = stone.id + "_" + id;
-                    if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
+                    if (!ExcavatedVariants.getConfig().configResource.blacklist_ids.contains(full_id)) {
                         pair.last().add(stone);
                     }
                 }
@@ -196,7 +196,7 @@ public class ExcavatedVariants {
                 out.add(o);
                 for (BaseStone stone : p.last()) {
                     String full_id = stone.id + "_" + ore.id;
-                    if (!ExcavatedVariants.getConfig().blacklist_ids.contains(full_id)) {
+                    if (!ExcavatedVariants.getConfig().configResource.blacklist_ids.contains(full_id)) {
                         o.last().add(stone);
                     }
                 }
@@ -209,7 +209,7 @@ public class ExcavatedVariants {
 
     public static ModConfig getConfig() {
         if (configs == null) {
-            configs = ModConfig.get();
+            configs = ModConfig.load();
         }
         return configs;
     }

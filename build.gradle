@@ -58,11 +58,6 @@ subprojects {
             name = "Progwml6 maven"
             url = "https://dvs1.progwml6.com/files/maven/"
         }
-        maven {
-            url = uri("https://storage.googleapis.com/devan-maven/")
-            // for 0.4.2 and older
-            // url uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/")
-        }
         maven { url "https://maven.architectury.dev/" }
 
         mavenLocal()

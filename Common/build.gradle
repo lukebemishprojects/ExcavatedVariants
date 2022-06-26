@@ -44,6 +44,7 @@ dependencies {
     modCompileOnly("org.quiltmc:quilt-loader:${quilt_loader_version}")
 
     compileOnly("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-common-${rootProject.minecraft_version}:${rootProject.lib_version}")
+    compileOnly("io.github.lukebemish.defaultresources:defaultresources-common-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
 
 
     modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")

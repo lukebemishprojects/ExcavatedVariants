@@ -87,6 +87,8 @@ configurations {
     testCompileOnly.extendsFrom(compileOnly)
 }
 
+jarJar.enable()
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":Common")
@@ -106,6 +108,9 @@ dependencies {
     compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
 
     implementation(fg.deobf("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-forge-${rootProject.minecraft_version}:${rootProject.lib_version}"))
+    implementation(fg.deobf("io.github.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:${rootProject.defaultresources_version}"))
+
+    jarJar("io.github.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:[${rootProject.defaultresources_version},)")
 }
 
 mixin {

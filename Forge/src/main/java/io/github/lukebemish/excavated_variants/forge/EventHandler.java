@@ -26,7 +26,7 @@ public class EventHandler {
         ExcavatedVariants.oreStoneList = null;
         OreFinderUtil.setupBlocks();
         ExcavatedVariants.setupMap();
-        if (ExcavatedVariants.getConfig().attempt_ore_replacement) {
+        if (ExcavatedVariants.getConfig().attempt_worldgen_replacement) {
             MinecraftServer server = event.getServer();
             BiomeInjector.addFeatures(((IMinecraftServerMixin)server).getRegistryHolder().registry(Registry.BIOME_REGISTRY).get());
         }
