@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 @Mixin(value=ForgeRegistry.class,remap=false)
@@ -44,6 +45,7 @@ public abstract class ForgeRegistryMixin<V> {
                 ExcavatedVariants.loadedBlockRLs.add(rl);
             });
             if (ExcavatedVariants.hasLoaded()) {
+                ArrayList<ExcavatedVariants.RegistryFuture> toRemove = new ArrayList<>();
                 for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
                     if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                             ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
@@ -56,7 +58,9 @@ public abstract class ForgeRegistryMixin<V> {
                             ExcavatedVariantsForge.toRegister.register(rlr.getPath(), it);
                             return ()-> Services.REGISTRY_UTIL.getItemById(rlr);
                         },b);
+                        toRemove.add(b);
                     }
+                    ExcavatedVariants.blockList.removeAll(toRemove);
                 }
             }
         }

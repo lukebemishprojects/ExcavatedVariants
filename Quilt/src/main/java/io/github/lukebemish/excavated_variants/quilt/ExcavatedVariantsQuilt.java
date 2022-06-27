@@ -17,10 +17,12 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.ServerLoginConnectionEvents;
+import org.quiltmc.qsl.networking.api.ServerLoginNetworking;
 import org.quiltmc.qsl.registry.api.event.RegistryEvents;
 import org.quiltmc.qsl.worldgen.biome.api.BiomeModifications;
 import org.quiltmc.qsl.worldgen.biome.api.ModificationPhase;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class ExcavatedVariantsQuilt implements ModInitializer {
@@ -31,6 +33,7 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
 
         ExcavatedVariants.loadedBlockRLs.addAll(Registry.BLOCK.keySet());
 
+        ArrayList<ExcavatedVariants.RegistryFuture> toRemove = new ArrayList<>();
         for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
             if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                     ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
@@ -40,12 +43,15 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
                             Item out = Registry.register(Registry.ITEM,rl,i.get());
                             return ()->out;
                         },b);
+                toRemove.add(b);
             }
         }
+        ExcavatedVariants.blockList.removeAll(toRemove);
 
         RegistryEvents.getEntryAddEvent(Registry.BLOCK).register(ctx -> {
             ResourceLocation rl = ctx.id();
             ExcavatedVariants.loadedBlockRLs.add(rl);
+            ArrayList<ExcavatedVariants.RegistryFuture> toRemove2 = new ArrayList<>();
             for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
                 if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                         ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
@@ -55,8 +61,10 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
                                 Item out = Registry.register(Registry.ITEM, orl, i.get());
                                 return ()->out;
                             },b);
+                    toRemove2.add(b);
                 }
             }
+            ExcavatedVariants.blockList.removeAll(toRemove2);
         });
 
         ServerLifecycleEvents.STARTING.register(server -> {
@@ -80,11 +88,14 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
 
         ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) -> {
             var packet = new S2CConfigAgreementPacket(ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.last().stream().map(
-                    stone -> new ResourceLocation(ExcavatedVariants.MOD_ID,
-                            stone.id + "_" + p.first().id))).collect(Collectors.toSet()));
+                    stone -> stone.id + "_" + p.first().id)).collect(Collectors.toSet()));
             var buf = PacketByteBufs.create();
             packet.encoder(buf);
             sender.sendPacket(sender.createPacket(S2C_CONFIG_AGREEMENT_PACKET, buf));
         });
+
+        ServerLoginNetworking.registerGlobalReceiver(S2C_CONFIG_AGREEMENT_PACKET, ((server, handler, understood, buf, synchronizer, responseSender) -> {
+            //Do I need to do anything here?
+        }));
     }
 }

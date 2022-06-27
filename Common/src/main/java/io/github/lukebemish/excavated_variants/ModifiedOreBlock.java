@@ -173,7 +173,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
                 }
                 if (p == BlockStateProperties.HORIZONTAL_AXIS) {
                     this.isHorizontalAxis = true;
-                    bs = bs.setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.Y);
+                    bs = bs.setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.Z);
                 }
             }
             this.registerDefaultState(bs);

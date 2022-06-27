@@ -8,7 +8,6 @@ import io.github.lukebemish.excavated_variants.mixin.IMinecraftServerMixin;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import io.github.lukebemish.excavated_variants.worldgen.OreFinderUtil;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.player.PlayerNegotiationEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
@@ -36,8 +35,7 @@ public class EventHandler {
     public static void onPlayerNegotiation(PlayerNegotiationEvent playerNegotiationEvent) {
         EVPacketHandler.INSTANCE.sendTo(new S2CConfigAgreementPacket(
                 ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.last().stream().map(
-                        stone -> new ResourceLocation(ExcavatedVariants.MOD_ID,
-                                stone.id + "_" + p.first().id))).collect(Collectors.toSet())),
+                        stone -> stone.id + "_" + p.first().id)).collect(Collectors.toSet())),
                 playerNegotiationEvent.getConnection(),
                 NetworkDirection.LOGIN_TO_CLIENT
         );

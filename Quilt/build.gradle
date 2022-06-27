@@ -42,7 +42,7 @@ dependencies {
 	}
 
 	// Needed for Hyle, etc.
-	modCompileOnly("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilted_fabric_api}") {
+	modImplementation("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilted_fabric_api}") {
 		exclude group: "org.quiltmc", module:" qsl"
 	}
 

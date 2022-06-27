@@ -258,7 +258,7 @@ public class ExcavatedVariants {
 
     private static final List<Supplier<Item>> items = new ArrayList<>();
     private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
-    private static final List<RegistryFuture> blockList = new ArrayList<>();
+    public static final List<RegistryFuture> blockList = new ArrayList<>();
 
 
     public static ConfiguredFeature<NoneFeatureConfiguration,?> ORE_REPLACER_CONFIGURED;
