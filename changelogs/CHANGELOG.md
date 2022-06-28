@@ -1,3 +1,7 @@
+### Excavated Variants v0.7.0
+
+- Switch system for loading variant configs to use defaultresources instead of configs
+
 ### Excavated Variants v0.6.3
 
 - Update for 1.19
