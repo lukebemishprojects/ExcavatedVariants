@@ -30,13 +30,13 @@ side = "BOTH"
 [[dependencies.excavated_variants]]
 modId = "dynamic_asset_generator"
 mandatory = true
-versionRange = "[0.6.3,)"
+versionRange = "[0.7.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.excavated_variants]]
 modId = "defaultresources"
 mandatory = true
-versionRange = "[0.1.0,)"
+versionRange = "[0.1.1,)"
 ordering = "AFTER"
 side = "BOTH"

@@ -60,8 +60,8 @@ public abstract class ForgeRegistryMixin<V> {
                         },b);
                         toRemove.add(b);
                     }
-                    ExcavatedVariants.blockList.removeAll(toRemove);
                 }
+                ExcavatedVariants.blockList.removeAll(toRemove);
             }
         }
     }

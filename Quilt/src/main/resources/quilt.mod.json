@@ -34,7 +34,7 @@
     "depends": [
       {
         "id": "quilt_loader",
-        "versions": ">=0.16.0-"
+        "versions": "*"
       },
       {
         "id": "minecraft",
@@ -42,11 +42,11 @@
       },
       {
         "id": "dynamic_asset_generator",
-        "versions": ">=0.6.3"
+        "versions": ">=0.7.0"
       },
       {
         "id": "defaultresources",
-        "versions": ">=0.1.0"
+        "versions": ">=0.1.1"
       }
     ]
   },
