@@ -13,13 +13,13 @@ The main config file, `config/excavated_variants.json`, contains several options
 * **jei\_rei\_compat**: Toggles compatibility with JEI and REI for added conversion recipes.
 * **unobtainable\_variants**: If this is set to true, variants will drop the base ore, even with silk touch.
 
-Configs relating to how ores are registered are added in `defaultresources/[folder]/excavated_variants/[namespace]/configs`. They can contain the following options:
+Configs relating to how ores are registered are added in `globalresources/[folder]/excavated_variants/[namespace]/configs`. They can contain the following options:
 
 * **blacklist\_ores** and **blacklist\_stones**: A way of disabling specific ores/stones by name.
 * **blacklist\_ids**: A way of disabling specific stone/ore combinations. The value entered here should be the path of the block ID. For instance, for Andesite Redstone Ore this would be `andesite_redstone_ore`.
 * **priority**: Allows certain config files to be loaded before others, in the order specified within. These should be a namespaced location of the variant config file.
 
-Configs for adding stones or ores are placed in `defaultresources/[folder]/excavated_variants/[namespace]/variants`. These take the following format:
+Configs for adding stones or ores are placed in `globalresources/[folder]/excavated_variants/[namespace]/variants`. These take the following format:
 
 * **mod\_id**: The ID of the mod necessary for this config to load, or a list of IDs for the required mods.
 * **provided_stones**: A list of stones provided by the config.
