@@ -2,14 +2,6 @@
   "mod_id": "biomesoplenty",
   "provided_stones": [
     {
-      "id": "blockus_limestone",
-      "en_name": "Limestone",
-      "block_id": "biomesoplenty:white_sandstone",
-      "types": [
-        "stone"
-      ]
-    },
-    {
 		"block_id": "biomesoplenty:white_sandstone",
 		"types": [
 		"stone"
