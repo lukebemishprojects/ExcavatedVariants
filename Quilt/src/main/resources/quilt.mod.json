@@ -23,9 +23,8 @@
       "client_init": [
         "io.github.lukebemish.excavated_variants.quilt.ExcavatedVariantsClientQuilt"
       ],
-      "rei": [
-        "io.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsClientPlugin",
-        "io.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsServerPlugin"
+      "rei_client": [
+        "io.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsClientPlugin"
       ],
       "jei_mod_plugin": [
         "io.github.lukebemish.excavated_variants.compat.jei.JeiCompat"

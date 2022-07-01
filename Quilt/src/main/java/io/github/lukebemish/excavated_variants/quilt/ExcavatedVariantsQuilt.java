@@ -27,6 +27,9 @@ import java.util.stream.Collectors;
 
 public class ExcavatedVariantsQuilt implements ModInitializer {
     public static final ResourceLocation S2C_CONFIG_AGREEMENT_PACKET = new ResourceLocation(ExcavatedVariants.MOD_ID, "config_agreement");
+
+    private boolean isRegistering = false;
+
     @Override
     public void onInitialize(ModContainer modContainer) {
         ExcavatedVariants.init();
@@ -51,20 +54,24 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
         RegistryEvents.getEntryAddEvent(Registry.BLOCK).register(ctx -> {
             ResourceLocation rl = ctx.id();
             ExcavatedVariants.loadedBlockRLs.add(rl);
-            ArrayList<ExcavatedVariants.RegistryFuture> toRemove2 = new ArrayList<>();
-            for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
-                if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
-                        ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
-                    ExcavatedVariants.registerBlockAndItem(
-                            (orl,bl)->Registry.register(Registry.BLOCK,orl,bl),
-                            (orl,i)-> {
-                                Item out = Registry.register(Registry.ITEM, orl, i.get());
-                                return ()->out;
-                            },b);
-                    toRemove2.add(b);
+            if (!isRegistering) {
+                isRegistering = true;
+                ArrayList<ExcavatedVariants.RegistryFuture> toRemove2 = new ArrayList<>();
+                for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
+                    if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
+                            ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
+                        ExcavatedVariants.registerBlockAndItem(
+                                (orl, bl) -> Registry.register(Registry.BLOCK, orl, bl),
+                                (orl, i) -> {
+                                    Item out = Registry.register(Registry.ITEM, orl, i.get());
+                                    return () -> out;
+                                }, b);
+                        toRemove2.add(b);
+                    }
                 }
+                ExcavatedVariants.blockList.removeAll(toRemove2);
+                isRegistering = false;
             }
-            ExcavatedVariants.blockList.removeAll(toRemove2);
         });
 
         ServerLifecycleEvents.STARTING.register(server -> {

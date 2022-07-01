@@ -36,12 +36,12 @@ public class ExcavatedVariantsClientPlugin implements REIClientPlugin {
                     }
                 }
                 Item outItem = Services.REGISTRY_UTIL.getItemById(p.first().block_id.get(0));
-                if (items.size() > 0 && outItem != null) {
+                if (!items.isEmpty() && outItem != null) {
                     Ingredient input = Ingredient.of(items.stream().map(ItemStack::new));
                     ItemStack output = new ItemStack(outItem);
                     NonNullList<Ingredient> inputs = NonNullList.of(Ingredient.EMPTY, input);
-                    String ore_id = p.first().id;
-                    recipes.add(new ShapelessRecipe(new ResourceLocation(ExcavatedVariants.MOD_ID, ore_id + "_conversion"), "excavated_variants.ore_conversion", output, inputs));
+                    String oreId = p.first().id;
+                    recipes.add(new ShapelessRecipe(new ResourceLocation(ExcavatedVariants.MOD_ID, oreId + "_conversion"), "excavated_variants.ore_conversion", output, inputs));
                 }
             }
             CategoryIdentifier<Display> categoryIdentifier = CategoryIdentifier.of("minecraft", "plugins/crafting");
