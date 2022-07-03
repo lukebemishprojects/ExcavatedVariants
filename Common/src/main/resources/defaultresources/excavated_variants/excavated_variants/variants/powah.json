@@ -4,7 +4,8 @@
   "provided_ores": [
     {
       "block_id": [
-        "powah:uraninite_ore_poor"
+        "powah:uraninite_ore_poor",
+        "powah:deepslate_uraninite_ore_poor"
       ],
       "en_name": "Uraninite Ore (Poor)",
       "types": [
@@ -12,12 +13,14 @@
       ],
       "id": "uraninite_ore_poor",
       "stone": [
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "block_id": [
-        "powah:uraninite_ore"
+        "powah:uraninite_ore",
+        "powah:deepslate_uraninite_ore"
       ],
       "en_name": "Uraninite Ore",
       "types": [
@@ -25,12 +28,14 @@
       ],
       "id": "uraninite_ore",
       "stone": [
-        "stone"
+        "stone",
+        "deepslate"
       ]
     },
     {
       "block_id": [
-        "powah:uraninite_ore_dense"
+        "powah:uraninite_ore_dense",
+        "powah:deepslate_uraninite_ore_dense"
       ],
       "en_name": "Uraninite Ore (Dense)",
       "types": [
@@ -38,7 +43,8 @@
       ],
       "id": "uraninite_ore_dense",
       "stone": [
-        "stone"
+        "stone",
+        "deepslate"
       ]
     }
   ]

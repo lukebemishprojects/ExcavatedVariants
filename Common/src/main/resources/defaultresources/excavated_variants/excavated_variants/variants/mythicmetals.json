@@ -220,15 +220,17 @@
     },
     {
       "block_id": [
-        "mythicmetals:runite_ore"
+        "mythicmetals:runite_ore",
+        "mythicmetals:deepslate_runite_ore"
       ],
       "en_name": "Runite Ore",
       "types": [
-        "nether"
+        "stone"
       ],
       "id": "runite_ore",
       "stone": [
-        "netherrack"
+        "stone",
+        "deepslate"
       ]
     },
     {
