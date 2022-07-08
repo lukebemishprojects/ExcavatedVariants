@@ -19,7 +19,7 @@ public class MainPlatformTargetImpl implements IMainPlatformTarget {
 
     public void registerFeatures() {
     }
-    public ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {
+    public ModifiedOreBlock makeDefaultOreBlock(BaseOre ore, BaseStone stone) {
         return new ForgeOreBlock(ore, stone);
     }
 

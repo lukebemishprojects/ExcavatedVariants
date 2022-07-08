@@ -236,7 +236,7 @@ public class ExcavatedVariants {
             BaseStone s = future.stone;
             ResourceLocation rlToReg = new ResourceLocation(ExcavatedVariants.MOD_ID, future.full_id);
             ModifiedOreBlock.setupStaticWrapper(o, s);
-            ModifiedOreBlock b = new ModifiedOreBlock(o, s);
+            ModifiedOreBlock b = Services.MAIN_PLATFORM_TARGET.get().makeDefaultOreBlock(o, s);
             blockRegistrar.accept(rlToReg, b);
             blocks.put(id, b);
             Supplier<Item> i = itemRegistrar.apply(rlToReg, ()->new BlockItem(b, new Item.Properties().tab(Services.CREATIVE_TAB_LOADER.get().getCreativeTab())));

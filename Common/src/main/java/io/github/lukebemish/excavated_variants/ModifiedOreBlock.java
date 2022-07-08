@@ -37,8 +37,8 @@ public class ModifiedOreBlock extends OreBlock {
     public final BaseOre ore;
     public final BaseStone stone;
 
-    private Block target;
-    private Block stoneTarget;
+    protected Block target;
+    protected Block stoneTarget;
 
     public ModifiedOreBlock(BaseOre ore, BaseStone stone) {
         super(copyProperties(ore, stone));
@@ -258,7 +258,7 @@ public class ModifiedOreBlock extends OreBlock {
 
     @Override
     public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack) {
-        Block target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
+        Block target = this.target;
         if (target != null) {
             target.spawnAfterBreak(state, level, pos, stack);
         } else {

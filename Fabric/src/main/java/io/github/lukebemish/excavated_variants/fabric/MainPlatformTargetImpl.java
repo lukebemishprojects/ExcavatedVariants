@@ -41,7 +41,7 @@ public class MainPlatformTargetImpl implements IMainPlatformTarget {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_CONFIGURED);
         Registry.register(BuiltinRegistries.PLACED_FEATURE,new ResourceLocation(ExcavatedVariants.MOD_ID,"ore_replacer"),ORE_REPLACER_PLACED);
     }
-    public ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone) {
+    public ModifiedOreBlock makeDefaultOreBlock(BaseOre ore, BaseStone stone) {
         return new ModifiedOreBlock(ore, stone);
     }
 
