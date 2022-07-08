@@ -1,3 +1,7 @@
+### Excavated Variants v0.6.4
+
+- Fix various bug, add various changes. Excepting major breaking bugs, this will be the last 1.18.2 release.
+
 ### Excavated Variants v0.6.2
 
 - Fix more bugs related to loading order by making services load lazily.
