@@ -10,5 +10,5 @@ import java.util.function.Supplier;
 public interface IMainPlatformTarget {
     <T extends Recipe<?>> Supplier<RecipeSerializer<T>> registerRecipeSerializer(String name, Supplier<RecipeSerializer<T>> supplier);
     void registerFeatures();
-    ModifiedOreBlock makeDefaultOreBlock(String id, BaseOre ore, BaseStone stone);
+    ModifiedOreBlock makeDefaultOreBlock(BaseOre ore, BaseStone stone);
 }
