@@ -1,9 +1,6 @@
 package io.github.lukebemish.excavated_variants.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.mojang.blaze3d.platform.NativeImage;
 import io.github.lukebemish.dynamic_asset_generator.client.api.ClientPrePackRepository;
 import io.github.lukebemish.dynamic_asset_generator.client.api.DynAssetGeneratorClientAPI;
@@ -13,6 +10,7 @@ import io.github.lukebemish.dynamic_asset_generator.client.util.IPalettePlan;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
+import io.github.lukebemish.excavated_variants.platform.Services;
 import io.github.lukebemish.excavated_variants.util.Pair;
 import io.github.lukebemish.excavated_variants.util.Triple;
 import net.minecraft.client.renderer.block.model.BlockModelDefinition;
@@ -269,6 +267,12 @@ public class BlockStateAssembler {
                             i++;
                         }
                         outputMap.add("textures",GSON.toJsonTree(outputModel.textures));
+
+                        // Really hate that Forge now forces me to do this, but oh well...
+                        if (Services.PLATFORM.isForge()) {
+                            outputMap.add("render_type", new JsonPrimitive("cutout_mipped"));
+                        }
+
                         if (outputModel.elements!=null&&outputModel.elements.size()!=0) outputMap.add("elements",outputModel.elements);
 
                         var outModelRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+full_id + i2);

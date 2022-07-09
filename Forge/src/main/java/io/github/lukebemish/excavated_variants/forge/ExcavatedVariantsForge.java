@@ -1,6 +1,5 @@
 package io.github.lukebemish.excavated_variants.forge;
 
-import com.google.common.base.Suppliers;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
 import io.github.lukebemish.excavated_variants.S2CConfigAgreementPacket;
@@ -21,7 +20,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -31,7 +29,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 @Mod(ExcavatedVariants.MOD_ID)
 public class ExcavatedVariantsForge {
@@ -47,7 +44,6 @@ public class ExcavatedVariantsForge {
         FEATURES.register(modbus);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             ExcavatedVariantsClient.init();
-            modbus.addListener(ExcavatedVariantsForgeClient::clientSetup);
         });
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
         toRegister.register(modbus);
@@ -56,9 +52,7 @@ public class ExcavatedVariantsForge {
         MainPlatformTargetImpl.RECIPE_SERIALIZERS.register(modbus);
 
         EVPacketHandler.INSTANCE.registerMessage(0, S2CConfigAgreementPacket.class, S2CConfigAgreementPacket::encoder, S2CConfigAgreementPacket::decoder, (msg, c) -> {
-            c.get().enqueueWork(() -> {
-                msg.consumeMessage(string -> c.get().getNetworkManager().disconnect(Component.literal(string)));
-            });
+            c.get().enqueueWork(() -> msg.consumeMessage(string -> c.get().getNetworkManager().disconnect(Component.literal(string))));
             c.get().setPacketHandled(true);
         });
     }
@@ -69,9 +63,9 @@ public class ExcavatedVariantsForge {
             ExcavatedVariants.ORE_REPLACER_PLACED = new PlacedFeature(Holder.direct(ExcavatedVariants.ORE_REPLACER_CONFIGURED), List.of());
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_CONFIGURED);
             Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_PLACED);
+
+            ExcavatedVariants.getMappingsCache();
         });
     }
-
-    private static final Supplier<ModContainer> EV_CONTAINER = Suppliers.memoize(() -> ModList.get().getModContainerById(ExcavatedVariants.MOD_ID).orElseThrow());
 
 }

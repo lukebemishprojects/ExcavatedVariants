@@ -1,7 +1,7 @@
 package io.github.lukebemish.excavated_variants.forge;
 
-import io.github.lukebemish.excavated_variants.IPlatform;
 import com.google.auto.service.AutoService;
+import io.github.lukebemish.excavated_variants.IPlatform;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.forgespi.language.IModInfo;
@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @AutoService(IPlatform.class)
 public class PlatformImpl implements IPlatform {
-    public boolean isFabriquilt() {
+    public boolean isQuilt() {
         return false;
     }
 
@@ -25,5 +25,10 @@ public class PlatformImpl implements IPlatform {
 
     public Path getConfigFolder() {
         return FMLPaths.CONFIGDIR.get();
+    }
+
+    @Override
+    public Path getModDataFolder() {
+        return FMLPaths.GAMEDIR.get().resolve("mod_data/excavated_variants");
     }
 }

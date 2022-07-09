@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @AutoService(IPlatform.class)
 public class PlatformImpl implements IPlatform {
-    public boolean isFabriquilt() {
+    public boolean isQuilt() {
         return true;
     }
 
@@ -25,5 +25,10 @@ public class PlatformImpl implements IPlatform {
 
     public Path getConfigFolder() {
         return QuiltLoader.getConfigDir().toAbsolutePath().normalize();
+    }
+
+    @Override
+    public Path getModDataFolder() {
+        return QuiltLoader.getGameDir().resolve("mod_data/excavated_variants").toAbsolutePath().normalize();
     }
 }

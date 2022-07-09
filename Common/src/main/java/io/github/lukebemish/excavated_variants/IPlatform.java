@@ -4,8 +4,9 @@ import java.nio.file.Path;
 import java.util.Collection;
 
 public interface IPlatform {
-    boolean isFabriquilt();
+    boolean isQuilt();
     boolean isForge();
     Collection<String> getModIds();
     Path getConfigFolder();
+    Path getModDataFolder();
 }

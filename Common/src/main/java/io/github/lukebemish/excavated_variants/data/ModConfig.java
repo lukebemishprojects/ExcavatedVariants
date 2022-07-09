@@ -20,7 +20,7 @@ import java.util.*;
 public class ModConfig {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().excludeFieldsWithoutExposeAnnotation().create();
     public static final Path CONFIG_PATH = Services.PLATFORM.getConfigFolder();
-    public static final String FULL_PATH = CONFIG_PATH + "/"+ ExcavatedVariants.MOD_ID+".json";
+    public static final Path FULL_PATH = CONFIG_PATH.resolve(ExcavatedVariants.MOD_ID+".json");
 
     public static final Codec<ModConfig> CODEC = RecordCodecBuilder.create(instance->instance.group(
             Codec.BOOL.fieldOf("attempt_ore_gen_insertion").forGetter(c->c.attempt_ore_gen_insertion),
@@ -56,8 +56,7 @@ public class ModConfig {
     public static ModConfig load() {
         try {
             checkExistenceOrSave();
-            Path path = Path.of(FULL_PATH);
-            JsonObject json = GSON.fromJson(new FileReader(path.toFile()), JsonObject.class);
+            JsonObject json = GSON.fromJson(new FileReader(FULL_PATH.toFile()), JsonObject.class);
             ModConfig config = CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(false, e-> {});
 
             config.loadConfigResources();
@@ -70,12 +69,11 @@ public class ModConfig {
     }
 
     private static void checkExistenceOrSave() throws IOException {
-        Path path = Path.of(FULL_PATH);
         if (!Files.exists(CONFIG_PATH)) Files.createDirectories(CONFIG_PATH);
-        if (!Files.exists(path)) {
-            Files.createFile(path);
+        if (!Files.exists(FULL_PATH)) {
+            Files.createFile(FULL_PATH);
             ModConfig config = defaultConfig();
-            FileWriter writer = new FileWriter(FULL_PATH);
+            var writer = Files.newBufferedWriter(FULL_PATH);
             JsonElement json = CODEC.encodeStart(JsonOps.INSTANCE,config).getOrThrow(false, e->{});
             GSON.toJson(json, writer);
             writer.flush();

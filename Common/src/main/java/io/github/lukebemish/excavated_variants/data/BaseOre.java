@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class BaseOre implements Cloneable {
@@ -59,5 +60,18 @@ public class BaseOre implements Cloneable {
             // Why would this happen?
             return null;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseOre baseStone = (BaseOre) o;
+        return id.equals(baseStone.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
