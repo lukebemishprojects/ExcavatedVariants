@@ -8,6 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -31,7 +33,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ModifiedOreBlock extends DropExperienceBlock {
     public final BaseOre ore;
@@ -40,8 +45,10 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     protected Block target;
     protected Block stoneTarget;
 
+    protected boolean delegateSpecialDrops = true;
+
     public ModifiedOreBlock(BaseOre ore, BaseStone stone) {
-        super(copyProperties(ore, stone));
+        super(copyProperties(ore, stone), getXpProvider(ore, stone));
         this.ore = ore;
         this.stone = stone;
         if (staticProps != null) {
@@ -49,6 +56,20 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             staticProps = null;
             copyBlockstateDefs();
         }
+
+        ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).forEach(modifier -> {
+            if (modifier.xpDropped().isPresent()) this.delegateSpecialDrops = false;
+        });
+    }
+
+    private static IntProvider getXpProvider(BaseOre ore, BaseStone stone) {
+        return ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).map(modifier -> {
+            if (modifier.xpDropped().isPresent()) return modifier.xpDropped().get();
+            return null;
+        }).filter(Objects::nonNull).collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+            Collections.reverse(list);
+            return list.stream();
+        })).findFirst().orElse(ConstantInt.of(0));
     }
 
     private static float avgF(float a, float b, float weight) {
@@ -73,6 +94,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     private static Properties copyProperties(BaseOre ore, BaseStone stone) {
         Block target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
         Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.block_id);
+        BlockBehaviour.Properties outProperties;
         if (target != null && stoneTarget != null) {
             Properties properties = Properties.copy(stoneTarget);
             Properties oreProperties = Properties.copy(target);
@@ -86,9 +108,15 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             newProperties.setHasCollision(true);
             newProperties.setIsRandomlyTicking(oreProps.getIsRandomlyTicking());
             newProperties.setLightEmission(blockstate -> oreProps.getLightEmission().applyAsInt(withProperties(blockstate, target)));
-            return properties;
+            outProperties = properties;
+        } else {
+            outProperties = BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f);
         }
-        return BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f);
+        ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).forEach(modifier -> {
+                modifier.explosionResistance().ifPresent(outProperties::explosionResistance);
+                modifier.destroyTime().ifPresent(outProperties::destroyTime);
+        });
+        return outProperties;
     }
 
     public static float avgStrength(float a, float b, float weight) {
@@ -284,8 +312,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
 
     @Override
     public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean bl) {
-        Block target = this.target;
-        if (target != null) {
+        if (target != null && this.delegateSpecialDrops) {
             target.spawnAfterBreak(state, level, pos, stack, bl);
         } else {
             super.spawnAfterBreak(state, level, pos, stack, bl);

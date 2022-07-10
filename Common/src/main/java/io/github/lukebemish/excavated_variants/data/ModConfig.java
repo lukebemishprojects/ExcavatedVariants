@@ -40,6 +40,8 @@ public class ModConfig {
 
     public final List<ModData> mods = new ArrayList<>();
 
+    public final List<VariantModifier> modifiers = new ArrayList<>();
+
     private ModConfig(boolean attempt_ore_gen_insertion, boolean attempt_worldgen_replacement, boolean add_conversion_recipes, boolean jei_rei_compat,
                      boolean unobtainable_variants) {
         this.attempt_ore_gen_insertion = attempt_ore_gen_insertion;
@@ -61,6 +63,7 @@ public class ModConfig {
 
             config.loadConfigResources();
             config.loadVariantResources();
+            config.loadVariantModifiers();
 
             return config;
         } catch (IOException e) {
@@ -93,6 +96,26 @@ public class ModConfig {
                         ConfigResource resource = ConfigResource.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(false, e -> {
                         });
                         this.configResource.addFrom(resource);
+                    } catch (RuntimeException e) {
+                        ExcavatedVariants.LOGGER.error("Issues loading resource: {}", rl, e);
+                    }
+                }
+            }
+        }
+    }
+
+    private void loadVariantModifiers() {
+        var rls = ResourceProvider.instance().getResources(ExcavatedVariants.MOD_ID, "modifiers", rl->true);
+
+        for (var rl : rls) {
+            try (var resources = ResourceProvider.instance().getResourceStreams(ExcavatedVariants.MOD_ID,rl)) {
+                Optional<? extends InputStream> optional = resources.findFirst();
+                if (optional.isPresent()) {
+                    JsonObject json = GSON.fromJson(new InputStreamReader(optional.get()), JsonObject.class);
+                    try {
+                        VariantModifier resource = VariantModifier.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(false, e -> {
+                        });
+                        this.modifiers.add(resource);
                     } catch (RuntimeException e) {
                         ExcavatedVariants.LOGGER.error("Issues loading resource: {}", rl, e);
                     }

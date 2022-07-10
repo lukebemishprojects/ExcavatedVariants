@@ -130,21 +130,17 @@ public class ExcavatedVariants {
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
             if (modids.containsAll(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
-                    if (!ExcavatedVariants.getConfig().configResource.blacklist_stones.contains(stone.id)) {
-                        if (!stoneMap.containsKey(stone.id)) stoneMap.put(stone.id, stone);
-                        else {
-                            BaseStone stoneOld = stoneMap.get(stone.id);
-                            List<String> types = new ArrayList<>(stoneOld.types);
-                            types.addAll(stone.types.stream().filter(s->!stoneOld.types.contains(s)).toList());
-                            stoneOld.types = types;
-                        }
+                    if (!stoneMap.containsKey(stone.id)) stoneMap.put(stone.id, stone);
+                    else {
+                        BaseStone stoneOld = stoneMap.get(stone.id);
+                        List<String> types = new ArrayList<>(stoneOld.types);
+                        types.addAll(stone.types.stream().filter(s->!stoneOld.types.contains(s)).toList());
+                        stoneOld.types = types;
                     }
                 }
                 for (BaseOre ore : mod.provided_ores) {
-                    if (!ExcavatedVariants.getConfig().configResource.blacklist_ores.contains(ore.id)) {
-                        oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
-                        oreMap.get(ore.id).add(ore);
-                    }
+                    oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
+                    oreMap.get(ore.id).add(ore);
                 }
             }
         }
@@ -176,8 +172,7 @@ public class ExcavatedVariants {
             oreStoneList.add(pair);
             for (BaseStone stone : stoneMap.values()) {
                 if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
-                    String full_id = stone.id + "_" + id;
-                    if (!ExcavatedVariants.getConfig().configResource.blacklist_ids.contains(full_id)) {
+                    if (!ExcavatedVariants.getConfig().configResource.blacklist.matches(id, stone.id)) {
                         pair.last().add(stone);
                     }
                 }
@@ -199,7 +194,7 @@ public class ExcavatedVariants {
                 knownOres.add(o.first());
                 for (BaseStone stone : p.last()) {
                     String fullId = stone.id + "_" + ore.id;
-                    if (!ExcavatedVariants.getConfig().configResource.blacklist_ids.contains(fullId)) {
+                    if (!ExcavatedVariants.getConfig().configResource.blacklist.matches(ore, stone)) {
                         o.last().add(stone);
                     }
                 }

@@ -23,9 +23,7 @@ public class ExcavatedVariantsClient {
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
             if (modids.containsAll(mod.mod_id)) {
                 for (BaseStone stone : mod.provided_stones) {
-                    if (!ExcavatedVariants.getConfig().configResource.blacklist_stones.contains(stone.id)) {
-                        stoneMap.put(stone.id, stone);
-                    }
+                    stoneMap.put(stone.id, stone);
                 }
             }
         }
@@ -34,20 +32,20 @@ public class ExcavatedVariantsClient {
                 stone -> new Pair<>(stone.id+"_"+p.first().id, new Pair<>(p.first(), stoneMap.get(p.first().stone.get(0)))))).collect(Collectors.toMap(
                         Pair::first, Pair::last
         ));
-        List<Pair<BaseOre,BaseStone>> to_make = new ArrayList<>();
+        List<Pair<BaseOre,BaseStone>> toMake = new ArrayList<>();
 
         for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
             var ore = p.first();
             for (BaseStone stone : p.last()) {
-                String full_id = stone.id+"_"+ore.id;
-                to_make.add(new Pair<>(ore,stone));
-                DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + full_id + ".json"),
-                        JsonHelper.getItemModel(full_id));
-                langBuilder.add(full_id, stone, ore);
+                String fullId = stone.id+"_"+ore.id;
+                toMake.add(new Pair<>(ore,stone));
+                DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + fullId + ".json"),
+                        JsonHelper.getItemModel(fullId));
+                langBuilder.add(fullId, stone, ore);
             }
         }
 
         DynAssetGeneratorClientAPI.planLoadingStream(new ResourceLocation(ExcavatedVariants.MOD_ID, "lang/en_us.json"),langBuilder.build());
-        BlockStateAssembler.setupClientAssets(extractorMap.values(),to_make);
+        BlockStateAssembler.setupClientAssets(extractorMap.values(),toMake);
     }
 }

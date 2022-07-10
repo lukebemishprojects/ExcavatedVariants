@@ -3,7 +3,5 @@
     "excavated_variants:geolosys",
     "excavated_variants:minecraft"
   ],
-  "blacklist_ids": [],
-  "blacklist_stones": [],
-  "blacklist_ores": []
+  "blacklist": ""
 }
