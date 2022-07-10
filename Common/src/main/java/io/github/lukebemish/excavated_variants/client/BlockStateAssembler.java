@@ -208,7 +208,7 @@ public class BlockStateAssembler {
                     } catch (IOException e) {
                         read = BackupFetcher.provideBlockModelFile(stoneModel);
                     }
-                    BlockModelParser parentModel = GSON.fromJson(new BufferedReader(new InputStreamReader(read, StandardCharsets.UTF_8)), BlockModelParser.class);
+                    BlockModelParser parentModel = BlockModelParser.readModel(new BufferedReader(new InputStreamReader(read, StandardCharsets.UTF_8)));
                     List<ResourceLocation> stoneLocs = parentModel.textures.values().stream().map(x->ResourceLocation.of(x,':')).toList();
 
 
@@ -220,7 +220,7 @@ public class BlockStateAssembler {
                         } catch (IOException e) {
                             stoneRead = BackupFetcher.provideBlockModelFile(stoneModel);
                         }
-                        BlockModelParser outputModel = GSON.fromJson(new BufferedReader(new InputStreamReader(stoneRead, StandardCharsets.UTF_8)), BlockModelParser.class);
+                        BlockModelParser outputModel = BlockModelParser.readModel(new BufferedReader(new InputStreamReader(stoneRead, StandardCharsets.UTF_8)));
                         try {
                             stoneRead = ClientPrePackRepository.getResource(new ResourceLocation(stoneModel.getNamespace(), "models/" + stoneModel.getPath() + ".json"));
                         } catch (IOException e) {
@@ -240,7 +240,7 @@ public class BlockStateAssembler {
                         while ((oreC = oreReader.read()) != -1) {
                             oreTextBuilder.append((char) oreC);
                         }
-                        BlockModelParser oreModel = GSON.fromJson(oreTextBuilder.toString(), BlockModelParser.class);
+                        BlockModelParser oreModel = BlockModelParser.readModel(oreTextBuilder.toString());
                         String maybeTex = oreModel.textures.values().stream().filter(x ->
                                         !stoneLocs.contains(ResourceLocation.of(x, ':')) && newTexMap.keySet().stream().anyMatch(y->{
                                             var rl = ResourceLocation.of(x,':');
@@ -330,7 +330,7 @@ public class BlockStateAssembler {
                 } catch (IOException e) {
                     is = BackupFetcher.provideBlockModelFile(mRl);
                 }
-                BlockModelParser map = GSON.fromJson(new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)), BlockModelParser.class);
+                BlockModelParser map = BlockModelParser.readModel(new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)));
                 if (map.textures != null) {
                     for (String i : map.textures.values()) {
                         ResourceLocation o = ResourceLocation.of(i, ':');

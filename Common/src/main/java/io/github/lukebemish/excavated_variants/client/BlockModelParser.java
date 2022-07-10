@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -32,6 +33,26 @@ public class BlockModelParser {
         }
     }
 
+    public static BlockModelParser readModel(Reader reader) {
+        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(reader, BlockModelParser.class);
+        return processModel(parser);
+    }
+    public static BlockModelParser readModel(String string) {
+        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(string, BlockModelParser.class);
+        return processModel(parser);
+    }
+    public static BlockModelParser readModel(JsonObject object) {
+        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(object, BlockModelParser.class);
+        return processModel(parser);
+    }
+
+    private static BlockModelParser processModel(BlockModelParser modelParser) {
+        // For parsing out Forge weirdness later if I run into issues...
+        return modelParser;
+    }
+
+
+
     public void addOverlay(int index, ResourceLocation overlay_loc) {
         if (elements == null) {
             BlockModelParser finder = this;
@@ -39,7 +60,7 @@ public class BlockModelParser {
             while (!found) {
                 ResourceLocation parentRl = ResourceLocation.of(finder.parent,':');
                 try (var read = ClientPrePackRepository.getResource(new ResourceLocation(parentRl.getNamespace(), "models/" + parentRl.getPath() + ".json"))) {
-                    BlockModelParser parentModel = BlockStateAssembler.GSON.fromJson(new BufferedReader(new InputStreamReader(read, StandardCharsets.UTF_8)), BlockModelParser.class);
+                    BlockModelParser parentModel = readModel(new BufferedReader(new InputStreamReader(read, StandardCharsets.UTF_8)));
                     if (parentModel.elements!=null) {
                         elements = parentModel.elements;
                         found = true;

@@ -14,13 +14,12 @@ public class LangBuilder {
         if (internal.length() >= 1) {
             internal += ",";
         }
-        internal += "\"block."+ExcavatedVariants.MOD_ID+"."+full_id+"\":\""+stone.en_name+" "+ore.en_name+"\"";
+        String enName = ore.en_name.contains("$") ? ore.en_name.replaceFirst("\\$", stone.en_name) : stone.en_name+" "+ore.en_name;
+        internal += "\"block."+ExcavatedVariants.MOD_ID+"."+full_id+"\":\""+enName+"\"";
     }
 
     public Supplier<InputStream> build() {
         String json = "{"+internal+"}";
-        return () -> {
-            return new ByteArrayInputStream(json.getBytes());
-        };
+        return () -> new ByteArrayInputStream(json.getBytes());
     }
 }
