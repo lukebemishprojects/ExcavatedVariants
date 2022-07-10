@@ -4,6 +4,21 @@
   "provided_ores": [
     {
       "block_id": [
+        "malum:brilliant_stone",
+        "malum:brilliant_deepslate"
+      ],
+      "en_name": "of Brilliance",
+      "types": [
+        "stone"
+      ],
+      "id": "brilliant_stone",
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    },
+    {
+      "block_id": [
         "malum:soulstone_ore",
         "malum:deepslate_soulstone_ore"
       ],
@@ -27,7 +42,7 @@
       ],
       "id": "blazing_quartz_ore",
       "stone": [
-         "netherrack"
+        "netherrack"
       ]
     }
   ]
