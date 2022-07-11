@@ -15,8 +15,11 @@ The main config file, `config/excavated_variants.json`, contains several options
 
 Configs relating to how ores are registered are added in `globalresources/[folder]/excavated_variants/[namespace]/configs`. They can contain the following options:
 
-* **blacklist\_ores** and **blacklist\_stones**: A way of disabling specific ores/stones by name.
-* **blacklist\_ids**: A way of disabling specific stone/ore combinations. The value entered here should be the path of the block ID. For instance, for Andesite Redstone Ore this would be `andesite_redstone_ore`.
+* **blacklist**: A way of excluding certain variants from being created. It takes a list of filter strings, in the following format:
+    * `stone:stone_id` filters every variant of stone type `stone_id`. Example: `stone:andesite`.
+    * `ore:ore_id` filters every variant of ore `ore_id`. Example: `ore:iron_ore`.
+    * `variant_name` filters a specific variant. Example: `andesite_iron_ore`.
+    * `~variant_name` excludes a variant from other filters. Example: `~andesite_iron_ore`.
 * **priority**: Allows certain config files to be loaded before others, in the order specified within. These should be a namespaced location of the variant config file.
 
 Configs for adding stones or ores are placed in `globalresources/[folder]/excavated_variants/[namespace]/variants`. These take the following format:
@@ -42,3 +45,10 @@ Each stone object takes the following format:
 * **en\_name**: The name to be given to this stone in-game.
 * **types**: A list of types that this stone is classified as. Matched at runtime with the types specified in ore configs.
 * **texture\_count**: The maximum number of texture variants of this stone.
+
+Modifier configs are added in `globalresources/[folder]/excavated_variants/[namespace]/modifiers`. They allow you to configure the properties of created variants, and can contain the following options:
+
+* **filter**: A filter for selecting variants to modify. Takes the same format as config blacklist filters.
+* **destroy_time** (optional): The time to destroy the block.
+* **explosion_resistance** (optional): The time to destroy the block.
+* **xp** (optional): The experience dropped by the block. Can take the same sort of integer range as seen in vanilla datapacks.
