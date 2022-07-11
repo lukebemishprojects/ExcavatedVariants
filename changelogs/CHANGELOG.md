@@ -1,3 +1,10 @@
+### Excavated Variants v0.7.2
+
+- Extend config/resource system for modifiers
+- Fix various quirks
+- Add several default configs
+- Change filter system - this may cause configs to break!
+
 ### Excavated Variants v0.7.0
 
 - Switch system for loading variant configs to use defaultresources instead of configs
