@@ -4,6 +4,7 @@ import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.ExcavatedVariantsClient;
 import io.github.lukebemish.excavated_variants.S2CConfigAgreementPacket;
 import io.github.lukebemish.excavated_variants.forge.compat.HyleCompat;
+import io.github.lukebemish.excavated_variants.forge.registry.BlockAddedCallback;
 import io.github.lukebemish.excavated_variants.worldgen.OreReplacer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -26,6 +27,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
@@ -42,10 +44,9 @@ public class ExcavatedVariantsForge {
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
         ExcavatedVariants.init();
         FEATURES.register(modbus);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            ExcavatedVariantsClient.init();
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ExcavatedVariantsClient::init);
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
+        modbus.addListener(ExcavatedVariantsForge::registerListener);
         toRegister.register(modbus);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
@@ -65,6 +66,13 @@ public class ExcavatedVariantsForge {
             Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), ExcavatedVariants.ORE_REPLACER_PLACED);
 
             ExcavatedVariants.getMappingsCache();
+        });
+    }
+
+    public static void registerListener(RegisterEvent event) {
+        event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
+            ExcavatedVariants.loadedBlockRLs.addAll(ForgeRegistries.BLOCKS.getKeys().stream().filter(ExcavatedVariants.neededRls::contains).toList());
+            BlockAddedCallback.register();
         });
     }
 

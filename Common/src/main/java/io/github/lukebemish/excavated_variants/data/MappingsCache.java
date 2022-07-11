@@ -63,7 +63,6 @@ public class MappingsCache {
             ModConfig.GSON.toJson(json, writer);
             writer.flush();
             writer.close();
-            System.out.println("Saved mappings cache...");
         } catch (Exception e) {
             ExcavatedVariants.LOGGER.error("Issue saving mappings cache. Something has gone very wrong. ",e);
             throw new RuntimeException(e);

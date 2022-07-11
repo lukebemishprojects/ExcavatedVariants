@@ -53,24 +53,26 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
 
         RegistryEvents.getEntryAddEvent(Registry.BLOCK).register(ctx -> {
             ResourceLocation rl = ctx.id();
-            ExcavatedVariants.loadedBlockRLs.add(rl);
-            if (!isRegistering) {
-                isRegistering = true;
-                ArrayList<ExcavatedVariants.RegistryFuture> toRemove2 = new ArrayList<>();
-                for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
-                    if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
-                            ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
-                        ExcavatedVariants.registerBlockAndItem(
-                                (orl, bl) -> Registry.register(Registry.BLOCK, orl, bl),
-                                (orl, i) -> {
-                                    Item out = Registry.register(Registry.ITEM, orl, i.get());
-                                    return () -> out;
-                                }, b);
-                        toRemove2.add(b);
+            if (ExcavatedVariants.neededRls.contains(rl)) {
+                ExcavatedVariants.loadedBlockRLs.add(rl);
+                if (!isRegistering) {
+                    isRegistering = true;
+                    ArrayList<ExcavatedVariants.RegistryFuture> toRemove2 = new ArrayList<>();
+                    for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
+                        if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
+                                ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
+                            ExcavatedVariants.registerBlockAndItem(
+                                    (orl, bl) -> Registry.register(Registry.BLOCK, orl, bl),
+                                    (orl, i) -> {
+                                        Item out = Registry.register(Registry.ITEM, orl, i.get());
+                                        return () -> out;
+                                    }, b);
+                            toRemove2.add(b);
+                        }
                     }
+                    ExcavatedVariants.blockList.removeAll(toRemove2);
+                    isRegistering = false;
                 }
-                ExcavatedVariants.blockList.removeAll(toRemove2);
-                isRegistering = false;
             }
         });
 

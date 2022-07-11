@@ -49,16 +49,18 @@ public class ExcavatedVariants {
             BaseOre ore = p.first();
             List<String> ids = new ArrayList<>();
             for (BaseStone stone : p.last()) {
-                String full_id = stone.id+"_"+ore.id;
-                blockList.add(new RegistryFuture(full_id,ore, stone));
+                String fullId = stone.id+"_"+ore.id;
+                blockList.add(new RegistryFuture(fullId,ore, stone));
+                neededRls.add(ore.block_id.get(0));
+                neededRls.add(stone.block_id);
                 if (getConfig().add_conversion_recipes) {
-                    OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, full_id), ore.block_id.get(0));
+                    OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.block_id.get(0));
                 }
-                blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,full_id));
-                stoneTag.add(full_id, ore);
-                ironTag.add(full_id, ore);
-                diamondTag.add(full_id, ore);
-                ids.add(full_id);
+                blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,fullId));
+                stoneTag.add(fullId, ore);
+                ironTag.add(fullId, ore);
+                diamondTag.add(fullId, ore);
+                ids.add(fullId);
             }
             for (String orename : ore.orename) {
                 for (String this_id : ids) {
@@ -258,7 +260,7 @@ public class ExcavatedVariants {
     private static final List<Supplier<Item>> items = new ArrayList<>();
     private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
     public static final List<RegistryFuture> blockList = new ArrayList<>();
-
+    public static final Set<ResourceLocation> neededRls = new HashSet<>();
 
     public static ConfiguredFeature<NoneFeatureConfiguration,?> ORE_REPLACER_CONFIGURED;
     public static PlacedFeature ORE_REPLACER_PLACED;

@@ -4,40 +4,39 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class VariantFilter {
-    public static final Codec<VariantFilter> CODEC = Codec.STRING.comapFlatMap(VariantFilter::read, VariantFilter::toString).stable();
+    public static final Codec<VariantFilter> CODEC = Codec.STRING.listOf().comapFlatMap(VariantFilter::read, VariantFilter::toStringList).stable();
 
     private final Set<String> filteredStones = new HashSet<>();
     private final Set<String> filteredOres = new HashSet<>();
     private final Set<String> filteredVariants = new HashSet<>();
     private final Set<String> ignoredVariants = new HashSet<>();
 
-    public static DataResult<VariantFilter> read(String filter) {
+    public static DataResult<VariantFilter> read(List<String> filter) {
         try {
             return DataResult.success(new VariantFilter(filter));
         } catch (VariantFilterException var2) {
-            return DataResult.error("Not a valid variant filter: " + filter + " " + var2.getMessage());
+            return DataResult.error("Not a valid variant filter: " + var2.full + " " + var2.getMessage());
         }
     }
 
-    @Override
-    public String toString() {
+    public List<String> toStringList() {
         Set<String> allStrings = new HashSet<>();
         filteredStones.stream().map(s->"stone:"+s).forEach(allStrings::add);
         filteredOres.stream().map(s->"ore:"+s).forEach(allStrings::add);
         allStrings.addAll(filteredVariants);
         ignoredVariants.stream().map(s->"~"+s).forEach(allStrings::add);
-        return String.join(",",allStrings);
+        return allStrings.stream().toList();
     }
 
     public VariantFilter() {
 
     }
 
-    public VariantFilter(String string) {
-        String[] parts = string.split(",");
+    public VariantFilter(List<String> parts) {
         for (String part : parts) {
             if (part.contains(":")) {
                 if (part.startsWith("stone:")) {
@@ -45,7 +44,7 @@ public class VariantFilter {
                 } else if (part.startsWith("ore:")) {
                     filteredOres.add(part.replaceFirst("ore:",""));
                 } else {
-                    throw new VariantFilterException("Unknown filter '"+ part.split(":")[0] +"'");
+                    throw new VariantFilterException("Unknown filter type '"+ part.split(":")[0] +"'", part);
                 }
             } else if (part.startsWith("~")) {
                 ignoredVariants.add(part.replaceFirst("~",""));
@@ -72,8 +71,11 @@ public class VariantFilter {
     }
 
     public static class VariantFilterException extends RuntimeException {
-        public VariantFilterException(String s) {
+        public final String full;
+
+        public VariantFilterException(String s, String full) {
             super(s);
+            this.full = full;
         }
     }
 }
