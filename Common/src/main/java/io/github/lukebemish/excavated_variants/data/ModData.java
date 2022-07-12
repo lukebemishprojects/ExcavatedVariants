@@ -12,8 +12,8 @@ public class ModData {
                 if (md.mod_id.size()==1) return Either.left(md.mod_id.get(0));
                 return Either.right(md.mod_id);
             }),
-            BaseStone.CODEC.listOf().fieldOf("provided_stones").forGetter(x->x.provided_stones),
-            BaseOre.CODEC.listOf().fieldOf("provided_ores").forGetter(x->x.provided_ores)
+            BaseStone.CODEC.listOf().optionalFieldOf("provided_stones", List.of()).forGetter(x->x.provided_stones),
+            BaseOre.CODEC.listOf().optionalFieldOf("provided_ores", List.of()).forGetter(x->x.provided_ores)
     ).apply(instance,ModData::new));
 
     public List<String> mod_id;

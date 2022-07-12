@@ -1,7 +1,7 @@
 {
   "priority": [
-    "excavated_variants:geolosys",
-    "excavated_variants:minecraft"
+    "excavated_variants:geolosys.json",
+    "excavated_variants:minecraft.json"
   ],
   "blacklist": []
 }

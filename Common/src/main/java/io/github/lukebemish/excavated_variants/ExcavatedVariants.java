@@ -53,7 +53,7 @@ public class ExcavatedVariants {
                 blockList.add(new RegistryFuture(fullId,ore, stone));
                 neededRls.add(ore.block_id.get(0));
                 neededRls.add(stone.block_id);
-                if (getConfig().add_conversion_recipes) {
+                if (getConfig().addConversionRecipes) {
                     OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.block_id.get(0));
                 }
                 blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,fullId));
@@ -167,9 +167,9 @@ public class ExcavatedVariants {
                 List<String> types = new HashSet<>(pair.first().types).stream().toList();
                 pair.first().types.clear();
                 pair.first().types.addAll(types);
-                List<String> orenames = new HashSet<>(pair.first().orename).stream().toList();
+                List<String> oreNames = new HashSet<>(pair.first().orename).stream().toList();
                 pair.first().orename.clear();
-                pair.first().orename.addAll(orenames);
+                pair.first().orename.addAll(oreNames);
             }
             oreStoneList.add(pair);
             for (BaseStone stone : stoneMap.values()) {
@@ -195,7 +195,6 @@ public class ExcavatedVariants {
                 out.add(o);
                 knownOres.add(o.first());
                 for (BaseStone stone : p.last()) {
-                    String fullId = stone.id + "_" + ore.id;
                     if (!ExcavatedVariants.getConfig().configResource.blacklist.matches(ore, stone)) {
                         o.last().add(stone);
                     }

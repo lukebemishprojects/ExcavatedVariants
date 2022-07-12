@@ -83,7 +83,7 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
             OreFinderUtil.setupBlocks();
             ExcavatedVariants.setupMap();
         });
-        if (ExcavatedVariants.getConfig().attempt_worldgen_replacement) {
+        if (ExcavatedVariants.getConfig().attemptWorldgenReplacement) {
             ResourceKey<PlacedFeature> confKey = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"));
             // A bit hacky, but will hopefully put it after existing stuff (like Unearthed's generation)
             BiomeModifications.create(confKey.location()).add(ModificationPhase.POST_PROCESSING, (x) -> true, context -> {

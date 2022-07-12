@@ -299,7 +299,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             state = target.defaultBlockState();
             List<ItemStack> items = target.getDrops(state, builder);
             return items.stream().map(x -> {
-                if (x.is(target.asItem()) && this.asItem() != Items.AIR && !ExcavatedVariants.getConfig().unobtainable_variants) {
+                if (x.is(target.asItem()) && this.asItem() != Items.AIR && !ExcavatedVariants.getConfig().unobtainableVariants) {
                     int count = x.getCount();
                     ItemStack out = new ItemStack(this.asItem(), count);
                     return out;

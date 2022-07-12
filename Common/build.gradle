@@ -45,7 +45,7 @@ dependencies {
 
     compileOnly("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-common-${rootProject.minecraft_version}:${rootProject.lib_version}")
     compileOnly("io.github.lukebemish.defaultresources:defaultresources-common-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
-
+    compileOnly("io.github.lukebemish.codecutils:codecutils-common-${rootProject.minecraft_version}:${rootProject.codecutils_version}")
 
     modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}

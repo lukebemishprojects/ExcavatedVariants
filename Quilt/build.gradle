@@ -61,7 +61,10 @@ dependencies {
 
 	modImplementation("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-quilt-${rootProject.minecraft_version}:${rootProject.lib_version}")
 	modImplementation("io.github.lukebemish.defaultresources:defaultresources-quilt-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
+	modImplementation("io.github.lukebemish.codecutils:codecutils-quilt-${rootProject.minecraft_version}:${rootProject.codecutils_version}")
+
 	include("io.github.lukebemish.defaultresources:defaultresources-quilt-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
+	include("io.github.lukebemish.codecutils:codecutils-quilt-${rootProject.minecraft_version}:${rootProject.codecutils_version}")
 }
 
 loom {

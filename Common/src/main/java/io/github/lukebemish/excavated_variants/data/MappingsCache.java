@@ -1,10 +1,11 @@
 package io.github.lukebemish.excavated_variants.data;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import blue.endless.jankson.JsonElement;
+import blue.endless.jankson.JsonObject;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.lukebemish.codecutils.api.JanksonOps;
+import io.github.lukebemish.codecutils.api.SmarterJanksonWriter;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MappingsCache {
-    public static final Path FULL_PATH = Services.PLATFORM.getModDataFolder().resolve("mappings_cache.json");
+    public static final Path FULL_PATH = Services.PLATFORM.getModDataFolder().resolve("mappings_cache.json5");
 
     public static final Codec<MappingsCache> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC.listOf()).fieldOf("ore_mappings")
@@ -44,12 +45,12 @@ public class MappingsCache {
     public static MappingsCache load() {
         try {
             if (!Files.exists(FULL_PATH)) throw new FileNotFoundException();
-            JsonObject json = ModConfig.GSON.fromJson(Files.newBufferedReader(FULL_PATH), JsonObject.class);
-            return CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(false, e -> {});
+            JsonObject json = ModConfig.JANKSON.load(Files.newInputStream(FULL_PATH));
+            return CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {});
         } catch (FileNotFoundException e) {
             return new MappingsCache(new HashMap<>(), new HashMap<>());
         } catch (Exception e) {
-            ExcavatedVariants.LOGGER.error("Issue loading mappings cache. Try deleting mod_data/excavated_variants/mappings_cache.json. ",e);
+            ExcavatedVariants.LOGGER.error("Issue loading mappings cache. Try deleting mod_data/excavated_variants/mappings_cache.json5. ",e);
             throw new RuntimeException(e);
         }
     }
@@ -59,8 +60,8 @@ public class MappingsCache {
             if (!Files.exists(FULL_PATH.getParent())) Files.createDirectories(FULL_PATH.getParent());
             if (Files.exists(FULL_PATH)) Files.delete(FULL_PATH);
             var writer = Files.newBufferedWriter(FULL_PATH, StandardOpenOption.CREATE_NEW);
-            JsonElement json = CODEC.encodeStart(JsonOps.INSTANCE, this).getOrThrow(false, e -> {});
-            ModConfig.GSON.toJson(json, writer);
+            JsonElement json = CODEC.encodeStart(JanksonOps.INSTANCE, this).getOrThrow(false, e -> {});
+            SmarterJanksonWriter.JSON5_2_SPACES.write(json, writer, 0);
             writer.flush();
             writer.close();
         } catch (Exception e) {
