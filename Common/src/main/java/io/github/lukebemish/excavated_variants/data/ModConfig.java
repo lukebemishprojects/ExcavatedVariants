@@ -95,6 +95,7 @@ public class ModConfig {
     }
 
     private static void checkExistenceOrSave() throws IOException {
+        ResourceProvider.forceInitialization();
         if (!Files.exists(CONFIG_PATH)) Files.createDirectories(CONFIG_PATH);
         if (!Files.exists(FULL_PATH)) {
             Files.createFile(FULL_PATH);

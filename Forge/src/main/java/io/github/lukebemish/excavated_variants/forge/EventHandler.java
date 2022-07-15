@@ -38,8 +38,8 @@ public class EventHandler {
     @SubscribeEvent
     public static void onPlayerNegotiation(PlayerNegotiationEvent playerNegotiationEvent) {
         EVPacketHandler.INSTANCE.sendTo(new S2CConfigAgreementPacket(
-                ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.last().stream().map(
-                        stone -> stone.id + "_" + p.first().id)).collect(Collectors.toSet())),
+                ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
+                        stone -> stone.id + "_" + p.getFirst().id)).collect(Collectors.toSet())),
                 playerNegotiationEvent.getConnection(),
                 NetworkDirection.LOGIN_TO_CLIENT
         );
