@@ -1,7 +1,7 @@
 package io.github.lukebemish.excavated_variants.worldgen;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -17,45 +17,45 @@ public class OreGenMapSavedData extends SavedData {
     public Map<Pair<Integer, Integer>, Boolean> ranMap = Collections.synchronizedMap(new HashMap<Pair<Integer, Integer>, Boolean>());
     @Override
     public CompoundTag save(CompoundTag tag) {
-        ArrayList<Integer> edge_1 = new ArrayList<>();
-        ArrayList<Integer> edge_2 = new ArrayList<>();
-        ArrayList<Integer> edge_3 = new ArrayList<>();
-        ArrayList<Integer> ran_1 = new ArrayList<>();
-        ArrayList<Integer> ran_2 = new ArrayList<>();
-        ArrayList<Integer> ran_3 = new ArrayList<>();
+        ArrayList<Integer> edge1 = new ArrayList<>();
+        ArrayList<Integer> edge2 = new ArrayList<>();
+        ArrayList<Integer> edge3 = new ArrayList<>();
+        ArrayList<Integer> ran1 = new ArrayList<>();
+        ArrayList<Integer> ran2 = new ArrayList<>();
+        ArrayList<Integer> ran3 = new ArrayList<>();
         for (Pair<Integer,Integer> p : edgeCount.keySet()) {
-            edge_1.add(p.first());
-            edge_2.add(p.last());
-            edge_3.add(edgeCount.get(p));
+            edge1.add(p.getFirst());
+            edge2.add(p.getSecond());
+            edge3.add(edgeCount.get(p));
         }
         for (Pair<Integer,Integer> p : ranMap.keySet()) {
-            ran_1.add(p.first());
-            ran_2.add(p.last());
-            ran_3.add(ranMap.get(p) ? 1 : 0);
+            ran1.add(p.getFirst());
+            ran2.add(p.getSecond());
+            ran3.add(Boolean.TRUE.equals(ranMap.get(p)) ? 1 : 0);
         }
-        tag.putIntArray("edge_1",edge_1.stream().mapToInt(Integer::intValue).toArray());
-        tag.putIntArray("edge_2",edge_2.stream().mapToInt(Integer::intValue).toArray());
-        tag.putIntArray("edge_3",edge_3.stream().mapToInt(Integer::intValue).toArray());
-        tag.putIntArray("ran_1",ran_1.stream().mapToInt(Integer::intValue).toArray());
-        tag.putIntArray("ran_2",ran_2.stream().mapToInt(Integer::intValue).toArray());
-        tag.putIntArray("ran_3",ran_3.stream().mapToInt(Integer::intValue).toArray());
+        tag.putIntArray("edge_1",edge1.stream().mapToInt(Integer::intValue).toArray());
+        tag.putIntArray("edge_2",edge2.stream().mapToInt(Integer::intValue).toArray());
+        tag.putIntArray("edge_3",edge3.stream().mapToInt(Integer::intValue).toArray());
+        tag.putIntArray("ran_1",ran1.stream().mapToInt(Integer::intValue).toArray());
+        tag.putIntArray("ran_2",ran2.stream().mapToInt(Integer::intValue).toArray());
+        tag.putIntArray("ran_3",ran3.stream().mapToInt(Integer::intValue).toArray());
         return tag;
     }
 
     public static OreGenMapSavedData load(CompoundTag tag) {
         OreGenMapSavedData data = new OreGenMapSavedData();
-        int[] edge_1 = tag.getIntArray("edge_1");
-        int[] edge_2 = tag.getIntArray("edge_2");
-        int[] edge_3 = tag.getIntArray("edge_3");
-        int[] ran_1 = tag.getIntArray("ran_1");
-        int[] ran_2 = tag.getIntArray("ran_2");
-        int[] ran_3 = tag.getIntArray("ran_3");
-        if (edge_1.length == edge_2.length && edge_1.length == edge_3.length && ran_1.length == ran_2.length && ran_1.length == ran_3.length) {
-            for (int i = 0; i < edge_1.length; i++) {
-                data.edgeCount.put(new Pair<>(edge_1[i],edge_2[i]),edge_3[i]);
+        int[] edge1 = tag.getIntArray("edge_1");
+        int[] edge2 = tag.getIntArray("edge_2");
+        int[] edge3 = tag.getIntArray("edge_3");
+        int[] ran1 = tag.getIntArray("ran_1");
+        int[] ran2 = tag.getIntArray("ran_2");
+        int[] ran3 = tag.getIntArray("ran_3");
+        if (edge1.length == edge2.length && edge1.length == edge3.length && ran1.length == ran2.length && ran1.length == ran3.length) {
+            for (int i = 0; i < edge1.length; i++) {
+                data.edgeCount.put(new Pair<>(edge1[i],edge2[i]),edge3[i]);
             }
-            for (int i = 0; i < ran_1.length; i++) {
-                data.ranMap.put(new Pair<>(ran_1[i],ran_2[i]),ran_3[i]!=0);
+            for (int i = 0; i < ran1.length; i++) {
+                data.ranMap.put(new Pair<>(ran1[i],ran2[i]),ran3[i]!=0);
             }
         }
         return data;

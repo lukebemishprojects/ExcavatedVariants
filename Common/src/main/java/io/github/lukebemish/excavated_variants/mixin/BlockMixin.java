@@ -1,8 +1,8 @@
 package io.github.lukebemish.excavated_variants.mixin;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import io.github.lukebemish.excavated_variants.worldgen.IOreFound;
 import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;

@@ -2,7 +2,7 @@ package io.github.lukebemish.excavated_variants.client;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.lukebemish.dynamic_asset_generator.client.api.ClientPrePackRepository;
+import io.github.lukebemish.dynamic_asset_generator.api.client.ClientPrePackRepository;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import net.minecraft.resources.ResourceLocation;
 

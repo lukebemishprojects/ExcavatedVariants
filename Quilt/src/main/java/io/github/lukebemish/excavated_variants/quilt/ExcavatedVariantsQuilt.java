@@ -96,8 +96,8 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
         }
 
         ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) -> {
-            var packet = new S2CConfigAgreementPacket(ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.last().stream().map(
-                    stone -> stone.id + "_" + p.first().id)).collect(Collectors.toSet()));
+            var packet = new S2CConfigAgreementPacket(ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
+                    stone -> stone.id + "_" + p.getFirst().id)).collect(Collectors.toSet()));
             var buf = PacketByteBufs.create();
             packet.encoder(buf);
             sender.sendPacket(sender.createPacket(S2C_CONFIG_AGREEMENT_PACKET, buf));

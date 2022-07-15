@@ -1,8 +1,8 @@
 package io.github.lukebemish.excavated_variants.recipe;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.platform.Services;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
@@ -57,7 +57,7 @@ public class OreConversionRecipe extends CustomRecipe {
             if (itemStack.isEmpty()) continue;
             if (itemMap.keySet().stream().anyMatch(itemStack::is)) {
                 Item item = itemMap.keySet().stream().filter(itemStack::is).toList().get(0);
-                return item==null ? null : new ItemStack(itemMap.get(item).last());
+                return item==null ? null : new ItemStack(itemMap.get(item).getSecond());
             }
         }
         return null;

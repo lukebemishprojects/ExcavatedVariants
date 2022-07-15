@@ -1,10 +1,10 @@
 package io.github.lukebemish.excavated_variants.mixin;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.platform.Services;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import io.github.lukebemish.excavated_variants.worldgen.IOreFound;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -32,8 +32,8 @@ public abstract class OreConfigurationMixin {
                 }
             }
             if (pair!=null) {
-                HashSet<BaseStone> stoneList = pair.last();
-                BaseOre ore = pair.first();
+                HashSet<BaseStone> stoneList = pair.getSecond();
+                BaseOre ore = pair.getFirst();
                 ArrayList<OreConfiguration.TargetBlockState> outList = new ArrayList<>(targetStates);
                 for (BaseStone stone : stoneList) {
                     Block oreBlock = Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + ore.id));

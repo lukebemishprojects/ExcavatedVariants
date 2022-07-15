@@ -4,7 +4,6 @@ import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.platform.Services;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import lilypuree.hyle.compat.IStoneType;
 import lilypuree.hyle.compat.StoneTypeEvent;
 import net.minecraft.resources.ResourceLocation;

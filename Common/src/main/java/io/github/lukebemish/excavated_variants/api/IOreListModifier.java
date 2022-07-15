@@ -1,8 +1,8 @@
 package io.github.lukebemish.excavated_variants.api;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
-import io.github.lukebemish.excavated_variants.util.Pair;
 
 import java.util.Collection;
 import java.util.HashSet;

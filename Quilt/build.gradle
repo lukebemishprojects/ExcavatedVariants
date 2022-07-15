@@ -59,7 +59,7 @@ dependencies {
 	modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")
 	modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-fabric-api:${rootProject.jei_version}")
 
-	modImplementation("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-quilt-${rootProject.minecraft_version}:${rootProject.lib_version}")
+	modImplementation("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-quilt-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}")
 	modImplementation("io.github.lukebemish.defaultresources:defaultresources-quilt-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
 	modImplementation("io.github.lukebemish.codecutils:codecutils-quilt-${rootProject.minecraft_version}:${rootProject.codecutils_version}")
 

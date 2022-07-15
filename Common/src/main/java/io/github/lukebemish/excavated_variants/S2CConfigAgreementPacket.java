@@ -24,8 +24,8 @@ public record S2CConfigAgreementPacket(Set<String> blocks) {
 
     public void consumeMessage(Consumer<String> disconnecter) {
         ExcavatedVariants.setupMap();
-        Set<String> knownBlocks = ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.last().stream().map(
-                stone -> stone.id + "_" + p.first().id)).collect(Collectors.toSet());
+        Set<String> knownBlocks = ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
+                stone -> stone.id + "_" + p.getFirst().id)).collect(Collectors.toSet());
         var serverOnly = this.blocks.stream().filter(b -> !knownBlocks.contains(b)).collect(Collectors.toSet());
         var clientOnly = knownBlocks.stream().filter(b -> !this.blocks.contains(b)).collect(Collectors.toSet());
 

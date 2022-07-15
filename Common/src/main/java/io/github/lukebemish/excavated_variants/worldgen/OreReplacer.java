@@ -1,11 +1,11 @@
 package io.github.lukebemish.excavated_variants.worldgen;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.platform.Services;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
@@ -92,8 +92,8 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration>  {
                                 }
                                 BaseStone stone = ((IOreFound)thisState.getBlock()).excavated_variants$get_stone();
                                 if (stone != null) {
-                                    Block oreBlock = Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.first().id));
-                                    if (pair.last().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
+                                    Block oreBlock = Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.getFirst().id));
+                                    if (pair.getSecond().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
                                         BlockState def = modifiedOreBlock.withPropertiesOf(thisState);
                                         chunkSection.setBlockState(i, y & 15, j, def, false);
                                         continue inner_loop;

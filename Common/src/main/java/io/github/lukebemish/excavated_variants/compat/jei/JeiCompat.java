@@ -1,11 +1,11 @@
 package io.github.lukebemish.excavated_variants.compat.jei;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import io.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -39,20 +39,20 @@ public class JeiCompat implements IModPlugin {
             OreConversionRecipe.assembleOrNull();
             for (Pair<BaseOre, HashSet<BaseStone>> p :ExcavatedVariants.oreStoneList) {
                 ArrayList<Item> items = new ArrayList<>();
-                for (BaseStone stone : p.last()) {
-                    ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID,stone.id+"_"+p.first().id);
+                for (BaseStone stone : p.getSecond()) {
+                    ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID,stone.id+"_"+p.getFirst().id);
                     Item item = Services.REGISTRY_UTIL.getItemById(rl);
                     if (item!=null) {
                         items.add(item);
                     }
                 }
-                Item outItem = Services.REGISTRY_UTIL.getItemById(p.first().block_id.get(0));
-                if (items.size() > 0 && outItem!=null) {
+                Item outItem = Services.REGISTRY_UTIL.getItemById(p.getFirst().block_id.get(0));
+                if (!items.isEmpty() && outItem!=null) {
                     Ingredient input = Ingredient.of(items.stream().map(ItemStack::new));
                     ItemStack output = new ItemStack(outItem);
                     NonNullList<Ingredient> inputs = NonNullList.of(Ingredient.EMPTY, input);
-                    String ore_id = p.first().id;
-                    recipes.add(new ShapelessRecipe(new ResourceLocation(ExcavatedVariants.MOD_ID, ore_id + "_conversion"), "excavated_variants.ore_conversion", output, inputs));
+                    String oreId = p.getFirst().id;
+                    recipes.add(new ShapelessRecipe(new ResourceLocation(ExcavatedVariants.MOD_ID, oreId + "_conversion"), "excavated_variants.ore_conversion", output, inputs));
                 }
             }
             registration.addRecipes(RecipeTypes.CRAFTING,recipes);

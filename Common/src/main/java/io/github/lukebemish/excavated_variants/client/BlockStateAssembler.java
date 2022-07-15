@@ -2,16 +2,13 @@ package io.github.lukebemish.excavated_variants.client;
 
 import com.google.gson.*;
 import com.mojang.blaze3d.platform.NativeImage;
-import io.github.lukebemish.dynamic_asset_generator.client.api.ClientPrePackRepository;
-import io.github.lukebemish.dynamic_asset_generator.client.api.DynAssetGeneratorClientAPI;
-import io.github.lukebemish.dynamic_asset_generator.client.api.ForegroundTransferType;
-import io.github.lukebemish.dynamic_asset_generator.client.api.PaletteExtractor;
-import io.github.lukebemish.dynamic_asset_generator.client.util.IPalettePlan;
+import com.mojang.datafixers.util.Pair;
+import io.github.lukebemish.dynamic_asset_generator.api.IInputStreamSource;
+import io.github.lukebemish.dynamic_asset_generator.api.client.ClientPrePackRepository;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import io.github.lukebemish.excavated_variants.platform.Services;
-import io.github.lukebemish.excavated_variants.util.Pair;
 import io.github.lukebemish.excavated_variants.util.Triple;
 import net.minecraft.client.renderer.block.model.BlockModelDefinition;
 import net.minecraft.client.renderer.block.model.MultiVariant;
@@ -27,54 +24,15 @@ import java.util.function.Supplier;
 public class BlockStateAssembler {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-    public static void setupClientAssets(Collection<Pair<BaseOre,BaseStone>> original_pairs, List<Pair<BaseOre,BaseStone>> to_make) {
-        int_original_pairs=original_pairs;
-        int_to_make=to_make;
-        for (Pair<BaseOre,BaseStone> p : to_make) {
-            var full_id = p.last().id+"_"+p.first().id;
-            //null textures *should* just be ignored. In theory, since they won't ever be referenced...
-            int max_tex_num = p.first().texture_count*p.last().texture_count;
-            ArrayList<ResourceLocation> targets = new ArrayList<>(List.of(
-                    new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/" + full_id + ".json")
-            ));
-            for (int i = 0; i<max_tex_num; i++) {
-                targets.add(new ResourceLocation(ExcavatedVariants.MOD_ID,"models/block/"+full_id+i+".json"));
-                targets.add(new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/"+full_id+i+".png"));
-            }
-            for (ResourceLocation rl : targets) {
-                DynAssetGeneratorClientAPI.planLoadingStream(rl,new ResettingHolder(rl));
-            }
-        }
-    }
-
-    private static volatile Map<ResourceLocation,Supplier<InputStream>> intMap ;
-    private static Collection<Pair<BaseOre,BaseStone>> int_original_pairs;
-    private static List<Pair<BaseOre,BaseStone>> int_to_make;
-
-    public static Map<ResourceLocation,Supplier<InputStream>> updateMap() {
-        if (intMap==null) {
-            synchronized (BlockStateAssembler.class) {
-                if (intMap==null) {
-                    intMap = getMap(int_original_pairs, int_to_make);
-                }
-            }
-        }
-        return intMap;
-    }
-
-    public static void reset() {
-        intMap = null;
-    }
-
-    private static Map<ResourceLocation,Supplier<InputStream>> getMap(Collection<Pair<BaseOre,BaseStone>> original_pairs, List<Pair<BaseOre,BaseStone>> to_make) {
+    public static Map<ResourceLocation,Supplier<InputStream>> getMap(TextureRegistrar registrar, Collection<Pair<BaseOre,BaseStone>> originalPairs, List<Pair<BaseOre,BaseStone>> toMake) {
         BlockModelDefinition.Context ctx = new BlockModelDefinition.Context();
         Map<ResourceLocation,Supplier<InputStream>> resources = new HashMap<>();
-        Map<String,Pair<BlockModelDefinition,List<ResourceLocation>>> oreInfoMap = new HashMap<>();
-        Map<String,Pair<BlockModelDefinition,List<ResourceLocation>>> stoneInfoMap = new HashMap<>();
-        Map<String, ArrayList<Triple<PaletteExtractor,ResourceLocation,Boolean>>> extractorMap = new HashMap<>();
-        for (Pair<BaseOre,BaseStone> p : to_make) {
-            var ore = p.first();
-            var stone = p.last();
+        Map<String, Pair<BlockModelDefinition,List<ResourceLocation>>> oreInfoMap = new HashMap<>();
+        Map<String, Pair<BlockModelDefinition,List<ResourceLocation>>> stoneInfoMap = new HashMap<>();
+        Map<String, ArrayList<Triple<Pair<ResourceLocation,ResourceLocation>,ResourceLocation,Boolean>>> extractorMap = new HashMap<>();
+        for (Pair<BaseOre,BaseStone> p : toMake) {
+            var ore = p.getFirst();
+            var stone = p.getSecond();
             try {
                 if (!oreInfoMap.containsKey(ore.id)) {
                     ResourceLocation oreRl = ore.block_id.get(0);
@@ -92,9 +50,9 @@ public class BlockStateAssembler {
                 //throw new RuntimeException(e);
             }
         }
-        for (Pair<BaseOre,BaseStone> p : original_pairs) {
-            var ore = p.first();
-            var base = p.last();
+        for (Pair<BaseOre,BaseStone> p : originalPairs) {
+            var ore = p.getFirst();
+            var base = p.getSecond();
             try {
                 if (!oreInfoMap.containsKey(ore.id)) {
                     ResourceLocation oreRl = ore.block_id.get(0);
@@ -109,10 +67,10 @@ public class BlockStateAssembler {
                 var stoneInfo = stoneInfoMap.get(base.id);
                 var oreInfo = oreInfoMap.get(ore.id);
 
-                if (stoneInfo!=null && oreInfo!=null && stoneInfo.last().size()>=1 && oreInfo.last().size()>=1) {
-                    ArrayList<Triple<PaletteExtractor,ResourceLocation,Boolean>> extractors = new ArrayList<>();
+                if (stoneInfo!=null && oreInfo!=null && stoneInfo.getSecond().size()>=1 && oreInfo.getSecond().size()>=1) {
+                    ArrayList<Triple<Pair<ResourceLocation,ResourceLocation>,ResourceLocation,Boolean>> extractors = new ArrayList<>();
                     extractorMap.put(ore.id,extractors);
-                    for (ResourceLocation rl : oreInfo.last()) {
+                    for (ResourceLocation rl : oreInfo.getSecond()) {
                         var is = ClientPrePackRepository.getResource(rl);
                         var img = NativeImage.read(is);
                         boolean isTransparent = false;
@@ -128,15 +86,15 @@ public class BlockStateAssembler {
                             }
                         }
 
-                        PaletteExtractor extractor = isTransparent?null:new PaletteExtractor(stoneInfo.last().get(0),rl, 6,true,true,0.2).fillHoles(true);
+                        Pair<ResourceLocation,ResourceLocation> extractor = isTransparent?null:new Pair<>(stoneInfo.getSecond().get(0),rl);
                         extractors.add(new Triple<>(extractor,rl,!isTransparent));
                     }
                 } else {
                     ExcavatedVariants.LOGGER.warn("Bad info while extracting from blocks {} and {}:{}",ore.block_id.get(0).toString(),base.block_id.toString(),
                             (stoneInfo==null?"\nMissing stone block model info":"")+
                                     (oreInfo==null?"\nMissing ore block model info":"")+
-                                    (stoneInfo!=null&&(stoneInfo.last().size()<1)?"\nNo stone textures found":"")+
-                                    (oreInfo!=null&&(oreInfo.last().size()<1)?"\nNo ore textures found":""));
+                                    (stoneInfo!=null&&(stoneInfo.getSecond().size()<1)?"\nNo stone textures found":"")+
+                                    (oreInfo!=null&&(oreInfo.getSecond().size()<1)?"\nNo ore textures found":""));
                 }
 
             } catch (IOException e) {
@@ -151,12 +109,12 @@ public class BlockStateAssembler {
             }
         }
 
-        for (Pair<BaseOre,BaseStone> p : to_make) {
-            var oreInfo = oreInfoMap.get(p.first().id);
-            var stoneInfo = stoneInfoMap.get(p.last().id);
-            var extractorPair = extractorMap.get(p.first().id);
-            var stone = p.last();
-            var ore = p.first();
+        for (Pair<BaseOre,BaseStone> p : toMake) {
+            var oreInfo = oreInfoMap.get(p.getFirst().id);
+            var stoneInfo = stoneInfoMap.get(p.getSecond().id);
+            var extractorPair = extractorMap.get(p.getFirst().id);
+            var stone = p.getSecond();
+            var ore = p.getFirst();
             var full_id = stone.id + "_" + ore.id;
 
             var outBlock = ExcavatedVariants.getBlocks().get(full_id);
@@ -166,14 +124,17 @@ public class BlockStateAssembler {
                 Map<Pair<ResourceLocation,ResourceLocation>,ResourceLocation> texMap = new HashMap<>();
                 // First, create new textures:
                 int index = 0;
-                for (ResourceLocation stoneBG : stoneInfo.last()) {
-                    for (Triple<PaletteExtractor,ResourceLocation,Boolean> exp : extractorPair) {
+                for (ResourceLocation stoneBG : stoneInfo.getSecond()) {
+                    for (Triple<Pair<ResourceLocation,ResourceLocation>,ResourceLocation,Boolean> exp : extractorPair) {
                         if (exp.last()) {
-                            IPalettePlan plan = new ForegroundTransferType(exp.first(), stoneBG,
-                                    true, false);
                             ResourceLocation outRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/" + full_id + index + ".png");
+
+                            Pair<IInputStreamSource,IInputStreamSource> sources = registrar.setupExtractor(exp.first().getFirst(), exp.first().getSecond(),stoneBG,outRL);
+                            resources.put(outRL,
+                                    ()->sources.getFirst().get(outRL).get());
+                            resources.put(new ResourceLocation(outRL.getNamespace(),outRL.getPath()+".mcmeta"),
+                                    ()->sources.getSecond().get(new ResourceLocation(outRL.getNamespace(),outRL.getPath()+".mcmeta")).get());
                             index++;
-                            resources.put(outRL, plan.getStream(outRL));
                             texMap.put(new Pair<>(stoneBG,exp.second()), outRL);
                         } else {
                             texMap.put(new Pair<>(stoneBG,exp.second()), exp.second());
@@ -183,12 +144,12 @@ public class BlockStateAssembler {
 
                 HashMap<Pair<ResourceLocation,ResourceLocation>,ResourceLocation> newTexMap = new HashMap<>();
                 for (Pair<ResourceLocation,ResourceLocation> pair : texMap.keySet()) {
-                    var p1 = pair.first().getPath().substring(9);
+                    var p1 = pair.getFirst().getPath().substring(9);
                     p1 = p1.substring(0,p1.length()-4);
-                    var rl1 = new ResourceLocation(pair.first().getNamespace(),p1);
-                    p1 = pair.last().getPath().substring(9);
+                    var rl1 = new ResourceLocation(pair.getFirst().getNamespace(),p1);
+                    p1 = pair.getSecond().getPath().substring(9);
                     p1 = p1.substring(0,p1.length()-4);
-                    var rl2 = new ResourceLocation(pair.last().getNamespace(),p1);
+                    var rl2 = new ResourceLocation(pair.getSecond().getNamespace(),p1);
                     p1 = texMap.get(pair).getPath().substring(9);
                     p1 = p1.substring(0,p1.length()-4);
                     var rl3 = new ResourceLocation(texMap.get(pair).getNamespace(),p1);
@@ -196,9 +157,9 @@ public class BlockStateAssembler {
                 }
 
                 // Next, process the models:
-                var defaultModels = oreInfo.first().getMultiVariants().stream().findFirst().get().getVariants()
+                var defaultModels = oreInfo.getFirst().getMultiVariants().stream().findFirst().get().getVariants()
                         .stream().map(Variant::getModelLocation).toList();
-                var stoneModel = stoneInfo.first().getMultiVariants().stream().findFirst().get().getVariants()
+                var stoneModel = stoneInfo.getFirst().getMultiVariants().stream().findFirst().get().getVariants()
                         .stream().map(Variant::getModelLocation).findFirst().get();
                 var outModelRLs = new ArrayList<ResourceLocation>();
                 try {
@@ -244,7 +205,7 @@ public class BlockStateAssembler {
                         String maybeTex = oreModel.textures.values().stream().filter(x ->
                                         !stoneLocs.contains(ResourceLocation.of(x, ':')) && newTexMap.keySet().stream().anyMatch(y->{
                                             var rl = ResourceLocation.of(x,':');
-                                            return y.last().equals(rl);
+                                            return y.getSecond().equals(rl);
                                         }))
                                 .findFirst().orElse(null);
                         ResourceLocation mainOreTex = maybeTex==null?null:ResourceLocation.of(maybeTex, ':');
@@ -252,7 +213,7 @@ public class BlockStateAssembler {
                                 newTexMap.entrySet().stream().anyMatch(e->{
                                     var y = e.getKey();
                                     var rl = ResourceLocation.of(x,':');
-                                    return y.last().equals(rl)&&y.last().equals(e.getValue());
+                                    return y.getSecond().equals(rl)&&y.getSecond().equals(e.getValue());
                                 })).toList();
                         for (String s : outputModel.textures.keySet()) {
                             String val = outputModel.textures.get(s);

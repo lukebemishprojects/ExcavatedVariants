@@ -1,12 +1,13 @@
 package io.github.lukebemish.excavated_variants;
 
-import io.github.lukebemish.dynamic_asset_generator.api.DynAssetGeneratorServerAPI;
+import com.mojang.datafixers.util.Pair;
+import io.github.lukebemish.dynamic_asset_generator.api.DataResourceCache;
 import io.github.lukebemish.excavated_variants.api.IOreListModifier;
 import io.github.lukebemish.excavated_variants.client.ClientServices;
 import io.github.lukebemish.excavated_variants.data.*;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import io.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
-import io.github.lukebemish.excavated_variants.util.Pair;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -46,9 +47,9 @@ public class ExcavatedVariants {
 
         ExcavatedVariants.setupMap();
         for (Pair<BaseOre,HashSet<BaseStone>> p : oreStoneList) {
-            BaseOre ore = p.first();
+            BaseOre ore = p.getFirst();
             List<String> ids = new ArrayList<>();
-            for (BaseStone stone : p.last()) {
+            for (BaseStone stone : p.getSecond()) {
                 String fullId = stone.id+"_"+ore.id;
                 blockList.add(new RegistryFuture(fullId,ore, stone));
                 neededRls.add(ore.block_id.get(0));
@@ -66,39 +67,39 @@ public class ExcavatedVariants {
                 for (String this_id : ids) {
                     String oreTypeName = orename.substring(0, orename.length() - 4);
                     if (Services.PLATFORM.isQuilt()) {
-                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
-                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
-                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
-                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c","blocks/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        planItemTag(new ResourceLocation("c", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        planBlockTag(new ResourceLocation("c", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        planItemTag(new ResourceLocation("c","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        planBlockTag(new ResourceLocation("c","blocks/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                     } else {
                         if (orename.endsWith("_ore")) {
-                            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
-                            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge","blocks/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                            planItemTag(new ResourceLocation("forge","items/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                            planBlockTag(new ResourceLocation("forge","blocks/ores/"+oreTypeName),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                         }
                     }
                     if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore", "netherite_scrap_ore").contains(orename)) {
-                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("minecraft", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
-                        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("minecraft", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        planItemTag(new ResourceLocation("minecraft", "items/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
+                        planBlockTag(new ResourceLocation("minecraft", "blocks/" + orename + "s"),new ResourceLocation(ExcavatedVariants.MOD_ID,this_id));
                     }
                 }
             }
         }
 
-        DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("minecraft", "blocks/mineable/pickaxe"),blockTagBuilder);
-        if (!Services.PLATFORM.isQuilt()) {
-            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge", "blocks/ores"),blockTagBuilder);
-            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("forge", "items/ores"),blockTagBuilder);
-        } else {
-            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "blocks/ores"),blockTagBuilder);
-            DynAssetGeneratorServerAPI.planTagFile(new ResourceLocation("c", "items/ores"),blockTagBuilder);
-        }
+        blockTagBuilder.forEach(tag -> {
+            planBlockTag(new ResourceLocation("minecraft", "blocks/mineable/pickaxe"), tag);
+                    if (!Services.PLATFORM.isQuilt()) {
+                        planBlockTag(new ResourceLocation("forge", "blocks/ores"), tag);
+                        planItemTag(new ResourceLocation("forge", "items/ores"), tag);
+                    } else {
+                        planBlockTag(new ResourceLocation("c", "blocks/ores"), tag);
+                        planItemTag(new ResourceLocation("c", "items/ores"), tag);
+                    }
+        });
 
-        DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_stone_tool"),
-                stoneTag.suppliers());
-        DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_iron_tool"),
-                ironTag.suppliers());
-        DynAssetGeneratorServerAPI.planTagFileConditional(new ResourceLocation("minecraft","blocks/needs_diamond_tool"),
-                diamondTag.suppliers());
+
+        DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft","blocks/needs_stone_tool"),stoneTag);
+        DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft","blocks/needs_iron_tool"),ironTag);
+        DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft","blocks/needs_diamond_tool"),diamondTag);
 
         Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
 
@@ -154,28 +155,28 @@ public class ExcavatedVariants {
             }
             Pair<BaseOre, HashSet<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new HashSet<>());
             if (oreList.size() > 1) {
-                pair.first().block_id = new ArrayList<>();
-                pair.first().orename = new ArrayList<>();
-                pair.first().stone = new ArrayList<>();
-                pair.first().types = new ArrayList<>();
+                pair.getFirst().block_id = new ArrayList<>();
+                pair.getFirst().orename = new ArrayList<>();
+                pair.getFirst().stone = new ArrayList<>();
+                pair.getFirst().types = new ArrayList<>();
                 for (BaseOre baseOre : oreList) {
-                    pair.first().block_id.addAll(baseOre.block_id);
-                    pair.first().orename.addAll(baseOre.orename);
-                    pair.first().stone.addAll(baseOre.stone);
-                    pair.first().types.addAll(baseOre.types);
+                    pair.getFirst().block_id.addAll(baseOre.block_id);
+                    pair.getFirst().orename.addAll(baseOre.orename);
+                    pair.getFirst().stone.addAll(baseOre.stone);
+                    pair.getFirst().types.addAll(baseOre.types);
                 }
-                List<String> types = new HashSet<>(pair.first().types).stream().toList();
-                pair.first().types.clear();
-                pair.first().types.addAll(types);
-                List<String> oreNames = new HashSet<>(pair.first().orename).stream().toList();
-                pair.first().orename.clear();
-                pair.first().orename.addAll(oreNames);
+                List<String> types = new HashSet<>(pair.getFirst().types).stream().toList();
+                pair.getFirst().types.clear();
+                pair.getFirst().types.addAll(types);
+                List<String> oreNames = new HashSet<>(pair.getFirst().orename).stream().toList();
+                pair.getFirst().orename.clear();
+                pair.getFirst().orename.addAll(oreNames);
             }
             oreStoneList.add(pair);
             for (BaseStone stone : stoneMap.values()) {
                 if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
                     if (!ExcavatedVariants.getConfig().configResource.blacklist.matches(id, stone.id)) {
-                        pair.last().add(stone);
+                        pair.getSecond().add(stone);
                     }
                 }
             }
@@ -188,18 +189,18 @@ public class ExcavatedVariants {
         HashSet<String> doneIds = new HashSet<>();
         ArrayList<Pair<BaseOre,HashSet<BaseStone>>> out = new ArrayList<>();
         for (Pair<BaseOre,HashSet<BaseStone>> p : oreStoneList) {
-            BaseOre ore = p.first();
+            BaseOre ore = p.getFirst();
             if (!doneIds.contains(ore.id)) {
                 doneIds.add(ore.id);
                 Pair<BaseOre,HashSet<BaseStone>> o = new Pair<>(ore,new HashSet<>());
                 out.add(o);
-                knownOres.add(o.first());
-                for (BaseStone stone : p.last()) {
+                knownOres.add(o.getFirst());
+                for (BaseStone stone : p.getSecond()) {
                     if (!ExcavatedVariants.getConfig().configResource.blacklist.matches(ore, stone)) {
-                        o.last().add(stone);
+                        o.getSecond().add(stone);
                     }
                 }
-                knownStones.addAll(o.last());
+                knownStones.addAll(o.getSecond());
             }
         }
         oreStoneList = out;
@@ -298,5 +299,13 @@ public class ExcavatedVariants {
             mappingsCache = cache;
         }
         return mappingsCache;
+    }
+
+    private static void planBlockTag(ResourceLocation tag, ResourceLocation block) {
+        DataResourceCache.INSTANCE.planTag(tag, new Pair<>(block, () -> Registry.BLOCK.containsKey(block)));
+    }
+
+    private static void planItemTag(ResourceLocation tag, ResourceLocation item) {
+        DataResourceCache.INSTANCE.planTag(tag, new Pair<>(item, () -> Registry.ITEM.containsKey(item)));
     }
 }

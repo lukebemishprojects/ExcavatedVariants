@@ -112,7 +112,7 @@ dependencies {
 
     compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
 
-    implementation(fg.deobf("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-forge-${rootProject.minecraft_version}:${rootProject.lib_version}"))
+    implementation(fg.deobf("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-forge-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}"))
     implementation(fg.deobf("io.github.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:${rootProject.defaultresources_version}"))
     implementation(fg.deobf("io.github.lukebemish.codecutils:codecutils-forge-${rootProject.minecraft_version}:${rootProject.codecutils_version}"))
 
