@@ -57,6 +57,12 @@ public class ExcavatedVariants {
                     OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.block_id.get(0));
                 }
                 blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,fullId));
+                for (String type : ore.types) {
+                    ResourceLocation tagRl = new ResourceLocation(MOD_ID, "ore_" + type);
+                    ResourceLocation id = new ResourceLocation(MOD_ID, fullId);
+                    planItemTag(rlToBlock(tagRl), id);
+                    planBlockTag(rlToItem(tagRl), id);
+                }
                 stoneTag.add(fullId, ore);
                 ironTag.add(fullId, ore);
                 diamondTag.add(fullId, ore);
