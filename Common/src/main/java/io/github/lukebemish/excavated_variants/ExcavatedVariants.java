@@ -45,7 +45,6 @@ public class ExcavatedVariants {
         MiningLevelTagGenerator ironTag = new MiningLevelTagGenerator("iron");
         MiningLevelTagGenerator diamondTag = new MiningLevelTagGenerator("diamond");
 
-        ExcavatedVariants.setupMap();
         for (Pair<BaseOre,HashSet<BaseStone>> p : oreStoneList) {
             BaseOre ore = p.getFirst();
             List<String> ids = new ArrayList<>();
@@ -96,6 +95,23 @@ public class ExcavatedVariants {
                     }
         });
 
+        for (BaseStone stone : knownStones) {
+            for (String type : stone.types) {
+                ResourceLocation tagRl = new ResourceLocation(MOD_ID, "stone_" + type);
+                planBlockTag(rlToBlock(tagRl), stone.block_id);
+                planItemTag(rlToItem(tagRl), stone.block_id);
+            }
+        }
+
+        for (BaseOre ore : knownOres) {
+            for (String type : ore.types) {
+                ResourceLocation tagRl = new ResourceLocation(MOD_ID, "ore_" + type);
+                ore.block_id.forEach(id -> {
+                    planItemTag(rlToBlock(tagRl), id);
+                    planBlockTag(rlToItem(tagRl), id);
+                });
+            }
+        }
 
         DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft","blocks/needs_stone_tool"),stoneTag);
         DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft","blocks/needs_iron_tool"),ironTag);
@@ -307,5 +323,13 @@ public class ExcavatedVariants {
 
     private static void planItemTag(ResourceLocation tag, ResourceLocation item) {
         DataResourceCache.INSTANCE.planTag(tag, new Pair<>(item, () -> Registry.ITEM.containsKey(item)));
+    }
+
+    private static ResourceLocation rlToBlock(ResourceLocation rl) {
+        return new ResourceLocation(rl.getNamespace(),"blocks/"+rl.getPath());
+    }
+
+    private static ResourceLocation rlToItem(ResourceLocation rl) {
+        return new ResourceLocation(rl.getNamespace(),"items/"+rl.getPath());
     }
 }

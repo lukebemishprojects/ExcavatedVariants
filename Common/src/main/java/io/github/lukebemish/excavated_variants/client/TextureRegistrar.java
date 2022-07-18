@@ -4,11 +4,9 @@ import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.dynamic_asset_generator.api.IInputStreamSource;
 import io.github.lukebemish.dynamic_asset_generator.api.IPathAwareInputStreamSource;
 import io.github.lukebemish.dynamic_asset_generator.api.client.generators.DynamicTextureSource;
+import io.github.lukebemish.dynamic_asset_generator.api.client.generators.ITexSource;
 import io.github.lukebemish.dynamic_asset_generator.api.client.generators.TextureMetaGenerator;
-import io.github.lukebemish.dynamic_asset_generator.api.client.generators.texsources.AnimationFrameCapture;
-import io.github.lukebemish.dynamic_asset_generator.api.client.generators.texsources.AnimationSplittingSource;
-import io.github.lukebemish.dynamic_asset_generator.api.client.generators.texsources.ForegroundTransfer;
-import io.github.lukebemish.dynamic_asset_generator.api.client.generators.texsources.TextureReader;
+import io.github.lukebemish.dynamic_asset_generator.api.client.generators.texsources.*;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 import net.minecraft.resources.ResourceLocation;
@@ -28,17 +26,33 @@ public class TextureRegistrar implements Supplier<IPathAwareInputStreamSource> {
         this.toMake = toMake;
     }
 
-    public Pair<IInputStreamSource,IInputStreamSource> setupExtractor(ResourceLocation stoneOrig, ResourceLocation ore, ResourceLocation stoneNew, ResourceLocation out) {
-        stoneOrig = new ResourceLocation(stoneOrig.getNamespace(), stoneOrig.getPath().replaceFirst("textures/","").replaceFirst("\\.png",""));
-        stoneNew = new ResourceLocation(stoneNew.getNamespace(), stoneNew.getPath().replaceFirst("textures/","").replaceFirst("\\.png",""));
-        ore = new ResourceLocation(ore.getNamespace(), ore.getPath().replaceFirst("textures/","").replaceFirst("\\.png",""));
-        var p1 = new DynamicTextureSource(out, new AnimationSplittingSource(Map.of(
-                "ore", new AnimationSplittingSource.TimeAwareSource(new TextureReader(ore),1),
-                "stoneOrig", new AnimationSplittingSource.TimeAwareSource(new TextureReader(stoneOrig),1),
-                "stoneNew", new AnimationSplittingSource.TimeAwareSource(new TextureReader(stoneNew),1)),
+    public Pair<IInputStreamSource,IInputStreamSource> setupExtractor(List<ResourceLocation> stoneOrigs, List<ResourceLocation> ores, ResourceLocation stoneNew, ResourceLocation out) {
+        HashMap<String, AnimationSplittingSource.TimeAwareSource> sourceMap = new HashMap<>();
+        int c1 = 0;
+        for (ResourceLocation stoneOrig : stoneOrigs) {
+            sourceMap.put("stoneOrig"+c1,new AnimationSplittingSource.TimeAwareSource(new TextureReader(stoneOrig),1));
+            c1++;
+        }
+        int c3 = 0;
+        for (ResourceLocation ore : ores) {
+            sourceMap.put("ore"+c3,new AnimationSplittingSource.TimeAwareSource(new TextureReader(ore),1));
+            c3++;
+        }
+        sourceMap.put("stoneNew", new AnimationSplittingSource.TimeAwareSource(new TextureReader(stoneNew),1));
+
+        List<ITexSource> stoneOrigSources = new ArrayList<>();
+        for (int c2 = 0; c2 < c1; c2++) {
+            stoneOrigSources.add(new AnimationFrameCapture("stoneOrig"+c2));
+        }
+        List<ITexSource> oreSources = new ArrayList<>();
+        for (int c2 = 0; c2 < c3; c2++) {
+            oreSources.add(new AnimationFrameCapture("ore"+c2));
+        }
+
+        var p1 = new DynamicTextureSource(out, new AnimationSplittingSource(sourceMap,
                 new ForegroundTransfer(
-                        new AnimationFrameCapture("stoneOrig"),
-                        new AnimationFrameCapture("ore"),
+                        new Overlay(stoneOrigSources),
+                        new Overlay(oreSources),
                         new AnimationFrameCapture("stoneNew"),
                         6,
                         true,
@@ -46,8 +60,12 @@ public class TextureRegistrar implements Supplier<IPathAwareInputStreamSource> {
                         true,
                         0.2)));
 
+        List<ResourceLocation> sources = new ArrayList<>(stoneOrigs);
+        sources.addAll(ores);
+        sources.add(stoneNew);
+
         var p2 = new TextureMetaGenerator(
-                List.of(stoneOrig,ore,stoneNew),
+                sources,
                 Optional.empty(),
                 Optional.empty(),
                 Optional.empty(),

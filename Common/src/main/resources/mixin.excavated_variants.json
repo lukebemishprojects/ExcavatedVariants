@@ -7,8 +7,7 @@
     "BlockMixin",
     "IBiomeGenerationSettingsMixin",
     "IBlockPropertiesMixin",
-    "IMinecraftServerMixin",
-    "OreConfigurationMixin"
+    "IMinecraftServerMixin"
   ],
   "client": [],
   "server": [],
