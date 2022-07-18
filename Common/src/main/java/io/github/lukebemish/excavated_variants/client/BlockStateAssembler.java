@@ -119,7 +119,7 @@ public class BlockStateAssembler {
                 for (var stoneBG : stoneInfo.getSecond().stream().flatMap(pair->pair.getSecond().stream()).collect(Collectors.toSet())) {
                     for (var exp : oreStonePair) {
                         ResourceLocation outRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/" + fullId + index + ".png");
-                        ResourceLocation outRlInternal = new ResourceLocation(ExcavatedVariants.MOD_ID, fullId + index);
+                        ResourceLocation outRlInternal = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+fullId + index);
                         Pair<IInputStreamSource,IInputStreamSource> sources = registrar.setupExtractor(exp.getSecond(),exp.getFirst(),stoneBG.get(0),outRlInternal);
                         resources.put(outRL,
                                 ()->sources.getFirst().get(outRL).get());
