@@ -7,8 +7,7 @@ Do you want to contribute to the default variant configs? Feel free to open a pu
 
 The main config file, `config/excavated_variants.json`, contains several options:
 
-* **attempt\_ore\_gen_insertion**: Allows the world-generation changes to be toggled. Useful if another tool, such as KubeJS, is being used for ore gen.
-* **attempt\_worldgen\_replacement**: Toggles the much slower, but more reliable, ore-gen changes. Disable to speed up world generation substantially at the cost of less-reliable replacement of the original ore with its variants. If this is disabled, some ores will not be replaced correctly.
+* **attempt\_worldgen\_replacement**: Toggles ore-gen changes; without this, ores won't be replaced during world gen.
 * **add\_conversion\_recipes**: Toggles whether to add recipes to convert variants back to the base ore.
 * **jei\_rei\_compat**: Toggles compatibility with JEI and REI for added conversion recipes.
 * **unobtainable\_variants**: If this is set to true, variants will drop the base ore, even with silk touch.
