@@ -41,11 +41,11 @@
       },
       {
         "id": "dynamic_asset_generator",
-        "versions": ">=0.7.0"
+        "versions": ">=1.0.0"
       },
       {
         "id": "defaultresources",
-        "versions": ">=0.1.1"
+        "versions": ">=0.2.0"
       }
     ]
   },
