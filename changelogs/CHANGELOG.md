@@ -1,3 +1,12 @@
+### Excavated Variants v0.8.0
+
+- Internal changes to use codecutils.
+- Internal changes for new DynAssetGen version.
+- Changes to model merging for Forge composite models.
+- Add stones/ores to tags by type.
+- Change main config to toml (using codecutils).
+- Extracted global resources now in a `.zip` with new defaultresources version.
+
 ### Excavated Variants v0.7.2
 
 - Extend config/resource system for modifiers
