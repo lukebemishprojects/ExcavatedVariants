@@ -59,7 +59,7 @@ public class ExcavatedVariants {
                 }
                 blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,fullId));
                 for (String type : Sets.union(new HashSet<>(stone.types), new HashSet<>(ore.types))) {
-                    ResourceLocation tagRl = new ResourceLocation(MOD_ID, "ore_" + type);
+                    ResourceLocation tagRl = new ResourceLocation(MOD_ID, type+"_ores");
                     ResourceLocation id = new ResourceLocation(MOD_ID, fullId);
                     planItemTag(rlToBlock(tagRl), id);
                     planBlockTag(rlToItem(tagRl), id);
@@ -104,7 +104,7 @@ public class ExcavatedVariants {
 
         for (BaseStone stone : knownStones) {
             for (String type : stone.types) {
-                ResourceLocation tagRl = new ResourceLocation(MOD_ID, "stone_" + type);
+                ResourceLocation tagRl = new ResourceLocation(MOD_ID, type+"_stones");
                 planBlockTag(rlToBlock(tagRl), stone.block_id);
                 planItemTag(rlToItem(tagRl), stone.block_id);
             }
@@ -112,7 +112,7 @@ public class ExcavatedVariants {
 
         for (BaseOre ore : knownOres) {
             for (String type : ore.types) {
-                ResourceLocation tagRl = new ResourceLocation(MOD_ID, "ore_" + type);
+                ResourceLocation tagRl = new ResourceLocation(MOD_ID, type+"_ores");
                 ore.block_id.forEach(id -> {
                     planItemTag(rlToBlock(tagRl), id);
                     planBlockTag(rlToItem(tagRl), id);

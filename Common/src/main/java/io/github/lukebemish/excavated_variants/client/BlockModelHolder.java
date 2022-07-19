@@ -8,6 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.lukebemish.codecutils.api.JanksonOps;
 import io.github.lukebemish.dynamic_asset_generator.api.client.ClientPrePackRepository;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
+import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +19,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 // ONLY fit to be used for parsing, not for writing
-public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, String> textures, List<ElementDefinition> elements, Optional<List<BlockModelHolder>> children) {
+public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, String> textures, List<ElementDefinition> elements, Optional<Map<String,BlockModelHolder>> children) {
     private static final Jankson JANKSON = Jankson.builder().build();
 
     public static final List<String> SIDES = List.of("down","up","north","south","west","east");
@@ -26,7 +27,7 @@ public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, St
             ResourceLocation.CODEC.optionalFieldOf("parent").forGetter(BlockModelHolder::parent),
             Codec.unboundedMap(Codec.STRING, Codec.STRING).optionalFieldOf("textures",Map.of()).forGetter(BlockModelHolder::textures),
             ElementDefinition.CODEC.listOf().optionalFieldOf("elements",List.of()).forGetter(BlockModelHolder::elements),
-            BlockModelHolder.CODEC.listOf().optionalFieldOf("children").forGetter(BlockModelHolder::children)
+            Codec.unboundedMap(Codec.STRING, BlockModelHolder.CODEC).optionalFieldOf("children").forGetter(BlockModelHolder::children)
     ).apply(i,BlockModelHolder::new)));
 
     public static @Nullable ResourceLocation resolveTexture(Map<String, String> map, String texName) {
@@ -48,6 +49,16 @@ public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, St
         return null;
     }
 
+    public static BlockModelHolder getFromString(String string) {
+        try {
+            JsonObject json = JANKSON.load(string);
+            return BlockModelHolder.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e->{});
+        } catch (SyntaxError | RuntimeException e) {
+            ExcavatedVariants.LOGGER.error("Could not read model:\n{}", string, e);
+        }
+        return null;
+    }
+
     public Map<String, String> getTextureMap() {
         Map<String, String> textures = new HashMap<>();
         BlockModelHolder parent = parent().isEmpty() ? null : getFromLocation(parent().get());
@@ -55,6 +66,31 @@ public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, St
             textures.putAll(parent.getTextureMap());
         textures.putAll(this.textures());
         return textures;
+    }
+
+    public Map<String, ResourceLocation> getResolvedTextureMap() {
+        Map<String, ResourceLocation> out = new HashMap<>();
+        Map<String, String> textures = getTextureMap();
+        textures.keySet().forEach(k -> {
+            ResourceLocation rl = resolveTexture(textures, new HashSet<>(), k);
+            if (rl != null)
+                out.put(k,rl);
+        });
+        return out;
+    }
+
+    private static ResourceLocation resolveTexture(Map<String, String> map, Set<String> stack, String name) {
+        String out = map.get(name);
+        if (out == null)
+            return null;
+        try {
+            return ResourceLocation.of(out, ':');
+        } catch (ResourceLocationException ignored) {}
+        out = out.substring(1);
+        if (stack.contains(out))
+            return null;
+        stack.add(out);
+        return resolveTexture(map, stack, out);
     }
 
     public record ElementDefinition(Map<String, FaceDefinition> faces, List<Integer> from, List<Integer> to, RotationDefinition rotation) {
@@ -118,7 +154,7 @@ public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, St
                 }
             }
         } else {
-            List<Map<LocationKey, List<ResourceLocation>>> maps = children().get().stream().map(h->h.getRlMapForSide(side,texMap)).toList();
+            List<Map<LocationKey, List<ResourceLocation>>> maps = children().get().values().stream().map(h->h.getRlMapForSide(side,texMap)).toList();
             maps.forEach(m->m.forEach((key, rls) -> map.merge(key, rls, (l1, l2) -> {
                 List<ResourceLocation> rlList = new ArrayList<>(l1);
                 rlList.addAll(l2);

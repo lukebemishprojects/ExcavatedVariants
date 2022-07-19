@@ -1,11 +1,12 @@
 package io.github.lukebemish.excavated_variants.client;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import io.github.lukebemish.dynamic_asset_generator.api.client.ClientPrePackRepository;
+import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.Reader;
+import java.io.*;
 import java.util.Map;
 
 public class BlockModelParser {
@@ -42,9 +43,18 @@ public class BlockModelParser {
         BlockModelParser parser = BlockStateAssembler.GSON.fromJson(string, BlockModelParser.class);
         return processModel(parser);
     }
-    public static BlockModelParser readModel(JsonObject object) {
-        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(object, BlockModelParser.class);
-        return processModel(parser);
+
+    public BlockModelParser readParent() {
+        ResourceLocation path = ResourceLocation.of(parent,':');
+        path = new ResourceLocation(path.getNamespace(), "models/"+path.getPath()+".json");
+        try (InputStream is = ClientPrePackRepository.getResource(path)) {
+            if (is!=null) {
+                return readModel(new BufferedReader(new InputStreamReader(is)));
+            }
+        } catch (IOException e) {
+            ExcavatedVariants.LOGGER.error("Could not read model at {}:",path,e);
+        }
+        return null;
     }
 
     private static BlockModelParser processModel(BlockModelParser modelParser) {

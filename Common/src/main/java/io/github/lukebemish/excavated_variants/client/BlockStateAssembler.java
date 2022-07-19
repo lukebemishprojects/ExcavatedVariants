@@ -1,9 +1,6 @@
 package io.github.lukebemish.excavated_variants.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.dynamic_asset_generator.api.IInputStreamSource;
 import io.github.lukebemish.dynamic_asset_generator.api.client.AssetResourceCache;
@@ -181,23 +178,21 @@ public class BlockStateAssembler {
                             oreTextBuilder.append((char) oreC);
                         }
                         BlockModelParser oreModel = BlockModelParser.readModel(oreTextBuilder.toString());
-                        List<ResourceLocation> oreLocs = new ArrayList<>(oreModel.textures.values().stream().map(x -> ResourceLocation.of(x, ':')).toList());
-                        if (oreModel.children!=null)
-                            oreLocs.addAll(oreModel.children.values().stream().flatMap(parser->parser.textures.values().stream())
-                                    .map(x->ResourceLocation.of(x,':')).toList());
+                        BlockModelHolder oreModelHolder = BlockModelHolder.getFromString(oreTextBuilder.toString());
+                        Set<ResourceLocation> oreLocs = extractTextures(oreModelHolder);
                         ResourceLocation mainOreTex = oreLocs.stream().filter(x ->
-                                        !stoneLocs.contains(x) && texMap.keySet().stream().anyMatch(y-> y.getSecond().equals(x)))
-                                .findFirst().orElse(null);
+                                        !stoneLocs.contains(x) && texMap.entrySet().stream().anyMatch(y->
+                                                y.getKey().getSecond().equals(x) && !y.getValue().equals(AssetResourceCache.EMPTY_TEXTURE)))
+                                .findFirst().orElse(oreLocs.stream().filter(x ->
+                                                texMap.entrySet().stream().anyMatch(y->
+                                                        y.getKey().getSecond().equals(x) && !y.getValue().equals(AssetResourceCache.EMPTY_TEXTURE)))
+                                        .findFirst().orElse(null));
 
-                        for (String s : outputModel.textures.keySet()) {
-                            String val = outputModel.textures.get(s);
-                            ResourceLocation old = ResourceLocation.of(val,':');
-                            ResourceLocation lookup = texMap.get(new Pair<>(old,mainOreTex));
-                            if (lookup!=null) outputModel.replaceTexture(old,lookup);
-                        }
-                        outputMap.add("textures",GSON.toJsonTree(outputModel.textures));
+                        remapTextures(texMap, outputModel, outputMap, mainOreTex);
 
-                        if (outputModel.elements!=null&&outputModel.elements.size()!=0) outputMap.add("elements",outputModel.elements);
+                        texMap.values().stream().filter(rl->!AssetResourceCache.EMPTY_TEXTURE.equals(rl)).findFirst().ifPresent(rl -> {
+                            setParticleTexture(outputMap, rl);
+                        });
 
                         var outModelRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+fullId + i2);
                         outModelRLs.add(outModelRL);
@@ -227,6 +222,53 @@ public class BlockStateAssembler {
         }
 
         return resources;
+    }
+
+    private static Set<ResourceLocation> extractTextures(BlockModelHolder oreModelHolder) {
+        Set<ResourceLocation> rls = new HashSet<>(oreModelHolder.getResolvedTextureMap().values());
+        if (oreModelHolder.children().isPresent()) {
+            oreModelHolder.children().get().values().forEach(holder -> rls.addAll(extractTextures(holder)));
+        }
+        return rls;
+    }
+
+    private static void setParticleTexture(JsonObject outputMap, ResourceLocation particle) {
+        if (outputMap.has("textures") && outputMap.get("textures") instanceof JsonObject textures) {
+            textures.add("particle",new JsonPrimitive(particle.toString()));
+        }
+        if (outputMap.has("children") && outputMap.get("children") instanceof JsonObject children) {
+            for (String key : children.keySet()) {
+                if (children.get(key) instanceof JsonObject jsonObject)
+                    setParticleTexture(jsonObject, particle);
+            }
+        }
+    }
+
+    private static void remapTextures(Map<Pair<ResourceLocation, ResourceLocation>, ResourceLocation> texMap, BlockModelParser outputModel, JsonObject outputMap, ResourceLocation mainOreTex) {
+        if (outputModel.textures!=null) {
+            for (String s : outputModel.textures.keySet()) {
+                String val = outputModel.textures.get(s);
+                ResourceLocation old = ResourceLocation.of(val, ':');
+                ResourceLocation lookup = texMap.get(new Pair<>(old, mainOreTex));
+                if (lookup != null) outputModel.replaceTexture(old, lookup);
+            }
+            outputMap.add("textures", GSON.toJsonTree(outputModel.textures));
+        }
+
+        if (outputModel.children!=null && outputMap.has("children")
+                && outputMap.get("children") instanceof JsonObject jsonObject
+                && jsonObject.keySet().equals(outputModel.children.keySet())) {
+            JsonArray newJsonArray = new JsonArray();
+            for (String key : jsonObject.keySet()) {
+                BlockModelParser modelE = outputModel.children.get(key);
+                JsonElement mapE = jsonObject.get(key);
+                if (mapE instanceof JsonObject modelMapObject) {
+                    remapTextures(texMap, modelE, modelMapObject, mainOreTex);
+                    newJsonArray.add(mapE);
+                }
+            }
+            outputMap.add("children",newJsonArray);
+        }
     }
 
     private static Pair<BlockModelDefinition,List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>> getInfoFromBlockstate(ResourceLocation oreRl, BlockModelDefinition.Context ctx) throws IOException {
