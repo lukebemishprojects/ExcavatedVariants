@@ -46,6 +46,10 @@
       {
         "id": "defaultresources",
         "versions": ">=0.2.0"
+      },
+      {
+        "id": "codecutils",
+        "versions": ">=0.1.1"
       }
     ]
   },
