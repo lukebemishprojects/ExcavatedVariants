@@ -1,5 +1,6 @@
 package io.github.lukebemish.excavated_variants;
 
+import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.dynamic_asset_generator.api.DataResourceCache;
 import io.github.lukebemish.excavated_variants.api.IOreListModifier;
@@ -57,7 +58,7 @@ public class ExcavatedVariants {
                     OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.block_id.get(0));
                 }
                 blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,fullId));
-                for (String type : ore.types) {
+                for (String type : Sets.union(new HashSet<>(stone.types), new HashSet<>(ore.types))) {
                     ResourceLocation tagRl = new ResourceLocation(MOD_ID, "ore_" + type);
                     ResourceLocation id = new ResourceLocation(MOD_ID, fullId);
                     planItemTag(rlToBlock(tagRl), id);
