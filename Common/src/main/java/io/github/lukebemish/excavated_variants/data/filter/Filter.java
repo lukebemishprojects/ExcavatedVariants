@@ -27,7 +27,7 @@ public sealed interface Filter permits StringHeldFilter, ObjectFilter {
 
     static Filter union(List<Filter> filters) {
         filters = filters.stream().flatMap(Filter::expandOr).toList();
-        return new OrFilter(filters);
+        return new ObjectFilter.OrFilter(filters);
     }
 
     static Filter union(Filter... filters) {
@@ -36,7 +36,7 @@ public sealed interface Filter permits StringHeldFilter, ObjectFilter {
 
     static Filter intersect(List<Filter> filters) {
         filters = filters.stream().flatMap(Filter::expandAnd).toList();
-        return new AndFilter(filters);
+        return new ObjectFilter.AndFilter(filters);
     }
 
     static Filter intersect(Filter... filters) {
@@ -44,13 +44,13 @@ public sealed interface Filter permits StringHeldFilter, ObjectFilter {
     }
 
     private static Stream<Filter> expandOr(Filter filter) {
-        if (filter instanceof OrFilter or)
+        if (filter instanceof ObjectFilter.OrFilter or)
             return or.filters().stream().flatMap(Filter::expandOr);
         return Stream.of(filter);
     }
 
     private static Stream<Filter> expandAnd(Filter filter) {
-        if (filter instanceof AndFilter and)
+        if (filter instanceof ObjectFilter.AndFilter and)
             return and.filters().stream().flatMap(Filter::expandAnd);
         return Stream.of(filter);
     }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ConfigResource {
     public static final Codec<ConfigResource> CODEC = RecordCodecBuilder.create(instance->instance.group(
-            Filter.CODEC.optionalFieldOf("blacklist", EmptyFilter.INSTANCE).forGetter(r->r.blacklist),
+            Filter.CODEC.optionalFieldOf("blacklist", ObjectFilter.EmptyFilter.INSTANCE).forGetter(r->r.blacklist),
             ResourceLocation.CODEC.listOf().optionalFieldOf("priority",List.of()).forGetter(r->r.priority)
     ).apply(instance,ConfigResource::new));
     public final List<ResourceLocation> priority;
@@ -26,7 +26,7 @@ public class ConfigResource {
     }
 
     public static ConfigResource empty() {
-        return new ConfigResource(EmptyFilter.INSTANCE, List.of());
+        return new ConfigResource(ObjectFilter.EmptyFilter.INSTANCE, List.of());
     }
 
     public void addFrom(ConfigResource resource) {
