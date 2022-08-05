@@ -46,18 +46,15 @@ public class ModConfig {
     public static final Codec<ModConfig> CODEC = CommentedCodec.of(RecordCodecBuilder.<ModConfig>create(instance->instance.group(
             Codec.BOOL.fieldOf("attempt_worldgen_replacement").forGetter(c->c.attemptWorldgenReplacement),
             Codec.BOOL.fieldOf("add_conversion_recipes").forGetter(c->c.addConversionRecipes),
-            Codec.BOOL.fieldOf("jei_rei_compat").forGetter(c->c.jeiReiCompat),
-            Codec.BOOL.fieldOf("unobtainable_variants").forGetter(c->c.unobtainableVariants)
+            Codec.BOOL.fieldOf("jei_rei_compat").forGetter(c->c.jeiReiCompat)
     ).apply(instance,ModConfig::new)))
             .comment("Toggles ore-gen changes; without this, ores won't be replaced during world gen.", "attempt_worldgen_replacement")
             .comment("Toggles whether to add recipes to convert variants back to the base ore.", "add_conversion_recipes")
-            .comment("Toggles compatibility with JEI and REI for added conversion recipes.", "jei_rei_compat")
-            .comment("If this is on, variants will drop the base ore, even with silk touch.", "unobtainable_variants");
+            .comment("Toggles compatibility with JEI and REI for added conversion recipes.", "jei_rei_compat");
 
     public final boolean attemptWorldgenReplacement;
     public final boolean addConversionRecipes;
     public final boolean jeiReiCompat;
-    public final boolean unobtainableVariants;
 
     public final ConfigResource configResource = ConfigResource.empty();
 
@@ -88,16 +85,14 @@ public class ModConfig {
         }
     }
 
-    private ModConfig(boolean attemptWorldgenReplacement, boolean addConversionRecipes, boolean jeiReiCompat,
-                     boolean unobtainableVariants) {
+    private ModConfig(boolean attemptWorldgenReplacement, boolean addConversionRecipes, boolean jeiReiCompat) {
         this.attemptWorldgenReplacement = attemptWorldgenReplacement;
         this.addConversionRecipes = addConversionRecipes;
         this.jeiReiCompat = jeiReiCompat;
-        this.unobtainableVariants = unobtainableVariants;
     }
 
     private static ModConfig defaultConfig() {
-        return new ModConfig(true, true, true, false);
+        return new ModConfig(true, true, true);
     }
 
     public static ModConfig load() {

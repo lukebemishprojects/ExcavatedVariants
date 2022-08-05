@@ -2,6 +2,7 @@ package io.github.lukebemish.excavated_variants;
 
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
+import io.github.lukebemish.excavated_variants.data.modifier.BlockProps;
 import io.github.lukebemish.excavated_variants.data.modifier.Flag;
 import io.github.lukebemish.excavated_variants.mixin.IBlockPropertiesMixin;
 import io.github.lukebemish.excavated_variants.platform.Services;
@@ -66,13 +67,13 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         }
 
         ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).forEach(modifier -> {
-            if (modifier.xpDropped().isPresent()) this.delegateSpecialDrops = false;
+            if (modifier.properties().flatMap(BlockProps::xpDropped).isPresent()) this.delegateSpecialDrops = false;
         });
     }
 
     private static IntProvider getXpProvider(BaseOre ore, BaseStone stone) {
         return ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).map(modifier -> {
-            if (modifier.xpDropped().isPresent()) return modifier.xpDropped().get();
+            if (modifier.properties().flatMap(BlockProps::xpDropped).isPresent()) return modifier.properties().flatMap(BlockProps::xpDropped).get();
             return null;
         }).filter(Objects::nonNull).collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
             Collections.reverse(list);
@@ -121,8 +122,8 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             outProperties = BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f);
         }
         ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).forEach(modifier -> {
-                modifier.explosionResistance().ifPresent(outProperties::explosionResistance);
-                modifier.destroyTime().ifPresent(outProperties::destroyTime);
+                modifier.properties().flatMap(BlockProps::explosionResistance).ifPresent(outProperties::explosionResistance);
+                modifier.properties().flatMap(BlockProps::destroyTime).ifPresent(outProperties::destroyTime);
         });
         return outProperties;
     }
@@ -306,11 +307,11 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         if (target != null) {
             BlockState targetState = target.defaultBlockState();
             List<ItemStack> items = target.getDrops(targetState, builder);
-            LootContext lootContext = builder.withParameter(LootContextParams.BLOCK_STATE, targetState).create(LootContextParamSets.BLOCK);
-            MatchTool silk = new MatchTool(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))).build());
+            boolean isSilk = new MatchTool(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))).build())
+                    .test(builder.withParameter(LootContextParams.BLOCK_STATE, targetState).create(LootContextParamSets.BLOCK));
             return items.stream().map(x -> {
-                if (x.is(target.asItem()) && this.asItem() != Items.AIR && !ExcavatedVariants.getConfig().unobtainableVariants
-                        && !(flags.contains(Flag.ORIGINAL_WITHOUT_SILK) && !silk.test(lootContext))) {
+                if (x.is(target.asItem()) && this.asItem() != Items.AIR && !(flags.contains(Flag.ORIGINAL_ALWAYS))
+                        && !(flags.contains(Flag.ORIGINAL_WITHOUT_SILK) && !isSilk)) {
                     int count = x.getCount();
                     return new ItemStack(this.asItem(), count);
                 }

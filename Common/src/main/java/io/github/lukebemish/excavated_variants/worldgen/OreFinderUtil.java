@@ -15,7 +15,7 @@ public class OreFinderUtil {
     public static void setupBlocks() {
         for (Block block : Services.REGISTRY_UTIL.getAllBlocks()) {
             ((IOreFound)block).excavated_variants$set_pair(null);
-            ((IOreFound) block).excavated_variants$set_stone(null);
+            ((IOreFound)block).excavated_variants$set_stone(null);
             if (ExcavatedVariants.setupMap()) {
                 for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
                     for (ResourceLocation rl : p.getFirst().block_id) {

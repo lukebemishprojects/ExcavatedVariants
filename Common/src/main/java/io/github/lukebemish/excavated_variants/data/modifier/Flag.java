@@ -6,7 +6,8 @@ import net.minecraft.util.StringRepresentable;
 import java.util.Locale;
 
 public enum Flag implements StringRepresentable {
-    ORIGINAL_WITHOUT_SILK;
+    ORIGINAL_WITHOUT_SILK,
+    ORIGINAL_ALWAYS;
 
     public static final Codec<Flag> CODEC = StringRepresentable.fromEnum(Flag::values);
 
