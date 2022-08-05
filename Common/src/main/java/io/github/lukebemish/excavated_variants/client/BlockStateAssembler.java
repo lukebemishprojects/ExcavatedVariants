@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 public class BlockStateAssembler {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-    public static Map<ResourceLocation,Supplier<InputStream>> getMap(TextureRegistrar registrar, Collection<Pair<BaseOre,BaseStone>> originalPairs, List<Pair<BaseOre,BaseStone>> toMake) {
+    public static Map<ResourceLocation, Supplier<InputStream>> getMap(TextureRegistrar registrar, Collection<Pair<BaseOre, BaseStone>> originalPairs, List<Pair<BaseOre, BaseStone>> toMake) {
         BlockModelDefinition.Context ctx = new BlockModelDefinition.Context();
-        Map<ResourceLocation,Supplier<InputStream>> resources = new HashMap<>();
-        Map<String, Pair<BlockModelDefinition,List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>>> oreInfoMap = new HashMap<>();
-        Map<String, Pair<BlockModelDefinition,List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>>> stoneInfoMap = new HashMap<>();
-        Map<String, List<Pair<List<ResourceLocation>,List<ResourceLocation>>>> oreStonePairMap = new HashMap<>();
-        for (Pair<BaseOre,BaseStone> p : toMake) {
+        Map<ResourceLocation, Supplier<InputStream>> resources = new HashMap<>();
+        Map<String, Pair<BlockModelDefinition, List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>>> oreInfoMap = new HashMap<>();
+        Map<String, Pair<BlockModelDefinition, List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>>> stoneInfoMap = new HashMap<>();
+        Map<String, List<Pair<List<ResourceLocation>, List<ResourceLocation>>>> oreStonePairMap = new HashMap<>();
+        for (Pair<BaseOre, BaseStone> p : toMake) {
             var ore = p.getFirst();
             var stone = p.getSecond();
             try {
@@ -49,26 +49,26 @@ public class BlockStateAssembler {
                 //throw new RuntimeException(e);
             }
         }
-        for (Pair<BaseOre,BaseStone> p : originalPairs) {
+        for (Pair<BaseOre, BaseStone> p : originalPairs) {
             var ore = p.getFirst();
             var base = p.getSecond();
             try {
                 if (!oreInfoMap.containsKey(ore.id)) {
                     ResourceLocation oreRl = ore.block_id.get(0);
-                    oreInfoMap.put(ore.id,getInfoFromBlockstate(oreRl,ctx));
+                    oreInfoMap.put(ore.id, getInfoFromBlockstate(oreRl, ctx));
                 }
 
                 if (!stoneInfoMap.containsKey(base.id)) {
                     ResourceLocation stoneRl = base.block_id;
-                    stoneInfoMap.put(base.id,getInfoFromBlockstate(stoneRl,ctx));
+                    stoneInfoMap.put(base.id, getInfoFromBlockstate(stoneRl, ctx));
                 }
 
                 var stoneInfo = stoneInfoMap.get(base.id);
                 var oreInfo = oreInfoMap.get(ore.id);
 
-                if (stoneInfo!=null && oreInfo!=null && stoneInfo.getSecond().size()>=1 && oreInfo.getSecond().size()>=1) {
+                if (stoneInfo != null && oreInfo != null && stoneInfo.getSecond().size() >= 1 && oreInfo.getSecond().size() >= 1) {
                     ArrayList<Pair<List<ResourceLocation>, List<ResourceLocation>>> oreStonePairs = new ArrayList<>();
-                    oreStonePairMap.put(ore.id,oreStonePairs);
+                    oreStonePairMap.put(ore.id, oreStonePairs);
                     var holders = oreInfo.getSecond();
                     for (var holder : holders) {
                         for (var rls : holder.getSecond()) {
@@ -79,11 +79,11 @@ public class BlockStateAssembler {
                         }
                     }
                 } else {
-                    ExcavatedVariants.LOGGER.warn("Bad info while extracting from blocks {} and {}:{}",ore.block_id.get(0).toString(),base.block_id.toString(),
-                            (stoneInfo==null?"\nMissing stone block model info":"")+
-                                    (oreInfo==null?"\nMissing ore block model info":"")+
-                                    (stoneInfo!=null&&(stoneInfo.getSecond().size()<1)?"\nNo stone textures found":"")+
-                                    (oreInfo!=null&&(oreInfo.getSecond().size()<1)?"\nNo ore textures found":""));
+                    ExcavatedVariants.LOGGER.warn("Bad info while extracting from blocks {} and {}:{}", ore.block_id.get(0).toString(), base.block_id.toString(),
+                            (stoneInfo == null ? "\nMissing stone block model info" : "") +
+                                    (oreInfo == null ? "\nMissing ore block model info" : "") +
+                                    (stoneInfo != null && (stoneInfo.getSecond().size() < 1) ? "\nNo stone textures found" : "") +
+                                    (oreInfo != null && (oreInfo.getSecond().size() < 1) ? "\nNo ore textures found" : ""));
                 }
 
             } catch (IOException e) {
@@ -98,7 +98,7 @@ public class BlockStateAssembler {
             }
         }
 
-        for (Pair<BaseOre,BaseStone> p : toMake) {
+        for (Pair<BaseOre, BaseStone> p : toMake) {
             var oreInfo = oreInfoMap.get(p.getFirst().id);
             var stoneInfo = stoneInfoMap.get(p.getSecond().id);
             var oreStonePair = oreStonePairMap.get(p.getFirst().id);
@@ -108,22 +108,22 @@ public class BlockStateAssembler {
 
             var outBlock = ExcavatedVariants.getBlocks().get(fullId);
 
-            if (oreInfo!=null && stoneInfo!=null && oreStonePair!=null && outBlock!=null) {
+            if (oreInfo != null && stoneInfo != null && oreStonePair != null && outBlock != null) {
                 // stone, ore -> new
-                Map<Pair<ResourceLocation,ResourceLocation>,ResourceLocation> texMap = new HashMap<>();
+                Map<Pair<ResourceLocation, ResourceLocation>, ResourceLocation> texMap = new HashMap<>();
                 // First, create new textures:
                 int index = 0;
-                for (var stoneBG : stoneInfo.getSecond().stream().flatMap(pair->pair.getSecond().stream()).collect(Collectors.toSet())) {
+                for (var stoneBG : stoneInfo.getSecond().stream().flatMap(pair -> pair.getSecond().stream()).collect(Collectors.toSet())) {
                     for (var exp : oreStonePair) {
                         ResourceLocation outRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "textures/block/" + fullId + index + ".png");
-                        ResourceLocation outRlInternal = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+fullId + index);
-                        Pair<IInputStreamSource,IInputStreamSource> sources = registrar.setupExtractor(exp.getSecond(),exp.getFirst(),stoneBG.get(0),outRlInternal);
+                        ResourceLocation outRlInternal = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/" + fullId + index);
+                        Pair<IInputStreamSource, IInputStreamSource> sources = registrar.setupExtractor(exp.getSecond(), exp.getFirst(), stoneBG.get(0), outRlInternal);
                         resources.put(outRL,
-                                ()->sources.getFirst().get(outRL).get());
-                        resources.put(new ResourceLocation(outRL.getNamespace(),outRL.getPath()+".mcmeta"),
-                                ()->sources.getSecond().get(new ResourceLocation(outRL.getNamespace(),outRL.getPath()+".mcmeta")).get());
+                                () -> sources.getFirst().get(outRL).get());
+                        resources.put(new ResourceLocation(outRL.getNamespace(), outRL.getPath() + ".mcmeta"),
+                                () -> sources.getSecond().get(new ResourceLocation(outRL.getNamespace(), outRL.getPath() + ".mcmeta")).get());
                         index++;
-                        texMap.put(new Pair<>(stoneBG.get(0),exp.getFirst().get(0)), outRlInternal);
+                        texMap.put(new Pair<>(stoneBG.get(0), exp.getFirst().get(0)), outRlInternal);
                         stoneBG.stream().skip(1).forEach(stoneRl -> {
                             exp.getSecond().stream().skip(1).forEach(oreRl -> texMap.put(new Pair<>(stoneRl, oreRl), AssetResourceCache.EMPTY_TEXTURE));
                         });
@@ -145,9 +145,9 @@ public class BlockStateAssembler {
                     }
                     BlockModelParser parentModel = BlockModelParser.readModel(new BufferedReader(new InputStreamReader(read, StandardCharsets.UTF_8)));
                     List<ResourceLocation> stoneLocs = new ArrayList<>(parentModel.textures.values().stream().map(x -> ResourceLocation.of(x, ':')).toList());
-                    if (parentModel.children!=null)
-                        stoneLocs.addAll(parentModel.children.values().stream().flatMap(parser->parser.textures.values().stream())
-                                .map(x->ResourceLocation.of(x,':')).toList());
+                    if (parentModel.children != null)
+                        stoneLocs.addAll(parentModel.children.values().stream().flatMap(parser -> parser.textures.values().stream())
+                                .map(x -> ResourceLocation.of(x, ':')).toList());
 
                     int i2 = 0;
                     for (ResourceLocation m : defaultModels) {
@@ -181,43 +181,43 @@ public class BlockStateAssembler {
                         BlockModelHolder oreModelHolder = BlockModelHolder.getFromString(oreTextBuilder.toString());
                         Set<ResourceLocation> oreLocs = extractTextures(oreModelHolder);
                         ResourceLocation mainOreTex = oreLocs.stream().filter(x ->
-                                        !stoneLocs.contains(x) && texMap.entrySet().stream().anyMatch(y->
+                                        !stoneLocs.contains(x) && texMap.entrySet().stream().anyMatch(y ->
                                                 y.getKey().getSecond().equals(x) && !y.getValue().equals(AssetResourceCache.EMPTY_TEXTURE)))
                                 .findFirst().orElse(oreLocs.stream().filter(x ->
-                                                texMap.entrySet().stream().anyMatch(y->
+                                                texMap.entrySet().stream().anyMatch(y ->
                                                         y.getKey().getSecond().equals(x) && !y.getValue().equals(AssetResourceCache.EMPTY_TEXTURE)))
                                         .findFirst().orElse(null));
 
                         remapTextures(texMap, outputModel, outputMap, mainOreTex);
 
-                        texMap.values().stream().filter(rl->!AssetResourceCache.EMPTY_TEXTURE.equals(rl)).findFirst().ifPresent(rl -> {
+                        texMap.values().stream().filter(rl -> !AssetResourceCache.EMPTY_TEXTURE.equals(rl)).findFirst().ifPresent(rl -> {
                             setParticleTexture(outputMap, rl);
                         });
 
-                        var outModelRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+fullId + i2);
+                        var outModelRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/" + fullId + i2);
                         outModelRLs.add(outModelRL);
                         String finalJson = GSON.toJson(outputMap);
-                        resources.put(new ResourceLocation(ExcavatedVariants.MOD_ID,"models/"+outModelRL.getPath()+".json"),
-                                ()->new ByteArrayInputStream(finalJson.getBytes()));
+                        resources.put(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/" + outModelRL.getPath() + ".json"),
+                                () -> new ByteArrayInputStream(finalJson.getBytes()));
                         i2++;
                     }
 
                     // Create output BS
-                    var assembler = BlockstateModelParser.create(outBlock,outModelRLs);
+                    var assembler = BlockstateModelParser.create(outBlock, outModelRLs);
                     String bs = GSON.toJson(assembler);
-                    resources.put(new ResourceLocation(ExcavatedVariants.MOD_ID,"blockstates/"+fullId+".json"),
-                            ()->new ByteArrayInputStream(bs.getBytes()));
+                    resources.put(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/" + fullId + ".json"),
+                            () -> new ByteArrayInputStream(bs.getBytes()));
                 } catch (IOException e) {
                     //TODO: add stuff here
                     ExcavatedVariants.LOGGER.error(e);
                     //throw new RuntimeException(e);
                 }
             } else {
-                ExcavatedVariants.LOGGER.warn("Missing {}for ore {}", ""+
-                        (oreInfo==null?"ore model info, ":"")+
-                        (stoneInfo==null?"stone model info, ":"")+
-                        (oreStonePair==null?"texture extractor info, ":"")+
-                        (outBlock==null?"registered block, ":""),fullId);
+                ExcavatedVariants.LOGGER.warn("Missing {}for ore {}", "" +
+                        (oreInfo == null ? "ore model info, " : "") +
+                        (stoneInfo == null ? "stone model info, " : "") +
+                        (oreStonePair == null ? "texture extractor info, " : "") +
+                        (outBlock == null ? "registered block, " : ""), fullId);
             }
         }
 
@@ -234,7 +234,7 @@ public class BlockStateAssembler {
 
     private static void setParticleTexture(JsonObject outputMap, ResourceLocation particle) {
         if (outputMap.has("textures") && outputMap.get("textures") instanceof JsonObject textures) {
-            textures.add("particle",new JsonPrimitive(particle.toString()));
+            textures.add("particle", new JsonPrimitive(particle.toString()));
         }
         if (outputMap.has("children") && outputMap.get("children") instanceof JsonObject children) {
             for (String key : children.keySet()) {
@@ -245,7 +245,7 @@ public class BlockStateAssembler {
     }
 
     private static void remapTextures(Map<Pair<ResourceLocation, ResourceLocation>, ResourceLocation> texMap, BlockModelParser outputModel, JsonObject outputMap, ResourceLocation mainOreTex) {
-        if (outputModel.textures!=null) {
+        if (outputModel.textures != null) {
             for (String s : outputModel.textures.keySet()) {
                 String val = outputModel.textures.get(s);
                 ResourceLocation old = ResourceLocation.of(val, ':');
@@ -255,7 +255,7 @@ public class BlockStateAssembler {
             outputMap.add("textures", GSON.toJsonTree(outputModel.textures));
         }
 
-        if (outputModel.children!=null && outputMap.has("children")
+        if (outputModel.children != null && outputMap.has("children")
                 && outputMap.get("children") instanceof JsonObject jsonObject
                 && jsonObject.keySet().equals(outputModel.children.keySet())) {
             JsonArray newJsonArray = new JsonArray();
@@ -267,11 +267,11 @@ public class BlockStateAssembler {
                     newJsonArray.add(mapE);
                 }
             }
-            outputMap.add("children",newJsonArray);
+            outputMap.add("children", newJsonArray);
         }
     }
 
-    private static Pair<BlockModelDefinition,List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>> getInfoFromBlockstate(ResourceLocation oreRl, BlockModelDefinition.Context ctx) throws IOException {
+    private static Pair<BlockModelDefinition, List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>> getInfoFromBlockstate(ResourceLocation oreRl, BlockModelDefinition.Context ctx) throws IOException {
         ResourceLocation oreBS = new ResourceLocation(oreRl.getNamespace(), "blockstates/" + oreRl.getPath() + ".json");
         InputStream oreBSIS;
         try {
@@ -290,7 +290,7 @@ public class BlockStateAssembler {
             List<Pair<BlockModelHolder, List<List<ResourceLocation>>>> modelsList = new ArrayList<>();
             for (ResourceLocation mRl : oreModels) {
                 BlockModelHolder holder = BlockModelHolder.getFromLocation(mRl);
-                if (holder==null) continue;
+                if (holder == null) continue;
                 modelsList.add(createOverlayStack(holder));
             }
             return new Pair<>(oreBMD, modelsList);

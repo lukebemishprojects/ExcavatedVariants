@@ -1,11 +1,11 @@
 package io.github.lukebemish.excavated_variants.forge;
 
+import com.google.auto.service.AutoService;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.IMainPlatformTarget;
 import io.github.lukebemish.excavated_variants.ModifiedOreBlock;
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
-import com.google.auto.service.AutoService;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -19,6 +19,7 @@ public class MainPlatformTargetImpl implements IMainPlatformTarget {
 
     public void registerFeatures() {
     }
+
     public ModifiedOreBlock makeDefaultOreBlock(BaseOre ore, BaseStone stone) {
         return new ForgeOreBlock(ore, stone);
     }

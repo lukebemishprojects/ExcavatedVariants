@@ -1,5 +1,6 @@
 package io.github.lukebemish.excavated_variants.forge.mixin;
 
+import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import io.github.lukebemish.excavated_variants.forge.registry.BlockAddedCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value=ForgeRegistry.class,remap=false)
+@Mixin(value = ForgeRegistry.class, remap = false)
 public abstract class ForgeRegistryMixin<V> {
     @Shadow
     @Final
@@ -22,46 +23,10 @@ public abstract class ForgeRegistryMixin<V> {
     @Inject(method = "register(Lnet/minecraft/resources/ResourceLocation;Ljava/lang/Object;)V", at = @At("RETURN"))
     private void excavated_variants$registryRegisterHackery(ResourceLocation rl, V value, CallbackInfo ci) {
         if (key.equals(ForgeRegistries.Keys.BLOCKS)) {
+            if (ExcavatedVariants.neededRls.contains(rl)) {
+                ExcavatedVariants.loadedBlockRLs.add(rl);
+            }
             BlockAddedCallback.register();
         }
     }
-
-    /*@Shadow
-    @Final
-    private ResourceKey<Registry<V>> key;
-
-    @Shadow
-    @Final
-    private BiMap<ResourceLocation, V> names;
-
-    @Unique
-    private static final Supplier<ModContainer> EV_CONTAINER = Suppliers.memoize(() -> ModList.get().getModContainerById(ExcavatedVariants.MOD_ID).orElseThrow());
-
-    @Inject(method = "freeze", at = @At("HEAD"))
-    private void excavated_variants$registryFreezeHackery(CallbackInfo ci) {
-        if (key.equals(ForgeRegistries.Keys.BLOCKS)) {
-            this.names.forEach((rl, value) -> {
-                ExcavatedVariants.loadedBlockRLs.add(rl);
-            });
-            if (ExcavatedVariants.hasLoaded()) {
-                ArrayList<ExcavatedVariants.RegistryFuture> toRemove = new ArrayList<>();
-                for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
-                    if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
-                            ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
-                        ExcavatedVariants.registerBlockAndItem((rlr,bl)->{
-                            final ModContainer activeContainer = ModLoadingContext.get().getActiveContainer();
-                            ModLoadingContext.get().setActiveContainer(EV_CONTAINER.get());
-                            ForgeRegistries.BLOCKS.register(rlr, bl);
-                            ModLoadingContext.get().setActiveContainer(activeContainer);
-                        },(rlr,it)->{
-                            ExcavatedVariantsForge.toRegister.register(rlr.getPath(), it);
-                            return ()-> Services.REGISTRY_UTIL.getItemById(rlr);
-                        },b);
-                        toRemove.add(b);
-                    }
-                }
-                ExcavatedVariants.blockList.removeAll(toRemove);
-            }
-        }
-    }*/
 }

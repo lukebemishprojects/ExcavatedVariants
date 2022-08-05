@@ -1,9 +1,9 @@
 package io.github.lukebemish.excavated_variants.forge;
 
+import com.google.auto.service.AutoService;
 import io.github.lukebemish.excavated_variants.ICompat;
 import io.github.lukebemish.excavated_variants.api.ExcavatedVariantsListener;
 import io.github.lukebemish.excavated_variants.api.IOreListModifier;
-import com.google.auto.service.AutoService;
 
 import java.util.List;
 

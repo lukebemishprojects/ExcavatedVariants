@@ -37,17 +37,17 @@ public class JeiCompat implements IModPlugin {
         if (ExcavatedVariants.getConfig().addConversionRecipes && ExcavatedVariants.getConfig().jeiReiCompat) {
             List<CraftingRecipe> recipes = new ArrayList<>();
             OreConversionRecipe.assembleOrNull();
-            for (Pair<BaseOre, HashSet<BaseStone>> p :ExcavatedVariants.oreStoneList) {
+            for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
                 ArrayList<Item> items = new ArrayList<>();
                 for (BaseStone stone : p.getSecond()) {
-                    ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID,stone.id+"_"+p.getFirst().id);
+                    ResourceLocation rl = new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + p.getFirst().id);
                     Item item = Services.REGISTRY_UTIL.getItemById(rl);
-                    if (item!=null) {
+                    if (item != null) {
                         items.add(item);
                     }
                 }
                 Item outItem = Services.REGISTRY_UTIL.getItemById(p.getFirst().block_id.get(0));
-                if (!items.isEmpty() && outItem!=null) {
+                if (!items.isEmpty() && outItem != null) {
                     Ingredient input = Ingredient.of(items.stream().map(ItemStack::new));
                     ItemStack output = new ItemStack(outItem);
                     NonNullList<Ingredient> inputs = NonNullList.of(Ingredient.EMPTY, input);
@@ -55,7 +55,7 @@ public class JeiCompat implements IModPlugin {
                     recipes.add(new ShapelessRecipe(new ResourceLocation(ExcavatedVariants.MOD_ID, oreId + "_conversion"), "excavated_variants.ore_conversion", output, inputs));
                 }
             }
-            registration.addRecipes(RecipeTypes.CRAFTING,recipes);
+            registration.addRecipes(RecipeTypes.CRAFTING, recipes);
         }
     }
 }

@@ -8,7 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 import java.util.Optional;
 
-public record VariantModifier(Filter filter, Optional<BlockProps> properties, Optional<List<Flag>> flags, Optional<List<ResourceLocation>> tags) {
+public record VariantModifier(Filter filter, Optional<BlockProps> properties, Optional<List<Flag>> flags,
+                              Optional<List<ResourceLocation>> tags) {
     public static final Codec<VariantModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Filter.CODEC.fieldOf("filter").forGetter(VariantModifier::filter),
             BlockProps.CODEC.optionalFieldOf("properties").forGetter(VariantModifier::properties),

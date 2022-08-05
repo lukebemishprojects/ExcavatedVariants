@@ -6,7 +6,10 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 
-public class MissingVariantHelper {
+public final class MissingVariantHelper {
+    private MissingVariantHelper() {
+    }
+
     public static ResourceLocation getBaseBlock(String fullId) {
         if (ExcavatedVariants.setupMap()) {
             Optional<ResourceLocation> firstOre = ExcavatedVariants.getMappingsCache().oreMappings.entrySet().stream()

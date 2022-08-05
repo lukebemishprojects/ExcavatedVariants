@@ -36,21 +36,21 @@ import java.util.function.Supplier;
 public class ModConfig {
     public static final TomlParser TOML_PARSER = TomlFormat.instance().createParser();
     public static final TomlWriter TOML_WRITER = TomlFormat.instance().createWriter();
-    static {
-        TOML_WRITER.setIndent(IndentStyle.SPACES_2);
-    }
     public static final Jankson JANKSON = Jankson.builder().build();
     public static final Path CONFIG_PATH = Services.PLATFORM.getConfigFolder();
-    public static final Path FULL_PATH = CONFIG_PATH.resolve(ExcavatedVariants.MOD_ID+".toml");
-
-    public static final Codec<ModConfig> CODEC = CommentedCodec.of(RecordCodecBuilder.<ModConfig>create(instance->instance.group(
-            Codec.BOOL.fieldOf("attempt_worldgen_replacement").forGetter(c->c.attemptWorldgenReplacement),
-            Codec.BOOL.fieldOf("add_conversion_recipes").forGetter(c->c.addConversionRecipes),
-            Codec.BOOL.fieldOf("jei_rei_compat").forGetter(c->c.jeiReiCompat)
-    ).apply(instance,ModConfig::new)))
+    public static final Path FULL_PATH = CONFIG_PATH.resolve(ExcavatedVariants.MOD_ID + ".toml");
+    public static final Codec<ModConfig> CODEC = CommentedCodec.of(RecordCodecBuilder.<ModConfig>create(instance -> instance.group(
+                    Codec.BOOL.fieldOf("attempt_worldgen_replacement").forGetter(c -> c.attemptWorldgenReplacement),
+                    Codec.BOOL.fieldOf("add_conversion_recipes").forGetter(c -> c.addConversionRecipes),
+                    Codec.BOOL.fieldOf("jei_rei_compat").forGetter(c -> c.jeiReiCompat)
+            ).apply(instance, ModConfig::new)))
             .comment("Toggles ore-gen changes; without this, ores won't be replaced during world gen.", "attempt_worldgen_replacement")
             .comment("Toggles whether to add recipes to convert variants back to the base ore.", "add_conversion_recipes")
             .comment("Toggles compatibility with JEI and REI for added conversion recipes.", "jei_rei_compat");
+
+    static {
+        TOML_WRITER.setIndent(IndentStyle.SPACES_2);
+    }
 
     public final boolean attemptWorldgenReplacement;
     public final boolean addConversionRecipes;
@@ -63,27 +63,6 @@ public class ModConfig {
     public final List<VariantModifier> modifiers = new ArrayList<>();
 
     public final Flags flags = new Flags();
-
-    public class Flags {
-        final Supplier<List<Pair<Filter,List<Flag>>>> flags;
-        private Flags() {
-            flags = Suppliers.memoize(() ->
-                    modifiers.stream().filter(m->m.flags().isPresent())
-                            .map(m->new Pair<>(m.filter(),m.flags().get())).toList()
-            );
-        }
-
-        public Set<Flag> getFlags(String ore, String stone) {
-            return flags.get().stream()
-                    .filter(p->p.getFirst().matches(ore,stone))
-                    .flatMap(p->p.getSecond().stream())
-                    .collect(Sets.toImmutableEnumSet());
-        }
-
-        public Set<Flag> getFlags(BaseOre ore, BaseStone stone) {
-            return getFlags(ore.id, stone.id);
-        }
-    }
 
     private ModConfig(boolean attemptWorldgenReplacement, boolean addConversionRecipes, boolean jeiReiCompat) {
         this.attemptWorldgenReplacement = attemptWorldgenReplacement;
@@ -100,7 +79,8 @@ public class ModConfig {
             checkExistenceOrSave();
 
             Config toml = TOML_PARSER.parse(new FileReader(FULL_PATH.toFile()));
-            ModConfig config = CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e-> {});
+            ModConfig config = CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {
+            });
 
             config.loadConfigResources();
             config.loadVariantResources();
@@ -119,7 +99,8 @@ public class ModConfig {
             Files.createFile(FULL_PATH);
             ModConfig config = defaultConfig();
             var writer = Files.newBufferedWriter(FULL_PATH);
-            Config toml = (Config) CODEC.encodeStart(TomlConfigOps.INSTANCE, config).getOrThrow(false, e->{});
+            Config toml = (Config) CODEC.encodeStart(TomlConfigOps.INSTANCE, config).getOrThrow(false, e -> {
+            });
             TOML_WRITER.write(toml.unmodifiable(), writer);
             writer.flush();
             writer.close();
@@ -127,20 +108,22 @@ public class ModConfig {
     }
 
     private void loadConfigResources() {
-        var rls = ResourceProvider.instance().getResources(ExcavatedVariants.MOD_ID, "configs", rl->true);
+        var rls = ResourceProvider.instance().getResources(ExcavatedVariants.MOD_ID, "configs", rl -> true);
 
         for (var rl : rls) {
-            try (var resources = ResourceProvider.instance().getResourceStreams(ExcavatedVariants.MOD_ID,rl)) {
+            try (var resources = ResourceProvider.instance().getResourceStreams(ExcavatedVariants.MOD_ID, rl)) {
                 Optional<? extends InputStream> optional = resources.findFirst();
                 if (optional.isPresent()) {
                     try {
                         if (rl.getPath().endsWith(".json") || rl.getPath().endsWith(".json5")) {
                             JsonObject json = JANKSON.load(optional.get());
-                            ConfigResource resource = ConfigResource.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {});
+                            ConfigResource resource = ConfigResource.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
+                            });
                             this.configResource.addFrom(resource);
                         } else if (rl.getPath().endsWith(".toml")) {
                             Config toml = TOML_PARSER.parse(new InputStreamReader(optional.get()));
-                            ConfigResource resource = ConfigResource.CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {});
+                            ConfigResource resource = ConfigResource.CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {
+                            });
                             this.configResource.addFrom(resource);
                         }
                     } catch (RuntimeException | SyntaxError | IOException e) {
@@ -152,20 +135,22 @@ public class ModConfig {
     }
 
     private void loadVariantModifiers() {
-        var rls = ResourceProvider.instance().getResources(ExcavatedVariants.MOD_ID, "modifiers", rl->true);
+        var rls = ResourceProvider.instance().getResources(ExcavatedVariants.MOD_ID, "modifiers", rl -> true);
 
         for (var rl : rls) {
-            try (var resources = ResourceProvider.instance().getResourceStreams(ExcavatedVariants.MOD_ID,rl)) {
+            try (var resources = ResourceProvider.instance().getResourceStreams(ExcavatedVariants.MOD_ID, rl)) {
                 Optional<? extends InputStream> optional = resources.findFirst();
                 if (optional.isPresent()) {
                     try {
                         if (rl.getPath().endsWith(".json") || rl.getPath().endsWith(".json5")) {
                             JsonObject json = JANKSON.load(optional.get());
-                            VariantModifier resource = VariantModifier.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {});
+                            VariantModifier resource = VariantModifier.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
+                            });
                             this.modifiers.add(resource);
                         } else if (rl.getPath().endsWith(".toml")) {
                             Config toml = TOML_PARSER.parse(new InputStreamReader(optional.get()));
-                            VariantModifier resource = VariantModifier.CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {});
+                            VariantModifier resource = VariantModifier.CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {
+                            });
                             this.modifiers.add(resource);
                         }
                     } catch (RuntimeException | SyntaxError | IOException e) {
@@ -179,19 +164,21 @@ public class ModConfig {
     private void loadVariantResources() {
         Map<ResourceLocation, ModData> modMap = new HashMap<>();
 
-        var rls = ResourceProvider.instance().getResources(ExcavatedVariants.MOD_ID, "variants", rl->true);
+        var rls = ResourceProvider.instance().getResources(ExcavatedVariants.MOD_ID, "variants", rl -> true);
         for (var rl : rls) {
-            try (var resources = ResourceProvider.instance().getResourceStreams(ExcavatedVariants.MOD_ID,rl)) {
+            try (var resources = ResourceProvider.instance().getResourceStreams(ExcavatedVariants.MOD_ID, rl)) {
                 Optional<? extends InputStream> optional = resources.findFirst();
                 if (optional.isPresent()) {
                     try {
                         if (rl.getPath().endsWith(".json") || rl.getPath().endsWith(".json5")) {
                             JsonObject json = JANKSON.load(optional.get());
-                            ModData resource = ModData.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {});
+                            ModData resource = ModData.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
+                            });
                             modMap.put(rl, resource);
                         } else if (rl.getPath().endsWith(".toml")) {
                             Config toml = TOML_PARSER.parse(new InputStreamReader(optional.get()));
-                            ModData resource = ModData.CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {});
+                            ModData resource = ModData.CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {
+                            });
                             modMap.put(rl, resource);
                         }
                     } catch (RuntimeException | SyntaxError | IOException e) {
@@ -202,14 +189,36 @@ public class ModConfig {
         }
 
         for (ResourceLocation rl : this.configResource.priority) {
-            ResourceLocation newRl = new ResourceLocation(rl.getNamespace(), "variants/"+rl.getPath());
+            ResourceLocation newRl = new ResourceLocation(rl.getNamespace(), "variants/" + rl.getPath());
             ModData data = modMap.get(newRl);
-            if (data!=null) {
+            if (data != null) {
                 this.mods.add(data);
                 modMap.remove(newRl);
             }
         }
 
         this.mods.addAll(modMap.values());
+    }
+
+    public class Flags {
+        final Supplier<List<Pair<Filter, List<Flag>>>> flags;
+
+        private Flags() {
+            flags = Suppliers.memoize(() ->
+                    modifiers.stream().filter(m -> m.flags().isPresent())
+                            .map(m -> new Pair<>(m.filter(), m.flags().get())).toList()
+            );
+        }
+
+        public Set<Flag> getFlags(String ore, String stone) {
+            return flags.get().stream()
+                    .filter(p -> p.getFirst().matches(ore, stone))
+                    .flatMap(p -> p.getSecond().stream())
+                    .collect(Sets.toImmutableEnumSet());
+        }
+
+        public Set<Flag> getFlags(BaseOre ore, BaseStone stone) {
+            return getFlags(ore.id, stone.id);
+        }
     }
 }

@@ -20,6 +20,21 @@ public class BlockModelParser {
 
     public String render_type;
 
+    public static BlockModelParser readModel(Reader reader) {
+        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(reader, BlockModelParser.class);
+        return processModel(parser);
+    }
+
+    public static BlockModelParser readModel(String string) {
+        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(string, BlockModelParser.class);
+        return processModel(parser);
+    }
+
+    private static BlockModelParser processModel(BlockModelParser modelParser) {
+        // For parsing out Forge weirdness later if I run into issues...
+        return modelParser;
+    }
+
     @Override
     public String toString() {
         return "BlockModelParser{" +
@@ -30,35 +45,21 @@ public class BlockModelParser {
 
     public void replaceTexture(ResourceLocation in, ResourceLocation out) {
         for (String k : textures.keySet()) {
-            var rl = ResourceLocation.of(textures.get(k),':');
-            if (rl.equals(in)) textures.put(k,out.toString());
+            var rl = ResourceLocation.of(textures.get(k), ':');
+            if (rl.equals(in)) textures.put(k, out.toString());
         }
-    }
-
-    public static BlockModelParser readModel(Reader reader) {
-        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(reader, BlockModelParser.class);
-        return processModel(parser);
-    }
-    public static BlockModelParser readModel(String string) {
-        BlockModelParser parser = BlockStateAssembler.GSON.fromJson(string, BlockModelParser.class);
-        return processModel(parser);
     }
 
     public BlockModelParser readParent() {
-        ResourceLocation path = ResourceLocation.of(parent,':');
-        path = new ResourceLocation(path.getNamespace(), "models/"+path.getPath()+".json");
+        ResourceLocation path = ResourceLocation.of(parent, ':');
+        path = new ResourceLocation(path.getNamespace(), "models/" + path.getPath() + ".json");
         try (InputStream is = ClientPrePackRepository.getResource(path)) {
-            if (is!=null) {
+            if (is != null) {
                 return readModel(new BufferedReader(new InputStreamReader(is)));
             }
         } catch (IOException e) {
-            ExcavatedVariants.LOGGER.error("Could not read model at {}:",path,e);
+            ExcavatedVariants.LOGGER.error("Could not read model at {}:", path, e);
         }
         return null;
-    }
-
-    private static BlockModelParser processModel(BlockModelParser modelParser) {
-        // For parsing out Forge weirdness later if I run into issues...
-        return modelParser;
     }
 }

@@ -1,80 +1,80 @@
 {
-   mod_id: 'ftbic',
-   provided_ores: [
-      {
-         block_id: [
-            'ftbic:lead_ore',
-            'ftbic:deepslate_lead_ore',
-         ],
-         en_name: 'Lead Ore',
-         types: [
-            'stone',
-         ],
-         id: 'lead_ore',
-         stone: [
-            'stone',
-            'deepslate',
-         ],
-      },
-      {
-         block_id: [
-            'ftbic:iridium_ore',
-            'ftbic:deepslate_iridium_ore',
-         ],
-         en_name: 'Iridium Ore',
-         types: [
-            'stone',
-         ],
-         id: 'iridium_ore',
-         stone: [
-            'stone',
-            'deepslate',
-         ],
-      },
-      {
-         block_id: [
-            'ftbic:tin_ore',
-            'ftbic:deepslate_tin_ore',
-         ],
-         en_name: 'Tin Ore',
-         types: [
-            'stone',
-         ],
-         id: 'tin_ore',
-         stone: [
-            'stone',
-            'deepslate',
-         ],
-      },
-      {
-         block_id: [
-            'ftbic:uranium_ore',
-            'ftbic:deepslate_uranium_ore',
-         ],
-         en_name: 'Uranium Ore',
-         types: [
-            'stone',
-         ],
-         id: 'uranium_ore',
-         stone: [
-            'stone',
-            'deepslate',
-         ],
-      },
-      {
-         block_id: [
-            'ftbic:aluminum_ore',
-            'ftbic:deepslate_aluminum_ore',
-         ],
-         en_name: 'Aluminum Ore',
-         types: [
-            'stone',
-         ],
-         id: 'aluminum_ore',
-         stone: [
-            'stone',
-            'deepslate',
-         ],
-      },
-   ],
+  mod_id: 'ftbic',
+  provided_ores: [
+    {
+      block_id: [
+        'ftbic:lead_ore',
+        'ftbic:deepslate_lead_ore',
+      ],
+      en_name: 'Lead Ore',
+      types: [
+        'stone',
+      ],
+      id: 'lead_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+    },
+    {
+      block_id: [
+        'ftbic:iridium_ore',
+        'ftbic:deepslate_iridium_ore',
+      ],
+      en_name: 'Iridium Ore',
+      types: [
+        'stone',
+      ],
+      id: 'iridium_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+    },
+    {
+      block_id: [
+        'ftbic:tin_ore',
+        'ftbic:deepslate_tin_ore',
+      ],
+      en_name: 'Tin Ore',
+      types: [
+        'stone',
+      ],
+      id: 'tin_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+    },
+    {
+      block_id: [
+        'ftbic:uranium_ore',
+        'ftbic:deepslate_uranium_ore',
+      ],
+      en_name: 'Uranium Ore',
+      types: [
+        'stone',
+      ],
+      id: 'uranium_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+    },
+    {
+      block_id: [
+        'ftbic:aluminum_ore',
+        'ftbic:deepslate_aluminum_ore',
+      ],
+      en_name: 'Aluminum Ore',
+      types: [
+        'stone',
+      ],
+      id: 'aluminum_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+    },
+  ],
 }

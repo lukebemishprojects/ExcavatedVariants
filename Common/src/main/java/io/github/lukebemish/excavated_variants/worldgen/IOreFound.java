@@ -7,10 +7,11 @@ import io.github.lukebemish.excavated_variants.data.BaseStone;
 import java.util.HashSet;
 
 public interface IOreFound {
-    Pair<BaseOre, HashSet<BaseStone>> excavated_variants$get_pair();
-    void excavated_variants$set_pair(Pair<BaseOre, HashSet<BaseStone>> p);
+    Pair<BaseOre, HashSet<BaseStone>> excavated_variants$getPair();
 
-    BaseStone excavated_variants$get_stone();
+    void excavated_variants$setPair(Pair<BaseOre, HashSet<BaseStone>> p);
 
-    void excavated_variants$set_stone(BaseStone stone);
+    BaseStone excavated_variants$getStone();
+
+    void excavated_variants$setStone(BaseStone stone);
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public sealed interface Filter permits StringHeldFilter, ObjectFilter {
-    Codec<Filter> CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.either(StringHeldFilter.CODEC,ObjectFilter.CODEC).xmap(either -> {
+    Codec<Filter> CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.either(StringHeldFilter.CODEC, ObjectFilter.CODEC).xmap(either -> {
         if (either.left().isPresent())
             return either.left().get();
         return either.right().get();
@@ -20,10 +20,6 @@ public sealed interface Filter permits StringHeldFilter, ObjectFilter {
             return Either.left(single);
         return Either.right((ObjectFilter) f);
     }));
-
-    boolean matches(BaseOre ore, BaseStone stone);
-
-    boolean matches(String ore, String stone);
 
     static Filter union(List<Filter> filters) {
         filters = filters.stream().flatMap(Filter::expandOr).toList();
@@ -54,4 +50,8 @@ public sealed interface Filter permits StringHeldFilter, ObjectFilter {
             return and.filters().stream().flatMap(Filter::expandAnd);
         return Stream.of(filter);
     }
+
+    boolean matches(BaseOre ore, BaseStone stone);
+
+    boolean matches(String ore, String stone);
 }

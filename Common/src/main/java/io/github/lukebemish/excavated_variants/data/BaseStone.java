@@ -9,13 +9,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class BaseStone {
-    public static final Codec<BaseStone> CODEC = RecordCodecBuilder.create((instance)-> instance.group(
-            Codec.STRING.fieldOf("id").forGetter(bs->bs.id),
-            ResourceLocation.CODEC.listOf().optionalFieldOf("texture_location").forGetter(bs->Optional.empty()),
-            Codec.STRING.fieldOf("en_name").forGetter(bs-> bs.en_name),
-            ResourceLocation.CODEC.fieldOf("block_id").forGetter(bs->bs.block_id),
-            Codec.STRING.listOf().fieldOf("types").forGetter(bs->bs.types)
-    ).apply(instance,BaseStone::new));
+    public static final Codec<BaseStone> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+            Codec.STRING.fieldOf("id").forGetter(bs -> bs.id),
+            ResourceLocation.CODEC.listOf().optionalFieldOf("texture_location").forGetter(bs -> Optional.empty()),
+            Codec.STRING.fieldOf("en_name").forGetter(bs -> bs.en_name),
+            ResourceLocation.CODEC.fieldOf("block_id").forGetter(bs -> bs.block_id),
+            Codec.STRING.listOf().fieldOf("types").forGetter(bs -> bs.types)
+    ).apply(instance, BaseStone::new));
 
     public String id;
     public String en_name;

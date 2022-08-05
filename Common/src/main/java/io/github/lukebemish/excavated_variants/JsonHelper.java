@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 public class JsonHelper {
     public static Supplier<InputStream> getItemModel(String id) {
-        String json = "{\"parent\": \""+ExcavatedVariants.MOD_ID+":"+"block/"+id+"0\"}";
+        String json = "{\"parent\": \"" + ExcavatedVariants.MOD_ID + ":" + "block/" + id + "0\"}";
         return () -> new ByteArrayInputStream(json.getBytes());
     }
 }

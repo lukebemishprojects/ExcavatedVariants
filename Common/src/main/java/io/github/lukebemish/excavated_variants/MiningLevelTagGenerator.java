@@ -8,7 +8,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,8 +18,6 @@ import java.util.function.Supplier;
 public class MiningLevelTagGenerator implements Supplier<Set<ResourceLocation>> {
     private final String level;
     private final ArrayList<CheckPair> toCheck = new ArrayList<>();
-
-    private record CheckPair(String full_id, String base_id) { }
 
     public MiningLevelTagGenerator(String level) {
         this.level = level;
@@ -38,7 +35,7 @@ public class MiningLevelTagGenerator implements Supplier<Set<ResourceLocation>> 
                 for (InputStream is : read) {
                     StringBuilder textBuilder = new StringBuilder();
                     Reader reader = new BufferedReader(new InputStreamReader
-                            (is, Charset.forName(StandardCharsets.UTF_8.name())));
+                            (is, StandardCharsets.UTF_8));
                     int c = 0;
                     while ((c = reader.read()) != -1) {
                         textBuilder.append((char) c);
@@ -78,7 +75,8 @@ public class MiningLevelTagGenerator implements Supplier<Set<ResourceLocation>> 
                 read.forEach(is -> {
                     try {
                         is.close();
-                    } catch (IOException ignored) {}
+                    } catch (IOException ignored) {
+                    }
                 });
             }
         } catch (IOException e) {
@@ -89,7 +87,6 @@ public class MiningLevelTagGenerator implements Supplier<Set<ResourceLocation>> 
 
     public List<String> parseTagEntry(String tagEntry) {
         if (!tagEntry.startsWith("#")) return List.of(tagEntry);
-        ResourceLocation tagRL = ResourceLocation.of(tagEntry.substring(1),':');
         List<String> entries = new ArrayList<>();
         try {
             List<InputStream> read = ServerPrePackRepository.getResources(new ResourceLocation("minecraft", "tags/blocks/needs_" + level + "_tool.json")).toList();
@@ -97,7 +94,7 @@ public class MiningLevelTagGenerator implements Supplier<Set<ResourceLocation>> 
                 for (InputStream is : read) {
                     StringBuilder textBuilder = new StringBuilder();
                     Reader reader = new BufferedReader(new InputStreamReader
-                            (is, Charset.forName(StandardCharsets.UTF_8.name())));
+                            (is, StandardCharsets.UTF_8));
                     int c = 0;
                     while ((c = reader.read()) != -1) {
                         textBuilder.append((char) c);
@@ -130,12 +127,16 @@ public class MiningLevelTagGenerator implements Supplier<Set<ResourceLocation>> 
                 read.forEach(is -> {
                     try {
                         is.close();
-                    } catch (IOException ignored) {}
+                    } catch (IOException ignored) {
+                    }
                 });
             }
         } catch (IOException e) {
             ExcavatedVariants.LOGGER.warn("Could not load tag {}; ignoring...", tagEntry);
         }
         return List.of();
+    }
+
+    private record CheckPair(String full_id, String base_id) {
     }
 }

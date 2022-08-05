@@ -19,6 +19,6 @@ public class Services {
     }
 
     public static <T> ThreadsafeLazy<T> loadLazy(Class<T> clazz) {
-        return new ThreadsafeLazy<>(()->load(clazz));
+        return new ThreadsafeLazy<>(() -> load(clazz));
     }
 }

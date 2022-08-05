@@ -45,35 +45,41 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ModifiedOreBlock extends DropExperienceBlock {
+    static Property<?>[] staticProps;
     public final BaseOre ore;
     public final BaseStone stone;
-
+    final Set<Flag> flags;
     protected Block target;
     protected Block stoneTarget;
-
-    final Set<Flag> flags;
-
     protected boolean delegateSpecialDrops = true;
+    private boolean isLit = false;
+    private boolean isHorizontalFacing = false;
+    private boolean isFacing = false;
+    private boolean isHopperFacing = false;
+    private boolean isAxis = false;
+    private boolean isHorizontalAxis = false;
+    private Property<?>[] props;
 
     public ModifiedOreBlock(BaseOre ore, BaseStone stone) {
         super(copyProperties(ore, stone), getXpProvider(ore, stone));
         this.ore = ore;
         this.stone = stone;
-        this.flags = ExcavatedVariants.getConfig().flags.getFlags(ore,stone);
+        this.flags = ExcavatedVariants.getConfig().flags.getFlags(ore, stone);
         if (staticProps != null) {
             this.props = staticProps.clone();
             staticProps = null;
             copyBlockstateDefs();
         }
 
-        ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).forEach(modifier -> {
+        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.filter().matches(ore, stone)).forEach(modifier -> {
             if (modifier.properties().flatMap(BlockProps::xpDropped).isPresent()) this.delegateSpecialDrops = false;
         });
     }
 
     private static IntProvider getXpProvider(BaseOre ore, BaseStone stone) {
-        return ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).map(modifier -> {
-            if (modifier.properties().flatMap(BlockProps::xpDropped).isPresent()) return modifier.properties().flatMap(BlockProps::xpDropped).get();
+        return ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.filter().matches(ore, stone)).map(modifier -> {
+            if (modifier.properties().flatMap(BlockProps::xpDropped).isPresent())
+                return modifier.properties().flatMap(BlockProps::xpDropped).get();
             return null;
         }).filter(Objects::nonNull).collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
             Collections.reverse(list);
@@ -82,16 +88,16 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     }
 
     private static float avgF(float a, float b, float weight) {
-        return (a*(weight)+b*(1-weight));
+        return (a * (weight) + b * (1 - weight));
     }
 
     private static MaterialColor avgColor(MaterialColor a, MaterialColor b, float weight) {
-        int avgColor = (int)(a.calculateRGBColor(MaterialColor.Brightness.HIGH)*weight+b.calculateRGBColor(MaterialColor.Brightness.HIGH)*(1-weight));
+        int avgColor = (int) (a.calculateRGBColor(MaterialColor.Brightness.HIGH) * weight + b.calculateRGBColor(MaterialColor.Brightness.HIGH) * (1 - weight));
         int lowest = 0;
         int lowDiff = 0xFFFFFF;
-        for (int i = 0; i<64; i++) {
+        for (int i = 0; i < 64; i++) {
             MaterialColor c = MaterialColor.byId(i);
-            int diff = Math.abs(c.calculateRGBColor(MaterialColor.Brightness.HIGH)-avgColor);
+            int diff = Math.abs(c.calculateRGBColor(MaterialColor.Brightness.HIGH) - avgColor);
             if (diff < lowDiff) {
                 lowDiff = diff;
                 lowest = i;
@@ -110,9 +116,9 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             properties.requiresCorrectToolForDrops();
             IBlockPropertiesMixin newProperties = (IBlockPropertiesMixin) properties;
             IBlockPropertiesMixin oreProps = (IBlockPropertiesMixin) oreProperties;
-            properties.strength(avgStrength(target.defaultDestroyTime(),stoneTarget.defaultDestroyTime(),0.5f),
-                            avgF(target.getExplosionResistance(),stoneTarget.getExplosionResistance(),0.5f))
-                    .color(avgColor(stoneTarget.defaultMaterialColor(),target.defaultMaterialColor(),0.8F));
+            properties.strength(avgStrength(target.defaultDestroyTime(), stoneTarget.defaultDestroyTime(), 0.5f),
+                            avgF(target.getExplosionResistance(), stoneTarget.getExplosionResistance(), 0.5f))
+                    .color(avgColor(stoneTarget.defaultMaterialColor(), target.defaultMaterialColor(), 0.8F));
             newProperties.setDynamicShape(false);
             newProperties.setHasCollision(true);
             newProperties.setIsRandomlyTicking(oreProps.getIsRandomlyTicking());
@@ -121,16 +127,16 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         } else {
             outProperties = BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f);
         }
-        ExcavatedVariants.getConfig().modifiers.stream().filter(m->m.filter().matches(ore,stone)).forEach(modifier -> {
-                modifier.properties().flatMap(BlockProps::explosionResistance).ifPresent(outProperties::explosionResistance);
-                modifier.properties().flatMap(BlockProps::destroyTime).ifPresent(outProperties::destroyTime);
+        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.filter().matches(ore, stone)).forEach(modifier -> {
+            modifier.properties().flatMap(BlockProps::explosionResistance).ifPresent(outProperties::explosionResistance);
+            modifier.properties().flatMap(BlockProps::destroyTime).ifPresent(outProperties::destroyTime);
         });
         return outProperties;
     }
 
     public static float avgStrength(float a, float b, float weight) {
-        if (a<0 || b<0) return -1f;
-        return avgF(a,b,weight);
+        if (a < 0 || b < 0) return -1f;
+        return avgF(a, b, weight);
     }
 
     private static BlockState withProperties(BlockState state, Block target) {
@@ -153,11 +159,10 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return targetState.setValue(property, sourceState.getValue(property));
     }
 
-    static Property<?>[] staticProps;
     public static void setupStaticWrapper(BaseOre ore, BaseStone stone) {
         Block target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
         Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.block_id);
-        if (target!=null && stoneTarget!=null) {
+        if (target != null && stoneTarget != null) {
             ArrayList<Property<?>> propBuilder = new ArrayList<>();
             for (Property<?> p : target.defaultBlockState().getProperties()) {
                 if (p == BlockStateProperties.LIT) {
@@ -175,13 +180,13 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             }
             staticProps = propBuilder.toArray(new Property<?>[]{});
         } else {
-            ExcavatedVariants.LOGGER.warn("Could not find block properties for: {}, {}",ore.block_id.get(0),stone.block_id);
+            ExcavatedVariants.LOGGER.warn("Could not find block properties for: {}, {}", ore.block_id.get(0), stone.block_id);
         }
 
     }
 
     public void copyBlockstateDefs() {
-        if (target==null || stoneTarget==null) {
+        if (target == null || stoneTarget == null) {
             target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
             stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.block_id);
         }
@@ -221,13 +226,6 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return isLit;
     }
 
-    private boolean isLit = false;
-    private boolean isHorizontalFacing = false;
-    private boolean isFacing = false;
-    private boolean isHopperFacing = false;
-    private boolean isAxis = false;
-    private boolean isHorizontalAxis = false;
-
     @Override
     public boolean isRandomlyTicking(BlockState state) {
         if (isLit) {
@@ -254,6 +252,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         }
 
     }
+
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide) {
@@ -263,7 +262,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             ItemStack itemStack = player.getItemInHand(hand);
             return itemStack.getItem() instanceof BlockItem && (new BlockPlaceContext(player, hand, itemStack, hit)).canPlace() ? InteractionResult.PASS : InteractionResult.SUCCESS;
         }
-        return super.use(state,level,pos,player,hand,hit);
+        return super.use(state, level, pos, player, hand, hit);
 
     }
 
@@ -286,11 +285,9 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (target!=null) target.animateTick(state,level,pos,random);
-        if (stoneTarget!=null) stoneTarget.animateTick(state,level,pos,random);
+        if (target != null) target.animateTick(state, level, pos, random);
+        if (stoneTarget != null) stoneTarget.animateTick(state, level, pos, random);
     }
-
-    private Property<?>[] props;
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         if (props != null) {
@@ -342,7 +339,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             def = def.setValue(BlockStateProperties.FACING, context.getClickedFace().getOpposite());
         } else if (isHopperFacing) {
             var d = context.getClickedFace().getOpposite();
-            def = def.setValue(BlockStateProperties.FACING_HOPPER, d.getAxis()== Direction.Axis.Y?Direction.DOWN:d);
+            def = def.setValue(BlockStateProperties.FACING_HOPPER, d.getAxis() == Direction.Axis.Y ? Direction.DOWN : d);
         } else if (isHorizontalFacing) {
             def = def.setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection());
         }
@@ -350,10 +347,10 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     }
 
     public boolean isAxisType() {
-        return isAxis||isHorizontalAxis;
+        return isAxis || isHorizontalAxis;
     }
 
     public boolean isFacingType() {
-        return isFacing||isHorizontalFacing||isHopperFacing;
+        return isFacing || isHorizontalFacing || isHopperFacing;
     }
 }

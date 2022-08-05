@@ -20,7 +20,7 @@ public class ForgeOreBlock extends ModifiedOreBlock implements IForgeBlock {
         if (target != null && this.delegateSpecialDrops) {
             return target.getExpDrop(target.defaultBlockState(), level, randomSource, pos, fortune, silktouch);
         } else {
-            return super.getExpDrop(state,level,randomSource,pos,fortune,silktouch);
+            return super.getExpDrop(state, level, randomSource, pos, fortune, silktouch);
         }
     }
 }

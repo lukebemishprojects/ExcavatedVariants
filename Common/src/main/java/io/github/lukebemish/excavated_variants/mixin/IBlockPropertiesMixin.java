@@ -14,6 +14,9 @@ public interface IBlockPropertiesMixin {
     boolean getIsRandomlyTicking();
 
     @Accessor
+    void setIsRandomlyTicking(boolean isRandomlyTicking);
+
+    @Accessor
     void setDynamicShape(boolean dynamicShape);
 
     @Accessor
@@ -21,9 +24,6 @@ public interface IBlockPropertiesMixin {
 
     @Accessor
     ToIntFunction<BlockState> getLightEmission();
-
-    @Accessor
-    void setIsRandomlyTicking(boolean isRandomlyTicking);
 
     @Accessor
     void setLightEmission(ToIntFunction<BlockState> lightEmission);

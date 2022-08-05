@@ -10,16 +10,16 @@ import java.util.function.Supplier;
 public class LangBuilder {
     private String internal = "";
 
-    public void add(String full_id, BaseStone stone, BaseOre ore) {
+    public void add(String fullId, BaseStone stone, BaseOre ore) {
         if (internal.length() >= 1) {
             internal += ",";
         }
-        String enName = ore.en_name.contains("$") ? ore.en_name.replaceFirst("\\$", stone.en_name) : stone.en_name+" "+ore.en_name;
-        internal += "\"block."+ExcavatedVariants.MOD_ID+"."+full_id+"\":\""+enName+"\"";
+        String enName = ore.en_name.contains("$") ? ore.en_name.replaceFirst("\\$", stone.en_name) : stone.en_name + " " + ore.en_name;
+        internal += "\"block." + ExcavatedVariants.MOD_ID + "." + fullId + "\":\"" + enName + "\"";
     }
 
     public Supplier<InputStream> build() {
-        String json = "{"+internal+"}";
+        String json = "{" + internal + "}";
         return () -> new ByteArrayInputStream(json.getBytes());
     }
 }

@@ -26,7 +26,7 @@ public class MappingsCache {
             Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC.listOf()).fieldOf("ore_mappings")
                     .forGetter(mc -> {
                         HashMap<String, List<ResourceLocation>> out = new HashMap<>();
-                        mc.oreMappings.forEach((key,val)->out.put(key,val.stream().toList()));
+                        mc.oreMappings.forEach((key, val) -> out.put(key, val.stream().toList()));
                         return out;
                     }),
             Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC).fieldOf("stone_mappings").forGetter(mc -> mc.stoneMappings)
@@ -38,7 +38,7 @@ public class MappingsCache {
     private MappingsCache(Map<String, List<ResourceLocation>> ores, Map<String, ResourceLocation> stones) {
         oreMappings = new HashMap<>();
         stoneMappings = new HashMap<>();
-        ores.forEach((p,rls) -> oreMappings.put(p, Set.copyOf(rls)));
+        ores.forEach((p, rls) -> oreMappings.put(p, Set.copyOf(rls)));
         stoneMappings.putAll(stones);
     }
 
@@ -46,11 +46,12 @@ public class MappingsCache {
         try {
             if (!Files.exists(FULL_PATH)) throw new FileNotFoundException();
             JsonObject json = ModConfig.JANKSON.load(Files.newInputStream(FULL_PATH));
-            return CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {});
+            return CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
+            });
         } catch (FileNotFoundException e) {
             return new MappingsCache(new HashMap<>(), new HashMap<>());
         } catch (Exception e) {
-            ExcavatedVariants.LOGGER.error("Issue loading mappings cache. Try deleting mod_data/excavated_variants/mappings_cache.json5. ",e);
+            ExcavatedVariants.LOGGER.error("Issue loading mappings cache. Try deleting mod_data/excavated_variants/mappings_cache.json5. ", e);
             throw new RuntimeException(e);
         }
     }
@@ -60,12 +61,13 @@ public class MappingsCache {
             if (!Files.exists(FULL_PATH.getParent())) Files.createDirectories(FULL_PATH.getParent());
             if (Files.exists(FULL_PATH)) Files.delete(FULL_PATH);
             var writer = Files.newBufferedWriter(FULL_PATH, StandardOpenOption.CREATE_NEW);
-            JsonElement json = CODEC.encodeStart(JanksonOps.INSTANCE, this).getOrThrow(false, e -> {});
+            JsonElement json = CODEC.encodeStart(JanksonOps.INSTANCE, this).getOrThrow(false, e -> {
+            });
             SmarterJanksonWriter.JSON5_2_SPACES.write(json, writer, 0);
             writer.flush();
             writer.close();
         } catch (Exception e) {
-            ExcavatedVariants.LOGGER.error("Issue saving mappings cache. Something has gone very wrong. ",e);
+            ExcavatedVariants.LOGGER.error("Issue saving mappings cache. Something has gone very wrong. ", e);
             throw new RuntimeException(e);
         }
     }

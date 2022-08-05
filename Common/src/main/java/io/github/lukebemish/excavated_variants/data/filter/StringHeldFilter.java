@@ -7,7 +7,7 @@ import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
 
 public sealed interface StringHeldFilter extends Filter {
-    Codec<StringHeldFilter> CODEC = Codec.STRING.flatXmap(StringHeldFilter::of, f->DataResult.success(f.toString()));
+    Codec<StringHeldFilter> CODEC = Codec.STRING.flatXmap(StringHeldFilter::of, f -> DataResult.success(f.toString()));
 
     static DataResult<StringHeldFilter> of(String part) {
         if (part.equals("*"))
@@ -16,15 +16,15 @@ public sealed interface StringHeldFilter extends Filter {
             return DataResult.success(EmptyFilter.INSTANCE);
         else if (part.contains(":")) {
             if (part.startsWith("stone:"))
-                return DataResult.success(new StoneFilter(part.replaceFirst("stone:","")));
+                return DataResult.success(new StoneFilter(part.replaceFirst("stone:", "")));
             else if (part.startsWith("ore:"))
-                return DataResult.success(new OreFilter(part.replaceFirst("ore:","")));
+                return DataResult.success(new OreFilter(part.replaceFirst("ore:", "")));
             else if (part.startsWith("type:"))
-                return DataResult.success(new TypeFilter(part.replaceFirst("type:","")));
+                return DataResult.success(new TypeFilter(part.replaceFirst("type:", "")));
             else
-                return DataResult.error("Unknown filter type '"+ part.split(":")[0] +"'");
+                return DataResult.error("Unknown filter type '" + part.split(":")[0] + "'");
         } else if (part.startsWith("~")) {
-            DataResult<StringHeldFilter> wrapper = of(part.replaceFirst("!",""));
+            DataResult<StringHeldFilter> wrapper = of(part.replaceFirst("!", ""));
             return wrapper.map(NotFilter::new);
         } else
             return DataResult.success(new VariantFilter(part));
@@ -35,6 +35,7 @@ public sealed interface StringHeldFilter extends Filter {
         public boolean matches(BaseOre ore, BaseStone stone) {
             return matches(ore.id, stone.id);
         }
+
         @Override
         public boolean matches(String ore, String stone) {
             return stone.equals(stone());
@@ -42,7 +43,7 @@ public sealed interface StringHeldFilter extends Filter {
 
         @Override
         public String toString() {
-            return "stone:"+stone();
+            return "stone:" + stone();
         }
     }
 
@@ -51,6 +52,7 @@ public sealed interface StringHeldFilter extends Filter {
         public boolean matches(BaseOre ore, BaseStone stone) {
             return matches(ore.id, stone.id);
         }
+
         @Override
         public boolean matches(String ore, String stone) {
             return ore.equals(ore());
@@ -58,7 +60,7 @@ public sealed interface StringHeldFilter extends Filter {
 
         @Override
         public String toString() {
-            return "ore:"+ore();
+            return "ore:" + ore();
         }
     }
 
@@ -70,7 +72,7 @@ public sealed interface StringHeldFilter extends Filter {
 
         @Override
         public boolean matches(String ore, String stone) {
-            return (stone+"_"+ore).equals(variant());
+            return (stone + "_" + ore).equals(variant());
         }
 
         @Override
@@ -82,7 +84,7 @@ public sealed interface StringHeldFilter extends Filter {
     record NotFilter(StringHeldFilter wrapped) implements StringHeldFilter {
         @Override
         public boolean matches(BaseOre ore, BaseStone stone) {
-            return wrapped.matches(ore,stone);
+            return wrapped.matches(ore, stone);
         }
 
         @Override
@@ -92,14 +94,14 @@ public sealed interface StringHeldFilter extends Filter {
 
         @Override
         public String toString() {
-            return "!"+wrapped().toString();
+            return "!" + wrapped().toString();
         }
     }
 
     record TypeFilter(String type) implements StringHeldFilter {
         @Override
         public boolean matches(String ore, String stone) {
-            if (ExcavatedVariants.getOres()==null || ExcavatedVariants.getStones()==null) {
+            if (ExcavatedVariants.getOres() == null || ExcavatedVariants.getStones() == null) {
                 ExcavatedVariants.LOGGER.error("Attempted to access type filter based on string prior to config setup. " +
                         "This should not happen, and is *not good*. Unintended behavior may result. Please report to Excavated Variants.");
                 return false;
@@ -115,13 +117,15 @@ public sealed interface StringHeldFilter extends Filter {
 
         @Override
         public String toString() {
-            return "type:"+type;
+            return "type:" + type;
         }
     }
 
     final class AllFilter implements StringHeldFilter {
-        private AllFilter() {}
         public static final AllFilter INSTANCE = new AllFilter();
+
+        private AllFilter() {
+        }
 
         @Override
         public boolean matches(BaseOre ore, BaseStone stone) {
@@ -140,8 +144,10 @@ public sealed interface StringHeldFilter extends Filter {
     }
 
     final class EmptyFilter implements StringHeldFilter {
-        private EmptyFilter() {}
         public static final EmptyFilter INSTANCE = new EmptyFilter();
+
+        private EmptyFilter() {
+        }
 
         @Override
         public boolean matches(BaseOre ore, BaseStone stone) {

@@ -7,23 +7,23 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 
 public class ModData {
-    public static final Codec<ModData> CODEC = RecordCodecBuilder.create(instance->instance.group(
-            Codec.either(Codec.STRING,Codec.STRING.listOf()).fieldOf("mod_id").forGetter(md->{
-                if (md.mod_id.size()==1) return Either.left(md.mod_id.get(0));
-                return Either.right(md.mod_id);
+    public static final Codec<ModData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.either(Codec.STRING, Codec.STRING.listOf()).fieldOf("mod_id").forGetter(md -> {
+                if (md.modId.size() == 1) return Either.left(md.modId.get(0));
+                return Either.right(md.modId);
             }),
-            BaseStone.CODEC.listOf().optionalFieldOf("provided_stones", List.of()).forGetter(x->x.provided_stones),
-            BaseOre.CODEC.listOf().optionalFieldOf("provided_ores", List.of()).forGetter(x->x.provided_ores)
-    ).apply(instance,ModData::new));
+            BaseStone.CODEC.listOf().optionalFieldOf("provided_stones", List.of()).forGetter(x -> x.providedStones),
+            BaseOre.CODEC.listOf().optionalFieldOf("provided_ores", List.of()).forGetter(x -> x.providedOres)
+    ).apply(instance, ModData::new));
 
-    public List<String> mod_id;
-    public List<BaseStone> provided_stones;
-    public List<BaseOre> provided_ores;
+    public List<String> modId;
+    public List<BaseStone> providedStones;
+    public List<BaseOre> providedOres;
 
-    public ModData(Either<String,List<String>> id, List<BaseStone> provided_stones, List<BaseOre> provided_ores) {
-        if (id.left().isPresent()) this.mod_id = List.of(id.left().get());
-        else this.mod_id = id.right().get();
-        this.provided_stones = provided_stones;
-        this.provided_ores = provided_ores;
+    public ModData(Either<String, List<String>> id, List<BaseStone> providedStones, List<BaseOre> providedOres) {
+        if (id.left().isPresent()) this.modId = List.of(id.left().get());
+        else this.modId = id.right().get();
+        this.providedStones = providedStones;
+        this.providedOres = providedOres;
     }
 }

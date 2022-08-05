@@ -10,16 +10,21 @@ import java.util.stream.Collectors;
 
 public record S2CConfigAgreementPacket(Set<String> blocks) {
 
-    public void encoder(FriendlyByteBuf buffer) {
-        buffer.writeInt(blocks.size());
-        blocks.forEach(buffer::writeUtf);
-    }
-
     public static S2CConfigAgreementPacket decoder(FriendlyByteBuf buffer) {
         ArrayList<String> blocks = new ArrayList<>();
         int i = buffer.readInt();
         for (int j = 0; j < i; j++) blocks.add(buffer.readUtf());
         return new S2CConfigAgreementPacket(new HashSet<>(blocks));
+    }
+
+    private static String ellipsis(String str, int length) {
+        if (str.length() <= length) return str;
+        else return str.substring(0, length - 3) + "...";
+    }
+
+    public void encoder(FriendlyByteBuf buffer) {
+        buffer.writeInt(blocks.size());
+        blocks.forEach(buffer::writeUtf);
     }
 
     public void consumeMessage(Consumer<String> disconnecter) {
@@ -34,20 +39,15 @@ public record S2CConfigAgreementPacket(Set<String> blocks) {
         }
         String disconnect = "Connection closed - mismatched ore variant list";
         if (clientOnly.size() > 0) {
-            String clientOnlyStr = String.join("\n    ",clientOnly.stream().toList());
+            String clientOnlyStr = String.join("\n    ", clientOnly.stream().toList());
             ExcavatedVariants.LOGGER.error("Client contains ore variants not present on server:\n    {}", clientOnlyStr);
-            disconnect+="\nMissing on server: "+ellipsis(clientOnly.toString(), 50);
+            disconnect += "\nMissing on server: " + ellipsis(clientOnly.toString(), 50);
         }
         if (serverOnly.size() > 0) {
-            String serverOnlyStr = String.join("\n    ",serverOnly.stream().toList());
+            String serverOnlyStr = String.join("\n    ", serverOnly.stream().toList());
             ExcavatedVariants.LOGGER.error("Server contains ore variants not present on client:\n    {}", serverOnlyStr);
-            disconnect+="\nMissing on client: "+ellipsis(serverOnly.toString(), 50);
+            disconnect += "\nMissing on client: " + ellipsis(serverOnly.toString(), 50);
         }
         disconnecter.accept(disconnect);
-    }
-
-    private static String ellipsis(String str, int length) {
-        if (str.length()<=length) return str;
-        else return str.substring(0,length-3)+"...";
     }
 }

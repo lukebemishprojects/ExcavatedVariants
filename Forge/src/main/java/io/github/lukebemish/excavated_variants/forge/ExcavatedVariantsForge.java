@@ -34,10 +34,8 @@ import java.util.List;
 
 @Mod(ExcavatedVariants.MOD_ID)
 public class ExcavatedVariantsForge {
-    private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, ExcavatedVariants.MOD_ID);
-
     public static final DeferredRegister<Item> toRegister = DeferredRegister.create(ForgeRegistries.ITEMS, ExcavatedVariants.MOD_ID);
-
+    private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, ExcavatedVariants.MOD_ID);
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> ORE_REPLACER = FEATURES.register("ore_replacer", OreReplacer::new);
 
     public ExcavatedVariantsForge() {

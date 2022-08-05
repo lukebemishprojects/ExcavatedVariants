@@ -1,7 +1,7 @@
 package io.github.lukebemish.excavated_variants.forge;
 
-import io.github.lukebemish.excavated_variants.IRegistryUtil;
 import com.google.auto.service.AutoService;
+import io.github.lukebemish.excavated_variants.IRegistryUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -12,46 +12,46 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @AutoService(IRegistryUtil.class)
 public class RegistryUtilImpl implements IRegistryUtil {
-    public static Map<ResourceLocation, Block> block_cache = new ConcurrentHashMap<>();
-    public static Map<Block, ResourceLocation> block_rl_cache = new ConcurrentHashMap<>();
-    public static Map<ResourceLocation, Item> item_cache = new ConcurrentHashMap<>();
+    public static Map<ResourceLocation, Block> blockCache = new ConcurrentHashMap<>();
+    public static Map<Block, ResourceLocation> blockRlCache = new ConcurrentHashMap<>();
+    public static Map<ResourceLocation, Item> itemCache = new ConcurrentHashMap<>();
 
     public void reset() {
-        block_cache.clear();
-        block_rl_cache.clear();
-        item_cache.clear();
+        blockCache.clear();
+        blockRlCache.clear();
+        itemCache.clear();
     }
 
     public Block getBlockById(ResourceLocation rl) {
-        if (block_cache.containsKey(rl)) {
-            return block_cache.get(rl);
+        if (blockCache.containsKey(rl)) {
+            return blockCache.get(rl);
         }
         if (ForgeRegistries.BLOCKS.containsKey(rl)) {
             Block out = ForgeRegistries.BLOCKS.getValue(rl);
-            block_cache.put(rl,out);
+            blockCache.put(rl, out);
             return out;
         }
         return null;
     }
 
     public Item getItemById(ResourceLocation rl) {
-        if (item_cache.containsKey(rl)) {
-            return item_cache.get(rl);
+        if (itemCache.containsKey(rl)) {
+            return itemCache.get(rl);
         }
         if (ForgeRegistries.ITEMS.containsKey(rl)) {
             Item out = ForgeRegistries.ITEMS.getValue(rl);
-            item_cache.put(rl,out);
+            itemCache.put(rl, out);
             return out;
         }
         return null;
     }
 
     public ResourceLocation getRlByBlock(Block block) {
-        if (block_rl_cache.containsKey(block)) {
-            return block_rl_cache.get(block);
+        if (blockRlCache.containsKey(block)) {
+            return blockRlCache.get(block);
         }
         ResourceLocation rl = ForgeRegistries.BLOCKS.getKey(block);
-        block_rl_cache.put(block,rl);
+        blockRlCache.put(block, rl);
         return rl;
     }
 

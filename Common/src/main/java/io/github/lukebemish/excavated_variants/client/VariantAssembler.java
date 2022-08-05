@@ -7,6 +7,7 @@ public class VariantAssembler {
     public String model;
     public int x;
     public int y;
+
     public static VariantAssembler fromFacing(ResourceLocation model, Direction dir) {
         var va = new VariantAssembler();
         va.model = model.toString();
@@ -21,21 +22,23 @@ public class VariantAssembler {
         }
         return va;
     }
+
     public static VariantAssembler fromAxis(ResourceLocation model, Direction.Axis axis) {
         var va = new VariantAssembler();
         va.model = model.toString();
         switch (axis) {
             case X -> {
-                va.x=90;
-                va.y=90;
+                va.x = 90;
+                va.y = 90;
             }
             case Y -> {
 
             }
-            case Z -> va.x=90;
+            case Z -> va.x = 90;
         }
         return va;
     }
+
     public static VariantAssembler fromModel(ResourceLocation model) {
         var va = new VariantAssembler();
         va.model = model.toString();

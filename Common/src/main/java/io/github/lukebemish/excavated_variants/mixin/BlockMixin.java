@@ -18,22 +18,22 @@ public class BlockMixin implements IOreFound {
     private BaseStone excavated_variants$stone;
 
     @Override
-    public Pair<BaseOre, HashSet<BaseStone>> excavated_variants$get_pair() {
+    public Pair<BaseOre, HashSet<BaseStone>> excavated_variants$getPair() {
         return excavated_variants$ore_pair;
     }
 
     @Override
-    public void excavated_variants$set_pair(Pair<BaseOre, HashSet<BaseStone>> p) {
+    public void excavated_variants$setPair(Pair<BaseOre, HashSet<BaseStone>> p) {
         this.excavated_variants$ore_pair = p;
     }
 
     @Override
-    public BaseStone excavated_variants$get_stone() {
+    public BaseStone excavated_variants$getStone() {
         return excavated_variants$stone;
     }
 
     @Override
-    public void excavated_variants$set_stone(BaseStone stone) {
+    public void excavated_variants$setStone(BaseStone stone) {
         this.excavated_variants$stone = stone;
     }
 }

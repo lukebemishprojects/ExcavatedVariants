@@ -18,25 +18,26 @@ public class BlockstateModelParser {
             for (Direction d : Direction.values()) {
                 ArrayList<VariantAssembler> vars = new ArrayList<>();
                 for (ResourceLocation rl : modelLocs) {
-                    vars.add(VariantAssembler.fromFacing(rl,d));
+                    vars.add(VariantAssembler.fromFacing(rl, d));
                 }
-                assembler.variants.put("facing="+d.getName(),vars);
+                assembler.variants.put("facing=" + d.getName(), vars);
 
             }
         } else if (block.isAxisType()) {
             for (Direction.Axis a : Direction.Axis.values()) {
                 ArrayList<VariantAssembler> vars = new ArrayList<>();
                 for (ResourceLocation rl : modelLocs) {
-                    vars.add(VariantAssembler.fromAxis(rl,a));
+                    vars.add(VariantAssembler.fromAxis(rl, a));
                 }
-                assembler.variants.put("axis="+a.getName(),vars);
+                assembler.variants.put("axis=" + a.getName(), vars);
 
             }
-        } else {ArrayList<VariantAssembler> vars = new ArrayList<>();
+        } else {
+            ArrayList<VariantAssembler> vars = new ArrayList<>();
             for (ResourceLocation rl : modelLocs) {
                 vars.add(VariantAssembler.fromModel(rl));
             }
-            assembler.variants.put("",vars);
+            assembler.variants.put("", vars);
         }
         return assembler;
     }

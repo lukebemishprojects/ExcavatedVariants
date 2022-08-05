@@ -16,10 +16,23 @@ import java.util.Map;
 
 public class OreConversionRecipe extends CustomRecipe {
     public static final Map<ResourceLocation, ResourceLocation> oreMap = new HashMap<>();
-    public static Map<Item, Pair<ResourceLocation,Item>> itemMap;
+    public static Map<Item, Pair<ResourceLocation, Item>> itemMap;
 
     public OreConversionRecipe(ResourceLocation resourceLocation) {
         super(resourceLocation);
+    }
+
+    public static void assembleOrNull() {
+        if (itemMap != null) {
+            return;
+        }
+        itemMap = new HashMap<>();
+        for (ResourceLocation rl : oreMap.keySet()) {
+            Item itemIn = Services.REGISTRY_UTIL.getItemById(rl);
+            Item itemOut = Services.REGISTRY_UTIL.getItemById(oreMap.get(rl));
+            if (itemIn == null || itemOut == null) continue;
+            itemMap.put(itemIn, new Pair<>(rl, itemOut));
+        }
     }
 
     @Override
@@ -36,19 +49,6 @@ public class OreConversionRecipe extends CustomRecipe {
         return false;
     }
 
-    public static void assembleOrNull() {
-        if (itemMap != null) {
-            return;
-        }
-        itemMap = new HashMap<>();
-        for (ResourceLocation rl : oreMap.keySet()) {
-            Item itemIn = Services.REGISTRY_UTIL.getItemById(rl);
-            Item itemOut = Services.REGISTRY_UTIL.getItemById(oreMap.get(rl));
-            if (itemIn == null || itemOut == null) continue;
-            itemMap.put(itemIn,new Pair<>(rl,itemOut));
-        }
-    }
-
     @Override
     public ItemStack assemble(CraftingContainer inv) {
         assembleOrNull();
@@ -57,7 +57,7 @@ public class OreConversionRecipe extends CustomRecipe {
             if (itemStack.isEmpty()) continue;
             if (itemMap.keySet().stream().anyMatch(itemStack::is)) {
                 Item item = itemMap.keySet().stream().filter(itemStack::is).toList().get(0);
-                return item==null ? null : new ItemStack(itemMap.get(item).getSecond());
+                return item == null ? null : new ItemStack(itemMap.get(item).getSecond());
             }
         }
         return null;
@@ -65,7 +65,7 @@ public class OreConversionRecipe extends CustomRecipe {
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
-        return width>=1 && height>=1;
+        return width >= 1 && height >= 1;
     }
 
     @Override

@@ -12,9 +12,9 @@ public class ThreadsafeLazy<T> implements Supplier<T> {
 
     @Override
     public T get() {
-        if (cache==null) {
+        if (cache == null) {
             synchronized (this) {
-                if (cache==null) {
+                if (cache == null) {
                     cache = supplier.get();
                 }
             }

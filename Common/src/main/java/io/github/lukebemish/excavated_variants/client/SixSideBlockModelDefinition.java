@@ -15,7 +15,6 @@ public class SixSideBlockModelDefinition {
         SixSideBlockModelDefinition out = new SixSideBlockModelDefinition();
 
 
-
         return out;
     }
 }
