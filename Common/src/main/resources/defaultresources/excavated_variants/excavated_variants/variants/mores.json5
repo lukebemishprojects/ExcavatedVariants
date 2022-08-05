@@ -1,0 +1,182 @@
+{
+  mod_id: 'mores',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'lapis_ore',
+      en_name: 'Lapis Ore',
+      block_id: [
+        'mores:diorite_lapis_ore',
+        'mores:andesite_lapis_ore',
+        'mores:granite_lapis_ore',
+        'mores:tuff_lapis_ore',
+      ],
+      orename: [
+        'lapis_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'diorite',
+        'andesite',
+        'granite',
+        'tuff',
+      ],
+    },
+    {
+      id: 'gold_ore',
+      en_name: 'Gold Ore',
+      block_id: [
+        'mores:tuff_gold_ore',
+        'mores:granite_gold_ore',
+        'mores:diorite_gold_ore',
+        'mores:andesite_gold_ore',
+      ],
+      orename: [
+        'gold_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'tuff',
+        'granite',
+        'diorite',
+        'andesite',
+      ],
+    },
+    {
+      id: 'copper_ore',
+      en_name: 'Copper Ore',
+      block_id: [
+        'mores:granite_copper_ore',
+        'mores:diorite_copper_ore',
+        'mores:tuff_copper_ore',
+        'mores:andesite_copper_ore',
+      ],
+      orename: [
+        'copper_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'granite',
+        'diorite',
+        'tuff',
+        'andesite',
+      ],
+    },
+    {
+      id: 'iron_ore',
+      en_name: 'Iron Ore',
+      block_id: [
+        'mores:granite_iron_ore',
+        'mores:diorite_iron_ore',
+        'mores:tuff_iron_ore',
+        'mores:andesite_iron_ore',
+      ],
+      orename: [
+        'iron_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'granite',
+        'diorite',
+        'tuff',
+        'andesite',
+      ],
+    },
+    {
+      id: 'diamond_ore',
+      en_name: 'Diamond Ore',
+      block_id: [
+        'mores:granite_diamond_ore',
+        'mores:tuff_diamond_ore',
+        'mores:andesite_diamond_ore',
+        'mores:diorite_diamond_ore',
+      ],
+      orename: [
+        'diamond_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'granite',
+        'tuff',
+        'andesite',
+        'diorite',
+      ],
+    },
+    {
+      id: 'redstone_ore',
+      en_name: 'Redstone Ore',
+      block_id: [
+        'mores:andesite_redstone_ore',
+        'mores:granite_redstone_ore',
+        'mores:diorite_redstone_ore',
+        'mores:tuff_redstone_ore',
+      ],
+      orename: [
+        'redstone_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'andesite',
+        'granite',
+        'diorite',
+        'tuff',
+      ],
+    },
+    {
+      id: 'coal_ore',
+      en_name: 'Coal Ore',
+      block_id: [
+        'mores:diorite_coal_ore',
+        'mores:granite_coal_ore',
+        'mores:tuff_coal_ore',
+        'mores:andesite_coal_ore',
+      ],
+      orename: [
+        'coal_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'diorite',
+        'granite',
+        'tuff',
+        'andesite',
+      ],
+    },
+    {
+      id: 'emerald_ore',
+      en_name: 'Emerald Ore',
+      block_id: [
+        'mores:andesite_emerald_ore',
+        'mores:tuff_emerald_ore',
+        'mores:granite_emerald_ore',
+        'mores:diorite_emerald_ore',
+      ],
+      orename: [
+        'emerald_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'andesite',
+        'tuff',
+        'granite',
+        'diorite',
+      ],
+    },
+  ],
+}

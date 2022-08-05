@@ -1,0 +1,9 @@
+{
+  priority: [
+    'excavated_variants:geolosys.json5',
+    'excavated_variants:minecraft.json5',
+  ],
+  blacklist: {
+    type: 'empty'
+  },
+}

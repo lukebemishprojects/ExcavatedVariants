@@ -2,6 +2,7 @@ package io.github.lukebemish.excavated_variants.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.lukebemish.excavated_variants.data.filter.*;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
@@ -9,23 +10,27 @@ import java.util.List;
 
 public class ConfigResource {
     public static final Codec<ConfigResource> CODEC = RecordCodecBuilder.create(instance->instance.group(
-            VariantFilter.CODEC.optionalFieldOf("blacklist",new VariantFilter()).forGetter(r->r.blacklist),
+            Filter.CODEC.optionalFieldOf("blacklist", EmptyFilter.INSTANCE).forGetter(r->r.blacklist),
             ResourceLocation.CODEC.listOf().optionalFieldOf("priority",List.of()).forGetter(r->r.priority)
     ).apply(instance,ConfigResource::new));
     public final List<ResourceLocation> priority;
-    public final VariantFilter blacklist;
+    private Filter blacklist;
 
-    private ConfigResource(VariantFilter blacklist, List<ResourceLocation> priority) {
+    private ConfigResource(Filter blacklist, List<ResourceLocation> priority) {
         this.blacklist = blacklist;
         this.priority = new ArrayList<>(priority);
     }
 
+    public Filter getBlacklist() {
+        return blacklist;
+    }
+
     public static ConfigResource empty() {
-        return new ConfigResource(new VariantFilter(), List.of());
+        return new ConfigResource(EmptyFilter.INSTANCE, List.of());
     }
 
     public void addFrom(ConfigResource resource) {
-        this.blacklist.mergeFrom(resource.blacklist);
+        this.blacklist = Filter.union(this.blacklist, resource.blacklist);
         addAllNew(this.priority, resource.priority);
     }
 

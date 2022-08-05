@@ -198,7 +198,7 @@ public class ExcavatedVariants {
             oreStoneList.add(pair);
             for (BaseStone stone : stoneMap.values()) {
                 if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
-                    if (!ExcavatedVariants.getConfig().configResource.blacklist.matches(id, stone.id)) {
+                    if (!ExcavatedVariants.getConfig().configResource.getBlacklist().matches(id, stone.id)) {
                         pair.getSecond().add(stone);
                     }
                 }
@@ -219,7 +219,7 @@ public class ExcavatedVariants {
                 out.add(o);
                 knownOres.add(o.getFirst());
                 for (BaseStone stone : p.getSecond()) {
-                    if (!ExcavatedVariants.getConfig().configResource.blacklist.matches(ore, stone)) {
+                    if (!ExcavatedVariants.getConfig().configResource.getBlacklist().matches(ore, stone)) {
                         o.getSecond().add(stone);
                     }
                 }

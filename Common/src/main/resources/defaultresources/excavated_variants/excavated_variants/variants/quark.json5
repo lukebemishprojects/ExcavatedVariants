@@ -1,0 +1,30 @@
+{
+  mod_id: 'quark',
+  provided_stones: [
+    {
+      id: 'quark_shale',
+      en_name: 'Shale',
+      block_id: 'quark:shale',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'quark_limestone',
+      en_name: 'Limestone',
+      block_id: 'quark:limestone',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'quark_jasper',
+      en_name: 'Jasper',
+      block_id: 'quark:jasper',
+      types: [
+        'stone',
+      ],
+    },
+  ],
+  provided_ores: [],
+}

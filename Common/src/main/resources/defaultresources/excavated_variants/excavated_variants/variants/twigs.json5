@@ -1,0 +1,30 @@
+{
+  mod_id: 'twigs',
+  provided_stones: [
+    {
+      id: 'twigs_schist',
+      en_name: 'Schist',
+      block_id: 'twigs:schist',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'twigs_rhyolite',
+      en_name: 'Rhyolite',
+      block_id: 'twigs:rhyolite',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'twigs_bloodstone',
+      en_name: 'Bloodstone',
+      block_id: 'twigs:bloodstone',
+      types: [
+        'nether',
+      ],
+    },
+  ],
+  provided_ores: [],
+}

@@ -1,0 +1,27 @@
+{
+  mod_id: 'randomium',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'randomium_ore',
+      en_name: 'Randomium Ore',
+      block_id: [
+        'randomium:randomium_ore',
+        'randomium:randomium_ore_end',
+        'randomium:randomium_ore_deepslate',
+      ],
+      orename: [
+        'randomium_ore',
+      ],
+      types: [
+        'stone',
+        'end',
+      ],
+      stone: [
+        'stone',
+        'end_stone',
+        'deepslate',
+      ],
+    },
+  ],
+}

@@ -2,8 +2,12 @@ package io.github.lukebemish.excavated_variants;
 
 import io.github.lukebemish.excavated_variants.data.BaseOre;
 import io.github.lukebemish.excavated_variants.data.BaseStone;
+import io.github.lukebemish.excavated_variants.data.modifier.Flag;
 import io.github.lukebemish.excavated_variants.mixin.IBlockPropertiesMixin;
 import io.github.lukebemish.excavated_variants.platform.Services;
+import net.minecraft.advancements.critereon.EnchantmentPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +22,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -29,13 +34,13 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ModifiedOreBlock extends DropExperienceBlock {
@@ -45,12 +50,15 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     protected Block target;
     protected Block stoneTarget;
 
+    final Set<Flag> flags;
+
     protected boolean delegateSpecialDrops = true;
 
     public ModifiedOreBlock(BaseOre ore, BaseStone stone) {
         super(copyProperties(ore, stone), getXpProvider(ore, stone));
         this.ore = ore;
         this.stone = stone;
+        this.flags = ExcavatedVariants.getConfig().flags.getFlags(ore,stone);
         if (staticProps != null) {
             this.props = staticProps.clone();
             staticProps = null;
@@ -296,13 +304,15 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     @Override
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         if (target != null) {
-            state = target.defaultBlockState();
-            List<ItemStack> items = target.getDrops(state, builder);
+            BlockState targetState = target.defaultBlockState();
+            List<ItemStack> items = target.getDrops(targetState, builder);
+            LootContext lootContext = builder.withParameter(LootContextParams.BLOCK_STATE, targetState).create(LootContextParamSets.BLOCK);
+            MatchTool silk = new MatchTool(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))).build());
             return items.stream().map(x -> {
-                if (x.is(target.asItem()) && this.asItem() != Items.AIR && !ExcavatedVariants.getConfig().unobtainableVariants) {
+                if (x.is(target.asItem()) && this.asItem() != Items.AIR && !ExcavatedVariants.getConfig().unobtainableVariants
+                        && !(flags.contains(Flag.ORIGINAL_WITHOUT_SILK) && !silk.test(lootContext))) {
                     int count = x.getCount();
-                    ItemStack out = new ItemStack(this.asItem(), count);
-                    return out;
+                    return new ItemStack(this.asItem(), count);
                 }
                 return x;
             }).toList();
