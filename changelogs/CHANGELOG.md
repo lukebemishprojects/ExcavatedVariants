@@ -1,3 +1,13 @@
+### Excavated Variants v1.0.0
+
+- Refactor modifier/filter system slightly
+- Add modifier-controlled tags
+- Add modifier-controlled flags for dropping the original ore
+- Add type-based filters
+- Refactor code for consistent spacing, etc.
+- Switch default tags to a modifier
+- Fix potential registry weirdness
+
 ### Excavated Variants v0.8.0
 
 - Internal changes to use codecutils.

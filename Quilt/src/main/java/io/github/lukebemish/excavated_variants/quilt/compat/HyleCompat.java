@@ -33,7 +33,7 @@ public class HyleCompat {
                 HashSet<BaseStone> stones = pair.getSecond();
                 stones.stream().filter(stone -> Services.REGISTRY_UTIL.getBlockById(stone.block_id) == baseBlock).findAny().ifPresent(stone -> {
                     Block oreBlock = Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.getFirst().id));
-                    if (!stoneType.getOreMap().containsKey(baseOreBlock) && oreBlock!=null)
+                    if (!stoneType.getOreMap().containsKey(baseOreBlock) && oreBlock != null)
                         stoneType.getOreMap().put(baseOreBlock, oreBlock.defaultBlockState());
                 });
             });

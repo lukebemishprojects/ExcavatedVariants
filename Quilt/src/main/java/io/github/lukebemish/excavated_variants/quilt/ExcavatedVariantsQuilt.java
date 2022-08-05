@@ -41,11 +41,11 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
             if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                     ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
                 ExcavatedVariants.registerBlockAndItem(
-                        (rl,bl)->Registry.register(Registry.BLOCK,rl,bl),
-                        (rl,i)->{
-                            Item out = Registry.register(Registry.ITEM,rl,i.get());
-                            return ()->out;
-                        },b);
+                        (rl, bl) -> Registry.register(Registry.BLOCK, rl, bl),
+                        (rl, i) -> {
+                            Item out = Registry.register(Registry.ITEM, rl, i.get());
+                            return () -> out;
+                        }, b);
                 toRemove.add(b);
             }
         }

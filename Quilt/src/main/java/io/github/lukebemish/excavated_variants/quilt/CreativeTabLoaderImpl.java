@@ -27,8 +27,8 @@ public class CreativeTabLoaderImpl implements ICreativeTabLoader {
                 if (ExcavatedVariants.getItems().isEmpty()) {
                     return new ItemStack(Items.DEEPSLATE_COPPER_ORE);
                 }
-                int time = (int) ((System.currentTimeMillis()/1000) % MAX_INT_VAL);
-                return new ItemStack(ExcavatedVariants.getItems().get((time*time) % ExcavatedVariants.getItems().size()).get());
+                int time = (int) ((System.currentTimeMillis() / 1000) % MAX_INT_VAL);
+                return new ItemStack(ExcavatedVariants.getItems().get((time * time) % ExcavatedVariants.getItems().size()).get());
             }
         };
     }

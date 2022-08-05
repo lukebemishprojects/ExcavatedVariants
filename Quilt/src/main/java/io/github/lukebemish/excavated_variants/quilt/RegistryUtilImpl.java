@@ -1,7 +1,7 @@
 package io.github.lukebemish.excavated_variants.quilt;
 
-import io.github.lukebemish.excavated_variants.IRegistryUtil;
 import com.google.auto.service.AutoService;
+import io.github.lukebemish.excavated_variants.IRegistryUtil;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -28,7 +28,7 @@ public class RegistryUtilImpl implements IRegistryUtil {
         }
         if (Registry.BLOCK.containsKey(rl)) {
             Block out = Registry.BLOCK.get(rl);
-            block_cache.put(rl,out);
+            block_cache.put(rl, out);
             return out;
         }
         return null;
@@ -40,7 +40,7 @@ public class RegistryUtilImpl implements IRegistryUtil {
         }
         if (Registry.ITEM.containsKey(rl)) {
             Item out = Registry.ITEM.get(rl);
-            item_cache.put(rl,out);
+            item_cache.put(rl, out);
             return out;
         }
         return null;
@@ -51,7 +51,7 @@ public class RegistryUtilImpl implements IRegistryUtil {
             return block_rl_cache.get(block);
         }
         ResourceLocation rl = Registry.BLOCK.getKey(block);
-        block_rl_cache.put(block,rl);
+        block_rl_cache.put(block, rl);
         return rl;
     }
 
