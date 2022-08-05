@@ -53,6 +53,7 @@ Modifier configs are added in `globalresources/[folder]/excavated_variants/[name
   * `"original_without_silk""`: Variant drops the original ore instead of the variant block, but only if mined without silk touch.
 
 Filters take the form of a string specifying the filter, such as `"ore:iron_ore"`. Can take the following forms:
+
 * `"type:type_id"` matches every variant with an ore and stone of type `type_id`. Example: `type:nether`.  
 * `stone:stone_id` matches every variant of stone type `stone_id`. Example: `stone:andesite`.
 * `ore:ore_id` matches every variant of ore `ore_id`. Example: `ore:iron_ore`.
@@ -60,14 +61,16 @@ Filters take the form of a string specifying the filter, such as `"ore:iron_ore"
 * `!inverted_filter` matches everything except what `inverted_filter` matches. Example: `!andesite_iron_ore`.
 * `*` matches everything.
 * `~` matches nothing.
+
 Alternatively, filters can be an object combining other filters, of the following form:
 ```json5
 {
   type: "<type>",
-  <args>...
+  args...
 }
 ```
 The available types are:
+
 * `all` matches everything.
 * `empty` matches nothing.
 * `not` matches everything not matched by its `"filter"` argument.
