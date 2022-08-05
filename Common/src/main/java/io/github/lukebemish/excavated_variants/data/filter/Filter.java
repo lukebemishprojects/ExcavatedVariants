@@ -10,20 +10,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public sealed interface Filter permits SingleFilter, ObjectFilter {
-    Codec<Filter> CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.either(SingleFilter.CODEC,ObjectFilter.CODEC).xmap(either -> {
+public sealed interface Filter permits StringHeldFilter, ObjectFilter {
+    Codec<Filter> CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.either(StringHeldFilter.CODEC,ObjectFilter.CODEC).xmap(either -> {
         if (either.left().isPresent())
             return either.left().get();
         return either.right().get();
     }, (Filter f) -> {
-        if (f instanceof SingleFilter single)
+        if (f instanceof StringHeldFilter single)
             return Either.left(single);
         return Either.right((ObjectFilter) f);
     }));
 
-    default boolean matches(BaseOre ore, BaseStone stone) {
-        return this.matches(ore.id, stone.id);
-    }
+    boolean matches(BaseOre ore, BaseStone stone);
 
     boolean matches(String ore, String stone);
 

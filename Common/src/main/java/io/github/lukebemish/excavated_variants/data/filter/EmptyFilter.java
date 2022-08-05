@@ -1,6 +1,8 @@
 package io.github.lukebemish.excavated_variants.data.filter;
 
 import com.mojang.serialization.Codec;
+import io.github.lukebemish.excavated_variants.data.BaseOre;
+import io.github.lukebemish.excavated_variants.data.BaseStone;
 
 public final class EmptyFilter implements ObjectFilter {
     private EmptyFilter() {}
@@ -9,6 +11,11 @@ public final class EmptyFilter implements ObjectFilter {
 
     @Override
     public boolean matches(String ore, String stone) {
+        return false;
+    }
+
+    @Override
+    public boolean matches(BaseOre ore, BaseStone stone) {
         return false;
     }
 

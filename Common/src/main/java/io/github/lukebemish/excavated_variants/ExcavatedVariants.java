@@ -1,11 +1,13 @@
 package io.github.lukebemish.excavated_variants;
 
+import com.google.common.base.Functions;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.dynamic_asset_generator.api.DataResourceCache;
 import io.github.lukebemish.excavated_variants.api.IOreListModifier;
 import io.github.lukebemish.excavated_variants.client.ClientServices;
 import io.github.lukebemish.excavated_variants.data.*;
+import io.github.lukebemish.excavated_variants.data.filter.Filter;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import io.github.lukebemish.excavated_variants.recipe.OreConversionRecipe;
 import net.minecraft.core.Registry;
@@ -41,7 +43,6 @@ public class ExcavatedVariants {
 
     public static void init() {
         setupMap();
-        List<ResourceLocation> blockTagBuilder = new ArrayList<>();
         MiningLevelTagGenerator stoneTag = new MiningLevelTagGenerator("stone");
         MiningLevelTagGenerator ironTag = new MiningLevelTagGenerator("iron");
         MiningLevelTagGenerator diamondTag = new MiningLevelTagGenerator("diamond");
@@ -57,7 +58,6 @@ public class ExcavatedVariants {
                 if (getConfig().addConversionRecipes) {
                     OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.block_id.get(0));
                 }
-                blockTagBuilder.add(new ResourceLocation(ExcavatedVariants.MOD_ID,fullId));
                 for (String type : Sets.union(new HashSet<>(stone.types), new HashSet<>(ore.types))) {
                     ResourceLocation tagRl = new ResourceLocation(MOD_ID, type+"_ores");
                     ResourceLocation id = new ResourceLocation(MOD_ID, fullId);
@@ -91,15 +91,18 @@ public class ExcavatedVariants {
             }
         }
 
-        blockTagBuilder.forEach(tag -> {
-            planBlockTag(new ResourceLocation("minecraft", "blocks/mineable/pickaxe"), tag);
-                    if (!Services.PLATFORM.isQuilt()) {
-                        planBlockTag(new ResourceLocation("forge", "blocks/ores"), tag);
-                        planItemTag(new ResourceLocation("forge", "items/ores"), tag);
-                    } else {
-                        planBlockTag(new ResourceLocation("c", "blocks/ores"), tag);
-                        planItemTag(new ResourceLocation("c", "items/ores"), tag);
-                    }
+        getConfig().modifiers.forEach(modifier -> {
+            List<ResourceLocation> tags;
+            if (modifier.tags().isPresent() && !(tags = modifier.tags().get()).isEmpty()) {
+                List<ResourceLocation> locations = getMatching(modifier.filter()).stream().map(p->
+                        new ResourceLocation(ExcavatedVariants.MOD_ID,p.getSecond().id+"_"+p.getFirst().id)).toList();
+                tags.forEach(tag -> locations.forEach(rl -> {
+                    if (tag.getPath().startsWith("blocks/"))
+                        planBlockTag(tag, rl);
+                    else if (tag.getPath().startsWith("items/"))
+                        planItemTag(tag, rl);
+                }));
+            }
         });
 
         for (BaseStone stone : knownStones) {
@@ -129,6 +132,7 @@ public class ExcavatedVariants {
         loaded = true;
     }
 
+    // Prior to map setup, filters *must* be called using the BaseOre and BaseStone, not the string IDs.
     public static boolean setupMap() {
         if (oreStoneList == null || oreStoneList.size() == 0) {
             Collection<String> modids;
@@ -142,6 +146,15 @@ public class ExcavatedVariants {
             internalSetupMap(modids);
         }
         return true;
+    }
+
+    private static Map<String, BaseOre> ores;
+    private static Map<String, BaseStone> stones;
+    private static Set<Pair<BaseOre, BaseStone>> allPairs;
+
+    public static Set<Pair<BaseOre, BaseStone>> getMatching(Filter filter) {
+        setupMap();
+        return allPairs.stream().filter(p->filter.matches(p.getFirst(),p.getSecond())).collect(Collectors.toSet());
     }
 
     private static synchronized void internalSetupMap(Collection<String> modids) {
@@ -197,8 +210,8 @@ public class ExcavatedVariants {
             }
             oreStoneList.add(pair);
             for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id) && oreList.stream().anyMatch(x->x.types.stream().anyMatch(stone.types::contains))) {
-                    if (!ExcavatedVariants.getConfig().configResource.getBlacklist().matches(id, stone.id)) {
+                if (!stones.contains(stone.id) && pair.getFirst().types.stream().anyMatch(stone.types::contains)) {
+                    if (!ExcavatedVariants.getConfig().configResource.getBlacklist().matches(pair.getFirst(), stone)) {
                         pair.getSecond().add(stone);
                     }
                 }
@@ -226,7 +239,18 @@ public class ExcavatedVariants {
                 knownStones.addAll(o.getSecond());
             }
         }
+        stones = knownStones.stream().collect(Collectors.toMap(s->s.id, Functions.identity()));
+        ores = knownOres.stream().collect(Collectors.toMap(o->o.id, Functions.identity()));
+        allPairs = out.stream().flatMap(p->p.getSecond().stream().map(o->new Pair<>(p.getFirst(),o))).collect(Collectors.toSet());
         oreStoneList = out;
+    }
+
+    public static Map<String, BaseOre> getOres() {
+        return ores;
+    }
+
+    public static Map<String, BaseStone> getStones() {
+        return stones;
     }
 
     private static ModConfig configs;

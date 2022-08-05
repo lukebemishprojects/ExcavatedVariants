@@ -1,0 +1,10 @@
+{
+  filter: '*',
+  tags: [
+    'minecraft:blocks/mineable/pickaxe',
+    'forge:blocks/ores',
+    'forge:items/ores',
+    'c:blocks/ores',
+    'c:items/ores'
+  ],
+}
