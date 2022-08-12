@@ -30,7 +30,6 @@ Each ore object takes the following format:
 * **block\_id**: A list of blocks of this ore, in the same order as **stone**.
 * **en\_name**: The name to be given to this ore in-game.
 * **types**: A list of types that this ore is classified as. Matched at runtime with the types specified in stone configs.
-* **texture\_count**: The maximum number of texture variants of this ore.
 
 Each stone object takes the following format:
 
@@ -38,7 +37,6 @@ Each stone object takes the following format:
 * **block\_id**: The block ID of this stone.
 * **en\_name**: The name to be given to this stone in-game.
 * **types**: A list of types that this stone is classified as. Matched at runtime with the types specified in ore configs.
-* **texture\_count**: The maximum number of texture variants of this stone.
 
 Modifier configs are added in `globalresources/[folder]/excavated_variants/[namespace]/modifiers`. They allow you to configure the properties of created variants, and can contain the following options:
 
