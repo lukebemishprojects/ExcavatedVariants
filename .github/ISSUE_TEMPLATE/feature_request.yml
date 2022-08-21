@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        If you want compatibility with another mod, you should first look into whether you can accomplish your goal through the config system. See the README for details. If you can accomplish this compatibility through a config, feel free to open a pull request to add it as a default config. It should be placed under `Common/src/main/resources/defaultresources/excavated_variants/variants`. If the config system is not enough to implement your feature, please continue below.
+        If you want compatibility with another mod, you should first look into whether you can accomplish your goal through the config system. See the README for details. If you can accomplish this compatibility through a config, feel free to open a pull request to add it as a default config. It should be placed under `Common/src/main/resources/defaultresources/excavated_variants/excavated_variants/variants`. If the config system is not enough to implement your feature, please continue below.
   - type: textarea
     id: what
     attributes:
