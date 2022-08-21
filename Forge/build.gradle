@@ -89,11 +89,6 @@ configurations {
 
 jarJar.enable()
 
-configurations {
-    library
-    implementation.extendsFrom library
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":Common")
@@ -116,8 +111,7 @@ dependencies {
     implementation(fg.deobf("io.github.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:${rootProject.defaultresources_version}"))
     implementation(fg.deobf("io.github.lukebemish.codecutils:codecutils-forge-${rootProject.minecraft_version}:${rootProject.codecutils_version}"))
 
-    // Really, Forge?
-    library("blue.endless:jankson:1.2.1")
+    minecraftLibrary("blue.endless:jankson:1.2.1")
 
     jarJar("io.github.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:[${rootProject.defaultresources_version},)")
     jarJar(group: "io.github.lukebemish.codecutils",
@@ -132,12 +126,6 @@ mixin {
     config 'mixin.excavated_variants_forge.json'
     add project(":Common").sourceSets.main, 'excavated_variants.refmap.json'
     config 'mixin.excavated_variants.json'
-}
-
-minecraft.runs.all {
-    lazyToken('minecraft_classpath') {
-        configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
-    }
 }
 
 tasks.withType(JavaCompile) {
@@ -157,13 +145,10 @@ publishing {
             groupId project.group
             artifactId project.archivesBaseName
             version project.version
-            artifact jar
-            artifact sourcesJar
-            artifact javadocJar
+            from components.java
         }
     }
     repositories {
-        mavenLocal()
     }
 }
 
@@ -219,9 +204,11 @@ task modrinth (type: TaskModrinthUpload){ // Make sure it runs after build!
     addLoader('forge')
 }
 
+tasks.build.dependsOn tasks.jarJar
+
 afterEvaluate {
-    tasks.curseforge.dependsOn build
-    tasks.modrinth.dependsOn build
+    tasks.curseforge.dependsOn tasks.jarJar
+    tasks.modrinth.dependsOn tasks.jarJar
     tasks.jarJar {
         archiveClassifier = ''
     }

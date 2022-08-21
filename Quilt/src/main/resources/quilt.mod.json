@@ -28,28 +28,35 @@
       ],
       "jei_mod_plugin": [
         "io.github.lukebemish.excavated_variants.compat.jei.JeiCompat"
+      ],
+      "emi": [
+        "io.github.lukebemish.excavated_variants.quilt.compat.emi.EmiCompat"
       ]
     },
     "depends": [
       {
         "id": "quilt_loader",
-        "versions": "*"
+        "versions": ">=0.17.0-"
       },
       {
         "id": "minecraft",
-        "versions": ">=1.19"
+        "versions": ">=1.19.2"
       },
       {
         "id": "dynamic_asset_generator",
-        "versions": ">=1.0.0"
+        "versions": ">=1.0.1"
       },
       {
         "id": "defaultresources",
-        "versions": ">=0.2.0"
+        "versions": ">=0.2.1"
       },
       {
         "id": "codecutils",
-        "versions": ">=0.1.1"
+        "versions": ">=0.1.2"
+      },
+      {
+        "id": "quilt_base",
+        "versions": ">=3.0.0-"
       }
     ]
   },

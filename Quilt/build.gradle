@@ -22,6 +22,10 @@ repositories {
 			includeGroupByRegex 'org\\.quiltmc\\.qsl(?:\\.[a-z_]+)?'
 		}
 	}
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
 }
 
 configurations {
@@ -54,7 +58,7 @@ dependencies {
 	modCompileOnly "curse.maven:hyle-609850:3746990"
 
 	compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
-	modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}")
+	//modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}")
 
 	modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")
 	modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-fabric-api:${rootProject.jei_version}")
@@ -62,6 +66,8 @@ dependencies {
 	modImplementation("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-quilt-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}")
 	modImplementation("io.github.lukebemish.defaultresources:defaultresources-quilt-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
 	modImplementation("io.github.lukebemish.codecutils:codecutils-quilt-${rootProject.minecraft_version}:${rootProject.codecutils_version}")
+
+	modImplementation "dev.emi:emi:${emi_version}"
 
 	include("io.github.lukebemish.defaultresources:defaultresources-quilt-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
 	include("io.github.lukebemish.codecutils:codecutils-quilt-${rootProject.minecraft_version}:${rootProject.codecutils_version}")
@@ -120,7 +126,6 @@ publishing {
     }
 
     repositories {
-		mavenLocal()
     }
 }
 

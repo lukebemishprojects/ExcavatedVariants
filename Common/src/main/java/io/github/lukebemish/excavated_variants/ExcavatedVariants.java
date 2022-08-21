@@ -2,6 +2,8 @@ package io.github.lukebemish.excavated_variants;
 
 import com.google.common.base.Functions;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
 import io.github.lukebemish.dynamic_asset_generator.api.DataResourceCache;
 import io.github.lukebemish.excavated_variants.api.IOreListModifier;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 
 public final class ExcavatedVariants {
     private ExcavatedVariants() {}
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
     public static final String MOD_ID = "excavated_variants";
 
@@ -54,6 +57,31 @@ public final class ExcavatedVariants {
     private static ModConfig configs;
     private static boolean loaded = false;
     private static MappingsCache mappingsCache;
+
+    public static Set<ResourceLocation> claimedTags;
+
+    private static void planTagLang(ResourceLocation rl) {
+        if (Services.PLATFORM.isClient()) {
+            String path = rl.getPath();
+            if (path.startsWith("items/")) {
+                path = path.replaceFirst("items/","");
+            } else if (path.startsWith("blocks/")) {
+                path = path.replaceFirst("blocks/","");
+            }
+            ArrayList<String> parts = new ArrayList<>(Arrays.asList(path.split("/")));
+            Collections.reverse(parts);
+            String englishName = String.join(" ",parts.stream().flatMap(s -> Arrays.stream(s.split("_")))
+                    .map(s -> {
+                        if (!s.isEmpty()) {
+                            return s.substring(0,1).toUpperCase(Locale.ROOT) + s.substring(1);
+                        }
+                        return s;
+                    })
+                    .toList());
+            String tagName = "tag."+rl.getNamespace()+"."+String.join(".",Arrays.asList(path.split("/")));
+            ExcavatedVariantsClient.planLang(tagName, englishName);
+        }
+    }
 
     public static void init() {
         setupMap();
@@ -87,13 +115,13 @@ public final class ExcavatedVariants {
                 for (String this_id : ids) {
                     String oreTypeName = orename.substring(0, orename.length() - 4);
                     if (Services.PLATFORM.isQuilt()) {
-                        planItemTag(new ResourceLocation("c", "items/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
+                        planItemTag(new ResourceLocation("c", "items/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id), true);
                         planBlockTag(new ResourceLocation("c", "blocks/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
-                        planItemTag(new ResourceLocation("c", "items/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
+                        planItemTag(new ResourceLocation("c", "items/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id), true);
                         planBlockTag(new ResourceLocation("c", "blocks/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
                     } else {
                         if (orename.endsWith("_ore")) {
-                            planItemTag(new ResourceLocation("forge", "items/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
+                            planItemTag(new ResourceLocation("forge", "items/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id), true);
                             planBlockTag(new ResourceLocation("forge", "blocks/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
                         }
                     }
@@ -122,8 +150,8 @@ public final class ExcavatedVariants {
         for (BaseStone stone : knownStones) {
             for (String type : stone.types) {
                 ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_stones");
+                planItemTag(rlToItem(tagRl), stone.block_id, true);
                 planBlockTag(rlToBlock(tagRl), stone.block_id);
-                planItemTag(rlToItem(tagRl), stone.block_id);
             }
         }
 
@@ -131,7 +159,7 @@ public final class ExcavatedVariants {
             for (String type : ore.types) {
                 ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_ores");
                 ore.block_id.forEach(id -> {
-                    planItemTag(rlToBlock(tagRl), id);
+                    planItemTag(rlToBlock(tagRl), id, true);
                     planBlockTag(rlToItem(tagRl), id);
                 });
             }
@@ -246,9 +274,9 @@ public final class ExcavatedVariants {
                         o.getSecond().add(stone);
                     }
                 }
-                knownStones.addAll(o.getSecond());
             }
         }
+        knownStones.addAll(stoneMap.values());
         stones = knownStones.stream().collect(Collectors.toMap(s -> s.id, Functions.identity()));
         ores = knownOres.stream().collect(Collectors.toMap(o -> o.id, Functions.identity()));
         allPairs = out.stream().flatMap(p -> p.getSecond().stream().map(o -> new Pair<>(p.getFirst(), o))).collect(Collectors.toSet());
@@ -330,12 +358,26 @@ public final class ExcavatedVariants {
         return mappingsCache;
     }
 
-    private static void planBlockTag(ResourceLocation tag, ResourceLocation block) {
+    private static void planBlockTag(ResourceLocation tag, ResourceLocation block, boolean inLang) {
         DataResourceCache.INSTANCE.planTag(tag, new Pair<>(block, () -> Registry.BLOCK.containsKey(block)));
+        if (inLang) {
+            planTagLang(tag);
+        }
+    }
+
+    private static void planBlockTag(ResourceLocation tag, ResourceLocation block) {
+        planBlockTag(tag, block, false);
+    }
+
+    private static void planItemTag(ResourceLocation tag, ResourceLocation item, boolean inLang) {
+        DataResourceCache.INSTANCE.planTag(tag, new Pair<>(item, () -> Registry.ITEM.containsKey(item)));
+        if (inLang) {
+            planTagLang(tag);
+        }
     }
 
     private static void planItemTag(ResourceLocation tag, ResourceLocation item) {
-        DataResourceCache.INSTANCE.planTag(tag, new Pair<>(item, () -> Registry.ITEM.containsKey(item)));
+        planItemTag(tag, item, false);
     }
 
     private static ResourceLocation rlToBlock(ResourceLocation rl) {

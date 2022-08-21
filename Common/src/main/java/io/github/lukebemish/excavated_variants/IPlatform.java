@@ -13,4 +13,6 @@ public interface IPlatform {
     Path getConfigFolder();
 
     Path getModDataFolder();
+
+    boolean isClient();
 }

@@ -15,8 +15,9 @@ import java.util.stream.Collectors;
 public final class ExcavatedVariantsClient {
     private ExcavatedVariantsClient() {}
 
+    public static final LangBuilder LANG_BUILDER = new LangBuilder();
+
     public static void init() {
-        LangBuilder langBuilder = new LangBuilder();
         Collection<String> modids = Services.PLATFORM.getModIds();
 
         ExcavatedVariants.setupMap();
@@ -43,12 +44,16 @@ public final class ExcavatedVariantsClient {
                 toMake.add(new Pair<>(ore, stone));
                 AssetResourceCache.INSTANCE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + fullId + ".json"),
                         rl -> JsonHelper.getItemModel(fullId));
-                langBuilder.add(fullId, stone, ore);
+                LANG_BUILDER.add(fullId, stone, ore);
             }
         }
 
-        AssetResourceCache.INSTANCE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID, "lang/en_us.json"), rl -> langBuilder.build());
+        AssetResourceCache.INSTANCE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID, "lang/en_us.json"), rl -> LANG_BUILDER.build());
 
         AssetResourceCache.INSTANCE.planSource(new TextureRegistrar(extractorMap.values(), toMake));
+    }
+
+    static void planLang(String key, String enName) {
+        LANG_BUILDER.add(key, enName);
     }
 }

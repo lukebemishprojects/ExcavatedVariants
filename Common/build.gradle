@@ -12,20 +12,9 @@ repositories {
     }
 }
 
-jar {
-    classifier null
-    getDestinationDirectory().set(new File(project.getBuildDir(),"libs"))
-}
-
 loom {
-    remapArchives = false
-    setupRemappedVariants = false
-    enableTransitiveAccessWideners = false
     runConfigs.configureEach {
         ideConfigGenerated = false
-    }
-    interfaceInjection {
-        enableDependencyInterfaceInjection = false
     }
 }
 
@@ -51,6 +40,11 @@ dependencies {
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
 }
 
+import net.fabricmc.loom.task.AbstractRemapJarTask
+tasks.withType(AbstractRemapJarTask).each {
+    it.targetNamespace = "named"
+}
+
 processResources {
     def buildProps = project.properties.clone()
 
@@ -66,14 +60,9 @@ publishing {
             artifactId project.archivesBaseName
             version project.version
             from components.java
-            artifact sourcesJar
         }
     }
 
     repositories {
-        mavenLocal()
     }
 }
-
-remapJar.enabled = false
-remapSourcesJar.enabled = false
