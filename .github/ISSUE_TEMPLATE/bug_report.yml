@@ -16,7 +16,7 @@ body:
       label: Platform
       description: Which platform are you using?
       options:
-        - 'Fabric'
+        - 'Quilt'
         - 'Forge'
     validations:
       required: true
