@@ -6,7 +6,6 @@ import blue.endless.jankson.api.SyntaxError;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.lukebemish.codecutils.api.JanksonOps;
-import io.github.lukebemish.dynamic_asset_generator.api.client.ClientPrePackRepository;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +38,7 @@ public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, St
 
     @Nullable
     public static BlockModelHolder getFromLocation(ResourceLocation rl) {
-        try (InputStream is = ClientPrePackRepository.getResource(modelFromLocation(rl))) {
+        try (InputStream is = BackupFetcher.tryAndProvideModelFile(rl)) {
             JsonObject json = JANKSON.load(is);
             return BlockModelHolder.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
             });
@@ -73,10 +72,6 @@ public record BlockModelHolder(Optional<ResourceLocation> parent, Map<String, St
             return null;
         stack.add(out);
         return resolveTexture(map, stack, out);
-    }
-
-    private static ResourceLocation modelFromLocation(ResourceLocation rl) {
-        return new ResourceLocation(rl.getNamespace(), "models/" + rl.getPath() + ".json");
     }
 
     public Map<String, String> getTextureMap() {

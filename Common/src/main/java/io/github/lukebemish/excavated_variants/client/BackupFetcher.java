@@ -36,4 +36,12 @@ public class BackupFetcher {
         }
         return out;
     }
+
+    public static InputStream tryAndProvideModelFile(ResourceLocation rl) {
+        try {
+            return ClientPrePackRepository.getResource(new ResourceLocation(rl.getNamespace(), "models/" + rl.getPath() + ".json"));
+        } catch (IOException e) {
+            return provideBlockModelFile(rl);
+        }
+    }
 }
