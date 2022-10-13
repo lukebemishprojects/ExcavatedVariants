@@ -16,14 +16,15 @@
       ],
     },
     {
-      id: 'lapis_ore',
+      id: 'nether_lapis_ore',
+      orename: 'lapis_ore',
       stone: [
         'netherrack',
       ],
       block_id: [
         'betternether:nether_lapis_ore',
       ],
-      en_name: 'Lapis Ore',
+      en_name: 'Nether Lapis Lazuli Ore',
       types: [
         'nether',
       ],
