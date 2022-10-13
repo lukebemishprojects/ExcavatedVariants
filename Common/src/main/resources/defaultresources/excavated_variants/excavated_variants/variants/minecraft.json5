@@ -222,7 +222,7 @@
         'minecraft:lapis_ore',
         'minecraft:deepslate_lapis_ore',
       ],
-      en_name: 'Lapis Ore',
+      en_name: 'Lapis Lazuli Ore',
       types: [
         'stone',
       ],
