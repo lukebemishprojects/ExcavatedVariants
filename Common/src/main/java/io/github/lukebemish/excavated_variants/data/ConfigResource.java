@@ -27,7 +27,7 @@ public class ConfigResource {
     }
 
     private static <T> void addAllNew(List<? super T> to, List<? extends T> from) {
-        from.stream().filter(to::contains).forEach(to::add);
+        from.stream().filter(it->!to.contains(it)).forEach(to::add);
     }
 
     public Filter getBlacklist() {
