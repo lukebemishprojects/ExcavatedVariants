@@ -125,7 +125,7 @@ public final class ExcavatedVariants {
                             planBlockTag(new ResourceLocation("forge", "blocks/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
                         }
                     }
-                    if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore", "netherite_scrap_ore").contains(orename)) {
+                    if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore", "lapis_ore", "netherite_scrap_ore").contains(orename)) {
                         planItemTag(new ResourceLocation("minecraft", "items/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
                         planBlockTag(new ResourceLocation("minecraft", "blocks/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
                     }
