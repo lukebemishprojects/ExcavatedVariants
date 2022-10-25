@@ -1,12 +1,12 @@
 package io.github.lukebemish.excavated_variants.data;
 
 import blue.endless.jankson.JsonElement;
+import blue.endless.jankson.JsonGrammar;
 import blue.endless.jankson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.github.lukebemish.codecutils.api.JanksonOps;
-import io.github.lukebemish.codecutils.api.SmarterJanksonWriter;
 import io.github.lukebemish.excavated_variants.ExcavatedVariants;
+import io.github.lukebemish.excavated_variants.codecs.JanksonOps;
 import io.github.lukebemish.excavated_variants.platform.Services;
 import net.minecraft.resources.ResourceLocation;
 
@@ -34,6 +34,13 @@ public class MappingsCache {
 
     public Map<String, Set<ResourceLocation>> oreMappings;
     public Map<String, ResourceLocation> stoneMappings;
+
+    private static final JsonGrammar GRAMMAR = JsonGrammar.builder()
+            .withComments(true)
+            .printTrailingCommas(true)
+            .bareSpecialNumerics(true)
+            .printUnquotedKeys(true)
+            .build();
 
     private MappingsCache(Map<String, List<ResourceLocation>> ores, Map<String, ResourceLocation> stones) {
         oreMappings = new HashMap<>();
@@ -63,7 +70,7 @@ public class MappingsCache {
             var writer = Files.newBufferedWriter(FULL_PATH, StandardOpenOption.CREATE_NEW);
             JsonElement json = CODEC.encodeStart(JanksonOps.INSTANCE, this).getOrThrow(false, e -> {
             });
-            SmarterJanksonWriter.JSON5_2_SPACES.write(json, writer, 0);
+            json.toJson(writer, GRAMMAR, 0);
             writer.flush();
             writer.close();
         } catch (Exception e) {

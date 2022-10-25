@@ -30,10 +30,16 @@ pluginManagement {
             name = 'Cotton'
             url = 'https://server.bbkr.space/artifactory/libs-release/'
         }
+        maven {
+            name = 'TheModdingInquisition'
+            url = 'https://maven.moddinginquisition.org/releases'
+        }
 
         mavenCentral()
         gradlePluginPortal()
     }
+
+    includeBuild '../ModGitPublisher'
 }
 
 rootProject.name = 'excavated_variants'
