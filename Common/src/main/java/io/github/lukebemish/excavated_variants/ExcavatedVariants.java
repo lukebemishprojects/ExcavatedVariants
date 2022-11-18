@@ -85,9 +85,8 @@ public final class ExcavatedVariants {
 
     public static void init() {
         setupMap();
-        MiningLevelTagGenerator stoneTag = new MiningLevelTagGenerator("stone");
-        MiningLevelTagGenerator ironTag = new MiningLevelTagGenerator("iron");
-        MiningLevelTagGenerator diamondTag = new MiningLevelTagGenerator("diamond");
+
+        MiningLevelTagHolder tierHolder = new MiningLevelTagHolder();
 
         for (Pair<BaseOre, HashSet<BaseStone>> p : oreStoneList) {
             BaseOre ore = p.getFirst();
@@ -106,9 +105,7 @@ public final class ExcavatedVariants {
                     planItemTag(rlToBlock(tagRl), id);
                     planBlockTag(rlToItem(tagRl), id);
                 }
-                stoneTag.add(fullId, ore);
-                ironTag.add(fullId, ore);
-                diamondTag.add(fullId, ore);
+                tierHolder.add(fullId, ore, stone);
                 ids.add(fullId);
             }
             for (String orename : ore.orename) {
@@ -165,9 +162,7 @@ public final class ExcavatedVariants {
             }
         }
 
-        DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft", "blocks/needs_stone_tool"), stoneTag);
-        DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft", "blocks/needs_iron_tool"), ironTag);
-        DataResourceCache.INSTANCE.planTag(new ResourceLocation("minecraft", "blocks/needs_diamond_tool"), diamondTag);
+        DataResourceCache.INSTANCE.queueTags(tierHolder);
 
         Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
 
