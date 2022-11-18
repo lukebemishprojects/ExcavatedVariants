@@ -164,7 +164,7 @@ if (project.hasProperty("modrinth_key")) {
 		versionType = "${project.release_type}"
 		detectLoaders = false
 		changelog = modGitPublisher.changelog
-		uploadFile = jar
+		uploadFile = remapJar
 		gameVersions = ["${project.minecraft_version}"]
 		loaders = ['quilt']
 		dependencies {

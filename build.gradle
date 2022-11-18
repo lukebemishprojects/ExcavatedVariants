@@ -9,7 +9,10 @@ modGitPublisher {
 }
 
 allprojects {p->
-    p.version = modGitPublisher.version
+    if (rootProject.hasProperty('versionOverride') && rootProject.versionOverride !== null)
+        p.version = rootProject.versionOverride
+    else
+        p.version = modGitPublisher.version
 }
 
 modsDotGroovy {
@@ -86,7 +89,7 @@ subprojects {
 
         mavenLocal()
     }
-    
+
 
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = 'UTF-8'
