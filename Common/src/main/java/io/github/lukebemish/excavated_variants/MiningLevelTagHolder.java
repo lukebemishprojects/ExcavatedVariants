@@ -3,6 +3,7 @@ package io.github.lukebemish.excavated_variants;
 import com.google.gson.JsonParser;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.lukebemish.dynamic_asset_generator.api.ServerPrePackRepository;
@@ -92,7 +93,14 @@ public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<
     // Either is location, then tag
     private record TagFile(List<Either<ResourceLocation, ResourceLocation>> values, boolean replace) {
         public static final Codec<TagFile> CODEC = RecordCodecBuilder.create(p-> p.group(
-                Codec.either(ResourceLocation.CODEC, ResourceLocation.CODEC).listOf().optionalFieldOf("values", List.of()).forGetter(TagFile::values),
+                Codec.either(ResourceLocation.CODEC, Codec.STRING.flatXmap(s->{
+                    if (!s.startsWith("#"))
+                        return DataResult.error("Tag must start with '#'");
+                    var location = ResourceLocation.tryParse(s.substring(1));
+                    if (location == null)
+                        return DataResult.error("Invalid tag location");
+                    return DataResult.success(location);
+                },rl-> DataResult.success("#"+rl))).listOf().optionalFieldOf("values",List.of()).forGetter(TagFile::values),
                 Codec.BOOL.optionalFieldOf("replace", false).forGetter(TagFile::replace)
         ).apply(p, TagFile::new));
     }
