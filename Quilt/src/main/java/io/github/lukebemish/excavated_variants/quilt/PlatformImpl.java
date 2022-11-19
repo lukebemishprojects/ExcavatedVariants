@@ -51,7 +51,7 @@ public class PlatformImpl implements IPlatform {
         List<ResourceLocation> out = new ArrayList<>();
         out.add(BlockTags.NEEDS_STONE_TOOL.location());
         out.add(BlockTags.NEEDS_IRON_TOOL.location());
-        out.add(BlockTags.NEEDS_STONE_TOOL.location());
+        out.add(BlockTags.NEEDS_DIAMOND_TOOL.location());
         ServerPrePackRepository.getResources().stream().flatMap(resources ->
            resources.getResources(PackType.SERVER_DATA, "fabric", "minecraft/tags/blocks/", s->{
                if (!s.getPath().startsWith("needs_tool_level_")) return false;
@@ -65,8 +65,8 @@ public class PlatformImpl implements IPlatform {
            }).stream().map(l->{
                String[] parts = l.getPath().split("/");
                return Integer.parseInt(parts[parts.length-1].replace("needs_tool_level_",""));
-           }).filter(it->it!=0)
+           }).filter(it->it>0)
         ).distinct().sorted().forEach(it->out.add(MiningLevelManager.getBlockTag(it).location()));
-        return out;
+        return out.stream().map(it->new ResourceLocation(it.getNamespace(), "blocks/"+it.getPath())).toList();
     }
 }

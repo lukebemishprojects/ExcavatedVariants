@@ -31,6 +31,7 @@ public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<
         Map<ResourceLocation, Set<ResourceLocation>> tags = new HashMap<>();
 
         List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels();
+        System.out.println(tagNames);
         Map<ResourceLocation, Integer> blockToLevelMap = new HashMap<>();
         Map<ResourceLocation, List<ResourceLocation>> memberMap = tagNames.stream().collect(Collectors.toMap(Function.identity(), this::getTagMembers));
 
@@ -72,9 +73,8 @@ public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<
                             members.clear();
                         file.values.forEach(value -> {
                             value.left().ifPresent(members::add);
-                            value.right().ifPresent(tag -> {
-                                members.addAll(getTagMembers(new ResourceLocation(tag.getNamespace(), type+"/"+tag.getPath())));
-                            });
+                            value.right().ifPresent(tag ->
+                                    members.addAll(getTagMembers(new ResourceLocation(tag.getNamespace(), type+"/"+tag.getPath()))));
                         });
                     } catch (RuntimeException e) {
                         ExcavatedVariants.LOGGER.error("Issue parsing tag at '{}':",toRead,e);
