@@ -32,7 +32,6 @@ public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<
         Map<ResourceLocation, Set<ResourceLocation>> tags = new HashMap<>();
 
         List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels();
-        System.out.println(tagNames);
         Map<ResourceLocation, Integer> blockToLevelMap = new HashMap<>();
         Map<ResourceLocation, List<ResourceLocation>> memberMap = tagNames.stream().collect(Collectors.toMap(Function.identity(), this::getTagMembers));
 

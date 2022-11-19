@@ -45,7 +45,6 @@ ModsDotGroovy.make {
     }
     onQuilt {
         access_widener = 'excavated_variants.accessWidener'
-        mixin = ['mixin.excavated_variants.json',
-                 'mixin.excavated_variants_quilt.json']
+        mixin = ['mixin.excavated_variants.json']
     }
 }
