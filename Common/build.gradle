@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-archivesBaseName = "${mod_id}-common-${minecraft_version}"
+archivesBaseName = "${artifact_id}-common-${minecraft_version}"
 
 repositories {
     maven {
@@ -32,8 +32,8 @@ dependencies {
     //Provides necessary stuff for project to compile
     modCompileOnly("org.quiltmc:quilt-loader:${quilt_loader_version}")
 
-    compileOnly("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-common-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}")
-    compileOnly("io.github.lukebemish.defaultresources:defaultresources-common-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
+    compileOnly("dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}")
+    compileOnly("dev.lukebemish.defaultresources:defaultresources-common-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
 
     modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}

@@ -23,17 +23,10 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-archivesBaseName = "${mod_id}-forge-${minecraft_version}"
+archivesBaseName = "${artifact_id}-forge-${minecraft_version}"
 
 minecraft {
     mappings channel: 'parchment', version: "${parchment_minecraft_version}-${parchment_version}-${minecraft_version}"
-    
-    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-        project.logger.debug('Forge Access Transformers are enabled for this project.')
-    }
 
     runs {
         client {
@@ -107,12 +100,12 @@ dependencies {
 
     compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
 
-    implementation(fg.deobf("io.github.lukebemish.dynamic_asset_generator:dynamic_asset_generator-forge-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}"))
-    implementation(fg.deobf("io.github.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:${rootProject.defaultresources_version}"))
+    implementation(fg.deobf("dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-forge-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}"))
+    implementation(fg.deobf("dev.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:${rootProject.defaultresources_version}"))
 
     minecraftLibrary("blue.endless:jankson:1.2.1")
 
-    jarJar("io.github.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:[${rootProject.defaultresources_version},)")
+    jarJar("dev.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:[${rootProject.defaultresources_version},)")
     jarJar(group: "blue.endless", name: "jankson", version:"[$project.jankson_version,)")
 }
 
