@@ -1,11 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.lukebemish.excavated_variants.forge.mixin",
+  "package": "dev.lukebemish.excavatedvariants.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "dev.lukebemish.excavatedvariants.forge.mixin.ForgeRegistryMixin",
-    "dev.lukebemish.excavatedvariants.forge.mixin.ForgeTierSortingRegistryAccessor"
+    "ForgeRegistryMixin",
+    "ForgeTierSortingRegistryAccessor"
   ],
   "client": [],
   "server": [],

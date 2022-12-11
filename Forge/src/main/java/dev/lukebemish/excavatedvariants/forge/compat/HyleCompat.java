@@ -1,22 +1,7 @@
 package dev.lukebemish.excavatedvariants.forge.compat;
 
-import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.excavatedvariants.platform.Services;
-import dev.lukebemish.excavatedvariants.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.data.BaseOre;
-import dev.lukebemish.excavatedvariants.data.BaseStone;
-import lilypuree.hyle.compat.IStoneType;
-import lilypuree.hyle.compat.StoneTypeEvent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Map;
-
 public class HyleCompat {
-    private Map<Block, Pair<BaseOre, HashSet<BaseStone>>> excavatedVariantsOres;
+    /*private Map<Block, Pair<BaseOre, HashSet<BaseStone>>> excavatedVariantsOres;
 
     @SubscribeEvent
     public void onStoneTypeEvent(StoneTypeEvent event) {
@@ -41,5 +26,5 @@ public class HyleCompat {
                 }
             });
         });
-    }
+    }*/
 }

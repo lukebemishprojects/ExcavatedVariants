@@ -33,6 +33,8 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
 
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
+        if (!ExcavatedVariants.getConfig().attemptWorldgenReplacement)
+            return true;
         return modifyUnmodifiedNeighboringChunks(ctx.level(), ctx.origin());
     }
 

@@ -91,7 +91,7 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    compileOnly(fg.deobf("curse.maven:hyle-609850:3748968"))
+    //compileOnly(fg.deobf("curse.maven:hyle-609850:3748968"))
 
     compileOnly(fg.deobf("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${rootProject.jei_minecraft_version}-forge-api:${rootProject.jei_version}"))

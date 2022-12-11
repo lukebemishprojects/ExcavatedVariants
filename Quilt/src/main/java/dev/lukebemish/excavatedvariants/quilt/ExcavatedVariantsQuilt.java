@@ -1,11 +1,11 @@
 package dev.lukebemish.excavatedvariants.quilt;
 
+import dev.lukebemish.excavatedvariants.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.S2CConfigAgreementPacket;
 import dev.lukebemish.excavatedvariants.platform.Services;
-import dev.lukebemish.excavatedvariants.quilt.compat.HyleCompat;
 import dev.lukebemish.excavatedvariants.worldgen.OreFinderUtil;
-import dev.lukebemish.excavatedvariants.ExcavatedVariants;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +13,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
@@ -35,16 +34,16 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
     public void onInitialize(ModContainer modContainer) {
         ExcavatedVariants.init();
 
-        ExcavatedVariants.loadedBlockRLs.addAll(Registry.BLOCK.keySet());
+        ExcavatedVariants.loadedBlockRLs.addAll(BuiltInRegistries.BLOCK.keySet());
 
         ArrayList<ExcavatedVariants.RegistryFuture> toRemove = new ArrayList<>();
         for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
             if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                     ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
                 ExcavatedVariants.registerBlockAndItem(
-                        (rl, bl) -> Registry.register(Registry.BLOCK, rl, bl),
+                        (rl, bl) -> Registry.register(BuiltInRegistries.BLOCK, rl, bl),
                         (rl, i) -> {
-                            Item out = Registry.register(Registry.ITEM, rl, i.get());
+                            Item out = Registry.register(BuiltInRegistries.ITEM, rl, i.get());
                             return () -> out;
                         }, b);
                 toRemove.add(b);
@@ -52,7 +51,7 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
         }
         ExcavatedVariants.blockList.removeAll(toRemove);
 
-        RegistryEvents.getEntryAddEvent(Registry.BLOCK).register(ctx -> {
+        RegistryEvents.getEntryAddEvent(BuiltInRegistries.BLOCK).register(ctx -> {
             ResourceLocation rl = ctx.id();
             if (ExcavatedVariants.neededRls.contains(rl)) {
                 ExcavatedVariants.loadedBlockRLs.add(rl);
@@ -63,9 +62,9 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
                         if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
                                 ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
                             ExcavatedVariants.registerBlockAndItem(
-                                    (orl, bl) -> Registry.register(Registry.BLOCK, orl, bl),
+                                    (orl, bl) -> Registry.register(BuiltInRegistries.BLOCK, orl, bl),
                                     (orl, i) -> {
-                                        Item out = Registry.register(Registry.ITEM, orl, i.get());
+                                        Item out = Registry.register(BuiltInRegistries.ITEM, orl, i.get());
                                         return () -> out;
                                     }, b);
                             toRemove2.add(b);
@@ -84,16 +83,14 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
             OreFinderUtil.setupBlocks();
             ExcavatedVariants.setupMap();
         });
-        if (ExcavatedVariants.getConfig().attemptWorldgenReplacement) {
-            ResourceKey<PlacedFeature> confKey = ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"));
-            BiomeModifications.create(confKey.location()).add(ModificationPhase.POST_PROCESSING, (x) -> true, context -> {
-                context.getGenerationSettings().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, confKey);
-            });
-        }
+        ResourceKey<PlacedFeature> confKey = ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"));
+        BiomeModifications.create(confKey.location()).add(ModificationPhase.POST_PROCESSING, (x) -> true, context -> {
+            context.getGenerationSettings().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, confKey);
+        });
 
-        if (QuiltLoader.isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
+        /*if (QuiltLoader.isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
             HyleCompat.init();
-        }
+        }*/
 
         ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) -> {
             var packet = new S2CConfigAgreementPacket(ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(

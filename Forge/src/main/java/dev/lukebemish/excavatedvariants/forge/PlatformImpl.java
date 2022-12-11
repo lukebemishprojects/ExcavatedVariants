@@ -8,9 +8,9 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.excavatedvariants.forge.mixin.ForgeTierSortingRegistryAccessor;
-import io.github.lukebemish.dynamic_asset_generator.api.ServerPrePackRepository;
+import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
 import dev.lukebemish.excavatedvariants.IPlatform;
+import dev.lukebemish.excavatedvariants.forge.mixin.ForgeTierSortingRegistryAccessor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.api.distmarker.Dist;
@@ -57,6 +57,7 @@ public class PlatformImpl implements IPlatform {
         return FMLLoader.getDist() == Dist.CLIENT;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public List<ResourceLocation> getMiningLevels() {
         ResourceLocation ORDERING = new ResourceLocation("forge", "item_tier_ordering.json");

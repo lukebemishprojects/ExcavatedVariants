@@ -19,9 +19,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,8 +43,6 @@ public final class ExcavatedVariants {
     private static final List<Supplier<Item>> items = new ArrayList<>();
     private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
     public static List<Pair<BaseOre, HashSet<BaseStone>>> oreStoneList;
-    public static ConfiguredFeature<NoneFeatureConfiguration, ?> ORE_REPLACER_CONFIGURED;
-    public static PlacedFeature ORE_REPLACER_PLACED;
     public static Set<ResourceLocation> loadedBlockRLs = new HashSet<>();
     private static Set<BaseOre> knownOres;
     private static Set<BaseStone> knownStones;

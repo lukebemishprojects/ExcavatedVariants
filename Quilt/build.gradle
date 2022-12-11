@@ -53,7 +53,7 @@ dependencies {
 	compileOnly group:'com.google.auto.service', name:'auto-service', version:'1.0.1'
 	annotationProcessor group:'com.google.auto.service', name:'auto-service', version:'1.0.1'
 
-	modCompileOnly "curse.maven:hyle-609850:3746990"
+	//modCompileOnly "curse.maven:hyle-609850:3746990"
 
 	compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
 	//modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}")

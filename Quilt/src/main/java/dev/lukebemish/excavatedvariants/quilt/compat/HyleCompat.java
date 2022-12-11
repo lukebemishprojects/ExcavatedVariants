@@ -1,20 +1,7 @@
 package dev.lukebemish.excavatedvariants.quilt.compat;
 
-import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.excavatedvariants.data.BaseOre;
-import dev.lukebemish.excavatedvariants.data.BaseStone;
-import dev.lukebemish.excavatedvariants.platform.Services;
-import dev.lukebemish.excavatedvariants.ExcavatedVariants;
-import lilypuree.hyle.compat.StoneTypeCallback;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Map;
-
 public class HyleCompat {
-    private static Map<Block, Pair<BaseOre, HashSet<BaseStone>>> excavatedVariantsOres;
+    /*private static Map<Block, Pair<BaseOre, HashSet<BaseStone>>> excavatedVariantsOres;
 
     public static void init() {
         StoneTypeCallback.EVENT.register(stoneType -> {
@@ -39,5 +26,5 @@ public class HyleCompat {
             });
             return true;
         });
-    }
+    }*/
 }

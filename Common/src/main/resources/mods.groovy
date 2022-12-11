@@ -36,11 +36,11 @@ ModsDotGroovy.make {
         }
 
         entrypoints {
-            init = ["io.github.lukebemish.excavated_variants.quilt.ExcavatedVariantsQuilt"]
-            client_init = ["io.github.lukebemish.excavated_variants.quilt.ExcavatedVariantsClientQuilt"]
-            rei_init = ["io.github.lukebemish.excavated_variants.compat.rei.ExcavatedVariantsClientPlugin"]
-            jei_mod_plugin = ["io.github.lukebemish.excavated_variants.compat.jei.JeiCompat"]
-            emi = ["io.github.lukebemish.excavated_variants.quilt.compat.emi.EmiCompat"]
+            init = ["dev.lukebemish.excavatedvariants.quilt.ExcavatedVariantsQuilt"]
+            client_init = ["dev.lukebemish.excavatedvariants.quilt.ExcavatedVariantsClientQuilt"]
+            rei_init = ["dev.lukebemish.excavatedvariants.compat.rei.ExcavatedVariantsClientPlugin"]
+            jei_mod_plugin = ["dev.lukebemish.excavatedvariants.compat.jei.JeiCompat"]
+            emi = ["dev.lukebemish.excavatedvariants.quilt.compat.emi.EmiCompat"]
         }
     }
     onQuilt {

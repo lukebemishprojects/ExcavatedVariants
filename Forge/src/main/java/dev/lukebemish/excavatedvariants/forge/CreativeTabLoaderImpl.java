@@ -7,8 +7,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.CreativeModeTabRegistry;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @SuppressWarnings("unused")
 @AutoService(ICreativeTabLoader.class)
@@ -27,7 +27,7 @@ public class CreativeTabLoaderImpl implements ICreativeTabLoader {
 
     @Override
     public void registerCreativeTab() {
-        MinecraftForge.EVENT_BUS.addListener(this::onCreativeTabEvent);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCreativeTabEvent);
     }
 
     @Override

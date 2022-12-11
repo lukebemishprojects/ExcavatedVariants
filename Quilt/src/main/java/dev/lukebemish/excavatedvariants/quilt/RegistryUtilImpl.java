@@ -2,7 +2,7 @@ package dev.lukebemish.excavatedvariants.quilt;
 
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.IRegistryUtil;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -26,8 +26,8 @@ public class RegistryUtilImpl implements IRegistryUtil {
         if (block_cache.containsKey(rl)) {
             return block_cache.get(rl);
         }
-        if (Registry.BLOCK.containsKey(rl)) {
-            Block out = Registry.BLOCK.get(rl);
+        if (BuiltInRegistries.BLOCK.containsKey(rl)) {
+            Block out = BuiltInRegistries.BLOCK.get(rl);
             block_cache.put(rl, out);
             return out;
         }
@@ -38,8 +38,8 @@ public class RegistryUtilImpl implements IRegistryUtil {
         if (item_cache.containsKey(rl)) {
             return item_cache.get(rl);
         }
-        if (Registry.ITEM.containsKey(rl)) {
-            Item out = Registry.ITEM.get(rl);
+        if (BuiltInRegistries.ITEM.containsKey(rl)) {
+            Item out = BuiltInRegistries.ITEM.get(rl);
             item_cache.put(rl, out);
             return out;
         }
@@ -50,12 +50,12 @@ public class RegistryUtilImpl implements IRegistryUtil {
         if (block_rl_cache.containsKey(block)) {
             return block_rl_cache.get(block);
         }
-        ResourceLocation rl = Registry.BLOCK.getKey(block);
+        ResourceLocation rl = BuiltInRegistries.BLOCK.getKey(block);
         block_rl_cache.put(block, rl);
         return rl;
     }
 
     public Iterable<Block> getAllBlocks() {
-        return Registry.BLOCK;
+        return BuiltInRegistries.BLOCK;
     }
 }

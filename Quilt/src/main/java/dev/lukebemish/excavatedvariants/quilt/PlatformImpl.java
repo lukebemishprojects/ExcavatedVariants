@@ -2,7 +2,7 @@ package dev.lukebemish.excavatedvariants.quilt;
 
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.IPlatform;
-import io.github.lukebemish.dynamic_asset_generator.api.ServerPrePackRepository;
+import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.minecraft.resources.ResourceLocation;
@@ -52,21 +52,23 @@ public class PlatformImpl implements IPlatform {
         out.add(BlockTags.NEEDS_STONE_TOOL.location());
         out.add(BlockTags.NEEDS_IRON_TOOL.location());
         out.add(BlockTags.NEEDS_DIAMOND_TOOL.location());
-        ServerPrePackRepository.getResources().stream().flatMap(resources ->
-           resources.getResources(PackType.SERVER_DATA, "fabric", "minecraft/tags/blocks/", s->{
-               if (!s.getPath().startsWith("needs_tool_level_")) return false;
-               try {
-                   String[] parts = s.getPath().split("/");
-                   Integer.parseInt(parts[parts.length-1].replace("needs_tool_level_",""));
-                   return true;
-               } catch (NumberFormatException e) {
-                   return false;
-               }
-           }).stream().map(l->{
-               String[] parts = l.getPath().split("/");
-               return Integer.parseInt(parts[parts.length-1].replace("needs_tool_level_",""));
-           }).filter(it->it>0)
-        ).distinct().sorted().forEach(it->out.add(MiningLevelManager.getBlockTag(it).location()));
+        ServerPrePackRepository.getResources().stream().flatMap(resources -> {
+            List<ResourceLocation> locations = new ArrayList<>();
+            resources.listResources(PackType.SERVER_DATA, "fabric", "minecraft/tags/blocks/", (rl, supplier) -> {
+                if (!rl.getPath().startsWith("needs_tool_level_")) return;
+                try {
+                    String[] parts = rl.getPath().split("/");
+                    Integer.parseInt(parts[parts.length - 1].replace("needs_tool_level_", ""));
+                    locations.add(rl);
+                } catch (NumberFormatException e) {
+                }
+            });
+            return locations.stream().map(l -> {
+                String[] parts = l.getPath().split("/");
+                return Integer.parseInt(parts[parts.length - 1].replace("needs_tool_level_", ""));
+            }).filter(it -> it > 0);
+        }).distinct().sorted().forEach(it->out.add(MiningLevelManager.getBlockTag(it).location()));
         return out.stream().map(it->new ResourceLocation(it.getNamespace(), "blocks/"+it.getPath())).toList();
     }
+
 }
