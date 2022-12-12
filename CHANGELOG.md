@@ -1,3 +1,28 @@
+## Excavated Variants 2.0.0
+
+### Features
+- Add system to add ores to arbitrary tiers.
+### Fixes
+- Fix priority settings not working
+- Fix lapis ore in `minecraft` config
+- Fix betternether config
+- Allow new tier system to work on quilt
+- Minor fix to new tier system
+### Other
+- Update bug_report.yml
+- Update feature_request.yml
+- Update README.md
+- Update feature_request.yml
+- Fix forge jarJar being broken
+- Fix #90
+- Delete ae2.json5
+- Update ExcavatedVariants.java
+- Remove CodecUtils, change build system, and update defaultresources to utilize new features.
+- Fix which jar is published and add system to override version
+- Switch to new API for adding item groups with Quilt
+- **BREAKING** Change group name
+- Change how features are added
+
 ### Excavated Variants v1.0.0
 
 - Refactor modifier/filter system slightly
