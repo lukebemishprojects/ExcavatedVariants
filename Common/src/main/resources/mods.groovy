@@ -9,8 +9,10 @@ ModsDotGroovy.make {
         modId = this.buildProperties['mod_id']
         displayName = this.buildProperties['mod_name']
         version = this.version
-        group = this.group
-        intermediate_mappings = 'net.fabricmc:intermediary'
+        onQuilt {
+            group = this.group
+            intermediate_mappings = 'net.fabricmc:intermediary'
+        }
         displayUrl = 'https://github.com/lukebemish/excavated_variants'
 
         description = 'Adds data-defined ore variants for stone/ore combinations missing them'
