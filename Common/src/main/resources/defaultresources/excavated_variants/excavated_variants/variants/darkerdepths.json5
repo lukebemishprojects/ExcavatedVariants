@@ -1,0 +1,167 @@
+{
+  mod_id: 'darkerdepths',
+  provided_stones: [
+    {
+      id: 'darkerdepths_aridrock',
+      en_name: 'Aridrock',
+      block_id: 'darkerdepths:aridrock',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'darkerdepths_grimestone',
+      en_name: 'Grimestone',
+      block_id: 'darkerdepths:grimestone',
+      types: [
+        'stone',
+      ],
+    },    
+    {
+      id: 'darkerdepths_limestone',
+      en_name: 'Limestone',
+      block_id: 'darkerdepths:limestone',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'darkerdepths_shale',
+      en_name: 'Shale',
+      block_id: 'darkerdepths:shale',
+      types: [
+        'stone',
+      ],
+    },    
+  ],
+  provided_ores: [
+    {
+      id: 'gold_ore',
+      stone: [
+        'darkerdepths_aridrock',
+        'darkerdepths_limestone',
+      ],
+      en_name: 'Gold Ore',
+      block_id: [
+        'darkerdepths:aridrock_gold_ore',
+        'darkerdepths:limestone_gold_ore',        
+      ],
+      orename: [
+        'gold_ore',
+      ],
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'iron_ore',
+      stone: [
+        'darkerdepths_aridrock',
+        'darkerdepths_limestone',
+      ],      
+      en_name: 'Iron Ore',
+      block_id: [
+        'darkerdepths:aridrock_iron_ore',
+        'darkerdepths:limestone_iron_ore',          
+      ],
+      orename: [
+        'iron_ore',
+      ],
+      types: [
+        'stone',
+      ],     
+    },
+    {
+      id: 'coal_ore',
+      stone: [
+        'darkerdepths_aridrock',
+        'darkerdepths_limestone',
+      ],      
+      en_name: 'Coal Ore',
+      block_id: [
+        'darkerdepths:aridrock_coal_ore',
+        'darkerdepths:limestone_coal_ore',          
+      ],
+      orename: [
+        'coal_ore',
+      ],
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'lapis_ore',
+      stone: [
+        'darkerdepths_aridrock',
+        'darkerdepths_limestone',
+      ],      
+      en_name: 'Lapis Lazuli Ore',
+      block_id: [
+        'darkerdepths:aridrock_lapis_ore',
+        'darkerdepths:limestone_lapis_ore',          
+      ],
+      orename: [
+        'lapis_ore',
+      ],
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'diamond_ore',
+      stone: [
+        'darkerdepths_aridrock',
+        'darkerdepths_limestone',
+      ],      
+      en_name: 'Diamond Ore',
+      block_id: [
+        'darkerdepths:aridrock_diamond_ore',
+        'darkerdepths:limestone_diamond_ore',          
+      ],
+      orename: [
+        'diamond_ore',
+      ],
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'redstone_ore',
+      stone: [
+        'darkerdepths_aridrock',
+        'darkerdepths_limestone',
+      ],      
+      en_name: 'Redstone Ore',
+      block_id: [
+        'darkerdepths:aridrock_redstone_ore',
+        'darkerdepths:limestone_redstone_ore',        
+      ],
+      orename: [
+        'redstone_ore',
+      ],
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'silver_ore',
+      stone: [
+        'darkerdepths_aridrock',
+        'darkerdepths_limestone',
+        'stone',
+      ],      
+      en_name: 'Silver Ore',
+      block_id: [
+        'darkerdepths:aridrock_silver_ore',
+        'darkerdepths:limestone_silver_ore',
+        'darkerdepths:silver_ore',
+      ],
+      orename: [
+        'silver_ore',
+      ],
+      types: [
+        'stone',
+      ],
+    },    
+  ],
+}
