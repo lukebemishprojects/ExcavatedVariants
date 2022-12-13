@@ -3,7 +3,7 @@
   provided_stones: [
     {
       id: 'darkerdepths_aridrock',
-      en_name: 'aridrock',
+      en_name: 'Aridrock',
       block_id: 'darkerdepths:aridrock',
       types: [
         'stone',
@@ -11,7 +11,7 @@
     },
     {
       id: 'darkerdepths_grimestone',
-      en_name: 'grimestone',
+      en_name: 'Grimestone',
       block_id: 'darkerdepths:grimestone',
       types: [
         'stone',
@@ -27,7 +27,7 @@
     },
     {
       id: 'darkerdepths_shale',
-      en_name: 'shale',
+      en_name: 'Shale',
       block_id: 'darkerdepths:shale',
       types: [
         'stone',
