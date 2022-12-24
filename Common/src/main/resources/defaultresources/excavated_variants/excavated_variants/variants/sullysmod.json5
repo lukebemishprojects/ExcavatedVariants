@@ -1,0 +1,24 @@
+{
+  mod_id: 'sullysmod',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'jade_ore',
+      en_name: 'Jade Ore',
+      block_id: [
+        'sullysmod:jade_ore',
+        'sullysmod:deepslate_jade_ore',
+      ],
+      orename: [
+        'jade_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+    },
+  ],
+}
