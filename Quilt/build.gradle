@@ -113,6 +113,8 @@ jar {
 	}
 }
 
+tasks.jar.finalizedBy(tasks.remapJar)
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
