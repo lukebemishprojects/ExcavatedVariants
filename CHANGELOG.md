@@ -2,6 +2,8 @@
 
 ### Features
 - Add system to add ores to arbitrary tiers.
+- Add Galosphere and Darker Depths support (#104)
+- Add default support for Sullys Mod Jade Ore (#105)
 ### Fixes
 - Fix priority settings not working
 - Fix lapis ore in `minecraft` config
@@ -9,12 +11,6 @@
 - Allow new tier system to work on quilt
 - Minor fix to new tier system
 ### Other
-- Update bug_report.yml
-- Update feature_request.yml
-- Update README.md
-- Update feature_request.yml
-- Fix forge jarJar being broken
-- Fix #90
 - Delete ae2.json5
 - Update ExcavatedVariants.java
 - Remove CodecUtils, change build system, and update defaultresources to utilize new features.
@@ -22,6 +18,7 @@
 - Switch to new API for adding item groups with Quilt
 - **BREAKING** Change group name
 - Change how features are added
+- Update to DynAssetGen 3.0.0
 
 ### Excavated Variants v1.0.0
 
