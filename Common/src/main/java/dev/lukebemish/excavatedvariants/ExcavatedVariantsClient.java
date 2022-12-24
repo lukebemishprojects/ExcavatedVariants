@@ -46,14 +46,14 @@ public final class ExcavatedVariantsClient {
                 String fullId = stone.id + "_" + ore.id;
                 toMake.add(new Pair<>(ore, stone));
                 ASSET_CACHE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + fullId + ".json"),
-                        rl -> JsonHelper.getItemModel(fullId));
+                        (rl, context) -> JsonHelper.getItemModel(fullId));
                 LANG_BUILDER.add(fullId, stone, ore);
             }
         }
 
-        ASSET_CACHE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID, "lang/en_us.json"), rl -> LANG_BUILDER.build());
+        ASSET_CACHE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID+"_generated", "lang/en_us.json"), (rl, context) -> LANG_BUILDER.build());
 
-        ASSET_CACHE.planSource(new TextureRegistrar(extractorMap.values(), toMake));
+        ASSET_CACHE.planSource(new TextureRegistrar(extractorMap.values(), toMake, ASSET_CACHE.getContext()));
     }
 
     static void planLang(String key, String enName) {

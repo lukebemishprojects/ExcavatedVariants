@@ -3,6 +3,7 @@ package dev.lukebemish.excavatedvariants.client;
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.IInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.IPathAwareInputStreamSource;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.ITexSource;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureGenerator;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureMetaGenerator;
@@ -21,10 +22,12 @@ public class TextureRegistrar implements Supplier<IPathAwareInputStreamSource> {
 
     private final Collection<Pair<BaseOre, BaseStone>> originalPairs;
     private final List<Pair<BaseOre, BaseStone>> toMake;
+    private final ResourceGenerationContext resourceGenerationContext;
 
-    public TextureRegistrar(Collection<Pair<BaseOre, BaseStone>> originalPairs, List<Pair<BaseOre, BaseStone>> toMake) {
+    public TextureRegistrar(Collection<Pair<BaseOre, BaseStone>> originalPairs, List<Pair<BaseOre, BaseStone>> toMake, ResourceGenerationContext context) {
         this.originalPairs = originalPairs;
         this.toMake = toMake;
+        this.resourceGenerationContext = context;
     }
 
     public Pair<IInputStreamSource, IInputStreamSource> setupExtractor(List<ResourceLocation> stoneOrigs, List<ResourceLocation> ores, ResourceLocation stoneNew, ResourceLocation out) {
@@ -76,7 +79,7 @@ public class TextureRegistrar implements Supplier<IPathAwareInputStreamSource> {
 
     @Override
     public IPathAwareInputStreamSource get() {
-        Map<ResourceLocation, IoSupplier<InputStream>> resources = BlockStateAssembler.getMap(this, this.originalPairs, this.toMake);
+        Map<ResourceLocation, IoSupplier<InputStream>> resources = BlockStateAssembler.getMap(this, this.originalPairs, this.toMake, this.resourceGenerationContext);
         return new IPathAwareInputStreamSource() {
             @Override
             public @NotNull Set<ResourceLocation> getLocations() {
@@ -84,7 +87,7 @@ public class TextureRegistrar implements Supplier<IPathAwareInputStreamSource> {
             }
 
             @Override
-            public IoSupplier<InputStream> get(ResourceLocation outRl) {
+            public IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
                 return resources.getOrDefault(outRl, null);
             }
         };

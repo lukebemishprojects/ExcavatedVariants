@@ -1,3 +1,10 @@
+buildscript {
+    dependencies {
+        // to fix GSON weirdness with minotaur and FG
+        classpath 'com.google.code.gson:gson:2.10'
+    }
+}
+
 plugins {
     id 'dev.lukebemish.modgitpublisher' version '1.1.1'
     id 'io.github.groovymc.modsdotgroovy' version '1.1.2'

@@ -3,6 +3,7 @@ package dev.lukebemish.excavatedvariants.client;
 import com.google.gson.*;
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.IInputStreamSource;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.AssetResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.client.ClientPrePackRepository;
 import dev.lukebemish.excavatedvariants.ExcavatedVariants;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class BlockStateAssembler {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-    public static Map<ResourceLocation, IoSupplier<InputStream>> getMap(TextureRegistrar registrar, Collection<Pair<BaseOre, BaseStone>> originalPairs, List<Pair<BaseOre, BaseStone>> toMake) {
+    public static Map<ResourceLocation, IoSupplier<InputStream>> getMap(TextureRegistrar registrar, Collection<Pair<BaseOre, BaseStone>> originalPairs, List<Pair<BaseOre, BaseStone>> toMake, ResourceGenerationContext context) {
         BlockModelDefinition.Context ctx = new BlockModelDefinition.Context();
         Map<ResourceLocation, IoSupplier<InputStream>> resources = new HashMap<>();
         Map<String, Pair<BlockModelDefinition, List<Pair<BlockModelHolder, List<List<ResourceLocation>>>>>> oreInfoMap = new HashMap<>();
@@ -119,9 +120,9 @@ public class BlockStateAssembler {
                         ResourceLocation outRlInternal = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/" + fullId + index);
                         Pair<IInputStreamSource, IInputStreamSource> sources = registrar.setupExtractor(exp.getSecond(), exp.getFirst(), stoneBG.get(0), outRlInternal);
                         resources.put(outRL,
-                                sources.getFirst().get(outRL));
+                                sources.getFirst().get(outRL, context));
                         resources.put(new ResourceLocation(outRL.getNamespace(), outRL.getPath() + ".mcmeta"),
-                                sources.getSecond().get(new ResourceLocation(outRL.getNamespace(), outRL.getPath() + ".mcmeta")));
+                                sources.getSecond().get(new ResourceLocation(outRL.getNamespace(), outRL.getPath() + ".mcmeta"), context));
                         index++;
                         texMap.put(new Pair<>(stoneBG.get(0), exp.getFirst().get(0)), outRlInternal);
                         stoneBG.stream().skip(1).forEach(stoneRl -> {
