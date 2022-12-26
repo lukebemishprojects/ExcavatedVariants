@@ -171,8 +171,3 @@ if (project.hasProperty("modrinth_key")) {
 		}
 	}
 }
-
-afterEvaluate {
-	tasks.curseforge.dependsOn build
-	tasks.modrinth.dependsOn build
-}
