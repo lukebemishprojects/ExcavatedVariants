@@ -1,3 +1,8 @@
+## Excavated Variants 2.0.1
+
+### Fixes
+- Update defaultresources
+
 ## Excavated Variants 2.0.0
 
 ### Features
