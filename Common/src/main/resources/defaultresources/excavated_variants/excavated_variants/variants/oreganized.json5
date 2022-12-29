@@ -6,9 +6,11 @@
       id: 'lead_ore',
       stone: [
         'stone',
+        'deepslate',
       ],
       block_id: [
         'oreganized:lead_ore',
+        'oreganized:deepslate_lead_ore',
       ],
       en_name: 'Lead Ore',
       types: [
@@ -19,9 +21,11 @@
       id: 'silver_ore',
       stone: [
         'stone',
+        'deepslate',
       ],
       block_id: [
         'oreganized:silver_ore',
+        'oreganized:deepslate_silver_ore',
       ],
       en_name: 'Silver Ore',
       types: [
