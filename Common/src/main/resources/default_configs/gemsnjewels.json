@@ -1,0 +1,400 @@
+{
+  "mod_id": "gemsnjewels",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "id": "ruby_ore",
+      "orename": [
+        "ruby_ore"
+      ],
+      "stone": [
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [
+        "gemsnjewels:ruby_ore_block", 
+        "gemsnjewels:ruby_deepslate_ore_block"
+      ],
+      "en_name": "Ruby Ore Block", 
+      "types": [ 
+        "stone"
+      ]
+    },
+	{
+      "id": "pale_diamond_ore", 
+      "orename": [ 
+        "pale_diamond_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:pale_diamond_ore_block", 
+        "gemsnjewels:pale_diamond_deepslate_ore_block"
+      ],
+      "en_name": "Pale Diamond Ore Block", 
+      "types": [ 
+        "stone"
+      ]
+    },
+	{
+      "id": "dusk_emerald_ore", 
+      "orename": [ 
+        "dusk_emerald_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:emerald_ore_block", 
+        "gemsnjewels:emerald_deepslate_ore_block"
+      ],
+      "en_name": "Dusk Emerald Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "sapphire_ore", 
+      "orename": [ 
+        "sapphire_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:sapphire_ore_block", 
+        "gemsnjewels:sapphire_deepslate_ore_block"
+      ],
+      "en_name": "Sapphire Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "amethyst_ore", 
+      "orename": [ 
+        "amethyst_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:amethyst_ore_block", 
+        "gemsnjewels:amethyst_deepslate_ore_block"
+      ],
+      "en_name": "Amethyst Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "opal_ore", 
+      "orename": [ 
+        "opal_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:opal_ore_block", 
+        "gemsnjewels:opal_deepslate_ore_block"
+      ],
+      "en_name": "Opal Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "garnet_ore", 
+      "orename": [ 
+        "garnet_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:garnet_ore_block", 
+        "gemsnjewels:garnet_deepslate_ore_block"
+      ],
+      "en_name": "Garnet Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "topaz_ore", 
+      "orename": [ 
+        "topaz_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:topaz_ore_block", 
+        "gemsnjewels:topaz_deepslate_ore_block"
+      ],
+      "en_name": "Topaz Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "peridot_ore", 
+      "orename": [ 
+        "peridot_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:peridot_ore_block", 
+        "gemsnjewels:peridot_deepslate_ore_block"
+      ],
+      "en_name": "Peridot Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "aquamarine_ore", 
+      "orename": [ 
+        "aquamarine_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:aquamarine_ore_block", 
+        "gemsnjewels:aquamarine_deepslate_ore_block"
+      ],
+      "en_name": "Aquamarine Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "zircon_ore", 
+      "orename": [ 
+        "zircon_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:zircon_ore_block", 
+        "gemsnjewels:zircon_deepslate_ore_block"
+      ],
+      "en_name": "Zircon Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "alexandrite_ore", 
+      "orename": [ 
+        "alexandrite_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:alexandrite_ore_block", 
+        "gemsnjewels:alexandrite_deepslate_ore_block"
+      ],
+      "en_name": "Alexandrite Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "tanzanite_ore", 
+      "orename": [ 
+        "tanzanite_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:tanzanite_ore_block", 
+        "gemsnjewels:tanzanite_deepslate_ore_block"
+      ],
+      "en_name": "Tanzanite Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "tourmaline_ore", 
+      "orename": [ 
+        "tourmaline_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:tourmaline_ore_block", 
+        "gemsnjewels:tourmaline_deepslate_ore_block"
+      ],
+      "en_name": "Tourmaline Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "spinel_ore", 
+      "orename": [ 
+        "spinel_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:spinel_ore_block", 
+        "gemsnjewels:spinel_deepslate_ore_block"
+      ],
+      "en_name": "Spinel Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "black_opal_ore", 
+      "orename": [ 
+        "black_opal_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:black_opal_ore_block", 
+        "gemsnjewels:black_opal_deepslate_ore_block"
+      ],
+      "en_name": "Black Opal Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "citrine_ore", 
+      "orename": [ 
+        "citrine_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:citrine_ore_block", 
+        "gemsnjewels:citrine_deepslate_ore_block"
+      ],
+      "en_name": "Citrine Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "morganite_ore", 
+      "orename": [ 
+        "morganite_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:morganite_ore_block", 
+        "gemsnjewels:morganite_deepslate_ore_block"
+      ],
+      "en_name": "Morganite Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "ametrine_ore", 
+      "orename": [ 
+        "ametrine_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:ametrine_ore_block", 
+        "gemsnjewels:ametrine_deepslate_ore_block"
+      ],
+      "en_name": "Ametrine Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "kunzite_ore", 
+      "orename": [ 
+        "kunzite_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:kunzite_ore_block", 
+        "gemsnjewels:kunzite_deepslate_ore_block"
+      ],
+      "en_name": "Kunzite Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    },
+	{
+      "id": "iolite_ore", 
+      "orename": [ 
+        "iolite_ore"
+      ],
+      "stone": [ 
+        "stone",
+        "deepslate"
+      ],
+      "block_id": [ 
+        "gemsnjewels:iolite_ore_block", 
+        "gemsnjewels:iolite_deepslate_ore_block"
+      ],
+      "en_name": "Iolite Ore Block", 
+      "types": [
+        "stone"
+      ] 
+    },
+	{
+      "id": "bright_opal_ore", 
+      "orename": [ 
+        "bright_opal_ore"
+      ],
+      "stone": [ 
+        "stone"
+      ],
+      "block_id": [ 
+        "gemsnjewels:bright_opal_ore_block"
+      ],
+      "en_name": "Bright Opal Ore Block", 
+      "types": [ 
+        "stone"
+      ] 
+    }
+  ]
+}

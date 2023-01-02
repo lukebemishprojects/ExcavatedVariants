@@ -1,0 +1,24 @@
+{
+  "mod_id": "galosphere",
+  "provided_stones": [],
+  "provided_ores": [
+    {
+      "id": "silver_ore",
+      "en_name": "Silver Ore",
+      "block_id": [
+        "galosphere:silver_ore",
+        "galosphere:deepslate_silver_ore"
+      ],
+      "orename": [
+        "silver_ore"
+      ],
+      "types": [
+        "stone"
+      ],
+      "stone": [
+        "stone",
+        "deepslate"
+      ]
+    }
+  ]
+}
