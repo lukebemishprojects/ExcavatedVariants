@@ -15,7 +15,7 @@
         'gemsnjewels:ruby_ore_block',
         'gemsnjewels:ruby_deepslate_ore_block',
       ],
-      en_name: 'Ruby Ore Block',
+      en_name: 'Ruby Ore',
       types: [
         'stone',
       ],
@@ -33,7 +33,7 @@
         'gemsnjewels:pale_diamond_ore_block',
         'gemsnjewels:pale_diamond_deepslate_ore_block',
       ],
-      en_name: 'Pale Diamond Ore Block',
+      en_name: 'Pale Diamond Ore',
       types: [
         'stone',
       ],
@@ -51,7 +51,7 @@
         'gemsnjewels:emerald_ore_block',
         'gemsnjewels:emerald_deepslate_ore_block',
       ],
-      en_name: 'Dusk Emerald Ore Block',
+      en_name: 'Dusk Emerald Ore',
       types: [
         'stone',
       ],
@@ -69,7 +69,7 @@
         'gemsnjewels:sapphire_ore_block',
         'gemsnjewels:sapphire_deepslate_ore_block',
       ],
-      en_name: 'Sapphire Ore Block',
+      en_name: 'Sapphire Ore',
       types: [
         'stone',
       ],
@@ -87,7 +87,7 @@
         'gemsnjewels:amethyst_ore_block',
         'gemsnjewels:amethyst_deepslate_ore_block',
       ],
-      en_name: 'Amethyst Ore Block',
+      en_name: 'Amethyst Ore',
       types: [
         'stone',
       ],
@@ -105,7 +105,7 @@
         'gemsnjewels:opal_ore_block',
         'gemsnjewels:opal_deepslate_ore_block',
       ],
-      en_name: 'Opal Ore Block',
+      en_name: 'Opal Ore',
       types: [
         'stone',
       ],
@@ -123,7 +123,7 @@
         'gemsnjewels:garnet_ore_block',
         'gemsnjewels:garnet_deepslate_ore_block',
       ],
-      en_name: 'Garnet Ore Block',
+      en_name: 'Garnet Ore',
       types: [
         'stone',
       ],
@@ -141,7 +141,7 @@
         'gemsnjewels:topaz_ore_block',
         'gemsnjewels:topaz_deepslate_ore_block',
       ],
-      en_name: 'Topaz Ore Block',
+      en_name: 'Topaz Ore',
       types: [
         'stone',
       ],
@@ -159,7 +159,7 @@
         'gemsnjewels:peridot_ore_block',
         'gemsnjewels:peridot_deepslate_ore_block',
       ],
-      en_name: 'Peridot Ore Block',
+      en_name: 'Peridot Ore',
       types: [
         'stone',
       ],
@@ -177,7 +177,7 @@
         'gemsnjewels:aquamarine_ore_block',
         'gemsnjewels:aquamarine_deepslate_ore_block',
       ],
-      en_name: 'Aquamarine Ore Block',
+      en_name: 'Aquamarine Ore',
       types: [
         'stone',
       ],
@@ -195,7 +195,7 @@
         'gemsnjewels:zircon_ore_block',
         'gemsnjewels:zircon_deepslate_ore_block',
       ],
-      en_name: 'Zircon Ore Block',
+      en_name: 'Zircon Ore',
       types: [
         'stone',
       ],
@@ -213,7 +213,7 @@
         'gemsnjewels:alexandrite_ore_block',
         'gemsnjewels:alexandrite_deepslate_ore_block',
       ],
-      en_name: 'Alexandrite Ore Block',
+      en_name: 'Alexandrite Ore',
       types: [
         'stone',
       ],
@@ -231,7 +231,7 @@
         'gemsnjewels:tanzanite_ore_block',
         'gemsnjewels:tanzanite_deepslate_ore_block',
       ],
-      en_name: 'Tanzanite Ore Block',
+      en_name: 'Tanzanite Ore',
       types: [
         'stone',
       ],
@@ -249,7 +249,7 @@
         'gemsnjewels:tourmaline_ore_block',
         'gemsnjewels:tourmaline_deepslate_ore_block',
       ],
-      en_name: 'Tourmaline Ore Block',
+      en_name: 'Tourmaline Ore',
       types: [
         'stone',
       ],
@@ -267,7 +267,7 @@
         'gemsnjewels:spinel_ore_block',
         'gemsnjewels:spinel_deepslate_ore_block',
       ],
-      en_name: 'Spinel Ore Block',
+      en_name: 'Spinel Ore',
       types: [
         'stone',
       ],
@@ -285,7 +285,7 @@
         'gemsnjewels:black_opal_ore_block',
         'gemsnjewels:black_opal_deepslate_ore_block',
       ],
-      en_name: 'Black Opal Ore Block',
+      en_name: 'Black Opal Ore',
       types: [
         'stone',
       ],
@@ -303,7 +303,7 @@
         'gemsnjewels:citrine_ore_block',
         'gemsnjewels:citrine_deepslate_ore_block',
       ],
-      en_name: 'Citrine Ore Block',
+      en_name: 'Citrine Ore',
       types: [
         'stone',
       ],
@@ -321,7 +321,7 @@
         'gemsnjewels:morganite_ore_block',
         'gemsnjewels:morganite_deepslate_ore_block',
       ],
-      en_name: 'Morganite Ore Block',
+      en_name: 'Morganite Ore',
       types: [
         'stone',
       ],
@@ -339,7 +339,7 @@
         'gemsnjewels:ametrine_ore_block',
         'gemsnjewels:ametrine_deepslate_ore_block',
       ],
-      en_name: 'Ametrine Ore Block',
+      en_name: 'Ametrine Ore',
       types: [
         'stone',
       ],
@@ -357,7 +357,7 @@
         'gemsnjewels:kunzite_ore_block',
         'gemsnjewels:kunzite_deepslate_ore_block',
       ],
-      en_name: 'Kunzite Ore Block',
+      en_name: 'Kunzite Ore',
       types: [
         'stone',
       ],
@@ -375,7 +375,7 @@
         'gemsnjewels:iolite_ore_block',
         'gemsnjewels:iolite_deepslate_ore_block',
       ],
-      en_name: 'Iolite Ore Block',
+      en_name: 'Iolite Ore',
       types: [
         'stone',
       ],
@@ -391,7 +391,7 @@
       block_id: [
         'gemsnjewels:bright_opal_ore_block',
       ],
-      en_name: 'Bright Opal Ore Block',
+      en_name: 'Bright Opal Ore',
       types: [
         'stone',
       ],
