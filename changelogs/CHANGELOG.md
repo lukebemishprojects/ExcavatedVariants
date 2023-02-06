@@ -1,3 +1,7 @@
+### Excavated Variants v0.6.5
+
+- Merge [#108](https://github.com/lukebemish/excavated_variants/pull/108); this and all future 1.18.2 releases will be by PRs only.
+
 ### Excavated Variants v0.6.4
 
 - Fix various bug, add various changes. Excepting major breaking bugs, this will be the last 1.18.2 release.
