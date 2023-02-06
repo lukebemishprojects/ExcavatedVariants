@@ -1,3 +1,10 @@
+## Excavated Variants 2.1.0
+
+### Features
+- Add Gems & Jewels to default config for 1.19.3 (#109)
+### Fixes
+- Fix #106
+
 ## Excavated Variants 2.0.1
 
 ### Fixes
