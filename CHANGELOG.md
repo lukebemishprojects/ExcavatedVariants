@@ -1,3 +1,8 @@
+## Excavated Variants 2.2.0
+
+### Features
+- Allow translations
+
 ## Excavated Variants 2.1.0
 
 ### Features
