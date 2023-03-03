@@ -1,7 +1,7 @@
 ## Excavated Variants 2.2.0
 
 ### Features
-- Allow translations
+- Allow translations in variant names
 
 ## Excavated Variants 2.1.0
 
