@@ -42,14 +42,14 @@ Each ore object takes the following format:
 * **stone**: A list of stones, by id, that this ore already appears in.
 * **ore\_name**: A list of other names for this ore, to be used when adding the ore to tags. Optional; if not supplied, defaults to **id**.
 * **block\_id**: A list of blocks of this ore, in the same order as **stone**.
-* **en\_name**: The name to be given to this ore in-game.
+* **lang**: A map of locale keys to the name to be given to this ore in-game.
 * **types**: A list of types that this ore is classified as. Matched at runtime with the types specified in stone configs.
 
 Each stone object takes the following format:
 
 * **id**: A name for this ore. Can be shared to avoid duplicate ores.
 * **block\_id**: The block ID of this stone.
-* **en\_name**: The name to be given to this stone in-game.
+* **lang**: A map of locale keys to the name to be given to this stone in-game.
 * **types**: A list of types that this stone is classified as. Matched at runtime with the types specified in ore configs.
 
 Modifier configs are added in `globalresources/[folder]/excavated_variants/[namespace]/modifiers`. They allow you to configure the properties of created variants, and can contain the following options:
