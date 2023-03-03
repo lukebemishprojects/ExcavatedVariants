@@ -3,7 +3,9 @@
   provided_stones: [
     {
       id: 'betterend_brimstone',
-      en_name: 'Brimstone',
+      lang: {
+        en_us: 'Brimstone',
+      },
       block_id: 'betterend:brimstone',
       types: [
         'end',
@@ -11,7 +13,9 @@
     },
     {
       id: 'betterend_umbralith',
-      en_name: 'Umbralith',
+      lang: {
+        en_us: 'Umbralith',
+      },
       block_id: 'betterend:umbralith',
       types: [
         'end',
@@ -19,7 +23,9 @@
     },
     {
       id: 'betterend_azure_jadestone',
-      en_name: 'Azure Jadestone',
+      lang: {
+        en_us: 'Azure Jadestone',
+      },
       block_id: 'betterend:azure_jadestone',
       types: [
         'end',
@@ -27,7 +33,9 @@
     },
     {
       id: 'betterend_sandy_jadestone',
-      en_name: 'Sandy Jadestone',
+      lang: {
+        en_us: 'Sandy Jadestone',
+      },
       block_id: 'betterend:sandy_jadestone',
       types: [
         'end',
@@ -35,7 +43,9 @@
     },
     {
       id: 'betterend_virid_jadestone',
-      en_name: 'Virid Jadestone',
+      lang: {
+        en_us: 'Virid Jadestone',
+      },
       block_id: 'betterend:virid_jadestone',
       types: [
         'end',
@@ -43,7 +53,9 @@
     },
     {
       id: 'betterend_sulphuric_rock',
-      en_name: 'Sulfuric Rock',
+      lang: {
+        en_us: 'Sulfuric Rock',
+      },
       block_id: 'betterend:sulphuric_rock',
       types: [
         'end',
@@ -51,7 +63,9 @@
     },
     {
       id: 'betterend_violecite',
-      en_name: 'Violecite',
+      lang: {
+        en_us: 'Violecite',
+      },
       block_id: 'betterend:violecite',
       types: [
         'end',
@@ -59,7 +73,9 @@
     },
     {
       id: 'betterend_flavolite',
-      en_name: 'Flavolite',
+      lang: {
+        en_us: 'Flavolite',
+      },
       block_id: 'betterend:flavolite',
       types: [
         'end',
@@ -75,7 +91,9 @@
       block_id: [
         'betterend:thallasium_ore',
       ],
-      en_name: 'Thallasium Ore',
+      lang: {
+        en_us: 'Thallasium Ore',
+      },
       types: [
         'end',
       ],
@@ -88,7 +106,9 @@
       block_id: [
         'betterend:amber_ore',
       ],
-      en_name: 'Amber Ore',
+      lang: {
+        en_us: 'Amber Ore',
+      },
       types: [
         'end',
       ],
@@ -101,7 +121,9 @@
       block_id: [
         'betterend:ender_ore',
       ],
-      en_name: 'Ender Ore',
+      lang: {
+        en_us: 'Ender Ore',
+      },
       types: [
         'end',
       ],

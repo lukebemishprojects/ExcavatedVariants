@@ -4,7 +4,9 @@
   provided_ores: [
     {
       id: 'randomite_ore',
-      en_name: 'Randomite Ore',
+      lang: {
+        en_us: 'Randomite Ore',
+      },
       block_id: [
         'randomite:randomite_ore',
         'randomite:deepslate_randomite_ore',

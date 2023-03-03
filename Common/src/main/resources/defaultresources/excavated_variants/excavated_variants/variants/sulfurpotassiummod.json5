@@ -12,7 +12,9 @@
         'sulfurpotassiummod:sulfur_nether_ore',
         'sulfurpotassiummod:sulfur_ore',
       ],
-      en_name: 'Sulfur Ore',
+      lang: {
+        en_us: 'Sulfur Ore',
+      },
       types: [
         'stone',
         'nether',
@@ -26,7 +28,9 @@
       block_id: [
         'sulfurpotassiummod:potassium_ore',
       ],
-      en_name: 'Potassium Ore',
+      lang: {
+        en_us: 'Potassium Ore',
+      },
       types: [
         'stone',
       ],

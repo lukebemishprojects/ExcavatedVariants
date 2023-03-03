@@ -36,7 +36,7 @@ public class EmiCompat implements EmiPlugin {
                         items.add(item);
                     }
                 }
-                Item outItem = Services.REGISTRY_UTIL.getItemById(p.getFirst().block_id.get(0));
+                Item outItem = Services.REGISTRY_UTIL.getItemById(p.getFirst().blockId.get(0));
                 if (!items.isEmpty() && outItem != null) {
                     Ingredient input = Ingredient.of(items.stream().map(ItemStack::new));
                     ItemStack output = new ItemStack(outItem);

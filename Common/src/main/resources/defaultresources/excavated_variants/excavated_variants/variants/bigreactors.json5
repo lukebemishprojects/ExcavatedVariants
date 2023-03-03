@@ -4,7 +4,9 @@
   provided_ores: [
     {
       id: 'yellorite_ore',
-      en_name: 'Yellorite Ore',
+      lang: {
+        en_us: 'Yellorite Ore',
+      },
       block_id: [
         'bigreactors:yellorite_ore',
       ],

@@ -3,7 +3,9 @@
   provided_stones: [
     {
       id: 'unearthed_quartzite',
-      en_name: 'Quartzite',
+      lang: {
+        en_us: 'Quartzite',
+      },
       block_id: 'unearthed:quartzite',
       types: [
         'stone',
@@ -11,7 +13,9 @@
     },
     {
       id: 'unearthed_weathered_rhyolite',
-      en_name: 'Weathered Rhyolite',
+      lang: {
+        en_us: 'Weathered Rhyolite',
+      },
       block_id: 'unearthed:weathered_rhyolite',
       types: [
         'stone',
@@ -19,7 +23,9 @@
     },
     {
       id: 'unearthed_dolerite',
-      en_name: 'Dolerite',
+      lang: {
+        en_us: 'Dolerite',
+      },
       block_id: 'unearthed:dolerite',
       types: [
         'stone',
@@ -27,7 +33,9 @@
     },
     {
       id: 'unearthed_schist',
-      en_name: 'Schist',
+      lang: {
+        en_us: 'Schist',
+      },
       block_id: 'unearthed:schist',
       types: [
         'stone',
@@ -35,7 +43,9 @@
     },
     {
       id: 'unearthed_pillow_basalt',
-      en_name: 'Pillow Basalt',
+      lang: {
+        en_us: 'Pillow Basalt',
+      },
       block_id: 'unearthed:pillow_basalt',
       types: [
         'stone',
@@ -43,7 +53,9 @@
     },
     {
       id: 'unearthed_dacite',
-      en_name: 'Dacite',
+      lang: {
+        en_us: 'Dacite',
+      },
       block_id: 'unearthed:dacite',
       types: [
         'stone',
@@ -51,7 +63,9 @@
     },
     {
       id: 'unearthed_beige_limestone',
-      en_name: 'Beige Limestone',
+      lang: {
+        en_us: 'Beige Limestone',
+      },
       block_id: 'unearthed:beige_limestone',
       types: [
         'stone',
@@ -59,7 +73,9 @@
     },
     {
       id: 'unearthed_conglomerate',
-      en_name: 'Conglomerate',
+      lang: {
+        en_us: 'Conglomerate',
+      },
       block_id: 'unearthed:conglomerate',
       types: [
         'stone',
@@ -67,7 +83,9 @@
     },
     {
       id: 'unearthed_gabbro',
-      en_name: 'Gabbro',
+      lang: {
+        en_us: 'Gabbro',
+      },
       block_id: 'unearthed:gabbro',
       types: [
         'stone',
@@ -75,7 +93,9 @@
     },
     {
       id: 'unearthed_granodiorite',
-      en_name: 'Granodiorite',
+      lang: {
+        en_us: 'Granodiorite',
+      },
       block_id: 'unearthed:granodiorite',
       types: [
         'stone',
@@ -83,7 +103,9 @@
     },
     {
       id: 'unearthed_grey_limestone',
-      en_name: 'Grey Limestone',
+      lang: {
+        en_us: 'Grey Limestone',
+      },
       block_id: 'unearthed:grey_limestone',
       types: [
         'stone',
@@ -91,7 +113,9 @@
     },
     {
       id: 'unearthed_limestone',
-      en_name: 'Limestone',
+      lang: {
+        en_us: 'Limestone',
+      },
       block_id: 'unearthed:limestone',
       types: [
         'stone',
@@ -99,7 +123,9 @@
     },
     {
       id: 'unearthed_mudstone',
-      en_name: 'Mudstone',
+      lang: {
+        en_us: 'Mudstone',
+      },
       block_id: 'unearthed:mudstone',
       types: [
         'stone',
@@ -107,7 +133,9 @@
     },
     {
       id: 'unearthed_phyllite',
-      en_name: 'Phyllite',
+      lang: {
+        en_us: 'Phyllite',
+      },
       block_id: 'unearthed:phyllite',
       types: [
         'stone',
@@ -115,7 +143,9 @@
     },
     {
       id: 'unearthed_rhyolite',
-      en_name: 'Rhyolite',
+      lang: {
+        en_us: 'Rhyolite',
+      },
       block_id: 'unearthed:rhyolite',
       types: [
         'stone',
@@ -123,7 +153,9 @@
     },
     {
       id: 'unearthed_siltstone',
-      en_name: 'Siltstone',
+      lang: {
+        en_us: 'Siltstone',
+      },
       block_id: 'unearthed:siltstone',
       types: [
         'stone',
@@ -131,7 +163,9 @@
     },
     {
       id: 'unearthed_slate',
-      en_name: 'Slate',
+      lang: {
+        en_us: 'Slate',
+      },
       block_id: 'unearthed:slate',
       types: [
         'stone',
@@ -139,7 +173,9 @@
     },
     {
       id: 'unearthed_white_granite',
-      en_name: 'White Granite',
+      lang: {
+        en_us: 'White Granite',
+      },
       block_id: 'unearthed:white_granite',
       types: [
         'stone',
@@ -147,7 +183,9 @@
     },
     {
       id: 'unearthed_quartzite',
-      en_name: 'Quartzite',
+      lang: {
+        en_us: 'Quartzite',
+      },
       block_id: 'unearthed:quartzite',
       types: [
         'stone',
@@ -155,7 +193,9 @@
     },
     {
       id: 'unearthed_weathered_rhyolite',
-      en_name: 'Weathered Rhyolite',
+      lang: {
+        en_us: 'Weathered Rhyolite',
+      },
       block_id: 'unearthed:weathered_rhyolite',
       types: [
         'stone',
@@ -163,7 +203,9 @@
     },
     {
       id: 'unearthed_dolerite',
-      en_name: 'Dolerite',
+      lang: {
+        en_us: 'Dolerite',
+      },
       block_id: 'unearthed:dolerite',
       types: [
         'stone',
@@ -171,7 +213,9 @@
     },
     {
       id: 'unearthed_schist',
-      en_name: 'Schist',
+      lang: {
+        en_us: 'Schist',
+      },
       block_id: 'unearthed:schist',
       types: [
         'stone',
@@ -179,7 +223,9 @@
     },
     {
       id: 'unearthed_pillow_basalt',
-      en_name: 'Pillow Basalt',
+      lang: {
+        en_us: 'Pillow Basalt',
+      },
       block_id: 'unearthed:pillow_basalt',
       types: [
         'stone',
@@ -187,7 +233,9 @@
     },
     {
       id: 'unearthed_dacite',
-      en_name: 'Dacite',
+      lang: {
+        en_us: 'Dacite',
+      },
       block_id: 'unearthed:dacite',
       types: [
         'stone',
@@ -227,7 +275,9 @@
         'unearthed:white_granite_coal_ore',
         'unearthed:sandstone_coal_ore',
       ],
-      en_name: 'Coal Ore',
+      lang: {
+        en_us: 'Coal Ore',
+      },
       types: [
         'stone',
       ],
@@ -264,7 +314,9 @@
         'unearthed:white_granite_iron_ore',
         'unearthed:sandstone_iron_ore',
       ],
-      en_name: 'Iron Ore',
+      lang: {
+        en_us: 'Iron Ore',
+      },
       types: [
         'stone',
       ],
@@ -301,7 +353,9 @@
         'unearthed:white_granite_gold_ore',
         'unearthed:sandstone_gold_ore',
       ],
-      en_name: 'Gold Ore',
+      lang: {
+        en_us: 'Gold Ore',
+      },
       types: [
         'stone',
       ],
@@ -338,7 +392,9 @@
         'unearthed:white_granite_copper_ore',
         'unearthed:sandstone_copper_ore',
       ],
-      en_name: 'Copper Ore',
+      lang: {
+        en_us: 'Copper Ore',
+      },
       types: [
         'stone',
       ],
@@ -375,7 +431,9 @@
         'unearthed:white_granite_lapis_ore',
         'unearthed:sandstone_lapis_ore',
       ],
-      en_name: 'Lapis Ore',
+      lang: {
+        en_us: 'Lapis Ore',
+      },
       types: [
         'stone',
       ],
@@ -412,7 +470,9 @@
         'unearthed:white_granite_emerald_ore',
         'unearthed:sandstone_emerald_ore',
       ],
-      en_name: 'Emerald Ore',
+      lang: {
+        en_us: 'Emerald Ore',
+      },
       types: [
         'stone',
       ],
@@ -449,7 +509,9 @@
         'unearthed:white_granite_diamond_ore',
         'unearthed:sandstone_diamond_ore',
       ],
-      en_name: 'Diamond Ore',
+      lang: {
+        en_us: 'Diamond Ore',
+      },
       types: [
         'stone',
       ],
@@ -486,7 +548,9 @@
         'unearthed:white_granite_redstone_ore',
         'unearthed:sandstone_redstone_ore',
       ],
-      en_name: 'Redstone Ore',
+      lang: {
+        en_us: 'Redstone Ore',
+      },
       types: [
         'stone',
       ],

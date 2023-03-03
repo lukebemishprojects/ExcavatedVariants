@@ -5,49 +5,51 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class BaseOre implements Cloneable {
     public static final Codec<BaseOre> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
             Codec.STRING.fieldOf("id").forGetter(bs -> bs.id),
             Codec.either(Codec.STRING, Codec.STRING.listOf()).optionalFieldOf("orename").forGetter(bs -> {
-                if (bs.orename.size() == 1 && bs.orename.get(0).equals(bs.id)) return Optional.empty();
-                return Optional.of(Either.right(bs.orename));
+                if (bs.oreName.size() == 1 && bs.oreName.get(0).equals(bs.id)) return Optional.empty();
+                return Optional.of(Either.right(bs.oreName));
             }),
             Codec.STRING.listOf().fieldOf("stone").forGetter(bs -> bs.stone),
-            ResourceLocation.CODEC.listOf().fieldOf("block_id").forGetter(bs -> bs.block_id),
-            Codec.STRING.fieldOf("en_name").forGetter(bs -> bs.en_name),
-            Codec.STRING.listOf().fieldOf("types").forGetter(bs -> bs.types)
+            ResourceLocation.CODEC.listOf().fieldOf("block_id").forGetter(bs -> bs.blockId),
+            Codec.STRING.optionalFieldOf("en_name").forGetter(bs -> Optional.empty()),
+            Codec.STRING.listOf().fieldOf("types").forGetter(bs -> bs.types),
+            Codec.unboundedMap(Codec.STRING, Codec.STRING).optionalFieldOf("lang", Map.of()).forGetter(bs -> bs.lang)
     ).apply(instance, BaseOre::new));
 
     public String id;
-    public List<String> orename;
+    public List<String> oreName;
     public List<String> stone;
-    public List<ResourceLocation> block_id;
-    public String en_name;
+    public List<ResourceLocation> blockId;
+    public Map<String, String> lang;
     public List<String> types;
 
-    public BaseOre(String id, Optional<Either<String, List<String>>> orename, List<String> stone, List<ResourceLocation> block_id, String en_name, List<String> types) {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public BaseOre(String id, Optional<Either<String, List<String>>> oreName, List<String> stone, List<ResourceLocation> blockId, Optional<String> enName, List<String> types, Map<String, String> lang) {
         this.id = id;
-        this.orename = new ArrayList<>();
-        if (orename.isPresent()) {
-            var either = orename.get();
+        this.oreName = new ArrayList<>();
+        if (oreName.isPresent()) {
+            var either = oreName.get();
             if (either.left().isPresent()) {
-                this.orename.add(either.left().get());
+                this.oreName.add(either.left().get());
             } else if (either.right().isPresent()) {
-                this.orename.addAll(either.right().get());
+                this.oreName.addAll(either.right().get());
             } else {
-                this.orename.add(id);
+                this.oreName.add(id);
             }
         } else {
-            this.orename.add(id);
+            this.oreName.add(id);
         }
         this.stone = stone;
-        this.block_id = block_id;
-        this.en_name = en_name;
+        this.blockId = blockId;
+        this.lang = new HashMap<>(lang);
+        if (enName.isPresent() && !this.lang.containsKey("en_us")) {
+            this.lang.put("en_us", enName.get());
+        }
         this.types = types;
     }
 

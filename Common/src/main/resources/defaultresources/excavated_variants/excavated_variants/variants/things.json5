@@ -7,7 +7,9 @@
         'things:gleaming_ore',
         'things:deepslate_gleaming_ore',
       ],
-      en_name: 'Gleaming Ore',
+      lang: {
+        en_us: 'Gleaming Ore',
+      },
       types: [
         'stone',
       ],

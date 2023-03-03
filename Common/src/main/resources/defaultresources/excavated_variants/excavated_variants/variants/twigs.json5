@@ -3,7 +3,9 @@
   provided_stones: [
     {
       id: 'twigs_schist',
-      en_name: 'Schist',
+      lang: {
+        en_us: 'Schist',
+      },
       block_id: 'twigs:schist',
       types: [
         'stone',
@@ -11,7 +13,9 @@
     },
     {
       id: 'twigs_rhyolite',
-      en_name: 'Rhyolite',
+      lang: {
+        en_us: 'Rhyolite',
+      },
       block_id: 'twigs:rhyolite',
       types: [
         'stone',
@@ -19,7 +23,9 @@
     },
     {
       id: 'twigs_bloodstone',
-      en_name: 'Bloodstone',
+      lang: {
+        en_us: 'Bloodstone',
+      },
       block_id: 'twigs:bloodstone',
       types: [
         'nether',

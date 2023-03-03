@@ -3,7 +3,9 @@
   provided_stones: [
     {
       id: 'promenade_blunite',
-      en_name: 'Blunite',
+      lang: {
+        en_us: 'Blunite',
+      },
       block_id: 'promenade:blunite',
       types: [
         'stone',
@@ -11,7 +13,9 @@
     },
     {
       id: 'promenade_carbonite',
-      en_name: 'Carbonite',
+      lang: {
+        en_us: 'Carbonite',
+      },
       block_id: 'promenade:carbonite',
       types: [
         'stone',

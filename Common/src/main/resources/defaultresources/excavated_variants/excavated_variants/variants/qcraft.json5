@@ -7,7 +7,9 @@
         'qcraft:quantum_ore',
         'qcraft:deepslate_quantum_ore',
       ],
-      en_name: 'Quantum Ore',
+      lang: {
+        en_us: 'Quantum Ore',
+      },
       types: [
         'stone',
       ],

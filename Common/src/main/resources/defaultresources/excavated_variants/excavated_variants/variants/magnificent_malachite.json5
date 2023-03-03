@@ -12,7 +12,9 @@
         'magnificent_malachite:malachite_ore',
         'magnificent_malachite:deepslate_malachite_ore',
       ],
-      en_name: 'Malachite Ore',
+      lang: {
+        en_us: 'Malachite Ore',
+      },
       types: [
         'stone',
       ],

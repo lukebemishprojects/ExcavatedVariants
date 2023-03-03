@@ -4,7 +4,9 @@
   provided_ores: [
     {
       id: 'ancient_debris_ore',
-      en_name: 'Ancient Debris',
+      lang: {
+        en_us: 'Ancient Debris',
+      },
       block_id: [
         'geolosys:ancient_debris_ore',
       ],
@@ -20,7 +22,9 @@
     },
     {
       id: 'hematite_ore',
-      en_name: 'Hematite',
+      lang: {
+        en_us: 'Hematite',
+      },
       block_id: [
         'geolosys:hematite_ore',
         'geolosys:deepslate_hematite_ore',
@@ -38,7 +42,9 @@
     },
     {
       id: 'anthracite_coal_ore',
-      en_name: 'Anthracite Coal',
+      lang: {
+        en_us: 'Anthracite Coal',
+      },
       block_id: [
         'geolosys:anthracite_coal_ore',
         'geolosys:deepslate_anthracite_coal_ore',
@@ -56,7 +62,9 @@
     },
     {
       id: 'lignite_ore',
-      en_name: 'Lignite',
+      lang: {
+        en_us: 'Lignite',
+      },
       block_id: [
         'geolosys:lignite_ore',
         'geolosys:deepslate_lignite_ore',
@@ -74,7 +82,9 @@
     },
     {
       id: 'cassiterite_ore',
-      en_name: 'Cassiterite',
+      lang: {
+        en_us: 'Cassiterite',
+      },
       block_id: [
         'geolosys:cassiterite_ore',
         'geolosys:deepslate_cassiterite_ore',
@@ -92,7 +102,9 @@
     },
     {
       id: 'galena_ore',
-      en_name: 'Galena',
+      lang: {
+        en_us: 'Galena',
+      },
       block_id: [
         'geolosys:deepslate_galena_ore',
         'geolosys:galena_ore',
@@ -111,7 +123,9 @@
     },
     {
       id: 'bauxite_ore',
-      en_name: 'Bauxite',
+      lang: {
+        en_us: 'Bauxite',
+      },
       block_id: [
         'geolosys:bauxite_ore',
         'geolosys:deepslate_bauxite_ore',
@@ -129,7 +143,9 @@
     },
     {
       id: 'teallite_ore',
-      en_name: 'Teallite',
+      lang: {
+        en_us: 'Teallite',
+      },
       block_id: [
         'geolosys:teallite_ore',
         'geolosys:deepslate_teallite_ore',
@@ -148,7 +164,9 @@
     },
     {
       id: 'bituminous_coal_ore',
-      en_name: 'Bituminous Coal',
+      lang: {
+        en_us: 'Bituminous Coal',
+      },
       block_id: [
         'geolosys:bituminous_coal_ore',
         'geolosys:deepslate_bituminous_coal_ore',
@@ -166,7 +184,9 @@
     },
     {
       id: 'kimberlite_ore',
-      en_name: 'Kimberlite',
+      lang: {
+        en_us: 'Kimberlite',
+      },
       block_id: [
         'geolosys:kimberlite_ore',
         'geolosys:deepslate_kimberlite_ore',
@@ -184,7 +204,9 @@
     },
     {
       id: 'quartz_ore',
-      en_name: 'Quartz',
+      lang: {
+        en_us: 'Quartz',
+      },
       block_id: [
         'geolosys:quartz_ore',
         'geolosys:deepslate_quartz_ore',
@@ -202,7 +224,9 @@
     },
     {
       id: 'limonite_ore',
-      en_name: 'Limonite',
+      lang: {
+        en_us: 'Limonite',
+      },
       block_id: [
         'geolosys:limonite_ore',
         'geolosys:deepslate_limonite_ore',
@@ -221,7 +245,9 @@
     },
     {
       id: 'azurite_ore',
-      en_name: 'Azurite',
+      lang: {
+        en_us: 'Azurite',
+      },
       block_id: [
         'geolosys:azurite_ore',
         'geolosys:deepslate_azurite_ore',
@@ -239,7 +265,9 @@
     },
     {
       id: 'lapis_ore',
-      en_name: 'Lapis Lazuli',
+      lang: {
+        en_us: 'Lapis Lazuli',
+      },
       block_id: [
         'geolosys:lapis_ore',
         'geolosys:deepslate_lapis_ore',
@@ -257,7 +285,9 @@
     },
     {
       id: 'gold_ore',
-      en_name: 'Gold',
+      lang: {
+        en_us: 'Gold',
+      },
       block_id: [
         'geolosys:gold_ore',
         'geolosys:deepslate_gold_ore',
@@ -275,7 +305,9 @@
     },
     {
       id: 'nether_gold_ore',
-      en_name: 'Poor Gold',
+      lang: {
+        en_us: 'Poor Gold',
+      },
       block_id: [
         'geolosys:nether_gold_ore',
       ],
@@ -291,7 +323,9 @@
     },
     {
       id: 'autunite_ore',
-      en_name: 'Autunite',
+      lang: {
+        en_us: 'Autunite',
+      },
       block_id: [
         'geolosys:autunite_ore',
         'geolosys:deepslate_autunite_ore',
@@ -310,7 +344,9 @@
     },
     {
       id: 'platinum_ore',
-      en_name: 'Platinum',
+      lang: {
+        en_us: 'Platinum',
+      },
       block_id: [
         'geolosys:platinum_ore',
         'geolosys:deepslate_platinum_ore',
@@ -329,7 +365,9 @@
     },
     {
       id: 'sphalerite_ore',
-      en_name: 'Sphalerite',
+      lang: {
+        en_us: 'Sphalerite',
+      },
       block_id: [
         'geolosys:sphalerite_ore',
         'geolosys:deepslate_sphalerite_ore',
@@ -347,7 +385,9 @@
     },
     {
       id: 'malachite_ore',
-      en_name: 'Malachite',
+      lang: {
+        en_us: 'Malachite',
+      },
       block_id: [
         'geolosys:malachite_ore',
         'geolosys:deepslate_malachite_ore',
@@ -365,7 +405,9 @@
     },
     {
       id: 'beryl_ore',
-      en_name: 'Beryl',
+      lang: {
+        en_us: 'Beryl',
+      },
       block_id: [
         'geolosys:beryl_ore',
         'geolosys:deepslate_beryl_ore',
@@ -383,7 +425,9 @@
     },
     {
       id: 'cinnabar_ore',
-      en_name: 'Cinnabar',
+      lang: {
+        en_us: 'Cinnabar',
+      },
       block_id: [
         'geolosys:cinnabar_ore',
         'geolosys:deepslate_cinnabar_ore',
@@ -401,7 +445,9 @@
     },
     {
       id: 'coal_ore',
-      en_name: 'Coal',
+      lang: {
+        en_us: 'Coal',
+      },
       block_id: [
         'geolosys:coal_ore',
         'geolosys:deepslate_coal_ore',

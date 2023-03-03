@@ -6,7 +6,9 @@
         'ftbic:lead_ore',
         'ftbic:deepslate_lead_ore',
       ],
-      en_name: 'Lead Ore',
+      lang: {
+        en_us: 'Lead Ore',
+      },
       types: [
         'stone',
       ],
@@ -21,7 +23,9 @@
         'ftbic:iridium_ore',
         'ftbic:deepslate_iridium_ore',
       ],
-      en_name: 'Iridium Ore',
+      lang: {
+        en_us: 'Iridium Ore',
+      },
       types: [
         'stone',
       ],
@@ -36,7 +40,9 @@
         'ftbic:tin_ore',
         'ftbic:deepslate_tin_ore',
       ],
-      en_name: 'Tin Ore',
+      lang: {
+        en_us: 'Tin Ore',
+      },
       types: [
         'stone',
       ],
@@ -51,7 +57,9 @@
         'ftbic:uranium_ore',
         'ftbic:deepslate_uranium_ore',
       ],
-      en_name: 'Uranium Ore',
+      lang: {
+        en_us: 'Uranium Ore',
+      },
       types: [
         'stone',
       ],
@@ -66,7 +74,9 @@
         'ftbic:aluminum_ore',
         'ftbic:deepslate_aluminum_ore',
       ],
-      en_name: 'Aluminum Ore',
+      lang: {
+        en_us: 'Aluminum Ore',
+      },
       types: [
         'stone',
       ],

@@ -4,7 +4,9 @@
   provided_ores: [
     {
       id: 'jade_ore',
-      en_name: 'Jade Ore',
+      lang: {
+        en_us: 'Jade Ore',
+      },
       block_id: [
         'sullysmod:jade_ore',
         'sullysmod:deepslate_jade_ore',

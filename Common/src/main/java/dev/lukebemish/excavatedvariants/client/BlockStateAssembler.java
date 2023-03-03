@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,12 +34,12 @@ public class BlockStateAssembler {
             var stone = p.getSecond();
             try {
                 if (!oreInfoMap.containsKey(ore.id)) {
-                    ResourceLocation oreRl = ore.block_id.get(0);
+                    ResourceLocation oreRl = ore.blockId.get(0);
                     oreInfoMap.put(ore.id, getInfoFromBlockstate(oreRl, ctx));
                 }
 
                 if (!stoneInfoMap.containsKey(stone.id)) {
-                    ResourceLocation stoneRl = stone.block_id;
+                    ResourceLocation stoneRl = stone.blockId;
                     stoneInfoMap.put(stone.id, getInfoFromBlockstate(stoneRl, ctx));
                 }
             } catch (IOException e) {
@@ -55,12 +54,12 @@ public class BlockStateAssembler {
             var base = p.getSecond();
             try {
                 if (!oreInfoMap.containsKey(ore.id)) {
-                    ResourceLocation oreRl = ore.block_id.get(0);
+                    ResourceLocation oreRl = ore.blockId.get(0);
                     oreInfoMap.put(ore.id, getInfoFromBlockstate(oreRl, ctx));
                 }
 
                 if (!stoneInfoMap.containsKey(base.id)) {
-                    ResourceLocation stoneRl = base.block_id;
+                    ResourceLocation stoneRl = base.blockId;
                     stoneInfoMap.put(base.id, getInfoFromBlockstate(stoneRl, ctx));
                 }
 
@@ -80,7 +79,7 @@ public class BlockStateAssembler {
                         }
                     }
                 } else {
-                    ExcavatedVariants.LOGGER.warn("Bad info while extracting from blocks {} and {}:{}", ore.block_id.get(0).toString(), base.block_id.toString(),
+                    ExcavatedVariants.LOGGER.warn("Bad info while extracting from blocks {} and {}:{}", ore.blockId.get(0).toString(), base.blockId.toString(),
                             (stoneInfo == null ? "\nMissing stone block model info" : "") +
                                     (oreInfo == null ? "\nMissing ore block model info" : "") +
                                     (stoneInfo != null && (stoneInfo.getSecond().size() < 1) ? "\nNo stone textures found" : "") +
@@ -173,7 +172,7 @@ public class BlockStateAssembler {
                         }
                         StringBuilder oreTextBuilder = new StringBuilder();
                         Reader oreReader = new BufferedReader(new InputStreamReader
-                                (oreRead, Charset.forName(StandardCharsets.UTF_8.name())));
+                                (oreRead, StandardCharsets.UTF_8));
                         int oreC = 0;
                         while ((oreC = oreReader.read()) != -1) {
                             oreTextBuilder.append((char) oreC);
@@ -191,9 +190,8 @@ public class BlockStateAssembler {
 
                         remapTextures(texMap, outputModel, outputMap, mainOreTex);
 
-                        texMap.values().stream().filter(rl -> !AssetResourceCache.EMPTY_TEXTURE.equals(rl)).findFirst().ifPresent(rl -> {
-                            setParticleTexture(outputMap, rl);
-                        });
+                        texMap.values().stream().filter(rl -> !AssetResourceCache.EMPTY_TEXTURE.equals(rl)).findFirst().ifPresent(rl ->
+                                setParticleTexture(outputMap, rl));
 
                         var outModelRL = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/" + fullId + i2);
                         outModelRLs.add(outModelRL);

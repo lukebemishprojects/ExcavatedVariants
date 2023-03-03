@@ -1,7 +1,9 @@
 package dev.lukebemish.excavatedvariants;
 
 import com.mojang.datafixers.util.Pair;
+import dev.lukebemish.dynamicassetgenerator.api.IPathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.AssetResourceCache;
 import dev.lukebemish.excavatedvariants.client.TextureRegistrar;
 import dev.lukebemish.excavatedvariants.data.BaseOre;
@@ -9,7 +11,11 @@ import dev.lukebemish.excavatedvariants.data.BaseStone;
 import dev.lukebemish.excavatedvariants.data.ModData;
 import dev.lukebemish.excavatedvariants.platform.Services;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.IoSupplier;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,7 +57,17 @@ public final class ExcavatedVariantsClient {
             }
         }
 
-        ASSET_CACHE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID+"_generated", "lang/en_us.json"), (rl, context) -> LANG_BUILDER.build());
+        ASSET_CACHE.planSource(new IPathAwareInputStreamSource() {
+            @Override
+            public @NotNull Set<ResourceLocation> getLocations() {
+                return LANG_BUILDER.languages().stream().map(s -> new ResourceLocation(ExcavatedVariants.MOD_ID+"_generated", "lang/" + s + ".json")).collect(Collectors.toSet());
+            }
+
+            @Override
+            public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
+                return LANG_BUILDER.build(outRl.getPath().substring(5, outRl.getPath().length() - 5));
+            }
+        });
 
         ASSET_CACHE.planSource(new TextureRegistrar(extractorMap.values(), toMake, ASSET_CACHE.getContext()));
     }

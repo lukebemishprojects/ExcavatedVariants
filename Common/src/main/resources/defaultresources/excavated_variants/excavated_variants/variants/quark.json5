@@ -3,7 +3,9 @@
   provided_stones: [
     {
       id: 'quark_shale',
-      en_name: 'Shale',
+      lang: {
+        en_us: 'Shale',
+      },
       block_id: 'quark:shale',
       types: [
         'stone',
@@ -11,7 +13,9 @@
     },
     {
       id: 'quark_limestone',
-      en_name: 'Limestone',
+      lang: {
+        en_us: 'Limestone',
+      },
       block_id: 'quark:limestone',
       types: [
         'stone',
@@ -19,7 +23,9 @@
     },
     {
       id: 'quark_jasper',
-      en_name: 'Jasper',
+      lang: {
+        en_us: 'Jasper',
+      },
       block_id: 'quark:jasper',
       types: [
         'stone',

@@ -7,7 +7,9 @@
         'stone',
       ],
       id: 'biomesoplenty_white_sandstone',
-      en_name: 'White Sandstone',
+      lang: {
+        en_us: 'White Sandstone',
+      },
     },
     {
       block_id: 'biomesoplenty:orange_sandstone',
@@ -15,7 +17,9 @@
         'stone',
       ],
       id: 'biomesoplenty_orange_sandstone',
-      en_name: 'Orange Sandstone',
+      lang: {
+        en_us: 'Orange Sandstone',
+      },
     },
     {
       block_id: 'biomesoplenty:black_sandstone',
@@ -23,7 +27,9 @@
         'stone',
       ],
       id: 'biomesoplenty_black_sandstone',
-      en_name: 'Black Sandstone',
+      lang: {
+        en_us: 'Black Sandstone',
+      },
     },
   ],
   provided_ores: [],

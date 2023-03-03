@@ -3,7 +3,9 @@
   provided_stones: [
     {
       id: 'byg_red_rock',
-      en_name: 'Red Rock',
+      lang: {
+        en_us: 'Red Rock',
+      },
       block_id: 'byg:red_rock',
       types: [
         'stone',
@@ -11,7 +13,9 @@
     },
     {
       id: 'byg_dacite',
-      en_name: 'Dacite',
+      lang: {
+        en_us: 'Dacite',
+      },
       block_id: 'byg:dacite',
       types: [
         'stone',
@@ -19,7 +23,9 @@
     },
     {
       id: 'byg_brimstone',
-      en_name: 'Brimstone',
+      lang: {
+        en_us: 'Brimstone',
+      },
       block_id: 'byg:brimstone',
       types: [
         'nether',
@@ -27,7 +33,9 @@
     },
     {
       id: 'byg_ether_stone',
-      en_name: 'Ether Stone',
+      lang: {
+        en_us: 'Ether Stone',
+      },
       block_id: 'byg:ether_stone',
       types: [
         'end',
@@ -35,7 +43,9 @@
     },
     {
       id: 'byg_soapstone',
-      en_name: 'Soapstone',
+      lang: {
+        en_us: 'Soapstone',
+      },
       block_id: 'byg:soapstone',
       types: [
         'stone',
@@ -43,7 +53,9 @@
     },
     {
       id: 'byg_blue_netherrack',
-      en_name: 'Blue Netherrack',
+      lang: {
+        en_us: 'Blue Netherrack',
+      },
       block_id: 'byg:blue_netherrack',
       types: [
         'nether',
@@ -51,7 +63,9 @@
     },
     {
       id: 'byg_scoria',
-      en_name: 'Scoria',
+      lang: {
+        en_us: 'Scoria',
+      },
       block_id: 'byg:scoria_stone',
       types: [
         'nether',
@@ -59,7 +73,9 @@
     },
     {
       id: 'byg_travertine',
-      en_name: 'Travertine',
+      lang: {
+        en_us: 'Travertine',
+      },
       block_id: 'byg:travertine',
       types: [
         'stone',
@@ -67,7 +83,9 @@
     },
     {
       id: 'byg_rocky',
-      en_name: 'Rocky',
+      lang: {
+        en_us: 'Rocky',
+      },
       block_id: 'byg:rocky_stone',
       types: [
         'stone',
@@ -75,7 +93,9 @@
     },
     {
       id: 'byg_cryptic',
-      en_name: 'Cryptic',
+      lang: {
+        en_us: 'Cryptic',
+      },
       block_id: 'byg:cryptic_stone',
       types: [
         'end',
@@ -83,7 +103,9 @@
     },
     {
       id: 'byg_purpur',
-      en_name: 'Purpur',
+      lang: {
+        en_us: 'Purpur',
+      },
       block_id: 'byg:purpur_stone',
       types: [
         'end',
@@ -91,7 +113,9 @@
     },
     {
       id: 'byg_mossy_stone',
-      en_name: 'Mossy Stone',
+      lang: {
+        en_us: 'Mossy Stone',
+      },
       block_id: 'byg:mossy_stone',
       types: [
         'stone',
@@ -101,7 +125,9 @@
   provided_ores: [
     {
       id: 'anthracite_ore',
-      en_name: 'Anthracite Ore',
+      lang: {
+        en_us: 'Anthracite Ore',
+      },
       block_id: [
         'byg:anthracite_ore',
       ],
@@ -117,7 +143,9 @@
     },
     {
       id: 'pendorite_ore',
-      en_name: 'Pendorite Ore',
+      lang: {
+        en_us: 'Pendorite Ore',
+      },
       block_id: [
         'byg:pendorite_ore',
       ],
@@ -133,7 +161,9 @@
     },
     {
       id: 'emeraldite_ore',
-      en_name: 'Emeraldite Ore',
+      lang: {
+        en_us: 'Emeraldite Ore',
+      },
       block_id: [
         'byg:emeraldite_ore',
       ],
@@ -149,7 +179,9 @@
     },
     {
       id: 'ametrine_ore',
-      en_name: 'Ametrine Ore',
+      lang: {
+        en_us: 'Ametrine Ore',
+      },
       block_id: [
         'byg:ametrine_ore',
       ],
@@ -165,7 +197,9 @@
     },
     {
       id: 'redstone_ore',
-      en_name: 'Redstone Ore',
+      lang: {
+        en_us: 'Redstone Ore',
+      },
       block_id: [
         'byg:cryptic_redstone_ore',
       ],
@@ -189,7 +223,9 @@
         'byg:brimstone_nether_quartz_ore',
         'byg:blue_nether_quartz_ore',
       ],
-      en_name: 'Quartz Ore',
+      lang: {
+        en_us: 'Quartz Ore',
+      },
       types: [
         'nether',
       ],
@@ -205,7 +241,9 @@
         'byg:brimstone_nether_gold_ore',
         'byg:blue_nether_gold_ore',
       ],
-      en_name: 'Nether Gold Ore',
+      lang: {
+        en_us: 'Nether Gold Ore',
+      },
       types: [
         'nether',
       ],

@@ -4,7 +4,9 @@
   provided_ores: [
     {
       id: 'randomium_ore',
-      en_name: 'Randomium Ore',
+      lang: {
+        en_us: 'Randomium Ore',
+      },
       block_id: [
         'randomium:randomium_ore',
         'randomium:randomium_ore_end',

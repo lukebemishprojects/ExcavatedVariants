@@ -4,7 +4,9 @@
   provided_ores: [
     {
       id: 'lapis_ore',
-      en_name: 'Lapis Ore',
+      lang: {
+        en_us: 'Lapis Ore',
+      },
       block_id: [
         'mores:diorite_lapis_ore',
         'mores:andesite_lapis_ore',
@@ -26,7 +28,9 @@
     },
     {
       id: 'gold_ore',
-      en_name: 'Gold Ore',
+      lang: {
+        en_us: 'Gold Ore',
+      },
       block_id: [
         'mores:tuff_gold_ore',
         'mores:granite_gold_ore',
@@ -48,7 +52,9 @@
     },
     {
       id: 'copper_ore',
-      en_name: 'Copper Ore',
+      lang: {
+        en_us: 'Copper Ore',
+      },
       block_id: [
         'mores:granite_copper_ore',
         'mores:diorite_copper_ore',
@@ -70,7 +76,9 @@
     },
     {
       id: 'iron_ore',
-      en_name: 'Iron Ore',
+      lang: {
+        en_us: 'Iron Ore',
+      },
       block_id: [
         'mores:granite_iron_ore',
         'mores:diorite_iron_ore',
@@ -92,7 +100,9 @@
     },
     {
       id: 'diamond_ore',
-      en_name: 'Diamond Ore',
+      lang: {
+        en_us: 'Diamond Ore',
+      },
       block_id: [
         'mores:granite_diamond_ore',
         'mores:tuff_diamond_ore',
@@ -114,7 +124,9 @@
     },
     {
       id: 'redstone_ore',
-      en_name: 'Redstone Ore',
+      lang: {
+        en_us: 'Redstone Ore',
+      },
       block_id: [
         'mores:andesite_redstone_ore',
         'mores:granite_redstone_ore',
@@ -136,7 +148,9 @@
     },
     {
       id: 'coal_ore',
-      en_name: 'Coal Ore',
+      lang: {
+        en_us: 'Coal Ore',
+      },
       block_id: [
         'mores:diorite_coal_ore',
         'mores:granite_coal_ore',
@@ -158,7 +172,9 @@
     },
     {
       id: 'emerald_ore',
-      en_name: 'Emerald Ore',
+      lang: {
+        en_us: 'Emerald Ore',
+      },
       block_id: [
         'mores:andesite_emerald_ore',
         'mores:tuff_emerald_ore',

@@ -4,7 +4,9 @@
   provided_ores: [
     {
       id: 'silver_ore',
-      en_name: 'Silver Ore',
+      lang: {
+        en_us: 'Silver Ore',
+      },
       block_id: [
         'galosphere:silver_ore',
         'galosphere:deepslate_silver_ore',

@@ -6,7 +6,9 @@
       block_id: [
         'purpeille:purpur_remnants',
       ],
-      en_name: 'Purpur Remnants',
+      lang: {
+        en_us: 'Purpur Remnants',
+      },
       types: [
         'end',
       ],

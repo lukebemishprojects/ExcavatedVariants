@@ -1,7 +1,8 @@
 plugins {
-    id 'org.quiltmc.loom' version '1.+'
     id 'maven-publish'
 }
+
+apply plugin: 'org.quiltmc.loom'
 
 archivesBaseName = "${artifact_id}-common-${minecraft_version}"
 

@@ -3,7 +3,9 @@
   provided_stones: [
     {
       id: 'mysticalagriculture_soulstone',
-      en_name: 'Soulstone',
+      lang: {
+        en_us: 'Soulstone',
+      },
       block_id: 'mysticalagriculture:soulstone',
       types: [
         'nether',
@@ -20,7 +22,9 @@
       block_id: [
         'mysticalagriculture:soulium_ore',
       ],
-      en_name: 'Soulium Ore',
+      lang: {
+        en_us: 'Soulium Ore',
+      },
       types: [
         'soul',
       ],
@@ -35,7 +39,9 @@
         'mysticalagriculture:prosperity_ore',
         'mysticalagriculture:deepslate_prosperity_ore',
       ],
-      en_name: 'Prosperity Ore',
+      lang: {
+        en_us: 'Prosperity Ore',
+      },
       types: [
         'stone',
       ],
@@ -50,7 +56,9 @@
         'mysticalagriculture:inferium_ore',
         'mysticalagriculture:deepslate_inferium_ore',
       ],
-      en_name: 'Inferium Ore',
+      lang: {
+        en_us: 'Inferium Ore',
+      },
       types: [
         'stone',
       ],

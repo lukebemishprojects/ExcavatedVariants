@@ -38,8 +38,8 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
 
         ArrayList<ExcavatedVariants.RegistryFuture> toRemove = new ArrayList<>();
         for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
-            if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
-                    ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
+            if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.blockId.get(0)) &&
+                    ExcavatedVariants.loadedBlockRLs.contains(b.stone.blockId)) {
                 ExcavatedVariants.registerBlockAndItem(
                         (rl, bl) -> Registry.register(BuiltInRegistries.BLOCK, rl, bl),
                         (rl, i) -> {
@@ -59,8 +59,8 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
                     isRegistering = true;
                     ArrayList<ExcavatedVariants.RegistryFuture> toRemove2 = new ArrayList<>();
                     for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
-                        if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.block_id.get(0)) &&
-                                ExcavatedVariants.loadedBlockRLs.contains(b.stone.block_id)) {
+                        if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.blockId.get(0)) &&
+                                ExcavatedVariants.loadedBlockRLs.contains(b.stone.blockId)) {
                             ExcavatedVariants.registerBlockAndItem(
                                     (orl, bl) -> Registry.register(BuiltInRegistries.BLOCK, orl, bl),
                                     (orl, i) -> {
@@ -84,9 +84,8 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
             ExcavatedVariants.setupMap();
         });
         ResourceKey<PlacedFeature> confKey = ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"));
-        BiomeModifications.create(confKey.location()).add(ModificationPhase.POST_PROCESSING, (x) -> true, context -> {
-            context.getGenerationSettings().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, confKey);
-        });
+        BiomeModifications.create(confKey.location()).add(ModificationPhase.POST_PROCESSING, (x) -> true, context ->
+                context.getGenerationSettings().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, confKey));
 
         /*if (QuiltLoader.isModLoaded("unearthed") && ExcavatedVariants.setupMap()) {
             HyleCompat.init();

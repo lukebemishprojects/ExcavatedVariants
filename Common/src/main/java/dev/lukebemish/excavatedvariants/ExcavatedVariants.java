@@ -89,10 +89,10 @@ public final class ExcavatedVariants {
             for (BaseStone stone : p.getSecond()) {
                 String fullId = stone.id + "_" + ore.id;
                 blockList.add(new RegistryFuture(fullId, ore, stone));
-                neededRls.add(ore.block_id.get(0));
-                neededRls.add(stone.block_id);
+                neededRls.add(ore.blockId.get(0));
+                neededRls.add(stone.blockId);
                 if (getConfig().addConversionRecipes) {
-                    OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.block_id.get(0));
+                    OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.blockId.get(0));
                 }
                 for (String type : Sets.union(new HashSet<>(stone.types), new HashSet<>(ore.types))) {
                     ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_ores");
@@ -103,7 +103,7 @@ public final class ExcavatedVariants {
                 tierHolder.add(fullId, ore, stone);
                 ids.add(fullId);
             }
-            for (String orename : ore.orename) {
+            for (String orename : ore.oreName) {
                 for (String this_id : ids) {
                     String oreTypeName = orename.substring(0, orename.length() - 4);
                     if (Services.PLATFORM.isQuilt()) {
@@ -142,15 +142,15 @@ public final class ExcavatedVariants {
         for (BaseStone stone : knownStones) {
             for (String type : stone.types) {
                 ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_stones");
-                planItemTag(rlToItem(tagRl), stone.block_id, true);
-                planBlockTag(rlToBlock(tagRl), stone.block_id);
+                planItemTag(rlToItem(tagRl), stone.blockId, true);
+                planBlockTag(rlToBlock(tagRl), stone.blockId);
             }
         }
 
         for (BaseOre ore : knownOres) {
             for (String type : ore.types) {
                 ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_ores");
-                ore.block_id.forEach(id -> {
+                ore.blockId.forEach(id -> {
                     planItemTag(rlToBlock(tagRl), id, true);
                     planBlockTag(rlToItem(tagRl), id);
                 });
@@ -220,22 +220,22 @@ public final class ExcavatedVariants {
             }
             Pair<BaseOre, HashSet<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new HashSet<>());
             if (oreList.size() > 1) {
-                pair.getFirst().block_id = new ArrayList<>();
-                pair.getFirst().orename = new ArrayList<>();
+                pair.getFirst().blockId = new ArrayList<>();
+                pair.getFirst().oreName = new ArrayList<>();
                 pair.getFirst().stone = new ArrayList<>();
                 pair.getFirst().types = new ArrayList<>();
                 for (BaseOre baseOre : oreList) {
-                    pair.getFirst().block_id.addAll(baseOre.block_id);
-                    pair.getFirst().orename.addAll(baseOre.orename);
+                    pair.getFirst().blockId.addAll(baseOre.blockId);
+                    pair.getFirst().oreName.addAll(baseOre.oreName);
                     pair.getFirst().stone.addAll(baseOre.stone);
                     pair.getFirst().types.addAll(baseOre.types);
                 }
                 List<String> types = new HashSet<>(pair.getFirst().types).stream().toList();
                 pair.getFirst().types.clear();
                 pair.getFirst().types.addAll(types);
-                List<String> oreNames = new HashSet<>(pair.getFirst().orename).stream().toList();
-                pair.getFirst().orename.clear();
-                pair.getFirst().orename.addAll(oreNames);
+                List<String> oreNames = new HashSet<>(pair.getFirst().oreName).stream().toList();
+                pair.getFirst().oreName.clear();
+                pair.getFirst().oreName.addAll(oreNames);
             }
             oreStoneList.add(pair);
             for (BaseStone stone : stoneMap.values()) {
@@ -326,8 +326,8 @@ public final class ExcavatedVariants {
     public static synchronized MappingsCache getMappingsCache() {
         if (mappingsCache == null && setupMap()) {
             MappingsCache cache = MappingsCache.load();
-            knownOres.forEach(ore -> cache.oreMappings.put(ore.id, Set.copyOf(ore.block_id)));
-            knownStones.forEach(stone -> cache.stoneMappings.put(stone.id, stone.block_id));
+            knownOres.forEach(ore -> cache.oreMappings.put(ore.id, Set.copyOf(ore.blockId)));
+            knownStones.forEach(stone -> cache.stoneMappings.put(stone.id, stone.blockId));
 
             Map<String, Set<ResourceLocation>> newOres = new HashMap<>();
             Map<String, ResourceLocation> newStones = new HashMap<>();

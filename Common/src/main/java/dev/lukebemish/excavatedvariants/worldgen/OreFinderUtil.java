@@ -20,14 +20,14 @@ public final class OreFinderUtil {
             ((IOreFound) block).excavated_variants$setStone(null);
             if (ExcavatedVariants.setupMap()) {
                 for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
-                    for (ResourceLocation rl : p.getFirst().block_id) {
+                    for (ResourceLocation rl : p.getFirst().blockId) {
                         Block bl2 = Services.REGISTRY_UTIL.getBlockById(rl);
                         if (bl2 == block) {
                             ((IOreFound) block).excavated_variants$setPair(p);
                         }
                     }
                     for (BaseStone stone : p.getSecond()) {
-                        if (stone.block_id.equals(Services.REGISTRY_UTIL.getRlByBlock(block))) {
+                        if (stone.blockId.equals(Services.REGISTRY_UTIL.getRlByBlock(block))) {
                             ((IOreFound) block).excavated_variants$setStone(stone);
                         }
                     }

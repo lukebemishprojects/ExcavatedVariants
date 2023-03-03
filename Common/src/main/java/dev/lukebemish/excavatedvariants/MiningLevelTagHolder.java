@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<ResourceLocation>>> {
     private final ArrayList<CheckPair> toCheck = new ArrayList<>();
     public void add(String fullId, BaseOre ore, BaseStone stone) {
-        toCheck.add(new CheckPair(fullId, ore.block_id.get(0), stone.block_id));
+        toCheck.add(new CheckPair(fullId, ore.blockId.get(0), stone.blockId));
     }
 
     @Override
@@ -69,19 +69,19 @@ public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<
                         TagFile file = TagFile.CODEC.parse(JsonOps.INSTANCE, parser).getOrThrow(false, e->{});
                         if (file.replace())
                             members.clear();
-                        file.values().forEach(value -> {
-                            value.build(new TagEntry.Lookup<ResourceLocation>() {
-                                @Override
-                                public ResourceLocation element(ResourceLocation elementLocation) {
-                                    return elementLocation;
-                                }
+                        file.values().forEach(value ->
+                                value.build(new TagEntry.Lookup<ResourceLocation>() {
+                                    @Override
+                                    public ResourceLocation element(ResourceLocation elementLocation) {
+                                        return elementLocation;
+                                    }
 
-                                @Override
-                                public Collection<ResourceLocation> tag(ResourceLocation tagLocation) {
-                                    return getTagMembers(new ResourceLocation(tagLocation.getNamespace(), type+"/"+tagLocation.getPath()));
-                                }
-                            }, members::add);
-                        });
+                                    @Override
+                                    public Collection<ResourceLocation> tag(ResourceLocation tagLocation) {
+                                        return getTagMembers(new ResourceLocation(tagLocation.getNamespace(), type+"/"+tagLocation.getPath()));
+                                    }
+                                }, members::add)
+                        );
                     } catch (RuntimeException e) {
                         ExcavatedVariants.LOGGER.error("Issue parsing tag at '{}':",toRead,e);
                     }

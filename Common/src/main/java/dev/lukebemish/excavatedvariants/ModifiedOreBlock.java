@@ -107,8 +107,8 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     }
 
     private static Properties copyProperties(BaseOre ore, BaseStone stone) {
-        Block target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
-        Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.block_id);
+        Block target = Services.REGISTRY_UTIL.getBlockById(ore.blockId.get(0));
+        Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.blockId);
         BlockBehaviour.Properties outProperties;
         if (target != null && stoneTarget != null) {
             Properties properties = Properties.copy(stoneTarget);
@@ -160,8 +160,8 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     }
 
     public static void setupStaticWrapper(BaseOre ore, BaseStone stone) {
-        Block target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
-        Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.block_id);
+        Block target = Services.REGISTRY_UTIL.getBlockById(ore.blockId.get(0));
+        Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.blockId);
         if (target != null && stoneTarget != null) {
             ArrayList<Property<?>> propBuilder = new ArrayList<>();
             for (Property<?> p : target.defaultBlockState().getProperties()) {
@@ -180,15 +180,15 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             }
             staticProps = propBuilder.toArray(new Property<?>[]{});
         } else {
-            ExcavatedVariants.LOGGER.warn("Could not find block properties for: {}, {}", ore.block_id.get(0), stone.block_id);
+            ExcavatedVariants.LOGGER.warn("Could not find block properties for: {}, {}", ore.blockId.get(0), stone.blockId);
         }
 
     }
 
     public void copyBlockstateDefs() {
         if (target == null || stoneTarget == null) {
-            target = Services.REGISTRY_UTIL.getBlockById(ore.block_id.get(0));
-            stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.block_id);
+            target = Services.REGISTRY_UTIL.getBlockById(ore.blockId.get(0));
+            stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.blockId);
         }
         if (target != null && stoneTarget != null) {
             BlockState bs = this.defaultBlockState();

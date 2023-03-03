@@ -8,7 +8,9 @@
         'malum:brilliant_deepslate',
       ],
       // '$' gets filled in with the stone name
-      en_name: 'Brilliant $',
+      lang: {
+        en_us: 'Brilliant $',
+      },
       types: [
         'stone',
       ],
@@ -23,7 +25,9 @@
         'malum:soulstone_ore',
         'malum:deepslate_soulstone_ore',
       ],
-      en_name: 'Soulstone Ore',
+      lang: {
+        en_us: 'Soulstone Ore',
+      },
       types: [
         'stone',
       ],
@@ -37,7 +41,9 @@
       block_id: [
         'malum:blazing_quartz_ore',
       ],
-      en_name: 'Blazing Quartz Ore',
+      lang: {
+        en_us: 'Blazing Quartz Ore',
+      },
       types: [
         'nether',
       ],

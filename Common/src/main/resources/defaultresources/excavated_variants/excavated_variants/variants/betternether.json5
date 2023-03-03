@@ -10,7 +10,9 @@
       block_id: [
         'betternether:nether_redstone_ore',
       ],
-      en_name: 'Redstone Ore',
+      lang: {
+        en_us: 'Redstone Ore',
+      },
       types: [
         'nether',
       ],
@@ -24,7 +26,9 @@
       block_id: [
         'betternether:nether_lapis_ore',
       ],
-      en_name: 'Nether Lapis Lazuli Ore',
+      lang: {
+        en_us: 'Nether Lapis Lazuli Ore',
+      },
       types: [
         'nether',
       ],
@@ -37,7 +41,9 @@
       block_id: [
         'betternether:cincinnasite_ore',
       ],
-      en_name: 'Cincinnasite Ore',
+      lang: {
+        en_us: 'Cincinnasite Ore',
+      },
       types: [
         'nether',
       ],
@@ -50,7 +56,9 @@
       block_id: [
         'betternether:nether_ruby_ore',
       ],
-      en_name: 'Ruby Ore',
+      lang: {
+        en_us: 'Ruby Ore',
+      },
       types: [
         'nether',
       ],

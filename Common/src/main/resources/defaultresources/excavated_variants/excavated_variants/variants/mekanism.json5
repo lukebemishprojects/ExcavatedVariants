@@ -12,7 +12,9 @@
         'mekanism:fluorite_ore',
         'mekanism:deepslate_fluorite_ore',
       ],
-      en_name: 'Fluorite Ore',
+      lang: {
+        en_us: 'Fluorite Ore',
+      },
       types: [
         'stone',
       ],
@@ -27,7 +29,9 @@
         'mekanism:tin_ore',
         'mekanism:deepslate_tin_ore',
       ],
-      en_name: 'Tin Ore',
+      lang: {
+        en_us: 'Tin Ore',
+      },
       types: [
         'stone',
       ],
@@ -42,7 +46,9 @@
         'mekanism:osmium_ore',
         'mekanism:deepslate_osmium_ore',
       ],
-      en_name: 'Osmium Ore',
+      lang: {
+        en_us: 'Osmium Ore',
+      },
       types: [
         'stone',
       ],
@@ -57,7 +63,9 @@
         'mekanism:uranium_ore',
         'mekanism:deepslate_uranium_ore',
       ],
-      en_name: 'Uranium Ore',
+      lang: {
+        en_us: 'Uranium Ore',
+      },
       types: [
         'stone',
       ],

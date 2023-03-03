@@ -12,7 +12,9 @@
         'bewitchment:silver_ore',
         'bewitchment:deepslate_silver_ore',
       ],
-      en_name: 'Silver Ore',
+      lang: {
+        en_us: 'Silver Ore',
+      },
       types: [
         'stone',
       ],
@@ -27,7 +29,9 @@
         'bewitchment:salt_ore',
         'bewitchment:deepslate_salt_ore',
       ],
-      en_name: 'Salt Ore',
+      lang: {
+        en_us: 'Salt Ore',
+      },
       types: [
         'stone',
       ],
