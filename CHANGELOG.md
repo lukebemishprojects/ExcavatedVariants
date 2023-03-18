@@ -1,3 +1,8 @@
+## Excavated Variants 2.2.1
+
+### Fixes
+- Update to 1.19.4
+
 ## Excavated Variants 2.2.0
 
 ### Features
