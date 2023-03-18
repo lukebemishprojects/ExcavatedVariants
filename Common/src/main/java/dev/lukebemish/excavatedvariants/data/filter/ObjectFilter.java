@@ -26,7 +26,7 @@ public sealed interface ObjectFilter extends Filter {
         @Override
         public <T> DataResult<Pair<Codec<? extends ObjectFilter>, T>> decode(DynamicOps<T> ops, T input) {
             return Codec.STRING.decode(ops, input).flatMap(keyValuePair -> !FILTER_TYPES.containsKey(keyValuePair.getFirst())
-                    ? DataResult.error("Unknown filter type: " + keyValuePair.getFirst())
+                    ? DataResult.error(() -> "Unknown filter type: " + keyValuePair.getFirst())
                     : DataResult.success(keyValuePair.mapFirst(FILTER_TYPES::get)));
         }
 
@@ -34,7 +34,7 @@ public sealed interface ObjectFilter extends Filter {
         public <T> DataResult<T> encode(Codec<? extends ObjectFilter> input, DynamicOps<T> ops, T prefix) {
             String key = FILTER_TYPES.inverse().get(input);
             if (key == null) {
-                return DataResult.error("Unregistered filter type: " + input);
+                return DataResult.error(() -> "Unregistered filter type: " + input);
             }
             T toMerge = ops.createString(key);
             return ops.mergeToPrimitive(prefix, toMerge);

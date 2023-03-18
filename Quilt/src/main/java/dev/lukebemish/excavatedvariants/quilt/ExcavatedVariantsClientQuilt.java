@@ -17,7 +17,7 @@ public class ExcavatedVariantsClientQuilt implements ClientModInitializer {
 
         ClientLoginNetworking.registerGlobalReceiver(ExcavatedVariantsQuilt.S2C_CONFIG_AGREEMENT_PACKET, ((client, handler, buf, listenerAdder) -> {
             S2CConfigAgreementPacket msg = S2CConfigAgreementPacket.decoder(buf);
-            msg.consumeMessage(string -> handler.getConnection().disconnect(Component.literal(string)));
+            msg.consumeMessage(string -> handler.handleDisconnect(new S2CConfigAgreementPacket.ExcavatedVariantsDisconnectPacket(string)));
             CompletableFuture<FriendlyByteBuf> future = new CompletableFuture<>();
             future.complete(null);
             return future;

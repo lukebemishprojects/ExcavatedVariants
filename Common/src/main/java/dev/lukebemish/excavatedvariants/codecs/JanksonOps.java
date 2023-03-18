@@ -70,7 +70,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
             if (value instanceof Boolean bool)
                 return DataResult.success(Boolean.TRUE.equals(bool) ? 1 : 0);
         }
-        return DataResult.error("Not a number: " + input);
+        return DataResult.error(() -> "Not a number: " + input);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
             if (value instanceof String string)
                 return DataResult.success(string);
         }
-        return DataResult.error("Not a string: " + input);
+        return DataResult.error(() -> "Not a string: " + input);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
             result.add(value);
             return DataResult.success(result);
         }
-        return DataResult.error("mergeToList called with not a list: " + list, list);
+        return DataResult.error(() -> "mergeToList called with not a list: " + list, list);
     }
 
     @Override
@@ -118,16 +118,16 @@ public class JanksonOps implements CommentingOps<JsonElement> {
             result.addAll(values);
             return DataResult.success(result);
         }
-        return DataResult.error("mergeToList called with not a list: " + list, list);
+        return DataResult.error(() -> "mergeToList called with not a list: " + list, list);
     }
 
     @Override
     public DataResult<JsonElement> mergeToMap(JsonElement map, JsonElement key, JsonElement value) {
         if (!(map instanceof JsonObject) && map != empty()) {
-            return DataResult.error("mergeToMap called with not a map: " + map, map);
+            return DataResult.error(() -> "mergeToMap called with not a map: " + map, map);
         }
         if (!(key instanceof JsonPrimitive primitive) || !(primitive.getValue() instanceof String string)) {
-            return DataResult.error("key is not a string: " + key, map);
+            return DataResult.error(() -> "key is not a string: " + key, map);
         }
         JsonObject output = new JsonObject();
         if (map != empty()) {
@@ -141,7 +141,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
     @Override
     public DataResult<JsonElement> mergeToMap(JsonElement map, MapLike<JsonElement> values) {
         if (!(map instanceof JsonObject) && map != empty()) {
-            return DataResult.error("mergeToMap called with not a map: " + map, map);
+            return DataResult.error(() -> "mergeToMap called with not a map: " + map, map);
         }
         JsonObject output = new JsonObject();
         if (map != empty()) {
@@ -156,7 +156,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
         });
 
         if (!missed.isEmpty()) {
-            return DataResult.error("some keys are not strings: " + missed, output);
+            return DataResult.error(() -> "some keys are not strings: " + missed, output);
         }
 
         return DataResult.success(output);
@@ -165,7 +165,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
     @Override
     public DataResult<MapLike<JsonElement>> getMap(final JsonElement input) {
         if (!(input instanceof JsonObject object)) {
-            return DataResult.error("Not a JSON object: " + input);
+            return DataResult.error(() -> "Not a JSON object: " + input);
         }
         return DataResult.success(new MapLike<>() {
             @Nullable
@@ -202,7 +202,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
         if (input instanceof JsonObject object) {
             return DataResult.success(object.entrySet().stream().map(entry -> Pair.of(new JsonPrimitive(entry.getKey()), entry.getValue() instanceof JsonNull ? null : entry.getValue())));
         }
-        return DataResult.error("Not a JSON object: " + input);
+        return DataResult.error(() -> "Not a JSON object: " + input);
     }
 
     @Override
@@ -221,7 +221,7 @@ public class JanksonOps implements CommentingOps<JsonElement> {
         if (input instanceof JsonArray array) {
             return DataResult.success(array.stream().map(e -> e instanceof JsonNull ? null : e));
         }
-        return DataResult.error("Not a json array: " + input);
+        return DataResult.error(() -> "Not a json array: " + input);
     }
 
     @Override

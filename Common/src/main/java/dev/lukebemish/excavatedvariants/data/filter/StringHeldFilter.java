@@ -22,7 +22,7 @@ public sealed interface StringHeldFilter extends Filter {
             else if (part.startsWith("type:"))
                 return DataResult.success(new TypeFilter(part.replaceFirst("type:", "")));
             else
-                return DataResult.error("Unknown filter type '" + part.split(":")[0] + "'");
+                return DataResult.error(() -> "Unknown filter type '" + part.split(":")[0] + "'");
         } else if (part.startsWith("~")) {
             DataResult<StringHeldFilter> wrapper = of(part.replaceFirst("!", ""));
             return wrapper.map(NotFilter::new);

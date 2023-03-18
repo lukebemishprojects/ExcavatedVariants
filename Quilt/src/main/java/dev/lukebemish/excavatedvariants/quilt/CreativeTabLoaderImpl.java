@@ -18,7 +18,7 @@ public class CreativeTabLoaderImpl implements ICreativeTabLoader {
     public void registerCreativeTab() {
         EXCAVATED_VARIANTS_TAB = FabricItemGroup.builder(CREATIVE_TAB_ID)
                 .icon(() -> new ItemStack(Items.DEEPSLATE_COPPER_ORE))
-                .displayItems((featureFlagSet, output, bool) -> {
+                .displayItems((displayParameters, output) -> {
                     for (var supplier : ExcavatedVariants.getItems()) {
                         output.accept(supplier.get());
                     }

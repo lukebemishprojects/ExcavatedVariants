@@ -1,6 +1,8 @@
 package dev.lukebemish.excavatedvariants;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.login.ClientboundLoginDisconnectPacket;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -49,5 +51,11 @@ public record S2CConfigAgreementPacket(Set<String> blocks) {
             disconnect += "\nMissing on client: " + ellipsis(serverOnly.toString(), 50);
         }
         disconnecter.accept(disconnect);
+    }
+
+    public static final class ExcavatedVariantsDisconnectPacket extends ClientboundLoginDisconnectPacket {
+        public ExcavatedVariantsDisconnectPacket(String reason) {
+            super(Component.literal(reason));
+        }
     }
 }

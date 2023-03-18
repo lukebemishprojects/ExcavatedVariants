@@ -12,11 +12,13 @@ import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.ModMetadata;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
+import org.quiltmc.qsl.resource.loader.api.GroupResourcePack;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @AutoService(IPlatform.class)
 public class PlatformImpl implements IPlatform {
@@ -53,6 +55,10 @@ public class PlatformImpl implements IPlatform {
         out.add(BlockTags.NEEDS_IRON_TOOL.location());
         out.add(BlockTags.NEEDS_DIAMOND_TOOL.location());
         ServerPrePackRepository.getResources().stream().flatMap(resources -> {
+            // TODO: Is this a bug in Quilt? IDK. If it's not, no loss by doing this...
+            if (resources instanceof GroupResourcePack && !resources.getNamespaces(PackType.SERVER_DATA).contains("fabric")) {
+                return Stream.empty();
+            }
             List<ResourceLocation> locations = new ArrayList<>();
             resources.listResources(PackType.SERVER_DATA, "fabric", "minecraft/tags/blocks/", (rl, supplier) -> {
                 if (!rl.getPath().startsWith("needs_tool_level_")) return;
@@ -60,7 +66,7 @@ public class PlatformImpl implements IPlatform {
                     String[] parts = rl.getPath().split("/");
                     Integer.parseInt(parts[parts.length - 1].replace("needs_tool_level_", ""));
                     locations.add(rl);
-                } catch (NumberFormatException e) {
+                } catch (NumberFormatException ignored) {
                 }
             });
             return locations.stream().map(l -> {

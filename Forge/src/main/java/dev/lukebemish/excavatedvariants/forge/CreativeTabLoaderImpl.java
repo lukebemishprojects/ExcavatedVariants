@@ -3,6 +3,8 @@ package dev.lukebemish.excavatedvariants.forge;
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.ICreativeTabLoader;
+
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -17,8 +19,9 @@ public class CreativeTabLoaderImpl implements ICreativeTabLoader {
 
     private static void setup(CreativeModeTab.Builder builder) {
         builder
+                .title(Component.translatable("itemGroup."+CREATIVE_TAB_ID.getNamespace()+"."+CREATIVE_TAB_ID.getPath()))
                 .icon(() -> new ItemStack(Items.DEEPSLATE_COPPER_ORE))
-                .displayItems((featureFlagSet, output, bool) -> {
+                .displayItems((displayParameters, output) -> {
                     for (var supplier : ExcavatedVariants.getItems()) {
                         output.accept(supplier.get());
                     }

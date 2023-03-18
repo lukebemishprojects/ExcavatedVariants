@@ -3,6 +3,9 @@ package dev.lukebemish.excavatedvariants.recipe;
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.excavatedvariants.platform.Services;
 import dev.lukebemish.excavatedvariants.ExcavatedVariants;
+import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
@@ -51,17 +54,17 @@ public class OreConversionRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public @NotNull ItemStack assemble(CraftingContainer inv, RegistryAccess access) {
         assembleOrNull();
         for (int i = 0; i < inv.getContainerSize(); ++i) {
             ItemStack itemStack = inv.getItem(i);
             if (itemStack.isEmpty()) continue;
             if (itemMap.keySet().stream().anyMatch(itemStack::is)) {
                 Item item = itemMap.keySet().stream().filter(itemStack::is).toList().get(0);
-                return item == null ? null : new ItemStack(itemMap.get(item).getSecond());
+                return item == null ? ItemStack.EMPTY : new ItemStack(itemMap.get(item).getSecond());
             }
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class OreConversionRecipe extends CustomRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return ExcavatedVariants.ORE_CONVERSION.get();
     }
 }

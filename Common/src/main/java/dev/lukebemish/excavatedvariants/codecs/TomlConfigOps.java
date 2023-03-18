@@ -47,7 +47,7 @@ public class TomlConfigOps implements CommentingOps<Object> {
     public DataResult<Number> getNumberValue(Object i) {
         return i instanceof Number n
                 ? DataResult.success(n)
-                : DataResult.error("Not a number: " + i);
+                : DataResult.error(() -> "Not a number: " + i);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TomlConfigOps implements CommentingOps<Object> {
     @Override
     public DataResult<String> getStringValue(Object input) {
         return (input instanceof Config || input instanceof Collection) ?
-                DataResult.error("Not a string: " + input) :
+                DataResult.error(() -> "Not a string: " + input) :
                 DataResult.success(String.valueOf(input));
     }
 
@@ -70,7 +70,7 @@ public class TomlConfigOps implements CommentingOps<Object> {
     @Override
     public DataResult<Object> mergeToList(Object list, Object value) {
         if (!(list instanceof Collection) && list != this.empty()) {
-            return DataResult.error("mergeToList called with not a list: " + list, list);
+            return DataResult.error(() -> "mergeToList called with not a list: " + list, list);
         }
         final Collection<Object> result = new ArrayList<>();
         if (list != this.empty()) {
@@ -85,12 +85,12 @@ public class TomlConfigOps implements CommentingOps<Object> {
     @Override
     public DataResult<Object> mergeToMap(Object map, Object key, Object value) {
         if (!(map instanceof Config) && map != this.empty()) {
-            return DataResult.error("mergeToMap called with not a map: " + map, map);
+            return DataResult.error(() -> "mergeToMap called with not a map: " + map, map);
         }
         DataResult<String> stringResult = this.getStringValue(key);
         Optional<DataResult.PartialResult<String>> badResult = stringResult.error();
         if (badResult.isPresent()) {
-            return DataResult.error("key is not a string: " + key, map);
+            return DataResult.error(() -> "key is not a string: " + key, map);
         }
         return stringResult.flatMap(s ->{
 
@@ -108,7 +108,7 @@ public class TomlConfigOps implements CommentingOps<Object> {
     @Override
     public DataResult<Stream<Pair<Object, Object>>> getMapValues(Object input) {
         if (!(input instanceof final Config config)) {
-            return DataResult.error("Not a Config: " + input);
+            return DataResult.error(() -> "Not a Config: " + input);
         }
         return DataResult.success(config.entrySet().stream().map(entry -> Pair.of(entry.getKey(), entry.getValue())));
     }
@@ -128,7 +128,7 @@ public class TomlConfigOps implements CommentingOps<Object> {
             Collection<Object> collection = (Collection<Object>)input;
             return DataResult.success(collection.stream());
         }
-        return DataResult.error("Not a collection: " + input);
+        return DataResult.error(() -> "Not a collection: " + input);
     }
 
     @Override

@@ -83,6 +83,10 @@ subprojects {
         }
 
         maven {
+            url = 'https://maven.lukebemish.dev/releases'
+        }
+
+        maven {
             url "https://cursemaven.com"
             content {
                 includeGroup "curse.maven"
@@ -95,8 +99,6 @@ subprojects {
             url = "https://dvs1.progwml6.com/files/maven/"
         }
         maven { url "https://maven.architectury.dev/" }
-
-        mavenLocal()
     }
 
 
