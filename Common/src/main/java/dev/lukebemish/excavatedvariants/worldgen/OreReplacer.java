@@ -1,11 +1,15 @@
 package dev.lukebemish.excavatedvariants.worldgen;
 
+import java.util.HashSet;
+
 import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.excavatedvariants.platform.Services;
 import dev.lukebemish.excavatedvariants.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.ModifiedOreBlock;
 import dev.lukebemish.excavatedvariants.data.BaseOre;
 import dev.lukebemish.excavatedvariants.data.BaseStone;
+import dev.lukebemish.excavatedvariants.platform.Services;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
@@ -16,9 +20,6 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashSet;
 
 public class OreReplacer extends Feature<NoneFeatureConfiguration> {
     private static final int[] xs = new int[]{-1, 0, 1, 1, -1, -1, 0, 1};
@@ -64,7 +65,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
         return true;
     }
 
-    public boolean modifyChunk(ChunkAccess chunkAccess, int minY, int maxY) {
+    public void modifyChunk(ChunkAccess chunkAccess, int minY, int maxY) {
         LevelChunkSection chunkSection = chunkAccess.getSection(chunkAccess.getSectionIndex(minY));
         for (int y = minY; y < maxY; y++) {
             BlockState[][][] cache = new BlockState[16][16][16];
@@ -79,7 +80,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
                 inner_loop:
                 for (int j = 0; j < 16; j++) {
                     BlockState newState = cache[i][y & 15][j] == null ? chunkSection.getBlockState(i, y & 15, j) : cache[i][y & 15][j];
-                    @Nullable Pair<BaseOre, HashSet<BaseStone>> pair = ((IOreFound) newState.getBlock()).excavated_variants$getPair();
+                    @Nullable Pair<BaseOre, HashSet<BaseStone>> pair = ((OreFound) newState.getBlock()).excavated_variants$getPair();
                     if (cache[i][y & 15][j] == null) {
                         cache[i][y & 15][j] = newState;
                     }
@@ -91,7 +92,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
                                     thisState = chunkSection.getBlockState(i + as[c], y + ys[c] & 15, j + bs[c]);
                                     cache[i + as[c]][y + ys[c] & 15][j + bs[c]] = thisState;
                                 }
-                                BaseStone stone = ((IOreFound) thisState.getBlock()).excavated_variants$getStone();
+                                BaseStone stone = ((OreFound) thisState.getBlock()).excavated_variants$getStone();
                                 if (stone != null) {
                                     Block oreBlock = Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.getFirst().id));
                                     if (pair.getSecond().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
@@ -106,6 +107,5 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
-        return true;
     }
 }

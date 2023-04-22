@@ -1,7 +1,7 @@
 package dev.lukebemish.excavatedvariants.quilt;
 
 import com.google.auto.service.AutoService;
-import dev.lukebemish.excavatedvariants.IPlatform;
+import dev.lukebemish.excavatedvariants.platform.services.Platform;
 import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-@AutoService(IPlatform.class)
-public class PlatformImpl implements IPlatform {
+@AutoService(Platform.class)
+public class PlatformImpl implements Platform {
     public boolean isQuilt() {
         return true;
     }

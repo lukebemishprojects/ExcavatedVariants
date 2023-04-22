@@ -1,16 +1,20 @@
 package dev.lukebemish.excavatedvariants.platform;
 
-import dev.lukebemish.excavatedvariants.*;
-import dev.lukebemish.excavatedvariants.util.ThreadsafeLazy;
-
 import java.util.ServiceLoader;
 
+import dev.lukebemish.excavatedvariants.platform.services.Platform;
+import dev.lukebemish.excavatedvariants.platform.services.CreativeTabLoader;
+import dev.lukebemish.excavatedvariants.platform.services.Listener;
+import dev.lukebemish.excavatedvariants.platform.services.MainPlatformTarget;
+import dev.lukebemish.excavatedvariants.platform.services.RegistryUtil;
+import dev.lukebemish.excavatedvariants.util.ThreadsafeLazy;
+
 public class Services {
-    public static final IRegistryUtil REGISTRY_UTIL = load(IRegistryUtil.class);
-    public static final IPlatform PLATFORM = load(IPlatform.class);
-    public static final ThreadsafeLazy<ICreativeTabLoader> CREATIVE_TAB_LOADER = loadLazy(ICreativeTabLoader.class);
-    public static final ThreadsafeLazy<IMainPlatformTarget> MAIN_PLATFORM_TARGET = loadLazy(IMainPlatformTarget.class);
-    public static final ICompat COMPAT = load(ICompat.class);
+    public static final RegistryUtil REGISTRY_UTIL = load(RegistryUtil.class);
+    public static final Platform PLATFORM = load(Platform.class);
+    public static final ThreadsafeLazy<CreativeTabLoader> CREATIVE_TAB_LOADER = loadLazy(CreativeTabLoader.class);
+    public static final ThreadsafeLazy<MainPlatformTarget> MAIN_PLATFORM_TARGET = loadLazy(MainPlatformTarget.class);
+    public static final Listener COMPAT = load(Listener.class);
 
     public static <T> T load(Class<T> clazz) {
         return ServiceLoader.load(clazz)

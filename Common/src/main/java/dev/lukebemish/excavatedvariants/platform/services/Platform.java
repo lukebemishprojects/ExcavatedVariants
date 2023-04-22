@@ -1,12 +1,12 @@
-package dev.lukebemish.excavatedvariants;
-
-import net.minecraft.resources.ResourceLocation;
+package dev.lukebemish.excavatedvariants.platform.services;
 
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
-public interface IPlatform {
+import net.minecraft.resources.ResourceLocation;
+
+public interface Platform {
     boolean isQuilt();
 
     boolean isForge();

@@ -1,11 +1,12 @@
-package dev.lukebemish.excavatedvariants;
+package dev.lukebemish.excavatedvariants.platform.services;
+
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.Nullable;
 
-public interface IRegistryUtil {
+public interface RegistryUtil {
     void reset();
 
     @Nullable

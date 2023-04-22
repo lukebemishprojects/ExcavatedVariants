@@ -1,23 +1,30 @@
 package dev.lukebemish.excavatedvariants;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.IPathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.AssetResourceCache;
-import dev.lukebemish.excavatedvariants.client.TextureRegistrar;
+import dev.lukebemish.excavatedvariants.client.ResourceAssembler;
 import dev.lukebemish.excavatedvariants.data.BaseOre;
 import dev.lukebemish.excavatedvariants.data.BaseStone;
 import dev.lukebemish.excavatedvariants.data.ModData;
 import dev.lukebemish.excavatedvariants.platform.Services;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.IoSupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.InputStream;
-import java.util.*;
-import java.util.stream.Collectors;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.IoSupplier;
 
 public final class ExcavatedVariantsClient {
     private ExcavatedVariantsClient() {}
@@ -40,8 +47,8 @@ public final class ExcavatedVariantsClient {
             }
         }
 
-        Map<String, Pair<BaseOre, BaseStone>> extractorMap = ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
-                stone -> new Pair<>(stone.id + "_" + p.getFirst().id, new Pair<>(p.getFirst(), stoneMap.get(p.getFirst().stone.get(0)))))).collect(Collectors.toMap(
+        Map<BaseOre, BaseStone> originalPairs = ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
+                stone -> new Pair<>(p.getFirst(), stoneMap.get(p.getFirst().stone.get(0))))).collect(Collectors.toMap(
                 Pair::getFirst, Pair::getSecond
         ));
         List<Pair<BaseOre, BaseStone>> toMake = new ArrayList<>();
@@ -69,7 +76,11 @@ public final class ExcavatedVariantsClient {
             }
         });
 
-        ASSET_CACHE.planSource(new TextureRegistrar(extractorMap.values(), toMake, ASSET_CACHE.getContext()));
+        ASSET_CACHE.planSource(() -> {
+            var source = new ResourceAssembler(originalPairs, toMake);
+            source.assemble();
+            return source;
+        });
     }
 
     static void planLang(String key, String enName) {

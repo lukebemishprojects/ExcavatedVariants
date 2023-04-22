@@ -1,16 +1,48 @@
 package dev.lukebemish.excavatedvariants.client;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 
 public class VariantAssembler {
-    public String model;
-    public int x;
-    public int y;
+    public static final Codec<VariantAssembler> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        ResourceLocation.CODEC.fieldOf("model").forGetter(VariantAssembler::getModel),
+        Codec.INT.optionalFieldOf("x", 0).forGetter(VariantAssembler::getX),
+        Codec.INT.optionalFieldOf("y", 0).forGetter(VariantAssembler::getY)
+    ).apply(instance, VariantAssembler::new));
+
+    private final ResourceLocation model;
+    private int x;
+    private int y;
+
+    public ResourceLocation getModel() {
+        return model;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public VariantAssembler(ResourceLocation model) {
+        this.model = model;
+        this.x = 0;
+        this.y = 0;
+    }
+
+    public VariantAssembler(ResourceLocation model, int x, int y) {
+        this.model = model;
+        this.x = x;
+        this.y = y;
+    }
 
     public static VariantAssembler fromFacing(ResourceLocation model, Direction dir) {
-        var va = new VariantAssembler();
-        va.model = model.toString();
+        var va = new VariantAssembler(model);
         switch (dir) {
             case UP -> va.x = 270;
             case DOWN -> va.x = 90;
@@ -24,8 +56,7 @@ public class VariantAssembler {
     }
 
     public static VariantAssembler fromAxis(ResourceLocation model, Direction.Axis axis) {
-        var va = new VariantAssembler();
-        va.model = model.toString();
+        var va = new VariantAssembler(model);
         switch (axis) {
             case X -> {
                 va.x = 90;
@@ -40,8 +71,6 @@ public class VariantAssembler {
     }
 
     public static VariantAssembler fromModel(ResourceLocation model) {
-        var va = new VariantAssembler();
-        va.model = model.toString();
-        return va;
+        return new VariantAssembler(model);
     }
 }

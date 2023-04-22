@@ -1,19 +1,35 @@
 package dev.lukebemish.excavatedvariants.client;
 
-import dev.lukebemish.excavatedvariants.ModifiedOreBlock;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BlockstateModelParser {
-    public Map<String, List<VariantAssembler>> variants = new HashMap<>();
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.lukebemish.excavatedvariants.ModifiedOreBlock;
 
-    public static BlockstateModelParser create(ModifiedOreBlock block, List<ResourceLocation> modelLocs) {
-        var assembler = new BlockstateModelParser();
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+
+public class BlockStateData {
+    public static final Codec<BlockStateData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.unboundedMap(Codec.STRING, VariantAssembler.CODEC.listOf()).fieldOf("variants").forGetter(BlockStateData::getVariants)
+    ).apply(instance, BlockStateData::new));
+
+    private final Map<String, List<VariantAssembler>> variants = new HashMap<>();
+
+    public Map<String, List<VariantAssembler>> getVariants() {
+        return variants;
+    }
+
+    public BlockStateData() {}
+    public BlockStateData(Map<String, List<VariantAssembler>> variants) {
+        this.variants.putAll(variants);
+    }
+
+    public static BlockStateData create(ModifiedOreBlock block, List<ResourceLocation> modelLocs) {
+        var assembler = new BlockStateData();
         if (block.isFacingType()) {
             for (Direction d : Direction.values()) {
                 ArrayList<VariantAssembler> vars = new ArrayList<>();

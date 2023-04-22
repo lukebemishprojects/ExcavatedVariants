@@ -1,5 +1,20 @@
 package dev.lukebemish.excavatedvariants;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 import com.google.common.base.Functions;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
@@ -7,30 +22,35 @@ import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
-import dev.lukebemish.excavatedvariants.api.IOreListModifier;
+import dev.lukebemish.excavatedvariants.api.DataProvider;
+import dev.lukebemish.excavatedvariants.api.DataReceiver;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.client.ClientServices;
-import dev.lukebemish.excavatedvariants.data.*;
+import dev.lukebemish.excavatedvariants.data.BaseOre;
+import dev.lukebemish.excavatedvariants.data.BaseStone;
+import dev.lukebemish.excavatedvariants.data.MappingsCache;
+import dev.lukebemish.excavatedvariants.data.ModConfig;
+import dev.lukebemish.excavatedvariants.data.ModData;
 import dev.lukebemish.excavatedvariants.data.filter.Filter;
 import dev.lukebemish.excavatedvariants.platform.Services;
 import dev.lukebemish.excavatedvariants.recipe.OreConversionRecipe;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public final class ExcavatedVariants {
+    public static final int DEFAULT_COMPAT_PRIORITY = -10;
+
     private ExcavatedVariants() {}
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
+    public static final Gson GSON_CONDENSED = new GsonBuilder().setLenient().create();
 
     public static final String MOD_ID = "excavated_variants";
 
@@ -197,20 +217,15 @@ public final class ExcavatedVariants {
         Map<String, List<BaseOre>> oreMap = new HashMap<>();
         for (ModData mod : ExcavatedVariants.getConfig().mods) {
             if (modids.containsAll(mod.modId)) {
-                for (BaseStone stone : mod.providedStones) {
-                    if (!stoneMap.containsKey(stone.id)) stoneMap.put(stone.id, stone);
-                    else {
-                        BaseStone stoneOld = stoneMap.get(stone.id);
-                        List<String> types = new ArrayList<>(stoneOld.types);
-                        types.addAll(stone.types.stream().filter(s -> !stoneOld.types.contains(s)).toList());
-                        stoneOld.types = types;
-                    }
-                }
-                for (BaseOre ore : mod.providedOres) {
-                    oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
-                    oreMap.get(ore.id).add(ore);
-                }
+                processData(stoneMap, oreMap, mod.providedStones, mod.providedOres);
             }
+        }
+        List<DataProvider> providers = Services.COMPAT.getListeners(DataProvider.class);
+        for (DataProvider provider : providers) {
+            List<BaseStone> stones = new ArrayList<>();
+            List<BaseOre> ores = new ArrayList<>();
+            provider.provideOres(ore -> ores.add(ore.getBase()), stone -> stones.add(stone.getBase()));
+            processData(stoneMap, oreMap, stones, ores);
         }
         for (String id : oreMap.keySet()) {
             List<BaseOre> oreList = oreMap.get(id);
@@ -246,10 +261,13 @@ public final class ExcavatedVariants {
                 }
             }
         }
-        var listListeners = Services.COMPAT.getOreListModifiers();
-        for (IOreListModifier listListener : listListeners) {
-            oreStoneList = listListener.modify(oreStoneList, stoneMap.values());
+
+        List<Pair<Ore, Set<Stone>>> apiListBuilder = new ArrayList<>();
+        for (Pair<BaseOre, HashSet<BaseStone>> p : oreStoneList) {
+            apiListBuilder.add(new Pair<>(new Ore(p.getFirst()), p.getSecond().stream().map(Stone::new).collect(Collectors.toSet())));
         }
+        var apiList = Collections.unmodifiableList(apiListBuilder);
+        Services.COMPAT.getListeners(DataReceiver.class).forEach(r -> r.receiveData(apiList));
 
         HashSet<String> doneIds = new HashSet<>();
         ArrayList<Pair<BaseOre, HashSet<BaseStone>>> out = new ArrayList<>();
@@ -272,6 +290,22 @@ public final class ExcavatedVariants {
         ores = knownOres.stream().collect(Collectors.toMap(o -> o.id, Functions.identity()));
         allPairs = out.stream().flatMap(p -> p.getSecond().stream().map(o -> new Pair<>(p.getFirst(), o))).collect(Collectors.toSet());
         oreStoneList = out;
+    }
+
+    private static void processData(Map<String, BaseStone> stoneMap, Map<String, List<BaseOre>> oreMap, List<BaseStone> providedStones, List<BaseOre> providedOres) {
+        for (BaseStone stone : providedStones) {
+            if (!stoneMap.containsKey(stone.id)) stoneMap.put(stone.id, stone);
+            else {
+                BaseStone stoneOld = stoneMap.get(stone.id);
+                List<String> types = new ArrayList<>(stoneOld.types);
+                types.addAll(stone.types.stream().filter(s -> !stoneOld.types.contains(s)).toList());
+                stoneOld.types = types;
+            }
+        }
+        for (BaseOre ore : providedOres) {
+            oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
+            oreMap.get(ore.id).add(ore);
+        }
     }
 
     public static Map<String, BaseOre> getOres() {

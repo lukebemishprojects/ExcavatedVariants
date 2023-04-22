@@ -2,7 +2,7 @@ package dev.lukebemish.excavatedvariants.forge;
 
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.ICreativeTabLoader;
+import dev.lukebemish.excavatedvariants.platform.services.CreativeTabLoader;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -13,8 +13,8 @@ import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @SuppressWarnings("unused")
-@AutoService(ICreativeTabLoader.class)
-public class CreativeTabLoaderImpl implements ICreativeTabLoader {
+@AutoService(CreativeTabLoader.class)
+public class CreativeTabLoaderImpl implements CreativeTabLoader {
 
 
     private static void setup(CreativeModeTab.Builder builder) {

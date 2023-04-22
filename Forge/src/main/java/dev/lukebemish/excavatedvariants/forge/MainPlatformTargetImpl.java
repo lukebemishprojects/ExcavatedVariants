@@ -2,7 +2,7 @@ package dev.lukebemish.excavatedvariants.forge;
 
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.IMainPlatformTarget;
+import dev.lukebemish.excavatedvariants.platform.services.MainPlatformTarget;
 import dev.lukebemish.excavatedvariants.ModifiedOreBlock;
 import dev.lukebemish.excavatedvariants.data.BaseOre;
 import dev.lukebemish.excavatedvariants.data.BaseStone;
@@ -13,8 +13,8 @@ import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-@AutoService(IMainPlatformTarget.class)
-public class MainPlatformTargetImpl implements IMainPlatformTarget {
+@AutoService(MainPlatformTarget.class)
+public class MainPlatformTargetImpl implements MainPlatformTarget {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, ExcavatedVariants.MOD_ID);
 
     public void registerFeatures() {

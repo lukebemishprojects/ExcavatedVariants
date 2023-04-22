@@ -1,7 +1,7 @@
 package dev.lukebemish.excavatedvariants.mixin;
 
 import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.excavatedvariants.worldgen.IOreFound;
+import dev.lukebemish.excavatedvariants.worldgen.OreFound;
 import dev.lukebemish.excavatedvariants.data.BaseOre;
 import dev.lukebemish.excavatedvariants.data.BaseStone;
 import net.minecraft.world.level.block.Block;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.HashSet;
 
 @Mixin(Block.class)
-public class BlockMixin implements IOreFound {
+public class BlockMixin implements OreFound {
     @Unique
     private Pair<BaseOre, HashSet<BaseStone>> excavated_variants$ore_pair;
     @Unique

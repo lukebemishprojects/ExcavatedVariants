@@ -1,12 +1,16 @@
 package dev.lukebemish.excavatedvariants.forge;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.Type;
-
-import java.util.*;
 
 public final class PluginFinder {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -27,7 +31,10 @@ public final class PluginFinder {
         List<T> instances = new ArrayList<>();
         for (String name : names) {
             try {
-                var clazz = Class.forName(name);
+                var clazz = Class.forName(name, false, PluginFinder.class.getClassLoader());
+                if (!instanceClass.isAssignableFrom(clazz)) {
+                    continue;
+                }
                 var asSubclass = clazz.asSubclass(instanceClass);
                 var constructor = asSubclass.getDeclaredConstructor();
                 var instance = constructor.newInstance();

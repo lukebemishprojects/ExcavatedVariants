@@ -1,25 +1,5 @@
 package dev.lukebemish.excavatedvariants.forge;
 
-import com.google.auto.service.AutoService;
-import com.google.common.graph.ElementOrder;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
-import com.google.gson.JsonParser;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
-import dev.lukebemish.excavatedvariants.IPlatform;
-import dev.lukebemish.excavatedvariants.forge.mixin.ForgeTierSortingRegistryAccessor;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Tier;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.loading.toposort.TopologicalSort;
-import net.minecraftforge.forgespi.language.IModInfo;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,8 +9,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@AutoService(IPlatform.class)
-public class PlatformImpl implements IPlatform {
+import com.google.auto.service.AutoService;
+import com.google.common.graph.ElementOrder;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
+import dev.lukebemish.excavatedvariants.forge.mixin.ForgeTierSortingRegistryAccessor;
+import dev.lukebemish.excavatedvariants.platform.services.Platform;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.loading.toposort.TopologicalSort;
+import net.minecraftforge.forgespi.language.IModInfo;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Tier;
+
+@AutoService(Platform.class)
+public class PlatformImpl implements Platform {
     public boolean isQuilt() {
         return false;
     }
@@ -66,7 +67,7 @@ public class PlatformImpl implements IPlatform {
         try (var stream = ServerPrePackRepository.getResource(ORDERING);
              var reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
             var ordering = ItemTierOrdering.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(reader)).getOrThrow(false, e->{});
-            boolean missingTiers = tiers.values().stream().anyMatch(tier -> !ordering.order.contains(tier));
+            boolean missingTiers = tiers.keySet().stream().anyMatch(tier -> !ordering.order.contains(tier));
             boolean extraTiers = ordering.order.stream().anyMatch(tier -> !tiers.containsKey(tier));
             if (!missingTiers && !extraTiers) {
                 for (ResourceLocation rl : ordering.order) {

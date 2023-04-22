@@ -2,15 +2,15 @@ package dev.lukebemish.excavatedvariants.quilt;
 
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.ICreativeTabLoader;
+import dev.lukebemish.excavatedvariants.platform.services.CreativeTabLoader;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 @SuppressWarnings("unused")
-@AutoService(ICreativeTabLoader.class)
-public class CreativeTabLoaderImpl implements ICreativeTabLoader {
+@AutoService(CreativeTabLoader.class)
+public class CreativeTabLoaderImpl implements CreativeTabLoader {
     private static final int MAX_INT_VAL = (int) Math.sqrt(Integer.MAX_VALUE);
     public static CreativeModeTab EXCAVATED_VARIANTS_TAB;
 

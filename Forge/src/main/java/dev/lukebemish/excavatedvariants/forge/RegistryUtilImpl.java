@@ -1,7 +1,7 @@
 package dev.lukebemish.excavatedvariants.forge;
 
 import com.google.auto.service.AutoService;
-import dev.lukebemish.excavatedvariants.IRegistryUtil;
+import dev.lukebemish.excavatedvariants.platform.services.RegistryUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -10,8 +10,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@AutoService(IRegistryUtil.class)
-public class RegistryUtilImpl implements IRegistryUtil {
+@AutoService(RegistryUtil.class)
+public class RegistryUtilImpl implements RegistryUtil {
     public static Map<ResourceLocation, Block> blockCache = new ConcurrentHashMap<>();
     public static Map<Block, ResourceLocation> blockRlCache = new ConcurrentHashMap<>();
     public static Map<ResourceLocation, Item> itemCache = new ConcurrentHashMap<>();
