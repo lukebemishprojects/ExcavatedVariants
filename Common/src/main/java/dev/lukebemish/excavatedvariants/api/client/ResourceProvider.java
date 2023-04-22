@@ -16,6 +16,6 @@ public interface ResourceProvider extends ClientCompatPlugin {
      * Provides ore textures to the resource collector.
      * @param textureProducerConsumer consumes pairs of block resource locations and model lists.
      */
-    default void provideOreTextures(List<ResourceLocation> ores, BiConsumer<ResourceLocation, List<TexFaceProviderMap>> textureProducerConsumer) {}
+    default void provideOreTextures(List<ResourceLocation> ores, BiConsumer<ResourceLocation, List<TexFaceProvider>> textureProducerConsumer) {}
 
 }

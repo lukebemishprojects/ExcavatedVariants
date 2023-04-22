@@ -38,11 +38,14 @@ ModsDotGroovy.make {
         }
 
         entrypoints {
-            init = ["dev.lukebemish.excavatedvariants.quilt.ExcavatedVariantsQuilt"]
-            client_init = ["dev.lukebemish.excavatedvariants.quilt.ExcavatedVariantsClientQuilt"]
-            rei_init = ["dev.lukebemish.excavatedvariants.compat.rei.ExcavatedVariantsClientPlugin"]
-            jei_mod_plugin = ["dev.lukebemish.excavatedvariants.compat.jei.JeiCompat"]
-            emi = ["dev.lukebemish.excavatedvariants.quilt.compat.emi.EmiCompat"]
+            init = ['dev.lukebemish.excavatedvariants.quilt.ExcavatedVariantsQuilt']
+            client_init = ['dev.lukebemish.excavatedvariants.quilt.ExcavatedVariantsClientQuilt']
+            rei_init = ['dev.lukebemish.excavatedvariants.compat.rei.ExcavatedVariantsClientPlugin']
+            jei_mod_plugin = ['dev.lukebemish.excavatedvariants.compat.jei.JeiCompat']
+            emi = ['dev.lukebemish.excavatedvariants.quilt.compat.emi.EmiCompat']
+            excavated_variants_client = [
+                    'dev.lukebemish.excavatedvariants.client.DefaultProvider'
+            ]
         }
     }
     onQuilt {

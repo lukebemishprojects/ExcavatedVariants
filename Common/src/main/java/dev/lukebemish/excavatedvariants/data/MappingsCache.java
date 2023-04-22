@@ -52,7 +52,7 @@ public class MappingsCache {
     public static MappingsCache load() {
         try {
             if (!Files.exists(FULL_PATH)) throw new FileNotFoundException();
-            JsonObject json = ModConfig.JANKSON.load(Files.newInputStream(FULL_PATH));
+            JsonObject json = ExcavatedVariants.JANKSON.load(Files.newInputStream(FULL_PATH));
             return CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
             });
         } catch (FileNotFoundException e) {

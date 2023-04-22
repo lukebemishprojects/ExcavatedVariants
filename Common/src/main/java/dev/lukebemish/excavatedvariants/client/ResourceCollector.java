@@ -6,7 +6,7 @@ import java.util.Map;
 
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.ResourceProvider;
-import dev.lukebemish.excavatedvariants.api.client.TexFaceProviderMap;
+import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
 import dev.lukebemish.excavatedvariants.platform.Services;
 
 import net.minecraft.resources.ResourceLocation;
@@ -20,8 +20,8 @@ public class ResourceCollector {
         return stoneTextures;
     }
 
-    static Map<ResourceLocation, List<TexFaceProviderMap>> makeOreTextures(List<ResourceLocation> ores) {
-        Map<ResourceLocation, List<TexFaceProviderMap>> oreTextures = new HashMap<>();
+    static Map<ResourceLocation, List<TexFaceProvider>> makeOreTextures(List<ResourceLocation> ores) {
+        Map<ResourceLocation, List<TexFaceProvider>> oreTextures = new HashMap<>();
         PROVIDERS.forEach(provider -> provider.provideOreTextures(ores, oreTextures::put));
         return oreTextures;
     }

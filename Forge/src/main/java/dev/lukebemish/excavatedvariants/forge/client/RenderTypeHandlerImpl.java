@@ -1,11 +1,11 @@
 package dev.lukebemish.excavatedvariants.forge.client;
 
 import com.google.auto.service.AutoService;
-import dev.lukebemish.excavatedvariants.client.IRenderTypeHandler;
+import dev.lukebemish.excavatedvariants.client.RenderTypeHandler;
 import net.minecraft.world.level.block.Block;
 
-@AutoService(IRenderTypeHandler.class)
-public class RenderTypeHandlerImpl implements IRenderTypeHandler {
+@AutoService(RenderTypeHandler.class)
+public class RenderTypeHandlerImpl implements RenderTypeHandler {
     public void setRenderTypeMipped(Block block) {
     }
 }

@@ -15,6 +15,7 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import blue.endless.jankson.Jankson;
 import com.google.common.base.Functions;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
@@ -47,6 +48,7 @@ import net.minecraft.world.level.block.Block;
 
 public final class ExcavatedVariants {
     public static final int DEFAULT_COMPAT_PRIORITY = -10;
+    public static final Jankson JANKSON = Jankson.builder().build();
 
     private ExcavatedVariants() {}
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();

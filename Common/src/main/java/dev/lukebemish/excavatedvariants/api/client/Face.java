@@ -1,25 +1,16 @@
 package dev.lukebemish.excavatedvariants.api.client;
 
-import org.jetbrains.annotations.Nullable;
-
 public enum Face {
-    NORTH,
-    SOUTH,
-    EAST,
-    WEST,
-    UP,
-    DOWN;
+    NORTH("north"),
+    SOUTH("south"),
+    EAST("east"),
+    WEST("west"),
+    UP("up"),
+    DOWN("down");
 
-    @Nullable
-    public static Face ofString(String face) {
-        return switch (face) {
-            case "north" -> NORTH;
-            case "south" -> SOUTH;
-            case "east" -> EAST;
-            case "west" -> WEST;
-            case "up" -> UP;
-            case "down" -> DOWN;
-            default -> null;
-        };
+    public final String faceName;
+
+    Face(String faceName) {
+        this.faceName = faceName;
     }
 }

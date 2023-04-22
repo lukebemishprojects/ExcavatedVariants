@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import dev.lukebemish.dynamicassetgenerator.api.IInputStreamSource;
@@ -27,7 +27,7 @@ import dev.lukebemish.excavatedvariants.ModifiedOreBlock;
 import dev.lukebemish.excavatedvariants.api.client.Face;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.NamedTextureProvider;
-import dev.lukebemish.excavatedvariants.api.client.TexFaceProviderMap;
+import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
 import dev.lukebemish.excavatedvariants.api.client.TextureProducer;
 import dev.lukebemish.excavatedvariants.data.BaseOre;
 import dev.lukebemish.excavatedvariants.data.BaseStone;
@@ -44,7 +44,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
     private final Map<String, ResourceLocation> oreBlocks = new HashMap<>();
     private final Map<String, ResourceLocation> stoneBlocks = new HashMap<>();
     private final Map<ResourceLocation, List<ModelData>> stoneModels;
-    private final Map<ResourceLocation, List<TexFaceProviderMap>> oreModels;
+    private final Map<ResourceLocation, List<TexFaceProvider>> oreModels;
 
     private final Map<ResourceLocation, IInputStreamSource> resources = new HashMap<>();
 
@@ -97,7 +97,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
     private void processPair(BaseOre ore, BaseStone oldStone, BaseStone newStone) {
         List<ModelData> oldStoneModels = stoneModels.get(stoneBlocks.get(oldStone.id));
         List<ModelData> newStoneModels = stoneModels.get(stoneBlocks.get(newStone.id));
-        List<TexFaceProviderMap> oreModels = this.oreModels.get(oreBlocks.get(ore.id));
+        List<TexFaceProvider> oreModels = this.oreModels.get(oreBlocks.get(ore.id));
 
         if (oldStoneModels == null) {
             ExcavatedVariants.LOGGER.warn("No existing stone models found for "+oldStone.id);
@@ -117,7 +117,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
         int counter = 0;
         List<ResourceLocation> models = new ArrayList<>();
         for (ModelData newStoneModel : newStoneModels) {
-            for (TexFaceProviderMap oreModel : oreModels) {
+            for (TexFaceProvider oreModel : oreModels) {
                 ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+ore.id+"__"+oldStone.id+"__"+counter);
                 assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, oldStone);
                 models.add(modelLocation);
@@ -140,14 +140,12 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
         }
     }
 
-    private void assembleModel(ResourceLocation modelLocation, TexFaceProviderMap ore, ModelData oldStone, ModelData newStone, BaseStone oldStoneData) {
+    private void assembleModel(ResourceLocation modelLocation, TexFaceProvider ore, ModelData oldStone, ModelData newStone, BaseStone oldStoneData) {
         Map<String, StoneTexFace> stoneFaceLocationMap = new HashMap<>();
         Map<String, ResourceLocation> modelTextureTranslations = new HashMap<>();
         NamedTextureProvider[] oldStoneTexSource = new NamedTextureProvider[1];
 
-        oldStone.produceTextures((name, texture, faces) -> {
-            oldStoneTexSource[0] = texture;
-        });
+        oldStone.produceTextures((name, texture, faces) -> oldStoneTexSource[0] = texture);
 
         if (oldStoneTexSource[0] == null) {
             ExcavatedVariants.LOGGER.warn("No existing stone texture found for "+oldStoneData.id);
@@ -167,7 +165,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
         });
 
         // Make the actual model here...
-        JsonObject model = newStone.assembleModel(Collections.unmodifiableMap(modelTextureTranslations));
+        JsonElement model = newStone.assembleModel(Collections.unmodifiableMap(modelTextureTranslations));
         ResourceLocation modelJsonLocation = new ResourceLocation(modelLocation.getNamespace(), "models/"+modelLocation.getPath()+".json");
         resources.put(modelJsonLocation, (resourceLocation, context) -> () -> new ByteArrayInputStream(model.toString().getBytes(StandardCharsets.UTF_8)));
 
@@ -195,7 +193,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
     private void assembleTextures(ResourceLocation output, TextureProducer oreTexture, NamedTextureProvider oldStoneTexture, NamedTextureProvider newStoneTexture) {
         List<ResourceLocation> usedLocations = new ArrayList<>();
 
-        var oreTextureResult = oreTexture.produce(newStoneTexture.get(), oldStoneTexture.get());
+        var oreTextureResult = oreTexture.produce(newStoneTexture, oldStoneTexture);
         ITexSource outTexture = oreTextureResult.getFirst().cached();
         usedLocations.addAll(oreTextureResult.getSecond());
         usedLocations.addAll(oldStoneTexture.getUsedTextures());

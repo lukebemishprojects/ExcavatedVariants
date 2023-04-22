@@ -1,6 +1,19 @@
 package dev.lukebemish.excavatedvariants.data;
 
-import blue.endless.jankson.Jankson;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Supplier;
+
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.api.SyntaxError;
 import com.electronwill.nightconfig.core.Config;
@@ -13,30 +26,21 @@ import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.lukebemish.defaultresources.api.ResourceProvider;
+import dev.lukebemish.excavatedvariants.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.codecs.CommentedCodec;
 import dev.lukebemish.excavatedvariants.codecs.JanksonOps;
 import dev.lukebemish.excavatedvariants.codecs.TomlConfigOps;
+import dev.lukebemish.excavatedvariants.data.filter.Filter;
 import dev.lukebemish.excavatedvariants.data.modifier.Flag;
 import dev.lukebemish.excavatedvariants.data.modifier.VariantModifier;
 import dev.lukebemish.excavatedvariants.platform.Services;
-import dev.lukebemish.defaultresources.api.ResourceProvider;
-import dev.lukebemish.excavatedvariants.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.data.filter.Filter;
-import net.minecraft.resources.ResourceLocation;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.function.Supplier;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModConfig {
     public static final TomlParser TOML_PARSER = TomlFormat.instance().createParser();
     public static final TomlWriter TOML_WRITER = TomlFormat.instance().createWriter();
-    public static final Jankson JANKSON = Jankson.builder().build();
     public static final Path CONFIG_PATH = Services.PLATFORM.getConfigFolder();
     public static final Path FULL_PATH = CONFIG_PATH.resolve(ExcavatedVariants.MOD_ID + ".toml");
     public static final Codec<ModConfig> CODEC = CommentedCodec.of(RecordCodecBuilder.<ModConfig>create(instance -> instance.group(
@@ -116,7 +120,7 @@ public class ModConfig {
                 if (optional.isPresent()) {
                     try {
                         if (rl.getPath().endsWith(".json") || rl.getPath().endsWith(".json5")) {
-                            JsonObject json = JANKSON.load(optional.get());
+                            JsonObject json = ExcavatedVariants.JANKSON.load(optional.get());
                             ConfigResource resource = ConfigResource.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
                             });
                             this.configResource.addFrom(resource);
@@ -143,7 +147,7 @@ public class ModConfig {
                 if (optional.isPresent()) {
                     try {
                         if (rl.getPath().endsWith(".json") || rl.getPath().endsWith(".json5")) {
-                            JsonObject json = JANKSON.load(optional.get());
+                            JsonObject json = ExcavatedVariants.JANKSON.load(optional.get());
                             VariantModifier resource = VariantModifier.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
                             });
                             this.modifiers.add(resource);
@@ -171,7 +175,7 @@ public class ModConfig {
                 if (optional.isPresent()) {
                     try {
                         if (rl.getPath().endsWith(".json") || rl.getPath().endsWith(".json5")) {
-                            JsonObject json = JANKSON.load(optional.get());
+                            JsonObject json = ExcavatedVariants.JANKSON.load(optional.get());
                             ModData resource = ModData.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
                             });
                             modMap.put(rl, resource);

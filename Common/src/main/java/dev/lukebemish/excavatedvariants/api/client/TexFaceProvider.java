@@ -3,6 +3,6 @@ package dev.lukebemish.excavatedvariants.api.client;
 import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
-public interface TexFaceProviderMap {
+public interface TexFaceProvider {
     @NotNull TextureProducer get(Face face);
 }
