@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import dev.lukebemish.excavatedvariants.data.BaseStone;
+import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
 
 import net.minecraft.resources.ResourceLocation;
 

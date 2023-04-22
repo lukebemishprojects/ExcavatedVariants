@@ -8,6 +8,9 @@ import dev.lukebemish.dynamicassetgenerator.api.client.generators.ITexSource;
 
 import net.minecraft.resources.ResourceLocation;
 
+/**
+ * A function which produces a new ore texture source from the given texture sources.
+ */
 @FunctionalInterface
 public interface TextureProducer {
     /**

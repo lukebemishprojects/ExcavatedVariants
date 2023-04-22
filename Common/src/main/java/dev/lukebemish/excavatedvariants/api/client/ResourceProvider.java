@@ -5,7 +5,7 @@ import java.util.function.BiConsumer;
 
 import net.minecraft.resources.ResourceLocation;
 
-public interface ResourceProvider extends ClientCompatPlugin {
+public interface ResourceProvider extends ClientListener {
     /**
      * Provides stone textures to the resource collector.
      * @param textureConsumer consumes pairs of block resource locations and model lists.

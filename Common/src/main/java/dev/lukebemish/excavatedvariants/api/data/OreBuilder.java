@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.mojang.datafixers.util.Either;
-import dev.lukebemish.excavatedvariants.data.BaseOre;
+import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
 import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.resources.ResourceLocation;
