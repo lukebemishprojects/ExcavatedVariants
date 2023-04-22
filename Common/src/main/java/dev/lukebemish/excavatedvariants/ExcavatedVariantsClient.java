@@ -49,7 +49,7 @@ public final class ExcavatedVariantsClient {
 
         Map<BaseOre, BaseStone> originalPairs = ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
                 stone -> new Pair<>(p.getFirst(), stoneMap.get(p.getFirst().stone.get(0))))).collect(Collectors.toMap(
-                Pair::getFirst, Pair::getSecond
+                Pair::getFirst, Pair::getSecond, (a, b) -> a
         ));
         List<Pair<BaseOre, BaseStone>> toMake = new ArrayList<>();
 

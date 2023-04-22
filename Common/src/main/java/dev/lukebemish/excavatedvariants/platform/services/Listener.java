@@ -18,7 +18,7 @@ public interface Listener {
 
     @SuppressWarnings("unchecked")
     default <T extends ClientCompatPlugin> List<T> getClientListeners(Class<T> clazz) {
-        return getAllListeners().stream()
+        return getAllClientListeners().stream()
                 .filter(clazz::isInstance)
                 .map(it -> (T)it).toList();
     }

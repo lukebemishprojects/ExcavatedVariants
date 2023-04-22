@@ -43,7 +43,19 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
         if (found == null) return null;
         if (found.startsWith("#")) return resolveTexture(map, found);
         return ResourceLocation.of(found, ':');
-    }    public static final Codec<ParsedModel> CODEC = ExtraCodecs.lazyInitializedCodec(() -> RecordCodecBuilder.create(i -> i.group(
+    }
+
+    public static String resolveTextureSymbol(Map<String, String> map, String texName) {
+        texName = texName.substring(1);
+        String found = map.get(texName);
+        if (found == null) return texName;
+        if (found.startsWith("#")) {
+            return resolveTextureSymbol(map, found);
+        }
+        return texName;
+    }
+
+    public static final Codec<ParsedModel> CODEC = ExtraCodecs.lazyInitializedCodec(() -> RecordCodecBuilder.create(i -> i.group(
             ResourceLocation.CODEC.optionalFieldOf("parent").forGetter(ParsedModel::parent),
             Codec.unboundedMap(Codec.STRING, Codec.STRING).optionalFieldOf("textures", Map.of()).forGetter(ParsedModel::textures),
             ElementDefinition.CODEC.listOf().optionalFieldOf("elements", List.of()).forGetter(ParsedModel::elements),
@@ -86,13 +98,11 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
         if (children().isEmpty() || children().get().isEmpty()) {
             for (ElementDefinition definition : this.elements()) {
                 if (definition.faces.containsKey(side)) {
-                    String texName = definition.faces.get(side).texture().replaceFirst("#","");
+                    String texName = resolveTextureSymbol(texMap, definition.faces.get(side).texture());
                     LocationKey key = definition.getLocationKey();
                     NamedResourceList rls = map.computeIfAbsent(key, k -> new NamedResourceList(texName));
                     rls.name = texName;
-                    FaceDefinition face = definition.faces.get(side);
-                    String texture = face.texture();
-                    ResourceLocation location = resolveTexture(texMap, texture);
+                    ResourceLocation location = resolveTexture(texMap, "#"+texName);
                     if (location != null)
                         rls.resources.add(location);
                 }
@@ -118,7 +128,7 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
         for (Face face : Face.values()) {
             var map = getRlMapForSide(face.faceName);
             for (NamedResourceList value : map.values()) {
-                sides.computeIfAbsent(value.name, k -> new SideInformation(new HashSet<>(), new ArrayList<>()))
+                sides.computeIfAbsent(value.name, k -> new SideInformation(new HashSet<>(), new ArrayList<>(value.resources)))
                         .faces.add(face);
             }
         }

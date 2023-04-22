@@ -118,7 +118,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
         List<ResourceLocation> models = new ArrayList<>();
         for (ModelData newStoneModel : newStoneModels) {
             for (TexFaceProvider oreModel : oreModels) {
-                ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+ore.id+"__"+oldStone.id+"__"+counter);
+                ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+newStone.id+"_"+ore.id+"_"+counter);
                 assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, oldStone);
                 models.add(modelLocation);
                 counter += 1;
