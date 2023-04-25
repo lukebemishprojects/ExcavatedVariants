@@ -25,6 +25,7 @@ import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.excavatedvariants.api.DataProvider;
 import dev.lukebemish.excavatedvariants.api.DataReceiver;
+import dev.lukebemish.excavatedvariants.api.IOreListModifier;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.impl.client.ClientServices;
@@ -264,6 +265,8 @@ public final class ExcavatedVariants {
             }
         }
 
+        deprecatedApiStandIn();
+
         List<Pair<Ore, Set<Stone>>> apiListBuilder = new ArrayList<>();
         for (Pair<BaseOre, HashSet<BaseStone>> p : oreStoneList) {
             apiListBuilder.add(new Pair<>(new Ore(p.getFirst()), p.getSecond().stream().map(Stone::new).collect(Collectors.toSet())));
@@ -292,6 +295,13 @@ public final class ExcavatedVariants {
         ores = knownOres.stream().collect(Collectors.toMap(o -> o.id, Functions.identity()));
         allPairs = out.stream().flatMap(p -> p.getSecond().stream().map(o -> new Pair<>(p.getFirst(), o))).collect(Collectors.toSet());
         oreStoneList = out;
+    }
+
+    @SuppressWarnings("removal")
+    private static void deprecatedApiStandIn() {
+        for (IOreListModifier listListener : Services.COMPAT.getListeners(IOreListModifier.class)) {
+            listListener.modify(new ArrayList<>(), Set.of());
+        }
     }
 
     private static void processData(Map<String, BaseStone> stoneMap, Map<String, List<BaseOre>> oreMap, List<BaseStone> providedStones, List<BaseOre> providedOres) {
