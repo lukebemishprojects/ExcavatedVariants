@@ -1,12 +1,19 @@
 package dev.lukebemish.excavatedvariants.data;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.*;
-
+@Deprecated(forRemoval = true, since = "2.3.0")
 public class BaseOre implements Cloneable {
     public static final Codec<BaseOre> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
             Codec.STRING.fieldOf("id").forGetter(bs -> bs.id),

@@ -1,15 +1,20 @@
 package dev.lukebemish.excavatedvariants.data;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.*;
-
+@Deprecated(forRemoval = true, since = "2.3.0")
 public class BaseStone {
     public static final Codec<BaseStone> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
             Codec.STRING.fieldOf("id").forGetter(bs -> bs.id),
-            ResourceLocation.CODEC.listOf().optionalFieldOf("texture_location").forGetter(bs -> Optional.empty()),
             Codec.STRING.optionalFieldOf("en_name").forGetter(bs -> Optional.empty()),
             ResourceLocation.CODEC.fieldOf("block_id").forGetter(bs -> bs.blockId),
             Codec.STRING.listOf().fieldOf("types").forGetter(bs -> bs.types),
@@ -22,7 +27,7 @@ public class BaseStone {
     public List<String> types;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public BaseStone(String id, Optional<List<ResourceLocation>> texture_location, Optional<String> enName, ResourceLocation blockId, List<String> types, Map<String, String> lang) {
+    public BaseStone(String id, Optional<String> enName, ResourceLocation blockId, List<String> types, Map<String, String> lang) {
         this.id = id;
         this.blockId = blockId;
         this.types = types;

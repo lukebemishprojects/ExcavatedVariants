@@ -1,4 +1,5 @@
 package dev.lukebemish.excavatedvariants.api;
 
-public interface ICompatPlugin {
+@Deprecated(forRemoval = true, since = "2.3.0")
+public interface ICompatPlugin extends CommonListener {
 }
