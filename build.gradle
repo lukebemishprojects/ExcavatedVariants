@@ -10,6 +10,7 @@ plugins {
     id 'io.github.groovymc.modsdotgroovy' version '1.1.2'
     id 'java-library'
     id 'org.quiltmc.loom' version '1.1.+' apply false
+    id 'org.quiltmc.gradle.licenser' version '2.0.+' apply false
 }
 
 modGitPublisher {
@@ -32,10 +33,17 @@ modsDotGroovy {
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'org.quiltmc.gradle.licenser'
     
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
     java.withJavadocJar()
+
+    license {
+        rule rootProject.file('header.txt')
+        exclude '**/*.mcmeta'
+    }
         
     jar {
         manifest {
@@ -119,5 +127,20 @@ subprojects {
     // other mod developers.
     tasks.withType(GenerateModuleMetadata) {
         enabled = false
+    }
+
+    publishing {
+        repositories {
+            if (findProperty('lukebemishMavenUrl')) {
+                maven {
+                    name = 'PersonalMaven'
+                    url = uri(findProperty('lukebemishMavenUrl'))
+                    credentials(AwsCredentials) {
+                        accessKey findProperty('lukebemishMavenKey') ?: ''
+                        secretKey findProperty('lukebemishMavenSecret') ?: ''
+                    }
+                }
+            }
+        }
     }
 }
