@@ -1,3 +1,8 @@
+## Excavated Variants 2.3.0
+
+### Features
+- API rework (#116)
+
 ## Excavated Variants 2.2.1
 
 ### Fixes
