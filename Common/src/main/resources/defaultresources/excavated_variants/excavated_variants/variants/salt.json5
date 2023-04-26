@@ -1,0 +1,22 @@
+{
+  mod_id: 'salt',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'rock_salt',
+      en_name: 'Rock Salt',
+      block_id: [
+        'salt:rock_salt_ore',
+      ],
+      orename: [
+        'rock_salt_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'stone',
+      ],
+    },
+  ],
+}

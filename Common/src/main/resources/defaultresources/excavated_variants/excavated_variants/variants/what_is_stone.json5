@@ -1,0 +1,198 @@
+{
+  mod_id: 'what_is_stone',
+  provided_stones: [
+    {
+      id: 'wis_pumice',
+		en_name: 'Pumice',
+      block_id: 'what_is_stone:pumice',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_dacite',
+		en_name: 'Dacite',
+      block_id: 'what_is_stone:dacite',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_arkosic_sandstone',
+		en_name: 'Arkosic Sandstone',
+      block_id: 'what_is_stone:arkosic_sandstone',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_shale',
+		en_name: 'Shale',
+      block_id: 'what_is_stone:shale',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_soapstone',
+		en_name: 'Soapstone',
+      block_id: 'what_is_stone:soapstone',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_gneiss',
+		en_name: 'Gneiss',
+      block_id: 'what_is_stone:gneiss',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_scoria',
+		en_name: 'Scoria',
+      block_id: 'what_is_stone:scoria',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_peridotite',
+		en_name: 'Peridotite',
+      block_id: 'what_is_stone:peridotite',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_anthracite',
+		en_name: 'Anthracite',
+      block_id: 'what_is_stone:anthracite',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_pegmatite',
+		en_name: 'Pegmatite',
+      block_id: 'what_is_stone:pegmatite',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_breccia',
+		en_name: 'Breccia',
+      block_id: 'what_is_stone:breccia',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'wis_white_limestone',
+		en_name: 'White Limestone',
+      block_id: 'what_is_stone:white_limestone',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_white_granite',
+		en_name: 'White Granite',
+      block_id: 'what_is_stone:white_granite',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_mudstone',
+		en_name: 'Mudstone',
+      block_id: 'what_is_stone:mudstone',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_limestone',
+		en_name: 'Beige Limestone',
+      block_id: 'what_is_stone:limestone',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_serpentinite',
+		en_name: 'Serpentinite',
+      block_id: 'what_is_stone:serpentinite',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_marble',
+		en_name: 'White Marble',
+      block_id: 'what_is_stone:marble',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_rhyolite',
+		en_name: 'Rhyolite',
+      block_id: 'what_is_stone:rhyolite',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_grey_limestone',
+		en_name: 'Gray Limestone',
+      block_id: 'what_is_stone:grey_limestone',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_slate',
+		en_name: 'Slate',
+      block_id: 'what_is_stone:slate',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_schist',
+		en_name: 'Schist',
+      block_id: 'what_is_stone:schist',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_black_marble',
+		en_name: 'Black Marble',
+      block_id: 'what_is_stone:black_marble',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_gabbro',
+		en_name: 'Gabbro',
+      block_id: 'what_is_stone:gabbro',
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'wis_conglomerate',
+		en_name: 'Conglomerate',
+      block_id: 'what_is_stone:conglomerate',
+      types: [
+        'stone',
+      ],
+    },
+  ],
+  provided_ores: [],
+}
