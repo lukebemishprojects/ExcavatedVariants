@@ -1,3 +1,8 @@
+## Excavated Variants 2.3.1
+
+### Other
+- [FEATURE] Compat for What is Stone and Salt (#117)
+
 ## Excavated Variants 2.3.0
 
 ### Features
