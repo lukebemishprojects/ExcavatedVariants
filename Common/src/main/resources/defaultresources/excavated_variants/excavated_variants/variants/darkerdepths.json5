@@ -73,7 +73,7 @@
       stone: [
         'darkerdepths_aridrock',
         'darkerdepths_limestone',
-      ],      
+      ],
       lang: {
         en_us: 'Iron Ore',
       },
@@ -93,7 +93,7 @@
       stone: [
         'darkerdepths_aridrock',
         'darkerdepths_limestone',
-      ],      
+      ],
       lang: {
         en_us: 'Coal Ore',
       },
@@ -113,7 +113,7 @@
       stone: [
         'darkerdepths_aridrock',
         'darkerdepths_limestone',
-      ],      
+      ],
       lang: {
         en_us: 'Lapis Lazuli Ore',
       },
@@ -133,7 +133,7 @@
       stone: [
         'darkerdepths_aridrock',
         'darkerdepths_limestone',
-      ],      
+      ],
       lang: {
         en_us: 'Diamond Ore',
       },
@@ -153,7 +153,7 @@
       stone: [
         'darkerdepths_aridrock',
         'darkerdepths_limestone',
-      ],      
+      ],
       lang: {
         en_us: 'Redstone Ore',
       },
@@ -174,7 +174,7 @@
         'darkerdepths_aridrock',
         'darkerdepths_limestone',
         'stone',
-      ],      
+      ],
       lang: {
         en_us: 'Silver Ore',
       },
