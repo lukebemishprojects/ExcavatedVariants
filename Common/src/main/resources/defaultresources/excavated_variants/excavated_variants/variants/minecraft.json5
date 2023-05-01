@@ -1,9 +1,16 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'minecraft',
   provided_stones: [
     {
       id: 'stone',
-      en_name: 'Stone',
+      lang: {
+        en_us: 'Stone',
+      },
       block_id: 'minecraft:stone',
       types: [
         'stone',
@@ -11,7 +18,9 @@
     },
     {
       id: 'deepslate',
-      en_name: 'Deepslate',
+      lang: {
+        en_us: 'Deepslate',
+      },
       block_id: 'minecraft:deepslate',
       types: [
         'stone',
@@ -19,7 +28,9 @@
     },
     {
       id: 'andesite',
-      en_name: 'Andesite',
+      lang: {
+        en_us: 'Andesite',
+      },
       block_id: 'minecraft:andesite',
       types: [
         'stone',
@@ -27,7 +38,9 @@
     },
     {
       id: 'diorite',
-      en_name: 'Diorite',
+      lang: {
+        en_us: 'Diorite',
+      },
       block_id: 'minecraft:diorite',
       types: [
         'stone',
@@ -35,7 +48,9 @@
     },
     {
       id: 'granite',
-      en_name: 'Granite',
+      lang: {
+        en_us: 'Granite',
+      },
       block_id: 'minecraft:granite',
       types: [
         'stone',
@@ -43,7 +58,9 @@
     },
     {
       id: 'sandstone',
-      en_name: 'Sandstone',
+      lang: {
+        en_us: 'Sandstone',
+      },
       block_id: 'minecraft:sandstone',
       types: [
         'stone',
@@ -51,7 +68,9 @@
     },
     {
       id: 'red_sandstone',
-      en_name: 'Red Sandstone',
+      lang: {
+        en_us: 'Red Sandstone',
+      },
       block_id: 'minecraft:red_sandstone',
       types: [
         'stone',
@@ -59,7 +78,9 @@
     },
     {
       id: 'dripstone',
-      en_name: 'Dripstone',
+      lang: {
+        en_us: 'Dripstone',
+      },
       block_id: 'minecraft:dripstone_block',
       types: [
         'stone',
@@ -67,7 +88,9 @@
     },
     {
       id: 'tuff',
-      en_name: 'Tuff',
+      lang: {
+        en_us: 'Tuff',
+      },
       block_id: 'minecraft:tuff',
       types: [
         'stone',
@@ -75,7 +98,9 @@
     },
     {
       id: 'smooth_basalt',
-      en_name: 'Smooth Basalt',
+      lang: {
+        en_us: 'Smooth Basalt',
+      },
       block_id: 'minecraft:smooth_basalt',
       types: [
         'stone',
@@ -83,7 +108,9 @@
     },
     {
       id: 'basalt',
-      en_name: 'Basalt',
+      lang: {
+        en_us: 'Basalt',
+      },
       block_id: 'minecraft:basalt',
       types: [
         'nether',
@@ -91,7 +118,9 @@
     },
     {
       id: 'calcite',
-      en_name: 'Calcite',
+      lang: {
+        en_us: 'Calcite',
+      },
       block_id: 'minecraft:calcite',
       types: [
         'stone',
@@ -99,7 +128,9 @@
     },
     {
       id: 'netherrack',
-      en_name: 'Netherrack',
+      lang: {
+        en_us: 'Netherrack',
+      },
       block_id: 'minecraft:netherrack',
       types: [
         'nether',
@@ -107,7 +138,9 @@
     },
     {
       id: 'blackstone',
-      en_name: 'Blackstone',
+      lang: {
+        en_us: 'Blackstone',
+      },
       block_id: 'minecraft:blackstone',
       types: [
         'nether',
@@ -115,7 +148,9 @@
     },
     {
       id: 'end_stone',
-      en_name: 'End Stone',
+      lang: {
+        en_us: 'End Stone',
+      },
       block_id: 'minecraft:end_stone',
       types: [
         'end',
@@ -133,7 +168,9 @@
         'minecraft:coal_ore',
         'minecraft:deepslate_coal_ore',
       ],
-      en_name: 'Coal Ore',
+      lang: {
+        en_us: 'Coal Ore',
+      },
       types: [
         'stone',
       ],
@@ -148,7 +185,9 @@
         'minecraft:iron_ore',
         'minecraft:deepslate_iron_ore',
       ],
-      en_name: 'Iron Ore',
+      lang: {
+        en_us: 'Iron Ore',
+      },
       types: [
         'stone',
       ],
@@ -163,7 +202,9 @@
         'minecraft:gold_ore',
         'minecraft:deepslate_gold_ore',
       ],
-      en_name: 'Gold Ore',
+      lang: {
+        en_us: 'Gold Ore',
+      },
       types: [
         'stone',
       ],
@@ -177,7 +218,9 @@
       block_id: [
         'minecraft:nether_gold_ore',
       ],
-      en_name: 'Nether Gold Ore',
+      lang: {
+        en_us: 'Nether Gold Ore',
+      },
       types: [
         'nether',
       ],
@@ -192,7 +235,9 @@
         'minecraft:copper_ore',
         'minecraft:deepslate_copper_ore',
       ],
-      en_name: 'Copper Ore',
+      lang: {
+        en_us: 'Copper Ore',
+      },
       types: [
         'stone',
       ],
@@ -207,7 +252,9 @@
         'minecraft:emerald_ore',
         'minecraft:deepslate_emerald_ore',
       ],
-      en_name: 'Emerald Ore',
+      lang: {
+        en_us: 'Emerald Ore',
+      },
       types: [
         'stone',
       ],
@@ -222,7 +269,9 @@
         'minecraft:lapis_ore',
         'minecraft:deepslate_lapis_ore',
       ],
-      en_name: 'Lapis Ore',
+      lang: {
+        en_us: 'Lapis Lazuli Ore',
+      },
       types: [
         'stone',
       ],
@@ -237,7 +286,9 @@
         'minecraft:diamond_ore',
         'minecraft:deepslate_diamond_ore',
       ],
-      en_name: 'Diamond Ore',
+      lang: {
+        en_us: 'Diamond Ore',
+      },
       types: [
         'stone',
       ],
@@ -250,7 +301,9 @@
       block_id: [
         'minecraft:nether_quartz_ore',
       ],
-      en_name: 'Quartz Ore',
+      lang: {
+        en_us: 'Quartz Ore',
+      },
       types: [
         'nether',
       ],
@@ -265,7 +318,9 @@
         'minecraft:redstone_ore',
         'minecraft:deepslate_redstone_ore',
       ],
-      en_name: 'Redstone Ore',
+      lang: {
+        en_us: 'Redstone Ore',
+      },
       types: [
         'stone',
       ],

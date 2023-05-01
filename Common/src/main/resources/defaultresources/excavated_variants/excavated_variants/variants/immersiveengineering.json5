@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'immersiveengineering',
   provided_stones: [],
@@ -12,7 +17,9 @@
         'immersiveengineering:ore_lead',
         'immersiveengineering:deepslate_ore_lead',
       ],
-      en_name: 'Lead Ore',
+      lang: {
+        en_us: 'Lead Ore',
+      },
       types: [
         'stone',
       ],
@@ -27,7 +34,9 @@
         'immersiveengineering:ore_nickel',
         'immersiveengineering:deepslate_ore_nickel',
       ],
-      en_name: 'Nickel Ore',
+      lang: {
+        en_us: 'Nickel Ore',
+      },
       types: [
         'stone',
       ],
@@ -42,7 +51,9 @@
         'immersiveengineering:ore_silver',
         'immersiveengineering:deepslate_ore_silver',
       ],
-      en_name: 'Silver Ore',
+      lang: {
+        en_us: 'Silver Ore',
+      },
       types: [
         'stone',
       ],
@@ -57,7 +68,9 @@
         'immersiveengineering:ore_uranium',
         'immersiveengineering:deepslate_ore_uranium',
       ],
-      en_name: 'Uranium Ore',
+      lang: {
+        en_us: 'Uranium Ore',
+      },
       types: [
         'stone',
       ],
@@ -72,7 +85,9 @@
         'immersiveengineering:ore_aluminum',
         'immersiveengineering:deepslate_ore_aluminum',
       ],
-      en_name: 'Bauxite Ore',
+      lang: {
+        en_us: 'Bauxite Ore',
+      },
       types: [
         'stone',
       ],

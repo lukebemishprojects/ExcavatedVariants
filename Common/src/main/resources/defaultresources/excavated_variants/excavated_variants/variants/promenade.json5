@@ -1,9 +1,16 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'promenade',
   provided_stones: [
     {
       id: 'promenade_blunite',
-      en_name: 'Blunite',
+      lang: {
+        en_us: 'Blunite',
+      },
       block_id: 'promenade:blunite',
       types: [
         'stone',
@@ -11,7 +18,9 @@
     },
     {
       id: 'promenade_carbonite',
-      en_name: 'Carbonite',
+      lang: {
+        en_us: 'Carbonite',
+      },
       block_id: 'promenade:carbonite',
       types: [
         'stone',

@@ -30,6 +30,14 @@ pluginManagement {
             name = 'Cotton'
             url = 'https://server.bbkr.space/artifactory/libs-release/'
         }
+        maven {
+            name = 'TheModdingInquisition'
+            url = 'https://maven.moddinginquisition.org/releases'
+        }
+        maven {
+            url "https://maven.lukebemish.dev/releases"
+        }
+
 
         mavenCentral()
         gradlePluginPortal()

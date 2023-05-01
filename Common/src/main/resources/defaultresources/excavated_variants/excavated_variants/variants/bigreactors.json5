@@ -1,10 +1,17 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'bigreactors',
   provided_stones: [],
   provided_ores: [
     {
       id: 'yellorite_ore',
-      en_name: 'Yellorite Ore',
+      lang: {
+        en_us: 'Yellorite Ore',
+      },
       block_id: [
         'bigreactors:yellorite_ore',
       ],

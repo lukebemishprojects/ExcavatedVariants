@@ -1,9 +1,16 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'blockus',
   provided_stones: [
     {
       id: 'blockus_limestone',
-      en_name: 'Limestone',
+      lang: {
+        en_us: 'Limestone',
+      },
       block_id: 'blockus:limestone',
       types: [
         'stone',
@@ -14,7 +21,9 @@
       texture_location: [
         'blockus:textures/block/marble.png',
       ],
-      en_name: 'Marble',
+      lang: {
+        en_us: 'Marble',
+      },
       block_id: 'blockus:marble',
       types: [
         'stone',
@@ -22,7 +31,9 @@
     },
     {
       id: 'blockus_bluestone',
-      en_name: 'Bluestone',
+      lang: {
+        en_us: 'Bluestone',
+      },
       block_id: 'blockus:bluestone',
       types: [
         'stone',
@@ -34,7 +45,9 @@
         'stone',
       ],
       id: 'blockus_viridite',
-      en_name: 'Viridite',
+      lang: {
+        en_us: 'Viridite',
+      },
     },
   ],
   provided_ores: [],

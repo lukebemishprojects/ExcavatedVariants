@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'powah',
   provided_stones: [],
@@ -7,7 +12,9 @@
         'powah:uraninite_ore_poor',
         'powah:deepslate_uraninite_ore_poor',
       ],
-      en_name: 'Uraninite Ore (Poor)',
+      lang: {
+        en_us: 'Uraninite Ore (Poor)',
+      },
       types: [
         'stone',
       ],
@@ -22,7 +29,9 @@
         'powah:uraninite_ore',
         'powah:deepslate_uraninite_ore',
       ],
-      en_name: 'Uraninite Ore',
+      lang: {
+        en_us: 'Uraninite Ore',
+      },
       types: [
         'stone',
       ],
@@ -37,7 +46,9 @@
         'powah:uraninite_ore_dense',
         'powah:deepslate_uraninite_ore_dense',
       ],
-      en_name: 'Uraninite Ore (Dense)',
+      lang: {
+        en_us: 'Uraninite Ore (Dense)',
+      },
       types: [
         'stone',
       ],

@@ -1,10 +1,17 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'miningmaster',
   provided_stones: [],
   provided_ores: [
     {
       id: 'ice_sapphire_ore',
-      en_name: 'Ice Sapphire Ore',
+      lang: {
+        en_us: 'Ice Sapphire Ore',
+      },
       block_id: [
         'miningmaster:ice_sapphire_ore',
       ],
@@ -20,7 +27,9 @@
     },
     {
       id: 'power_pyrite_ore',
-      en_name: 'Power Pyrite Ore',
+      lang: {
+        en_us: 'Power Pyrite Ore',
+      },
       block_id: [
         'miningmaster:power_pyrite_ore',
       ],
@@ -36,7 +45,9 @@
     },
     {
       id: 'haste_peridot_ore',
-      en_name: 'Haste Peridot Ore',
+      lang: {
+        en_us: 'Haste Peridot Ore',
+      },
       block_id: [
         'miningmaster:haste_peridot_ore',
       ],
@@ -52,7 +63,9 @@
     },
     {
       id: 'fire_ruby_ore',
-      en_name: 'Fire Ruby Ore',
+      lang: {
+        en_us: 'Fire Ruby Ore',
+      },
       block_id: [
         'miningmaster:fire_ruby_ore',
       ],
@@ -68,7 +81,9 @@
     },
     {
       id: 'kinetic_opal_ore',
-      en_name: 'Kinetic Opal Ore',
+      lang: {
+        en_us: 'Kinetic Opal Ore',
+      },
       block_id: [
         'miningmaster:kinetic_opal_ore',
       ],
@@ -84,7 +99,9 @@
     },
     {
       id: 'heart_rhodonite_ore',
-      en_name: 'Heart Rhodonite Ore',
+      lang: {
+        en_us: 'Heart Rhodonite Ore',
+      },
       block_id: [
         'miningmaster:heart_rhodonite_ore',
       ],
@@ -100,7 +117,9 @@
     },
     {
       id: 'spirit_garnet_ore',
-      en_name: 'Spirit Garnet Ore',
+      lang: {
+        en_us: 'Spirit Garnet Ore',
+      },
       block_id: [
         'miningmaster:spirit_garnet_ore',
       ],
@@ -116,7 +135,9 @@
     },
     {
       id: 'dive_aquamarine_ore',
-      en_name: 'Dive Aquamarine Ore',
+      lang: {
+        en_us: 'Dive Aquamarine Ore',
+      },
       block_id: [
         'miningmaster:dive_aquamarine_ore',
       ],
@@ -132,7 +153,9 @@
     },
     {
       id: 'lucky_citrine_ore',
-      en_name: 'Lucky Citrine Ore',
+      lang: {
+        en_us: 'Lucky Citrine Ore',
+      },
       block_id: [
         'miningmaster:lucky_citrine_ore',
       ],

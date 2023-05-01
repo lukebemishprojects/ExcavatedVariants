@@ -1,10 +1,17 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'techreborn',
   provided_stones: [],
   provided_ores: [
     {
       id: 'galena_ore',
-      en_name: 'Galena Ore',
+      lang: {
+        en_us: 'Galena Ore',
+      },
       block_id: [
         'techreborn:galena_ore',
         'techreborn:deepslate_galena_ore',
@@ -22,7 +29,9 @@
     },
     {
       id: 'bauxite_ore',
-      en_name: 'Bauxite Ore',
+      lang: {
+        en_us: 'Bauxite Ore',
+      },
       block_id: [
         'techreborn:bauxite_ore',
         'techreborn:deepslate_bauxite_ore',
@@ -40,7 +49,9 @@
     },
     {
       id: 'iridium_ore',
-      en_name: 'Iridium Ore',
+      lang: {
+        en_us: 'Iridium Ore',
+      },
       block_id: [
         'techreborn:iridium_ore',
         'techreborn:deepslate_iridium_ore',
@@ -58,7 +69,9 @@
     },
     {
       id: 'tin_ore',
-      en_name: 'Tin Ore',
+      lang: {
+        en_us: 'Tin Ore',
+      },
       block_id: [
         'techreborn:tin_ore',
         'techreborn:deepslate_tin_ore',
@@ -76,7 +89,9 @@
     },
     {
       id: 'sapphire_ore',
-      en_name: 'Sapphire Ore',
+      lang: {
+        en_us: 'Sapphire Ore',
+      },
       block_id: [
         'techreborn:sapphire_ore',
         'techreborn:deepslate_sapphire_ore',
@@ -94,7 +109,9 @@
     },
     {
       id: 'peridot_ore',
-      en_name: 'Peridot Ore',
+      lang: {
+        en_us: 'Peridot Ore',
+      },
       block_id: [
         'techreborn:peridot_ore',
       ],
@@ -110,7 +127,9 @@
     },
     {
       id: 'pyrite_ore',
-      en_name: 'Pyrite Ore',
+      lang: {
+        en_us: 'Pyrite Ore',
+      },
       block_id: [
         'techreborn:pyrite_ore',
       ],
@@ -126,7 +145,9 @@
     },
     {
       id: 'cinnabar_ore',
-      en_name: 'Cinnabar Ore',
+      lang: {
+        en_us: 'Cinnabar Ore',
+      },
       block_id: [
         'techreborn:cinnabar_ore',
       ],
@@ -142,7 +163,9 @@
     },
     {
       id: 'ruby_ore',
-      en_name: 'Ruby Ore',
+      lang: {
+        en_us: 'Ruby Ore',
+      },
       block_id: [
         'techreborn:ruby_ore',
         'techreborn:deepslate_ruby_ore',
@@ -160,7 +183,9 @@
     },
     {
       id: 'lead_ore',
-      en_name: 'Lead Ore',
+      lang: {
+        en_us: 'Lead Ore',
+      },
       block_id: [
         'techreborn:lead_ore',
         'techreborn:deepslate_lead_ore',
@@ -178,7 +203,9 @@
     },
     {
       id: 'sphalerite_ore',
-      en_name: 'Sphalerite Ore',
+      lang: {
+        en_us: 'Sphalerite Ore',
+      },
       block_id: [
         'techreborn:sphalerite_ore',
       ],
@@ -194,7 +221,9 @@
     },
     {
       id: 'sheldonite_ore',
-      en_name: 'Sheldonite Ore',
+      lang: {
+        en_us: 'Sheldonite Ore',
+      },
       block_id: [
         'techreborn:sheldonite_ore',
       ],
@@ -210,7 +239,9 @@
     },
     {
       id: 'sodalite_ore',
-      en_name: 'Sodalite Ore',
+      lang: {
+        en_us: 'Sodalite Ore',
+      },
       block_id: [
         'techreborn:sodalite_ore',
       ],
@@ -226,7 +257,9 @@
     },
     {
       id: 'tungsten_ore',
-      en_name: 'Tungsten Ore',
+      lang: {
+        en_us: 'Tungsten Ore',
+      },
       block_id: [
         'techreborn:tungsten_ore',
       ],
@@ -242,7 +275,9 @@
     },
     {
       id: 'silver_ore',
-      en_name: 'Silver Ore',
+      lang: {
+        en_us: 'Silver Ore',
+      },
       block_id: [
         'techreborn:silver_ore',
         'techreborn:deepslate_silver_ore',

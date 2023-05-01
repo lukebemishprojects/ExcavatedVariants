@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'purpeille',
   provided_stones: [],
@@ -6,7 +11,9 @@
       block_id: [
         'purpeille:purpur_remnants',
       ],
-      en_name: 'Purpur Remnants',
+      lang: {
+        en_us: 'Purpur Remnants',
+      },
       types: [
         'end',
       ],

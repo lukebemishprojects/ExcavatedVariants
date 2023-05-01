@@ -11,7 +11,21 @@ The main config file, `config/excavated_variants.json`, contains several options
 * **add\_conversion\_recipes**: Toggles whether to add recipes to convert variants back to the base ore.
 * **jei\_rei\_compat**: Toggles compatibility with JEI and REI for added conversion recipes.
 
-Configs relating to how ores are registered are added in `globalresources/[folder]/excavated_variants/[namespace]/configs`. They can contain the following options:
+All other configs are loaded through the globalresources folder. You may add new config files there directly, but if you want to extract the built-in 
+configs in order to edit them, open the `defaultresources.json` config file. It should look something like as follows:
+```json
+{
+  "extract": {
+    "excavated_variants": "unextracted"
+  }
+}
+```
+Change `unextracted` to `extract` and load the game once. Now, the default configs will be available to edit in the `globalresources` folder.
+
+**Note**: If you just want to add more configs, you do not need to (and should not) do this. You can add new config files without extracting existing ones.
+
+Configs relating to how ores are registered are added in `globalresources/[folder]/excavated_variants/[namespace]/configs`. They can contain the following 
+options:
 
 * **blacklist**: A way of excluding certain variants from being created. It takes a list of filters. See below for the format.
 * **priority**: Allows certain config files to be loaded before others, in the order specified within. These should be a namespaced location of the variant config file.
@@ -28,14 +42,14 @@ Each ore object takes the following format:
 * **stone**: A list of stones, by id, that this ore already appears in.
 * **ore\_name**: A list of other names for this ore, to be used when adding the ore to tags. Optional; if not supplied, defaults to **id**.
 * **block\_id**: A list of blocks of this ore, in the same order as **stone**.
-* **en\_name**: The name to be given to this ore in-game.
+* **lang**: A map of locale keys to the name to be given to this ore in-game.
 * **types**: A list of types that this ore is classified as. Matched at runtime with the types specified in stone configs.
 
 Each stone object takes the following format:
 
 * **id**: A name for this ore. Can be shared to avoid duplicate ores.
 * **block\_id**: The block ID of this stone.
-* **en\_name**: The name to be given to this stone in-game.
+* **lang**: A map of locale keys to the name to be given to this stone in-game.
 * **types**: A list of types that this stone is classified as. Matched at runtime with the types specified in ore configs.
 
 Modifier configs are added in `globalresources/[folder]/excavated_variants/[namespace]/modifiers`. They allow you to configure the properties of created variants, and can contain the following options:

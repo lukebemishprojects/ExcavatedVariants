@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'oreganized',
   provided_stones: [],
@@ -6,11 +11,15 @@
       id: 'lead_ore',
       stone: [
         'stone',
+        'deepslate',
       ],
       block_id: [
         'oreganized:lead_ore',
+        'oreganized:deepslate_lead_ore',
       ],
-      en_name: 'Lead Ore',
+      lang: {
+        en_us: 'Lead Ore',
+      },
       types: [
         'stone',
       ],
@@ -19,11 +28,15 @@
       id: 'silver_ore',
       stone: [
         'stone',
+        'deepslate',
       ],
       block_id: [
         'oreganized:silver_ore',
+        'oreganized:deepslate_silver_ore',
       ],
-      en_name: 'Silver Ore',
+      lang: {
+        en_us: 'Silver Ore',
+      },
       types: [
         'stone',
       ],

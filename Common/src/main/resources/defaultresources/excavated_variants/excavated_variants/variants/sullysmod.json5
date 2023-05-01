@@ -1,0 +1,31 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+{
+  mod_id: 'sullysmod',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'jade_ore',
+      lang: {
+        en_us: 'Jade Ore',
+      },
+      block_id: [
+        'sullysmod:jade_ore',
+        'sullysmod:deepslate_jade_ore',
+      ],
+      orename: [
+        'jade_ore',
+      ],
+      types: [
+        'stone',
+      ],
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+    },
+  ],
+}

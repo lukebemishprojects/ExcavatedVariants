@@ -24,7 +24,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version are you using? (vX.Y.Z)
+      description: What version of Excavated Variants are you using? (vX.Y.Z)
     validations:
       required: true
   - type: textarea
@@ -33,5 +33,7 @@ body:
       label: Logs and Screenshots
       description: Please provide us with the log and any applicable screenshots here.
       placeholder: >-
-        You should upload them and post the link here.
-
+        You should upload them and post the link here. If you do not provide your logs (generally a latest.log or debug.log file), very little
+        can be done to help solve your issue.
+    validations:
+      required: true

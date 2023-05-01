@@ -1,10 +1,17 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'enriched',
   provided_stones: [
     {
       id: 'enriched_dark_granite',
       block_id: 'enriched:dark_granite',
-      en_name: 'Dark Granite',
+      lang: {
+        en_us: 'Dark Granite',
+      },
       types: [
         'stone',
       ],
@@ -12,7 +19,9 @@
     {
       id: 'enriched_marble',
       block_id: 'enriched:marble',
-      en_name: 'Marble',
+      lang: {
+        en_us: 'Marble',
+      },
       types: [
         'stone',
       ],
@@ -29,7 +38,9 @@
         'enriched:tanzanite_ore',
         'enriched:deepslate_tanzanite_ore',
       ],
-      en_name: 'Tanzanite Ore',
+      lang: {
+        en_us: 'Tanzanite Ore',
+      },
       types: [
         'stone',
       ],
@@ -44,7 +55,9 @@
         'enriched:ruby_ore',
         'enriched:deepslate_ruby_ore',
       ],
-      en_name: 'Ruby Ore',
+      lang: {
+        en_us: 'Ruby Ore',
+      },
       types: [
         'stone',
       ],
@@ -59,7 +72,9 @@
         'enriched:sapphire_ore',
         'enriched:deepslate_sapphire_ore',
       ],
-      en_name: 'Sapphire Ore',
+      lang: {
+        en_us: 'Sapphire Ore',
+      },
       types: [
         'stone',
       ],

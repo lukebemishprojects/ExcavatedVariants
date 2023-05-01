@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'mythicmetals',
   provided_stones: [],
@@ -7,7 +12,9 @@
         'mythicmetals:deepslate_adamantite_ore',
         'mythicmetals:adamantite_ore',
       ],
-      en_name: 'Adamantite Ore',
+      lang: {
+        en_us: 'Adamantite Ore',
+      },
       types: [
         'stone',
       ],
@@ -22,7 +29,9 @@
         'mythicmetals:banglum_ore',
         'mythicmetals:nether_banglum_ore',
       ],
-      en_name: 'Banglum Ore',
+      lang: {
+        en_us: 'Banglum Ore',
+      },
       types: [
         'stone',
         'nether',
@@ -37,7 +46,9 @@
       block_id: [
         'mythicmetals:aquarium_ore',
       ],
-      en_name: 'Aquarium Ore',
+      lang: {
+        en_us: 'Aquarium Ore',
+      },
       types: [
         'stone',
       ],
@@ -51,7 +62,9 @@
         'mythicmetals:carmot_ore',
         'mythicmetals:deepslate_carmot_ore',
       ],
-      en_name: 'Carmot Ore',
+      lang: {
+        en_us: 'Carmot Ore',
+      },
       types: [
         'stone',
       ],
@@ -66,7 +79,9 @@
         'mythicmetals:kyber_ore',
         'mythicmetals:calcite_kyber_ore',
       ],
-      en_name: 'Kyber Ore',
+      lang: {
+        en_us: 'Kyber Ore',
+      },
       types: [
         'stone',
       ],
@@ -80,7 +95,9 @@
       block_id: [
         'mythicmetals:manganese_ore',
       ],
-      en_name: 'Manganese Ore',
+      lang: {
+        en_us: 'Manganese Ore',
+      },
       types: [
         'stone',
       ],
@@ -94,7 +111,9 @@
         'mythicmetals:morkite_ore',
         'mythicmetals:deepslate_morkite_ore',
       ],
-      en_name: 'Morkite Ore',
+      lang: {
+        en_us: 'Morkite Ore',
+      },
       types: [
         'stone',
       ],
@@ -108,7 +127,9 @@
       block_id: [
         'mythicmetals:midas_gold_ore',
       ],
-      en_name: 'Midas Gold Ore',
+      lang: {
+        en_us: 'Midas Gold Ore',
+      },
       types: [
         'nether',
       ],
@@ -122,7 +143,9 @@
         'mythicmetals:mythril_ore',
         'mythicmetals:deepslate_mythril_ore',
       ],
-      en_name: 'Mythril Ore',
+      lang: {
+        en_us: 'Mythril Ore',
+      },
       types: [
         'stone',
       ],
@@ -139,7 +162,9 @@
         'mythicmetals:smooth_basalt_orichalcum_ore',
         'mythicmetals:orichalcum_ore',
       ],
-      en_name: 'Orichalcum Ore',
+      lang: {
+        en_us: 'Orichalcum Ore',
+      },
       types: [
         'stone',
       ],
@@ -155,7 +180,9 @@
       block_id: [
         'mythicmetals:osmium_ore',
       ],
-      en_name: 'Osmium Ore',
+      lang: {
+        en_us: 'Osmium Ore',
+      },
       types: [
         'stone',
       ],
@@ -168,7 +195,9 @@
       block_id: [
         'mythicmetals:palladium_ore',
       ],
-      en_name: 'Palladium Ore',
+      lang: {
+        en_us: 'Palladium Ore',
+      },
       types: [
         'nether',
       ],
@@ -181,7 +210,9 @@
       block_id: [
         'mythicmetals:platinum_ore',
       ],
-      en_name: 'Platinum Ore',
+      lang: {
+        en_us: 'Platinum Ore',
+      },
       types: [
         'stone',
       ],
@@ -195,7 +226,9 @@
         'mythicmetals:prometheum_ore',
         'mythicmetals:deepslate_prometheum_ore',
       ],
-      en_name: 'Prometheum Ore',
+      lang: {
+        en_us: 'Prometheum Ore',
+      },
       types: [
         'stone',
       ],
@@ -209,7 +242,9 @@
       block_id: [
         'mythicmetals:quadrillum_ore',
       ],
-      en_name: 'Quadrillum Ore',
+      lang: {
+        en_us: 'Quadrillum Ore',
+      },
       types: [
         'stone',
       ],
@@ -223,7 +258,9 @@
         'mythicmetals:runite_ore',
         'mythicmetals:deepslate_runite_ore',
       ],
-      en_name: 'Runite Ore',
+      lang: {
+        en_us: 'Runite Ore',
+      },
       types: [
         'stone',
       ],
@@ -237,7 +274,9 @@
       block_id: [
         'mythicmetals:silver_ore',
       ],
-      en_name: 'Silver Ore',
+      lang: {
+        en_us: 'Silver Ore',
+      },
       types: [
         'stone',
       ],
@@ -252,7 +291,9 @@
         'mythicmetals:calcite_starrite_ore',
         'mythicmetals:end_stone_starrite_ore',
       ],
-      en_name: 'Starrite Ore',
+      lang: {
+        en_us: 'Starrite Ore',
+      },
       types: [
         'stone',
         'end',
@@ -269,7 +310,9 @@
         'mythicmetals:stormyx_ore',
         'mythicmetals:blackstone_stormyx_ore',
       ],
-      en_name: 'Stormyx Ore',
+      lang: {
+        en_us: 'Stormyx Ore',
+      },
       types: [
         'nether',
       ],
@@ -283,7 +326,9 @@
       block_id: [
         'mythicmetals:tin_ore',
       ],
-      en_name: 'Tin Ore',
+      lang: {
+        en_us: 'Tin Ore',
+      },
       types: [
         'stone',
       ],
@@ -297,7 +342,9 @@
         'mythicmetals:unobtainium_ore',
         'mythicmetals:deepslate_unobtainium_ore',
       ],
-      en_name: 'Unobtainium Ore',
+      lang: {
+        en_us: 'Unobtainium Ore',
+      },
       types: [
         'stone',
       ],

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'bewitchment',
   provided_stones: [],
@@ -12,7 +17,9 @@
         'bewitchment:silver_ore',
         'bewitchment:deepslate_silver_ore',
       ],
-      en_name: 'Silver Ore',
+      lang: {
+        en_us: 'Silver Ore',
+      },
       types: [
         'stone',
       ],
@@ -27,7 +34,9 @@
         'bewitchment:salt_ore',
         'bewitchment:deepslate_salt_ore',
       ],
-      en_name: 'Salt Ore',
+      lang: {
+        en_us: 'Salt Ore',
+      },
       types: [
         'stone',
       ],

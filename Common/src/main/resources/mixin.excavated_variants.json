@@ -1,13 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.lukebemish.excavated_variants.mixin",
+  "package": "dev.lukebemish.excavatedvariants.impl.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockMixin",
-    "IBiomeGenerationSettingsMixin",
-    "IBlockPropertiesMixin",
-    "IMinecraftServerMixin"
+    "CreativeModeTabMixin",
+    "IBlockPropertiesMixin"
   ],
   "client": [],
   "server": [],

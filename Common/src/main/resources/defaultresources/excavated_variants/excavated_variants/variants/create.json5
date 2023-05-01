@@ -1,9 +1,16 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'create',
   provided_stones: [
     {
       id: 'smooth_basalt',
-      en_name: 'Smooth Basalt',
+      lang: {
+        en_us: 'Smooth Basalt',
+      },
       block_id: 'minecraft:smooth_basalt',
       types: [
         // Same as vanilla, but in the nether
@@ -12,7 +19,9 @@
     },
     {
       id: 'create_asurine',
-      en_name: 'Asurine',
+      lang: {
+        en_us: 'Asurine',
+      },
       block_id: 'create:asurine',
       types: [
         'stone',
@@ -20,7 +29,9 @@
     },
     {
       id: 'create_crimsite',
-      en_name: 'Crimsite',
+      lang: {
+        en_us: 'Crimsite',
+      },
       block_id: 'create:crimsite',
       types: [
         'stone',
@@ -28,7 +39,9 @@
     },
     {
       id: 'create_limestone',
-      en_name: 'Limestone',
+      lang: {
+        en_us: 'Limestone',
+      },
       block_id: 'create:limestone',
       types: [
         'stone',
@@ -36,7 +49,9 @@
     },
     {
       id: 'create_ochrum',
-      en_name: 'Ochrum',
+      lang: {
+        en_us: 'Ochrum',
+      },
       block_id: 'create:ochrum',
       types: [
         'stone',
@@ -44,7 +59,9 @@
     },
     {
       id: 'create_scorchia',
-      en_name: 'Scorchia',
+      lang: {
+        en_us: 'Scorchia',
+      },
       block_id: 'create:scorchia',
       types: [
         'stone',
@@ -53,7 +70,9 @@
     },
     {
       id: 'create_scoria',
-      en_name: 'Scoria',
+      lang: {
+        en_us: 'Scoria',
+      },
       block_id: 'create:scoria',
       types: [
         'stone',
@@ -62,7 +81,9 @@
     },
     {
       id: 'create_veridium',
-      en_name: 'Veridium',
+      lang: {
+        en_us: 'Veridium',
+      },
       block_id: 'create:veridium',
       types: [
         'stone',
@@ -80,7 +101,9 @@
         'create:zinc_ore',
         'create:deepslate_zinc_ore',
       ],
-      en_name: 'Zinc Ore',
+      lang: {
+        en_us: 'Zinc Ore',
+      },
       types: [
         'stone',
       ],

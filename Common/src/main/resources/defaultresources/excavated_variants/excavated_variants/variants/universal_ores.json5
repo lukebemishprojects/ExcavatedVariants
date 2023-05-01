@@ -1,10 +1,17 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'universal_ores',
   provided_stones: [],
   provided_ores: [
     {
       id: 'quartz_ore',
-      en_name: 'Quartz Ore',
+      lang: {
+        en_us: 'Quartz Ore',
+      },
       block_id: [
         'universal_ores:blackstone_quartz_ore',
         'universal_ores:basalt_quartz_ore',
@@ -22,7 +29,9 @@
     },
     {
       id: 'iron_ore',
-      en_name: 'Iron Ore',
+      lang: {
+        en_us: 'Iron Ore',
+      },
       block_id: [
         'universal_ores:granite_iron_ore',
         'universal_ores:tuff_iron_ore',
@@ -46,7 +55,9 @@
     },
     {
       id: 'emerald_ore',
-      en_name: 'Emerald Ore',
+      lang: {
+        en_us: 'Emerald Ore',
+      },
       block_id: [
         'universal_ores:diorite_emerald_ore',
         'universal_ores:andesite_emerald_ore',
@@ -70,7 +81,9 @@
     },
     {
       id: 'gold_ore',
-      en_name: 'Gold Ore',
+      lang: {
+        en_us: 'Gold Ore',
+      },
       block_id: [
         'universal_ores:granite_gold_ore',
         'universal_ores:calcite_gold_ore',
@@ -98,7 +111,9 @@
     },
     {
       id: 'diamond_ore',
-      en_name: 'Diamond Ore',
+      lang: {
+        en_us: 'Diamond Ore',
+      },
       block_id: [
         'universal_ores:granite_diamond_ore',
         'universal_ores:diorite_diamond_ore',
@@ -122,7 +137,9 @@
     },
     {
       id: 'coal_ore',
-      en_name: 'Coal Ore',
+      lang: {
+        en_us: 'Coal Ore',
+      },
       block_id: [
         'universal_ores:tuff_coal_ore',
         'universal_ores:andesite_coal_ore',
@@ -146,7 +163,9 @@
     },
     {
       id: 'lapis_ore',
-      en_name: 'Lapis Ore',
+      lang: {
+        en_us: 'Lapis Ore',
+      },
       block_id: [
         'universal_ores:diorite_lapis_ore',
         'universal_ores:andesite_lapis_ore',
@@ -170,7 +189,9 @@
     },
     {
       id: 'redstone_ore',
-      en_name: 'Redstone Ore',
+      lang: {
+        en_us: 'Redstone Ore',
+      },
       block_id: [
         'universal_ores:granite_redstone_ore',
         'universal_ores:tuff_redstone_ore',
@@ -194,7 +215,9 @@
     },
     {
       id: 'copper_ore',
-      en_name: 'Copper Ore',
+      lang: {
+        en_us: 'Copper Ore',
+      },
       block_id: [
         'universal_ores:tuff_copper_ore',
         'universal_ores:granite_copper_ore',

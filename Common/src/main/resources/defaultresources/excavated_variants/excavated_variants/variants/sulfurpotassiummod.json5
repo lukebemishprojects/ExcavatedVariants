@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 {
   mod_id: 'sulfurpotassiummod',
   provided_stones: [],
@@ -12,7 +17,9 @@
         'sulfurpotassiummod:sulfur_nether_ore',
         'sulfurpotassiummod:sulfur_ore',
       ],
-      en_name: 'Sulfur Ore',
+      lang: {
+        en_us: 'Sulfur Ore',
+      },
       types: [
         'stone',
         'nether',
@@ -26,7 +33,9 @@
       block_id: [
         'sulfurpotassiummod:potassium_ore',
       ],
-      en_name: 'Potassium Ore',
+      lang: {
+        en_us: 'Potassium Ore',
+      },
       types: [
         'stone',
       ],

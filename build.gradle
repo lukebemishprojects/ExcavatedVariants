@@ -1,10 +1,49 @@
+buildscript {
+    dependencies {
+        // to fix GSON weirdness with minotaur and FG
+        classpath 'com.google.code.gson:gson:2.10'
+    }
+}
+
+plugins {
+    id 'dev.lukebemish.modgitpublisher' version '1.1.2'
+    id 'io.github.groovymc.modsdotgroovy' version '1.1.2'
+    id 'java-library'
+    id 'org.quiltmc.loom' version '1.1.+' apply false
+    id 'org.quiltmc.gradle.licenser' version '2.0.+' apply false
+}
+
+modGitPublisher {
+    projectName = "Excavated Variants"
+    minecraftVersion = project.minecraft_version
+}
+
+allprojects {p->
+    if (rootProject.hasProperty('versionOverride') && rootProject.versionOverride !== null)
+        p.version = rootProject.versionOverride
+    else
+        p.version = modGitPublisher.version
+}
+
+modsDotGroovy {
+    dslVersion = '1.1.3'
+    platform 'multiloader'
+}
+
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'org.quiltmc.gradle.licenser'
     
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
     java.withJavadocJar()
+
+    license {
+        rule rootProject.file('header.txt')
+        exclude '**/*.mcmeta'
+    }
         
     jar {
         manifest {
@@ -47,6 +86,15 @@ subprojects {
         }
 
         maven {
+            name = 'TheModdingInquisition'
+            url = 'https://maven.moddinginquisition.org/releases'
+        }
+
+        maven {
+            url = 'https://maven.lukebemish.dev/releases'
+        }
+
+        maven {
             url "https://cursemaven.com"
             content {
                 includeGroup "curse.maven"
@@ -59,14 +107,19 @@ subprojects {
             url = "https://dvs1.progwml6.com/files/maven/"
         }
         maven { url "https://maven.architectury.dev/" }
-
-        mavenLocal()
     }
-    
+
 
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = 'UTF-8'
         it.options.release = 17
+    }
+
+    dependencies {
+        compileOnly 'org.jetbrains:annotations:23.0.0'
+        implementation "com.electronwill.night-config:core:$project.nightconfig_version"
+        implementation "com.electronwill.night-config:toml:$project.nightconfig_version"
+        implementation "blue.endless:jankson:$project.jankson_version"
     }
 
     // Disables Gradle's custom module metadata from being published to maven. The
@@ -74,5 +127,20 @@ subprojects {
     // other mod developers.
     tasks.withType(GenerateModuleMetadata) {
         enabled = false
+    }
+
+    publishing {
+        repositories {
+            if (findProperty('lukebemishMavenUrl')) {
+                maven {
+                    name = 'PersonalMaven'
+                    url = uri(findProperty('lukebemishMavenUrl'))
+                    credentials(AwsCredentials) {
+                        accessKey findProperty('lukebemishMavenKey') ?: ''
+                        secretKey findProperty('lukebemishMavenSecret') ?: ''
+                    }
+                }
+            }
+        }
     }
 }
