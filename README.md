@@ -1,5 +1,7 @@
 # Excavated Variants
 
+[![CodeFactor](https://www.codefactor.io/repository/github/lukebemish/excavatedvariants/badge?style=for-the-badge)](https://www.codefactor.io/repository/github/lukebemish/excavatedvariants)
+
 Do you want to contribute to the default variant configs? Feel free to open a pull request. Default variant config files can be placed under `Common/src/main/resources/defaultresources/excavated_variants/excavated_variants/variants/`.
 
 
