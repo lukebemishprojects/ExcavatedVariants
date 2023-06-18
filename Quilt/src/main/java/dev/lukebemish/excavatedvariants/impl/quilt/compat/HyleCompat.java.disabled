@@ -6,7 +6,7 @@
 package dev.lukebemish.excavatedvariants.impl.quilt.compat;
 
 public class HyleCompat {
-    /*private static Map<Block, Pair<BaseOre, HashSet<BaseStone>>> excavatedVariantsOres;
+    private static Map<Block, Pair<BaseOre, HashSet<BaseStone>>> excavatedVariantsOres;
 
     public static void init() {
         StoneTypeCallback.EVENT.register(stoneType -> {
@@ -31,5 +31,5 @@ public class HyleCompat {
             });
             return true;
         });
-    }*/
+    }
 }

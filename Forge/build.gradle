@@ -1,32 +1,18 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
-        classpath 'org.spongepowered:mixingradle:0.7.+'
-    }
-}
-
 plugins {
-    id 'com.matthewprenger.cursegradle' version '1.+'
-    id "com.modrinth.minotaur" version "2.+"
+    alias libs.plugins.forgegradle
+    alias libs.plugins.librarian
+    alias libs.plugins.mixingradle
+    alias libs.plugins.minotaur
+    alias libs.plugins.cursegradle
 }
 
 apply plugin: 'java'
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
 
-archivesBaseName = "${artifact_id}-forge-${minecraft_version}"
+base.archivesName = "${artifact_id}-forge-${libs.versions.minecraft.get()}"
 
 minecraft {
-    mappings channel: 'parchment', version: "${parchment_minecraft_version}-${parchment_version}-${minecraft_version}"
+    mappings channel: 'parchment', version: "${libs.versions.parchment.minecraft.get()}-${libs.versions.parchment.mappings.get()}-${libs.versions.minecraft.get()}"
 
     runs {
         client {
@@ -76,37 +62,40 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
-configurations {
-    testCompileOnly.extendsFrom(compileOnly)
-}
-
 jarJar.enable()
 
+configurations {
+    testCompileClasspath.extendsFrom(compileClasspath)
+}
+
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    minecraft libs.forge
     compileOnly project(":Common")
 
-    compileOnly group:'com.google.auto.service', name:'auto-service', version:'1.0.1'
-    annotationProcessor group:'com.google.auto.service', name:'auto-service', version:'1.0.1'
+    compileOnly libs.autoservice
+    annotationProcessor libs.autoservice
 
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor(variantOf(libs.mixin) { classifier 'processor' })
 
-    //compileOnly(fg.deobf("curse.maven:hyle-609850:3748968"))
+    compileOnly fg.deobf(libs.jei.forge.get())
+    compileOnly fg.deobf(libs.jei.common.get())
 
-    compileOnly(fg.deobf("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}"))
-    compileOnly(fg.deobf("mezz.jei:jei-${rootProject.jei_minecraft_version}-forge-api:${rootProject.jei_version}"))
-    // at runtime, use the full JEI jar
-    //runtimeOnly(fg.deobf("mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}"))
+    compileOnly fg.deobf(libs.rei.common.get())
 
-    compileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
+    compileOnly fg.deobf(variantOf(libs.emi.forge) { classifier 'api' }.get())
+    runtimeOnly fg.deobf(libs.emi.forge.get())
 
-    implementation(fg.deobf("dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-forge-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}"))
-    implementation(fg.deobf("dev.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:${rootProject.defaultresources_version}"))
+    implementation fg.deobf(libs.dynassetgen.forge.get())
+    implementation fg.deobf(libs.defaultresources.forge.get())
 
-    minecraftLibrary("blue.endless:jankson:1.2.1")
+    minecraftLibrary libs.jankson
 
-    jarJar("dev.lukebemish.defaultresources:defaultresources-forge-${rootProject.minecraft_version}:[${rootProject.defaultresources_version},)")
-    jarJar(group: "blue.endless", name: "jankson", version:"[$project.jankson_version,)")
+    jarJar(libs.defaultresources.forge.get()) {
+        jarJar.ranged(it, "[${libs.versions.defaultresources.get()},)")
+    }
+    jarJar(libs.jankson.get()) {
+        jarJar.ranged(it, "[${libs.versions.jankson.get()},)")
+    }
 }
 
 mixin {
@@ -131,7 +120,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId project.archivesBaseName
+            artifactId base.archivesName.get()
             version project.version
             artifact tasks.jarJar
             artifact sourcesJar
@@ -144,14 +133,13 @@ publishing {
 
 // Publishing
 
-if (project.hasProperty("curseforge_key")) {
+if (System.getenv('CURSEFORGE_KEY')) {
     curseforge {
-        apiKey = project.curseforge_key
+        apiKey = System.getenv('CURSEFORGE_KEY')
         project {
             id = '577411'
-            changelog = modGitPublisher.changelog
             releaseType = "${project.release_type}"
-            addGameVersion "${project.minecraft_version}"
+            addGameVersion "${libs.versions.minecraft.get()}"
             addGameVersion 'Forge'
             mainArtifact(tasks.jarJar) {
                 displayName = "Excavated Variants [Forge] v$project.version"
@@ -166,16 +154,15 @@ if (project.hasProperty("curseforge_key")) {
     }
 }
 
-if (project.hasProperty("modrinth_key")) {
+if (System.getenv('MODRINTH_KEY')) {
     modrinth {
-        token = project.modrinth_key
+        token = System.getenv('MODRINTH_KEY')
         projectId = 'IZaMGxb0'
         versionNumber = "$project.version"
         versionType = "${project.release_type}"
         detectLoaders = false
-        changelog = modGitPublisher.changelog
         uploadFile = tasks.jarJar
-        gameVersions = ["${project.minecraft_version}"]
+        gameVersions = ["${libs.versions.minecraft.get()}"]
         loaders = ['forge']
         dependencies {
             required.project 'dynamic_asset_generator'

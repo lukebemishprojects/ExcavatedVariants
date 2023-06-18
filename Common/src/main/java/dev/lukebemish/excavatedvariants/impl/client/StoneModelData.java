@@ -5,21 +5,20 @@
 
 package dev.lukebemish.excavatedvariants.impl.client;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.ITexSource;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.Overlay;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.TextureReader;
+import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
+import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.OverlaySource;
+import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.TextureReaderSource;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.NamedTextureProvider;
 import dev.lukebemish.excavatedvariants.api.client.TextureProducer;
-
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class StoneModelData implements ModelData {
     private final ParsedModel parsedModel;
@@ -56,8 +55,8 @@ class StoneModelData implements ModelData {
 
             textureProducerConsumer.accept(name, new NamedTextureProvider() {
                 @Override
-                public ITexSource apply(TextureProducer.SourceWrapper sourceWrapper) {
-                    return new Overlay(stack.stream().map(rl -> sourceWrapper.wrap(new TextureReader(rl))).toList());
+                public TexSource apply(TextureProducer.SourceWrapper sourceWrapper) {
+                    return new OverlaySource.Builder().setSources(stack.stream().map(rl -> sourceWrapper.wrap(new TextureReaderSource.Builder().setPath(rl).build())).toList()).build();
                 }
 
                 @Override

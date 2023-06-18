@@ -8,7 +8,7 @@ ModsDotGroovy.make {
     loaderVersion = '[40,)'
 
     license = 'LGPL-3.0-or-later'
-    issueTrackerUrl = 'https://github.com/lukebemish/excavated_variants/issues'
+    issueTrackerUrl = 'https://github.com/lukebemish/ExcavatedVariants/issues'
 
     mod {
         modId = this.buildProperties['mod_id']
@@ -18,7 +18,7 @@ ModsDotGroovy.make {
             group = this.group
             intermediate_mappings = 'net.fabricmc:intermediary'
         }
-        displayUrl = 'https://github.com/lukebemish/excavated_variants'
+        displayUrl = 'https://github.com/lukebemish/ExcavatedVariants'
 
         description = 'Adds data-defined ore variants for stone/ore combinations missing them'
         authors = [this.buildProperties['mod_author'] as String]
@@ -35,10 +35,10 @@ ModsDotGroovy.make {
             }
 
             mod('dynamic_asset_generator') {
-                versionRange = ">=${this.buildProperties['dynassetgen_version']}"
+                versionRange = ">=${this.libs.versions.dynassetgen}"
             }
             mod('defaultresources') {
-                versionRange = ">=${this.buildProperties['defaultresources_version']}"
+                versionRange = ">=${this.libs.versions.defaultresources}"
             }
         }
 
@@ -47,7 +47,7 @@ ModsDotGroovy.make {
             client_init = ['dev.lukebemish.excavatedvariants.impl.quilt.ExcavatedVariantsClientQuilt']
             rei_init = ['dev.lukebemish.excavatedvariants.impl.compat.rei.ExcavatedVariantsClientPlugin']
             jei_mod_plugin = ['dev.lukebemish.excavatedvariants.impl.compat.jei.JeiCompat']
-            emi = ['dev.lukebemish.excavatedvariants.impl.quilt.compat.emi.EmiCompat']
+            emi = ['dev.lukebemish.excavatedvariants.impl.compat.emi.EmiCompat']
             excavated_variants_client = [
                     'dev.lukebemish.excavatedvariants.impl.client.DefaultProvider'
             ]

@@ -5,18 +5,8 @@
 
 package dev.lukebemish.excavatedvariants.impl;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.dynamicassetgenerator.api.IPathAwareInputStreamSource;
+import dev.lukebemish.dynamicassetgenerator.api.PathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.AssetResourceCache;
@@ -25,11 +15,14 @@ import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
 import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
 import dev.lukebemish.excavatedvariants.impl.data.ModData;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.IoSupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.IoSupplier;
+import java.io.InputStream;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public final class ExcavatedVariantsClient {
     private ExcavatedVariantsClient() {}
@@ -69,7 +62,7 @@ public final class ExcavatedVariantsClient {
             }
         }
 
-        ASSET_CACHE.planSource(new IPathAwareInputStreamSource() {
+        ASSET_CACHE.planSource(new PathAwareInputStreamSource() {
             @Override
             public @NotNull Set<ResourceLocation> getLocations() {
                 return LANG_BUILDER.languages().stream().map(s -> new ResourceLocation(ExcavatedVariants.MOD_ID+"_generated", "lang/" + s + ".json")).collect(Collectors.toSet());

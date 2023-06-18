@@ -5,38 +5,27 @@
 
 package dev.lukebemish.excavatedvariants.impl.client;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
-
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.api.SyntaxError;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.ITexSource;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.AnimationFrameCapture;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.AnimationSplittingSource;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.ForegroundTransfer;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.Overlay;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.TextureReader;
-import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
+import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
+import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.*;
 import dev.lukebemish.excavatedvariants.api.client.Face;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.codecs.JanksonOps;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ExtraCodecs;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.stream.Stream;
 
 // ONLY fit to be used for parsing, not for writing
 public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String> textures,
@@ -156,40 +145,37 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
             int[] c = new int[] {0};
             Map<String, AnimationSplittingSource.TimeAwareSource> sourceMap = new HashMap<>();
 
-            ITexSource newStoneSource = newStone.apply(source -> {
+            TexSource newStoneSource = newStone.apply(source -> {
                 String name = "stoneNew"+c[0];
                 c[0] += 1;
                 sourceMap.put(name, new AnimationSplittingSource.TimeAwareSource(source.cached(), 1));
-                return new AnimationFrameCapture(name);
+                return new AnimationFrameCapture.Builder().setCapture(name).build();
             });
             c[0] = 0;
 
-            ITexSource oldStoneSource = oldStone.apply(source -> {
+            TexSource oldStoneSource = oldStone.apply(source -> {
                 String name = "stoneOld"+c[0];
                 c[0] += 1;
                 sourceMap.put(name, new AnimationSplittingSource.TimeAwareSource(source.cached(), 1));
-                return new AnimationFrameCapture(name);
+                return new AnimationFrameCapture.Builder().setCapture(name).build();
             });
             c[0] = 0;
 
-            List<ITexSource> oreSources = new ArrayList<>();
+            List<TexSource> oreSources = new ArrayList<>();
             for (ResourceLocation location : map.get(face)) {
                 String name = "ore"+c[0];
                 c[0] += 1;
-                sourceMap.put(name, new AnimationSplittingSource.TimeAwareSource(new TextureReader(location).cached(), 1));
-                oreSources.add(new AnimationFrameCapture(name));
+                sourceMap.put(name, new AnimationSplittingSource.TimeAwareSource(new TextureReaderSource.Builder().setPath(location).build().cached(), 1));
+                oreSources.add(new AnimationFrameCapture.Builder().setCapture(name).build());
             }
 
-            return new Pair<>(new AnimationSplittingSource(sourceMap, new ForegroundTransfer(
-                    oldStoneSource,
-                    new Overlay(oreSources),
-                    newStoneSource,
-                    6,
-                    true,
-                    true,
-                    true,
-                    0.2
-            )).cached(), oreTextures);
+            return new Pair<>(new AnimationSplittingSource.Builder()
+                    .setGenerator(new ForegroundTransferSource.Builder()
+                            .setBackground(oldStoneSource)
+                            .setFull(new OverlaySource.Builder().setSources(oreSources).build().cached())
+                            .setNewBackground(newStoneSource)
+                            .build().cached())
+                    .setSources(sourceMap).build().cached(), oreTextures);
         };
     }
 

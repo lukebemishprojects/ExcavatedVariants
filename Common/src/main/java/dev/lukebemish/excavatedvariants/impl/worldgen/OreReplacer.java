@@ -5,17 +5,14 @@
 
 package dev.lukebemish.excavatedvariants.impl.worldgen;
 
-import java.util.HashSet;
-
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
 import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
 import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -25,6 +22,9 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashSet;
 
 public class OreReplacer extends Feature<NoneFeatureConfiguration> {
     private static final int[] xs = new int[]{-1, 0, 1, 1, -1, -1, 0, 1};
@@ -72,13 +72,16 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
 
     public void modifyChunk(ChunkAccess chunkAccess, int minY, int maxY) {
         LevelChunkSection chunkSection = chunkAccess.getSection(chunkAccess.getSectionIndex(minY));
+        int oldSectionIndex = SectionPos.blockToSectionCoord(minY);
         for (int y = minY; y < maxY; y++) {
             BlockState[][][] cache = new BlockState[16][16][16];
-            int sectionIndex = chunkAccess.getSectionIndex(y);
-            if (chunkAccess.getSectionIndex(chunkSection.bottomBlockY()) != sectionIndex) {
-                chunkSection = chunkAccess.getSection(sectionIndex);
+            int sectionIndex = SectionPos.blockToSectionCoord(y);
+            if (oldSectionIndex != sectionIndex) {
+                chunkSection = chunkAccess.getSection(chunkAccess.getSectionIndex(y));
+                oldSectionIndex++;
             }
             if (chunkSection.hasOnlyAir()) {
+                y += 15;
                 continue;
             }
             for (int i = 0; i < 16; i++) {
@@ -91,7 +94,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
                     }
                     if (pair != null) {
                         for (int c = 0; c < as.length; c++) {
-                            if (i + as[c] < 16 && i + as[c] >= 0 && j + bs[c] < 16 && j + bs[c] >= 0 && y + ys[c] >= chunkSection.bottomBlockY() && y + ys[c] < chunkSection.bottomBlockY() + 16) {
+                            if (i + as[c] < 16 && i + as[c] >= 0 && j + bs[c] < 16 && j + bs[c] >= 0 && y + ys[c] >= SectionPos.sectionToBlockCoord(sectionIndex) && y + ys[c] < SectionPos.sectionToBlockCoord(sectionIndex + 1)) {
                                 BlockState thisState = cache[i + as[c]][y + ys[c] & 15][j + bs[c]];
                                 if (thisState == null) {
                                     thisState = chunkSection.getBlockState(i + as[c], y + ys[c] & 15, j + bs[c]);

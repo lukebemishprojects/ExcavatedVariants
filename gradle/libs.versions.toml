@@ -1,0 +1,69 @@
+[versions]
+minecraft = "1.20.1"
+parchment_minecraft = "1.19.3"
+parchment_mappings = "2023.03.12"
+quilt_loader = "0.19.1"
+
+qfapi = "7.0.3+0.83.1-1.20.1"
+
+forge = "1.20.1-47.0.3"
+mixin = "0.8.5"
+
+autoservice = "1.1.0"
+
+mdg_dsl = "1.5.0"
+
+jankson = "1.2.2"
+nightconfig = "3.6.4"
+
+dynassetgen = "4.0.0"
+defaultresources = "2.0.0"
+
+jetbrains_annotations = "24.0.1"
+
+jei = "15.0.0.15"
+rei = "12.0.625"
+
+emi = "1.0.4+1.20.1"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
+
+qfapi = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "qfapi" }
+
+forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
+
+jetbrains_annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains_annotations" }
+autoservice = { module = "com.google.auto.service:auto-service", version.ref = "autoservice" }
+
+jankson = { module = "blue.endless:jankson", version.ref = "jankson" }
+nightconfig_core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
+nightconfig_toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
+
+dynassetgen_common = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-1.20", version.ref = "dynassetgen" }
+dynassetgen_quilt = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-quilt-1.20", version.ref = "dynassetgen" }
+dynassetgen_forge = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-forge-1.20", version.ref = "dynassetgen" }
+defaultresources_common = { module = "dev.lukebemish.defaultresources:defaultresources-common-1.20", version.ref = "defaultresources" }
+defaultresources_quilt = { module = "dev.lukebemish.defaultresources:defaultresources-quilt-1.20", version.ref = "defaultresources" }
+defaultresources_forge = { module = "dev.lukebemish.defaultresources:defaultresources-forge-1.20", version.ref = "defaultresources" }
+
+jei_common = { module = "mezz.jei:jei-1.20.1-common-api", version.ref = "jei" }
+jei_forge = { module = "mezz.jei:jei-1.20.1-forge-api", version.ref = "jei" }
+jei_fabric= { module = "mezz.jei:jei-1.20.1-fabric-api", version.ref = "jei" }
+rei_common = { module = "me.shedaniel:RoughlyEnoughItems-api", version.ref = "rei" }
+
+emi_common = { module = "dev.emi:emi-xplat-intermediary", version.ref = "emi" }
+emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
+emi_forge = { module = "dev.emi:emi-forge", version.ref = "emi" }
+
+[plugins]
+quilt_loom = { id = "org.quiltmc.loom", version = "1.2.3" }
+forgegradle = {id = "net.minecraftforge.gradle", version = "6.0.6"}
+librarian = {id = "org.parchmentmc.librarian.forgegradle", version = "1.2.0"}
+mixingradle = {id = "org.spongepowered.mixin", version = "0.7.33"}
+mdg = {id = "org.groovymc.modsdotgroovy", version = "1.4.1"}
+cursegradle = {id = "com.matthewprenger.cursegradle", version = "1.4.0"}
+minotaur = {id = "com.modrinth.minotaur", version = "2.8.0"}
+quilt_licenser = {id = "org.quiltmc.gradle.licenser", version = "2.0.1"}

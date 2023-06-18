@@ -5,21 +5,6 @@
 
 package dev.lukebemish.excavatedvariants.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
 import blue.endless.jankson.Jankson;
 import com.google.common.base.Functions;
 import com.google.common.collect.Sets;
@@ -30,27 +15,27 @@ import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.excavatedvariants.api.DataProvider;
 import dev.lukebemish.excavatedvariants.api.DataReceiver;
-import dev.lukebemish.excavatedvariants.api.IOreListModifier;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.impl.client.ClientServices;
-import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
-import dev.lukebemish.excavatedvariants.impl.data.MappingsCache;
-import dev.lukebemish.excavatedvariants.impl.data.ModConfig;
-import dev.lukebemish.excavatedvariants.impl.data.ModData;
+import dev.lukebemish.excavatedvariants.impl.data.*;
 import dev.lukebemish.excavatedvariants.impl.data.filter.Filter;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import dev.lukebemish.excavatedvariants.impl.recipe.OreConversionRecipe;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public final class ExcavatedVariants {
     public static final int DEFAULT_COMPAT_PRIORITY = -10;
@@ -270,8 +255,6 @@ public final class ExcavatedVariants {
             }
         }
 
-        deprecatedApiStandIn();
-
         List<Pair<Ore, Set<Stone>>> apiListBuilder = new ArrayList<>();
         for (Pair<BaseOre, HashSet<BaseStone>> p : oreStoneList) {
             apiListBuilder.add(new Pair<>(new Ore(p.getFirst()), p.getSecond().stream().map(Stone::new).collect(Collectors.toSet())));
@@ -300,13 +283,6 @@ public final class ExcavatedVariants {
         ores = knownOres.stream().collect(Collectors.toMap(o -> o.id, Functions.identity()));
         allPairs = out.stream().flatMap(p -> p.getSecond().stream().map(o -> new Pair<>(p.getFirst(), o))).collect(Collectors.toSet());
         oreStoneList = out;
-    }
-
-    @SuppressWarnings("removal")
-    private static void deprecatedApiStandIn() {
-        for (IOreListModifier listListener : Services.COMPAT.getListeners(IOreListModifier.class)) {
-            listListener.modify(new ArrayList<>(), Set.of());
-        }
     }
 
     private static void processData(Map<String, BaseStone> stoneMap, Map<String, List<BaseOre>> oreMap, List<BaseStone> providedStones, List<BaseOre> providedOres) {

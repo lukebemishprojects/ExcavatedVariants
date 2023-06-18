@@ -4,6 +4,6 @@
  */
 
 @ApiStatus.Internal
-package dev.lukebemish.excavatedvariants.impl.quilt.compat.emi;
+package dev.lukebemish.excavatedvariants.impl.compat.emi;
 
 import org.jetbrains.annotations.ApiStatus;

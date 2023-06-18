@@ -36,14 +36,14 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -96,19 +96,19 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return (a * (weight) + b * (1 - weight));
     }
 
-    private static MaterialColor avgColor(MaterialColor a, MaterialColor b, float weight) {
-        int avgColor = (int) (a.calculateRGBColor(MaterialColor.Brightness.HIGH) * weight + b.calculateRGBColor(MaterialColor.Brightness.HIGH) * (1 - weight));
+    private static MapColor avgColor(MapColor a, MapColor b, float weight) {
+        int avgColor = (int) (a.calculateRGBColor(MapColor.Brightness.HIGH) * weight + b.calculateRGBColor(MapColor.Brightness.HIGH) * (1 - weight));
         int lowest = 0;
         int lowDiff = 0xFFFFFF;
         for (int i = 0; i < 64; i++) {
-            MaterialColor c = MaterialColor.byId(i);
-            int diff = Math.abs(c.calculateRGBColor(MaterialColor.Brightness.HIGH) - avgColor);
+            MapColor c = MapColor.byId(i);
+            int diff = Math.abs(c.calculateRGBColor(MapColor.Brightness.HIGH) - avgColor);
             if (diff < lowDiff) {
                 lowDiff = diff;
                 lowest = i;
             }
         }
-        return MaterialColor.byId(lowest);
+        return MapColor.byId(lowest);
     }
 
     private static Properties copyProperties(BaseOre ore, BaseStone stone) {
@@ -123,14 +123,18 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             IBlockPropertiesMixin oreProps = (IBlockPropertiesMixin) oreProperties;
             properties.strength(avgStrength(target.defaultDestroyTime(), stoneTarget.defaultDestroyTime(), 0.5f),
                             avgF(target.getExplosionResistance(), stoneTarget.getExplosionResistance(), 0.5f))
-                    .color(avgColor(stoneTarget.defaultMaterialColor(), target.defaultMaterialColor(), 0.8F));
+                    .mapColor(avgColor(stoneTarget.defaultMapColor(), target.defaultMapColor(), 0.8F));
             newProperties.setDynamicShape(false);
             newProperties.setHasCollision(true);
             newProperties.setIsRandomlyTicking(oreProps.getIsRandomlyTicking());
             newProperties.setLightEmission(blockstate -> oreProps.getLightEmission().applyAsInt(withProperties(blockstate, target)));
             outProperties = properties;
         } else {
-            outProperties = BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f);
+            outProperties = BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(3.0f, 3.0f);
         }
         ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.filter().matches(ore, stone)).forEach(modifier -> {
             modifier.properties().flatMap(BlockProps::explosionResistance).ifPresent(outProperties::explosionResistance);
@@ -305,12 +309,12 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         if (target != null) {
             BlockState targetState = target.defaultBlockState();
             List<ItemStack> items = target.getDrops(targetState, builder);
-            boolean isSilk = new MatchTool(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))).build())
-                    .test(builder.withParameter(LootContextParams.BLOCK_STATE, targetState).create(LootContextParamSets.BLOCK));
+            ItemStack tool = builder.withParameter(LootContextParams.BLOCK_STATE, targetState).create(LootContextParamSets.BLOCK).getParamOrNull(LootContextParams.TOOL);
+            boolean isSilk = ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))).build().matches(tool);
             return items.stream().map(x -> {
                 if (x.is(target.asItem()) && this.asItem() != Items.AIR && !(flags.contains(Flag.ORIGINAL_ALWAYS))
                         && !(flags.contains(Flag.ORIGINAL_WITHOUT_SILK) && !isSilk)) {

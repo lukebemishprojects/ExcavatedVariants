@@ -5,44 +5,32 @@
 
 package dev.lukebemish.excavatedvariants.impl.client;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
-import dev.lukebemish.dynamicassetgenerator.api.IInputStreamSource;
-import dev.lukebemish.dynamicassetgenerator.api.IPathAwareInputStreamSource;
-import dev.lukebemish.dynamicassetgenerator.api.IResourceGenerator;
+import dev.lukebemish.dynamicassetgenerator.api.InputStreamSource;
+import dev.lukebemish.dynamicassetgenerator.api.PathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.ITexSource;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerator;
+import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureGenerator;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureMetaGenerator;
+import dev.lukebemish.excavatedvariants.api.client.*;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
-import dev.lukebemish.excavatedvariants.api.client.Face;
-import dev.lukebemish.excavatedvariants.api.client.ModelData;
-import dev.lukebemish.excavatedvariants.api.client.NamedTextureProvider;
-import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
-import dev.lukebemish.excavatedvariants.api.client.TextureProducer;
 import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
 import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.IoSupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.IoSupplier;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
-public class ResourceAssembler implements IPathAwareInputStreamSource {
+public class ResourceAssembler implements PathAwareInputStreamSource {
     private final Map<String, BaseStone> originalPairs = new HashMap<>();
     private final List<Pair<BaseOre, BaseStone>> toMake;
 
@@ -51,7 +39,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
     private final Map<ResourceLocation, List<ModelData>> stoneModels;
     private final Map<ResourceLocation, List<TexFaceProvider>> oreModels;
 
-    private final Map<ResourceLocation, IInputStreamSource> resources = new HashMap<>();
+    private final Map<ResourceLocation, InputStreamSource> resources = new HashMap<>();
 
     public ResourceAssembler(Map<BaseOre, BaseStone> originalPairs, List<Pair<BaseOre, BaseStone>> toMake) {
         for (Map.Entry<BaseOre, BaseStone> entry : originalPairs.entrySet()) {
@@ -199,7 +187,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
         List<ResourceLocation> usedLocations = new ArrayList<>();
 
         var oreTextureResult = oreTexture.produce(newStoneTexture, oldStoneTexture);
-        ITexSource outTexture = oreTextureResult.getFirst().cached();
+        TexSource outTexture = oreTextureResult.getFirst().cached();
         usedLocations.addAll(oreTextureResult.getSecond());
         usedLocations.addAll(oldStoneTexture.getUsedTextures());
         usedLocations.addAll(newStoneTexture.getUsedTextures());
@@ -212,7 +200,7 @@ public class ResourceAssembler implements IPathAwareInputStreamSource {
         processGenerator(new TextureGenerator(output, outTexture));
     }
 
-    private void processGenerator(IResourceGenerator generator) {
+    private void processGenerator(ResourceGenerator generator) {
         for (ResourceLocation location : generator.getLocations()) {
             resources.put(location, generator);
         }

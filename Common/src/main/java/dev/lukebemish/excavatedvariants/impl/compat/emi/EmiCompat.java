@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.quilt.compat.emi;
+package dev.lukebemish.excavatedvariants.impl.compat.emi;
 
 import com.mojang.datafixers.util.Pair;
+import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiCraftingRecipe;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+@EmiEntrypoint
 public class EmiCompat implements EmiPlugin {
     @Override
     public void register(EmiRegistry registry) {

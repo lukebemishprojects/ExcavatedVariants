@@ -3,7 +3,6 @@ pluginManagement {
     repositories {
         
         maven {
-        
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
@@ -25,11 +24,6 @@ pluginManagement {
             name = 'Quilt (Snapshot)'
             url = 'https://maven.quiltmc.org/repository/snapshot'
         }
-
-        maven {
-            name = 'Cotton'
-            url = 'https://server.bbkr.space/artifactory/libs-release/'
-        }
         maven {
             name = 'TheModdingInquisition'
             url = 'https://maven.moddinginquisition.org/releases'
@@ -42,6 +36,10 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
 }
 
 rootProject.name = 'excavated_variants'

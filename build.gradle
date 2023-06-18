@@ -1,63 +1,49 @@
-buildscript {
-    dependencies {
-        // to fix GSON weirdness with minotaur and FG
-        classpath 'com.google.code.gson:gson:2.10'
-    }
-}
-
 plugins {
-    id 'dev.lukebemish.modgitpublisher' version '1.1.2'
-    id 'io.github.groovymc.modsdotgroovy' version '1.1.2'
-    id 'java-library'
-    id 'org.quiltmc.loom' version '1.1.+' apply false
-    id 'org.quiltmc.gradle.licenser' version '2.0.+' apply false
+    alias libs.plugins.quilt.licenser apply false
+    alias libs.plugins.mdg
+    alias libs.plugins.quilt.loom apply false
 }
 
-modGitPublisher {
-    projectName = "Excavated Variants"
-    minecraftVersion = project.minecraft_version
-}
-
-allprojects {p->
-    if (rootProject.hasProperty('versionOverride') && rootProject.versionOverride !== null)
-        p.version = rootProject.versionOverride
-    else
-        p.version = modGitPublisher.version
-}
+apply from: 'version.gradle'
 
 modsDotGroovy {
-    dslVersion = '1.1.3'
+    dslVersion = libs.versions.mdg.dsl.get()
     platform 'multiloader'
 }
 
 subprojects {
-
     apply plugin: 'java'
+    apply plugin: 'idea'
     apply plugin: 'maven-publish'
-    apply plugin: 'org.quiltmc.gradle.licenser'
-    
+    apply plugin: 'java-library'
+    apply plugin: libs.plugins.quilt.licenser.get().pluginId
+
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
     java.withJavadocJar()
 
+    javadoc {
+        include "**/api/**"
+    }
+
     license {
         rule rootProject.file('header.txt')
         exclude '**/*.mcmeta'
+        exclude '**/package-info.java'
     }
-        
+
     jar {
         manifest {
             attributes([
-                'Specification-Title'     : mod_name,
-                'Specification-Vendor'    : mod_author,
-                'Specification-Version'   : project.jar.archiveVersion,
-                'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor'   : mod_author,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Timestampe'              : System.currentTimeMillis(),
-                'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Build-On-Minecraft'      : minecraft_version
+                    'Specification-Title'     : mod_name,
+                    'Specification-Vendor'    : mod_author,
+                    'Specification-Version'   : rootProject.version,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : rootProject.version,
+                    'Implementation-Vendor'   : mod_author,
+                    'Implementation-Commit-Time': versioning.getGitCommitDate(),
+                    'Implementation-Commit': versioning.getGitCommit(),
+                    'Build-On-Minecraft'      : libs.versions.minecraft.get(),
             ])
         }
     }
@@ -71,8 +57,12 @@ subprojects {
         }
 
         maven {
+            // JEI
             name = 'BlameJared Maven (CrT / Bookshelf)'
             url = 'https://maven.blamejared.com'
+            content {
+                includeGroup 'mezz.jei'
+            }
         }
 
         maven {
@@ -95,18 +85,22 @@ subprojects {
         }
 
         maven {
-            url "https://cursemaven.com"
+            // REI
+            url "https://maven.architectury.dev/"
             content {
-                includeGroup "curse.maven"
+                includeGroupAndSubgroups 'me.shedaniel'
+                includeGroupAndSubgroups 'dev.architectury'
             }
         }
 
         maven {
-            // location of the maven that hosts JEI files
-            name = "Progwml6 maven"
-            url = "https://dvs1.progwml6.com/files/maven/"
+            // EMI
+            name = "TerraformersMC"
+            url = "https://maven.terraformersmc.com/"
+            content {
+                includeGroupAndSubgroups 'dev.emi'
+            }
         }
-        maven { url "https://maven.architectury.dev/" }
     }
 
 
@@ -116,10 +110,10 @@ subprojects {
     }
 
     dependencies {
-        compileOnly 'org.jetbrains:annotations:23.0.0'
-        implementation "com.electronwill.night-config:core:$project.nightconfig_version"
-        implementation "com.electronwill.night-config:toml:$project.nightconfig_version"
-        implementation "blue.endless:jankson:$project.jankson_version"
+        compileOnly libs.jetbrains.annotations
+        implementation libs.nightconfig.core
+        implementation libs.nightconfig.toml
+        implementation libs.jankson
     }
 
     // Disables Gradle's custom module metadata from being published to maven. The
@@ -131,13 +125,18 @@ subprojects {
 
     publishing {
         repositories {
-            if (findProperty('lukebemishMavenUrl')) {
+            if (System.getenv('PR_NUMBER')) {
+                maven {
+                    name = 'LocalMaven'
+                    url = rootProject.layout.buildDirectory.dir('repo')
+                }
+            } else {
                 maven {
                     name = 'PersonalMaven'
-                    url = uri(findProperty('lukebemishMavenUrl'))
-                    credentials(AwsCredentials) {
-                        accessKey findProperty('lukebemishMavenKey') ?: ''
-                        secretKey findProperty('lukebemishMavenSecret') ?: ''
+                    url = uri(System.getenv('SNAPSHOT_MAVEN_URL') ?: System.getenv('MAVEN_URL') ?: 'https://maven.lukebemish.dev/releases')
+                    credentials {
+                        username = System.getenv('MAVEN_USER') ?: findProperty('lukebemishMavenUser') ?: ''
+                        password = System.getenv('MAVEN_PASSWORD') ?: findProperty('lukebemishMavenPassword') ?: ''
                     }
                 }
             }

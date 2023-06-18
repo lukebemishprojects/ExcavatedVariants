@@ -4,14 +4,7 @@ plugins {
 
 apply plugin: 'org.quiltmc.loom'
 
-archivesBaseName = "${artifact_id}-common-${minecraft_version}"
-
-repositories {
-    maven {
-        name = 'Forge / Mixin'
-        url = 'https://maven.minecraftforge.net'
-    }
-}
+base.archivesName = "${artifact_id}-common-${libs.versions.minecraft.get()}"
 
 loom {
     runConfigs.configureEach {
@@ -19,25 +12,23 @@ loom {
     }
 }
 
-configurations {
-    testCompileOnly.extendsFrom(compileOnly)
-}
-
 dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
+    minecraft libs.minecraft
     mappings loom.layered() {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_version}@zip")
+        parchment("org.parchmentmc.data:parchment-${libs.versions.parchment.minecraft.get()}:${libs.versions.parchment.mappings.get()}@zip")
     }
     //DO NOT USE IN PROJECT
     //Provides necessary stuff for project to compile
-    modCompileOnly("org.quiltmc:quilt-loader:${quilt_loader_version}")
+    modCompileOnly libs.quilt.loader
 
-    compileOnly("dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-${rootProject.minecraft_version}:${rootProject.dynassetgen_version}")
-    compileOnly("dev.lukebemish.defaultresources:defaultresources-common-${rootProject.minecraft_version}:${rootProject.defaultresources_version}")
+    compileOnly libs.dynassetgen.common
+    compileOnly libs.defaultresources.common
 
-    modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"){transitive=false}
+    modCompileOnly libs.jei.common
+    modCompileOnly libs.rei.common
+
+    modCompileOnly(variantOf(libs.emi.common) { classifier 'api' })
 }
 
 import net.fabricmc.loom.task.AbstractRemapJarTask
@@ -53,11 +44,12 @@ processResources {
         expand buildProps
     }
 }
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId project.archivesBaseName
+            artifactId base.archivesName.get()
             version project.version
             from components.java
         }

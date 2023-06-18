@@ -5,13 +5,12 @@
 
 package dev.lukebemish.excavatedvariants.api.client;
 
+import com.mojang.datafixers.util.Pair;
+import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
+import net.minecraft.resources.ResourceLocation;
+
 import java.util.List;
 import java.util.function.Function;
-
-import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.ITexSource;
-
-import net.minecraft.resources.ResourceLocation;
 
 /**
  * A function which produces a new ore texture source from the given texture sources.
@@ -25,9 +24,9 @@ public interface TextureProducer {
      * @return a pair of the new texture source and a list of the resource locations of textures used in generating the
      * new texture source
      */
-    Pair<ITexSource, List<ResourceLocation>> produce(Function<SourceWrapper, ITexSource> newStoneSource, Function<SourceWrapper, ITexSource> oldStoneSource);
+    Pair<TexSource, List<ResourceLocation>> produce(Function<SourceWrapper, TexSource> newStoneSource, Function<SourceWrapper, TexSource> oldStoneSource);
 
     interface SourceWrapper {
-        ITexSource wrap(ITexSource source);
+        TexSource wrap(TexSource source);
     }
 }
