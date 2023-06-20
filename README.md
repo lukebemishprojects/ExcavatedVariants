@@ -69,7 +69,7 @@ Modifier configs are added in `globalresources/[folder]/excavated_variants/[name
 
 Filters take the form of a string specifying the filter, such as `"ore:iron_ore"`. Can take the following forms:
 
-* `"type:type_id"` matches every variant with an ore and stone of type `type_id`. Example: `type:nether`.  
+* `type:type_id` matches every variant with an ore and stone of type `type_id`. Example: `type:nether`.  
 * `stone:stone_id` matches every variant of stone type `stone_id`. Example: `stone:andesite`.
 * `ore:ore_id` matches every variant of ore `ore_id`. Example: `ore:iron_ore`.
 * `variant_name` matches a specific variant. Example: `andesite_iron_ore`.
