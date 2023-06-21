@@ -5,15 +5,6 @@
 
 package dev.lukebemish.excavatedvariants.impl.forge;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.auto.service.AutoService;
 import com.google.common.graph.ElementOrder;
 import com.google.common.graph.GraphBuilder;
@@ -25,6 +16,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
 import dev.lukebemish.excavatedvariants.impl.forge.mixin.ForgeTierSortingRegistryAccessor;
 import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Tier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
@@ -32,8 +25,14 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.toposort.TopologicalSort;
 import net.minecraftforge.forgespi.language.IModInfo;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Tier;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @AutoService(Platform.class)
 public class PlatformImpl implements Platform {
@@ -78,7 +77,7 @@ public class PlatformImpl implements Platform {
                 for (ResourceLocation rl : ordering.order) {
                     tierList.add(tiers.get(rl));
                 }
-                return tierList.stream().map(it->{
+                return tierList.stream().filter(it -> it.getTag() != null).map(it->{
                     var l = it.getTag().location();
                     return new ResourceLocation(l.getNamespace(), "blocks/"+l.getPath());
                 }).toList();
