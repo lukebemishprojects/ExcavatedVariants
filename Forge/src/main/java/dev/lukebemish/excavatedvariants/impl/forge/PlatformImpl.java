@@ -96,7 +96,7 @@ public class PlatformImpl implements Platform {
                 graph.putEdge(tiers.get(key), tiers.get(value));
         });
         tierList = TopologicalSort.topologicalSort(graph, null);
-        return tierList.stream().map(it->{
+        return tierList.stream().filter(it -> it.getTag() != null).map(it->{
             var l = it.getTag().location();
             return new ResourceLocation(l.getNamespace(), "blocks/"+l.getPath());
         }).toList();
