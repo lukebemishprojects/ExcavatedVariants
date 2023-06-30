@@ -17,11 +17,11 @@
       ],
     },
     {
-      id: 'promenade_carbonite',
+      id: 'promenade_asphalt',
       lang: {
-        en_us: 'Carbonite',
+        en_us: 'Asphalt',
       },
-      block_id: 'promenade:carbonite',
+      block_id: 'promenade:asphalt',
       types: [
         'stone',
       ],
