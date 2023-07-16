@@ -14,6 +14,7 @@ import dev.lukebemish.excavatedvariants.impl.forge.registry.BlockAddedCallback;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreReplacer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -34,6 +35,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class ExcavatedVariantsForge {
     public static final DeferredRegister<Item> TO_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, ExcavatedVariants.MOD_ID);
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, ExcavatedVariants.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ExcavatedVariants.MOD_ID);
     public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, ExcavatedVariants.MOD_ID);
     public static final RegistryObject<Codec<AddFeatureLateModifier>> ADD_FEATURE_LATE_MODIFIER = BIOME_MODIFIERS.register("add_feature_late", () ->
             RecordCodecBuilder.create(i -> i.group(
@@ -50,6 +52,7 @@ public class ExcavatedVariantsForge {
         TO_REGISTER.register(modbus);
         BIOME_MODIFIERS.register(modbus);
         FEATURES.register(modbus);
+        CREATIVE_TABS.register(modbus);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         //ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
         MainPlatformTargetImpl.RECIPE_SERIALIZERS.register(modbus);
