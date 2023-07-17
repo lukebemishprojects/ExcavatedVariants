@@ -24,7 +24,7 @@ jetbrains_annotations = "24.0.1"
 jei = "15.2.0.22"
 rei = "12.0.625"
 
-emi = "1.0.5+"
+emi = "1.0.9+1.20.1"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
