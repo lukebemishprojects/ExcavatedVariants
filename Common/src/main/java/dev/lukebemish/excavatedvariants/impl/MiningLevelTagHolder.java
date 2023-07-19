@@ -36,7 +36,11 @@ public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<
 
         List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels();
         Map<ResourceLocation, Integer> blockToLevelMap = new HashMap<>();
-        Map<ResourceLocation, List<ResourceLocation>> memberMap = tagNames.stream().collect(Collectors.toMap(Function.identity(), this::getTagMembers));
+        Map<ResourceLocation, List<ResourceLocation>> memberMap = tagNames.stream().collect(Collectors.toMap(Function.identity(), this::getTagMembers, (l1, l2) -> {
+            List<ResourceLocation> out = new ArrayList<>(l1);
+            out.addAll(l2);
+            return out;
+        }));
 
         toCheck.forEach(pair -> {
             int maxValue = Math.max(getOrCreateLevel(tagNames, memberMap, blockToLevelMap, pair.stoneId),
