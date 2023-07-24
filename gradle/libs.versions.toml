@@ -13,7 +13,7 @@ autoservice = "1.1.1"
 
 mdg_dsl = "1.5.0"
 
-jankson = "1.2.2"
+jankson = "1.2.3"
 nightconfig = "3.6.4"
 
 dynassetgen = "4.0.0"
