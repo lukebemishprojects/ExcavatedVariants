@@ -9,6 +9,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariantsClient;
+import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import dev.lukebemish.excavatedvariants.impl.S2CConfigAgreementPacket;
 import dev.lukebemish.excavatedvariants.impl.forge.registry.BlockAddedCallback;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreReplacer;
@@ -67,6 +68,7 @@ public class ExcavatedVariantsForge {
 
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
+            RegistriesImpl.registerRegistries();
             ExcavatedVariants.getMappingsCache();
         });
     }

@@ -30,7 +30,7 @@ Change `unextracted` to `extract` and load the game once. Now, the default confi
 Configs relating to how ores are registered are added in `globalresources/[folder]/excavated_variants/[namespace]/configs`. They can contain the following 
 options:
 
-* **blacklist**: A way of excluding certain variants from being created. It takes a list of filters. See below for the format.
+* **blacklist**: A way of excluding certain variants from being created. It takes a list of variantFilters. See below for the format.
 * **priority**: Allows certain config files to be loaded before others, in the order specified within. These should be a namespaced location of the variant config file.
 
 Configs for adding stones or ores are placed in `globalresources/[folder]/excavated_variants/[namespace]/variants`. These take the following format:
@@ -57,7 +57,7 @@ Each stone object takes the following format:
 
 Modifier configs are added in `globalresources/[folder]/excavated_variants/[namespace]/modifiers`. They allow you to configure the properties of created variants, and can contain the following options:
 
-* **filter**: A filter for selecting variants to modify. See below for the format.
+* **variantFilter**: A variantFilter for selecting variants to modify. See below for the format.
 * **properties** (optional): Modifies block properties. Takes the following arguments:
   * **destroy_time** (optional): The time to destroy the block.
   * **explosion_resistance** (optional): The time to destroy the block.
@@ -67,7 +67,7 @@ Modifier configs are added in `globalresources/[folder]/excavated_variants/[name
   * `"original_always"`: Variant always drops the original ore instead of the variant block.
   * `"original_without_silk""`: Variant drops the original ore instead of the variant block, but only if mined without silk touch.
 
-Filters take the form of a string specifying the filter, such as `"ore:iron_ore"`. Can take the following forms:
+Filters take the form of a string specifying the variantFilter, such as `"ore:iron_ore"`. Can take the following forms:
 
 * `type:type_id` matches every variant with an ore and stone of type `type_id`. Example: `type:nether`.  
 * `stone:stone_id` matches every variant of stone type `stone_id`. Example: `stone:andesite`.
@@ -77,7 +77,7 @@ Filters take the form of a string specifying the filter, such as `"ore:iron_ore"
 * `*` matches everything.
 * `~` matches nothing.
 
-Alternatively, filters can be an object combining other filters, of the following form:
+Alternatively, variantFilters can be an object combining other variantFilters, of the following form:
 ```json5
 {
   type: "<type>",
@@ -88,7 +88,7 @@ The available types are:
 
 * `all` matches everything.
 * `empty` matches nothing.
-* `not` matches everything not matched by its `"filter"` argument.
-* `and` matches everything matched by all members of its `"filters"` argument.
-* `or` matches everything matched by at least one member of its `"filters"` argument.
+* `not` matches everything not matched by its `"variantFilter"` argument.
+* `and` matches everything matched by all members of its `"variantFilters"` argument.
+* `or` matches everything matched by at least one member of its `"variantFilters"` argument.
 

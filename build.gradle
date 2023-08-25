@@ -84,6 +84,11 @@ subprojects {
             url = 'https://maven.lukebemish.dev/releases'
         }
 
+        // TODO: Remove this once actual releases exist
+        maven {
+            url = 'https://maven.lukebemish.dev/pullrequests'
+        }
+
         maven {
             // REI
             url "https://maven.architectury.dev/"

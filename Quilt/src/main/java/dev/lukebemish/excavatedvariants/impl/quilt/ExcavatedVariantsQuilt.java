@@ -6,6 +6,7 @@
 package dev.lukebemish.excavatedvariants.impl.quilt;
 
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
+import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import dev.lukebemish.excavatedvariants.impl.S2CConfigAgreementPacket;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreFinderUtil;
@@ -38,6 +39,7 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
     @Override
     public void onInitialize(ModContainer modContainer) {
         ExcavatedVariants.init();
+        RegistriesImpl.registerRegistries();
 
         ExcavatedVariants.loadedBlockRLs.addAll(BuiltInRegistries.BLOCK.keySet());
 

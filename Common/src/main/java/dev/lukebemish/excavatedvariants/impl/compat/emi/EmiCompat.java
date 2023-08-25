@@ -33,7 +33,7 @@ public class EmiCompat implements EmiPlugin {
     public void register(EmiRegistry registry) {
         if (ExcavatedVariants.getConfig().addConversionRecipes && ExcavatedVariants.getConfig().jeiReiCompat) {
             List<RecipeHolder> recipes = new ArrayList<>();
-            OreConversionRecipe.assembleOrNull();
+            OreConversionRecipe.assembleMap();
             for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
                 ArrayList<Item> items = new ArrayList<>();
                 for (BaseStone stone : p.getSecond()) {

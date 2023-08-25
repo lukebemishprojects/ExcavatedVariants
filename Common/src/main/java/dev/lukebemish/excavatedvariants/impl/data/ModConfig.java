@@ -36,7 +36,7 @@ import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.codecs.CommentedCodec;
 import dev.lukebemish.excavatedvariants.impl.codecs.JanksonOps;
 import dev.lukebemish.excavatedvariants.impl.codecs.TomlConfigOps;
-import dev.lukebemish.excavatedvariants.impl.data.filter.Filter;
+import dev.lukebemish.excavatedvariants.impl.data.filter.VariantFilter;
 import dev.lukebemish.excavatedvariants.impl.data.modifier.Flag;
 import dev.lukebemish.excavatedvariants.impl.data.modifier.VariantModifier;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
@@ -210,12 +210,12 @@ public class ModConfig {
     }
 
     public class Flags {
-        final Supplier<List<Pair<Filter, List<Flag>>>> flags;
+        final Supplier<List<Pair<VariantFilter, List<Flag>>>> flags;
 
         private Flags() {
             flags = Suppliers.memoize(() ->
                     modifiers.stream().filter(m -> m.flags().isPresent())
-                            .map(m -> new Pair<>(m.filter(), m.flags().get())).toList()
+                            .map(m -> new Pair<>(m.variantFilter(), m.flags().get())).toList()
             );
         }
 

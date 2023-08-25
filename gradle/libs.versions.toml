@@ -16,8 +16,8 @@ mdg_dsl = "1.5.0"
 jankson = "1.2.2"
 nightconfig = "3.6.4"
 
-dynassetgen = "4.0.0"
-defaultresources = "2.0.0"
+dynassetgen = "5.0.0-pr71"
+defaultresources = "3.0.0-pr39"
 
 jetbrains_annotations = "24.0.1"
 
@@ -42,9 +42,9 @@ jankson = { module = "blue.endless:jankson", version.ref = "jankson" }
 nightconfig_core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
 nightconfig_toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
 
-dynassetgen_common = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-1.20", version.ref = "dynassetgen" }
-dynassetgen_quilt = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-quilt-1.20", version.ref = "dynassetgen" }
-dynassetgen_forge = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-forge-1.20", version.ref = "dynassetgen" }
+dynassetgen_common = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-1.20.1", version.ref = "dynassetgen" }
+dynassetgen_quilt = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-quilt-1.20.1", version.ref = "dynassetgen" }
+dynassetgen_forge = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-forge-1.20.1", version.ref = "dynassetgen" }
 defaultresources_common = { module = "dev.lukebemish.defaultresources:defaultresources-common-1.20", version.ref = "defaultresources" }
 defaultresources_quilt = { module = "dev.lukebemish.defaultresources:defaultresources-quilt-1.20", version.ref = "defaultresources" }
 defaultresources_forge = { module = "dev.lukebemish.defaultresources:defaultresources-forge-1.20", version.ref = "defaultresources" }

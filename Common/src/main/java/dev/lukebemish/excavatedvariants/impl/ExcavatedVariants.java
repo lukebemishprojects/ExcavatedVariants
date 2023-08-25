@@ -6,22 +6,21 @@
 package dev.lukebemish.excavatedvariants.impl;
 
 import blue.endless.jankson.Jankson;
-import com.google.common.base.Functions;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
-import dev.lukebemish.excavatedvariants.api.DataProvider;
-import dev.lukebemish.excavatedvariants.api.DataReceiver;
-import dev.lukebemish.excavatedvariants.api.data.Ore;
-import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
+import dev.lukebemish.dynamicassetgenerator.api.sources.TagSupplier;
 import dev.lukebemish.excavatedvariants.impl.client.ClientServices;
 import dev.lukebemish.excavatedvariants.impl.data.*;
-import dev.lukebemish.excavatedvariants.impl.data.filter.Filter;
+import dev.lukebemish.excavatedvariants.impl.data.modifier.Modifier;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import dev.lukebemish.excavatedvariants.impl.recipe.OreConversionRecipe;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -30,12 +29,12 @@ import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public final class ExcavatedVariants {
     public static final int DEFAULT_COMPAT_PRIORITY = -10;
@@ -51,22 +50,252 @@ public final class ExcavatedVariants {
             new SimpleCraftingRecipeSerializer<>(OreConversionRecipe::new));
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-    public static final List<RegistryFuture> blockList = new ArrayList<>();
-    public static final Set<ResourceLocation> neededRls = new HashSet<>();
-    private static final List<Supplier<Item>> items = new ArrayList<>();
-    private static final Map<String, ModifiedOreBlock> blocks = new HashMap<>();
-    public static List<Pair<BaseOre, HashSet<BaseStone>>> oreStoneList;
-    public static Set<ResourceLocation> loadedBlockRLs = new HashSet<>();
-    private static Set<BaseOre> knownOres;
-    private static Set<BaseStone> knownStones;
-    private static Map<String, BaseOre> ores;
-    private static Map<String, BaseStone> stones;
-    private static Set<Pair<BaseOre, BaseStone>> allPairs;
-    private static ModConfig configs;
-    private static boolean loaded = false;
-    private static MappingsCache mappingsCache;
-
+    private static final List<Supplier<Item>> ITEMS = new ArrayList<>();
+    private static boolean LOADED = false;
+    private static ModConfig CONFIG;
     public static final DataResourceCache DATA_CACHE = ResourceCache.register(new DataResourceCache(new ResourceLocation(MOD_ID, "data")));
+    public static Map<Ore, List<Stone>> NEW_VARIANTS_MAP;
+    public static List<Pair<Ore, Stone>> NEW_VARIANTS;
+    public static final Map<ResourceKey<Block>, List<RegistryFuture>> NEEDED_KEYS = new IdentityHashMap<>();
+    public static final Map<RegistryFuture, List<ResourceKey<Block>>> REVERSE_NEEDED_KEYS = new IdentityHashMap<>();
+    public static final Deque<RegistryFuture> READY_QUEUE = new ArrayDeque<>();
+
+    public static final Set<String> VANILLA_ORE_NAMES = Set.of("iron", "gold", "coal", "emerald", "diamond", "redstone", "copper", "lapis");
+
+    public synchronized static void setupMap() {
+        if (NEW_VARIANTS_MAP == null) {
+            Map<Ore, List<Stone>> newVariants = new HashMap<>();
+            List<Pair<Ore, Stone>> newVariantsList = new ArrayList<>();
+            Map<Ore, Set<Stone>> newVariantsSet = new HashMap<>();
+            Map<GroundType, List<Ore>> groundTypeOreMap = new HashMap<>();
+
+            for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
+                for (ResourceKey<GroundType> groundTypeKey : ore.types) {
+                    var groundType = RegistriesImpl.GROUND_TYPE_REGISTRY.get(groundTypeKey);
+                    if (groundType == null) {
+                        throw new RuntimeException("Ground type " + groundTypeKey + " does not exist, but is referenced by ore " + ore.getHolder());
+                    }
+                    groundTypeOreMap.computeIfAbsent(groundType, k -> new ArrayList<>()).add(ore);
+                }
+            }
+
+            for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
+                for (ResourceKey<GroundType> groundTypeKey : stone.types) {
+                    var groundType = RegistriesImpl.GROUND_TYPE_REGISTRY.get(groundTypeKey);
+                    if (groundType == null) {
+                        throw new RuntimeException("Ground type " + groundTypeKey + " does not exist, but is referenced by stone " + stone.getHolder());
+                    }
+                    var ores = groundTypeOreMap.getOrDefault(groundType, List.of());
+                    for (Ore ore : ores) {
+                        if (!ore.getBlocks().containsValue(stone.getKeyOrThrow())) {
+                            var set = newVariantsSet.computeIfAbsent(ore, k -> new HashSet<>());
+                            if (set.add(stone)) {
+                                newVariants.computeIfAbsent(ore, k -> new ArrayList<>()).add(stone);
+                                newVariantsList.add(new Pair<>(ore, stone));
+                            }
+                        }
+                    }
+                }
+            }
+
+            // TODO: filter stuff out here
+
+            NEW_VARIANTS_MAP = Map.copyOf(newVariants);
+            NEW_VARIANTS = List.copyOf(newVariantsList);
+        }
+    }
+
+    public static void init() {
+        RegistriesImpl.bootstrap();
+
+        setupMap();
+
+        MiningLevelTagHolder tierHolder = new MiningLevelTagHolder();
+
+        for (Map.Entry<Ore, List<Stone>> entry : NEW_VARIANTS_MAP.entrySet()) {
+            Ore ore = entry.getKey();
+            List<Stone> stones = entry.getValue();
+            List<String> ids = new ArrayList<>();
+            for (Stone stone : stones) {
+                String fullId = computeFullId(ore, stone);
+                tierHolder.add(fullId, ore, stone);
+                RegistryFuture future = new RegistryFuture(fullId, ore, stone);
+                ore.addPossibleVariant(stone, new ResourceLocation(ExcavatedVariants.MOD_ID, fullId));
+                List<ResourceKey<Block>> keys = new ArrayList<>();
+                for (Map.Entry<ResourceKey<Block>, ResourceKey<Stone>> blockEntry : ore.getBlocks().entrySet()) {
+                    if (blockEntry.getValue() != stone.getKeyOrThrow()) {
+                        continue;
+                    }
+                    ResourceKey<Block> key = blockEntry.getKey();
+                    Stone originalStone = RegistriesImpl.STONE_REGISTRY.get(blockEntry.getValue());
+                    if (originalStone == null) {
+                        throw new IllegalStateException("Nonexistent stone "+blockEntry.getValue().location()+" referenced by ore "+ore.getKeyOrThrow().location());
+                    }
+                    keys.add(key);
+                    NEEDED_KEYS.computeIfAbsent(key, k -> new ArrayList<>()).add(future);
+                }
+                REVERSE_NEEDED_KEYS.put(future, keys);
+
+                OreConversionRecipe.ORE_MAP.put(new ResourceLocation(ExcavatedVariants.MOD_ID, fullId), ore.getBlocks().keySet().stream().sorted().toList());
+
+                for (ResourceKey<GroundType> type : Sets.union(stone.types, ore.types)) {
+                    ResourceLocation tagRl = new ResourceLocation(type.location().getNamespace(), "ores/" + type.location().getPath());
+                    ResourceLocation id = new ResourceLocation(ExcavatedVariants.MOD_ID, fullId);
+                    planCombinedTag(tagRl, id);
+                }
+                ids.add(fullId);
+            }
+            for (String oreTypeName : ore.names) {
+                String oreName = oreTypeName + "_ores";
+                for (String thisId : ids) {
+                    if (Services.PLATFORM.isQuilt()) {
+                        planCombinedTag(new ResourceLocation("c", "ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId), true);
+                        planCombinedTag(new ResourceLocation("c", oreName + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId), true);
+                    } else {
+                        planCombinedTag(new ResourceLocation("forge", "ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId), true);
+                    }
+                    if (VANILLA_ORE_NAMES.contains(oreName)) {
+                        planCombinedTag(new ResourceLocation("minecraft", oreName + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId));
+                    }
+                }
+            }
+        }
+
+        for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
+            if (!modifier.tags.isEmpty()) {
+                List<ResourceLocation> locations = NEW_VARIANTS.stream().filter(p -> modifier.variantFilter.matches(p.getFirst(), p.getSecond()))
+                        .map(p -> new ResourceLocation(ExcavatedVariants.MOD_ID, computeFullId(p.getFirst(), p.getSecond()))).toList();
+                modifier.tags.forEach(tag -> locations.forEach(rl -> {
+                    if (tag.getPath().startsWith("blocks/"))
+                        planBlockTag(tag, rl);
+                    else if (tag.getPath().startsWith("items/"))
+                        planItemTag(tag, rl);
+                }));
+            }
+        }
+
+        for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
+            for (ResourceKey<GroundType> type : stone.types) {
+                ResourceLocation tagRl = new ResourceLocation(type.location().getNamespace(), type + "stones/"+type.location().getPath());
+                planCombinedTag(rlToItem(tagRl), stone.block.location());
+            }
+        }
+
+        for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
+            for (ResourceKey<GroundType> type : ore.types) {
+                ResourceLocation tagRl = new ResourceLocation(type.location().getNamespace(), type + "ores/"+type.location().getPath());
+                for (ResourceKey<Block> blocks : ore.getBlocks().keySet()) {
+                    planCombinedTag(rlToBlock(tagRl), blocks.location());
+                }
+            }
+        }
+
+        TAG_QUEUE.queue(tierHolder);
+
+        ExcavatedVariants.DATA_CACHE.tags().queue(new TagSupplier() {
+            @Override
+            public Map<ResourceLocation, Set<ResourceLocation>> apply(ResourceGenerationContext context) {
+                Map<ResourceLocation, Set<ResourceLocation>> map = TAG_QUEUE.apply(context);
+                Map<ResourceLocation, Set<ResourceLocation>> output = new HashMap<>();
+                for (var entry : map.entrySet()) {
+                    for (var rl : entry.getValue()) {
+                        if (rl.getPath().startsWith("blocks/")) {
+                            ResourceLocation remainder = new ResourceLocation(rl.getNamespace(), rl.getPath().substring(7));
+                            if (!BuiltInRegistries.BLOCK.containsKey(remainder)) {
+                                continue;
+                            }
+                        } else if (rl.getPath().startsWith("items/")) {
+                            ResourceLocation remainder = new ResourceLocation(rl.getNamespace(), rl.getPath().substring(6));
+                            if (!BuiltInRegistries.ITEM.containsKey(remainder)) {
+                                continue;
+                            }
+                        }
+                        output.computeIfAbsent(entry.getKey(), k -> new HashSet<>()).add(rl);
+                    }
+                }
+                return output;
+            }
+
+            @Override
+            public @Nullable String createSupplierCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
+                return TAG_QUEUE.createSupplierCacheKey(outRl, context);
+            }
+
+            @Override
+            public void reset(ResourceGenerationContext context) {
+                TAG_QUEUE.reset(context);
+            }
+        });
+
+        Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
+        Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
+
+        setHasLoaded();
+    }
+
+    private static synchronized void setHasLoaded() {
+        LOADED = true;
+    }
+
+    public static boolean hasLoaded() {
+        return LOADED;
+    }
+
+    public static String computeFullId(ResourceLocation ore, ResourceLocation stone) {
+        return ore.getNamespace() + "__" + ore.getPath() + "__" + stone.getNamespace() + "__" + stone.getPath();
+    }
+
+    public static String computeFullId(ResourceKey<Ore> ore, ResourceKey<Stone> stone) {
+        return computeFullId(ore.location(), stone.location());
+    }
+
+    public static String computeFullId(Ore ore, Stone stone) {
+        return computeFullId(
+                ore.getHolder().unwrapKey().orElseThrow(() -> new IllegalStateException("Unregistered ore")),
+                stone.getHolder().unwrapKey().orElseThrow(() -> new IllegalStateException("Unregistered stone"))
+        );
+    }
+
+    public static final TagSupplier.TagBakery TAG_QUEUE = new TagSupplier.TagBakery();
+
+    private static void planBlockTag(ResourceLocation tag, ResourceLocation block, boolean inLang) {
+        TAG_QUEUE.queue(rlToBlock(tag), block);
+        if (inLang) {
+            ExcavatedVariants.planTagLang(rlToBlock(tag));
+        }
+    }
+
+    private static void planBlockTag(ResourceLocation tag, ResourceLocation block) {
+        planBlockTag(tag, block, false);
+    }
+
+    private static void planCombinedTag(ResourceLocation tag, ResourceLocation entry, boolean inLang) {
+        planBlockTag(tag, entry, inLang);
+        planItemTag(tag, entry, inLang);
+    }
+
+    private static void planCombinedTag(ResourceLocation tag, ResourceLocation entry) {
+        planCombinedTag(tag, entry, false);
+    }
+
+    private static void planItemTag(ResourceLocation tag, ResourceLocation item, boolean inLang) {
+        TAG_QUEUE.queue(rlToItem(tag), item);
+        if (inLang) {
+            ExcavatedVariants.planTagLang(rlToItem(tag));
+        }
+    }
+
+    private static void planItemTag(ResourceLocation tag, ResourceLocation item) {
+        planItemTag(tag, item, false);
+    }
+
+    private static ResourceLocation rlToBlock(ResourceLocation rl) {
+        return rl.withPrefix("blocks/");
+    }
+
+    private static ResourceLocation rlToItem(ResourceLocation rl) {
+        return rl.withPrefix("items/");
+    }
 
     private static void planTagLang(ResourceLocation rl) {
         if (Services.PLATFORM.isClient()) {
@@ -91,237 +320,11 @@ public final class ExcavatedVariants {
         }
     }
 
-    public static void init() {
-        setupMap();
-
-        MiningLevelTagHolder tierHolder = new MiningLevelTagHolder();
-
-        for (Pair<BaseOre, HashSet<BaseStone>> p : oreStoneList) {
-            BaseOre ore = p.getFirst();
-            List<String> ids = new ArrayList<>();
-            for (BaseStone stone : p.getSecond()) {
-                String fullId = stone.id + "_" + ore.id;
-                blockList.add(new RegistryFuture(fullId, ore, stone));
-                neededRls.add(ore.blockId.get(0));
-                neededRls.add(stone.blockId);
-                if (getConfig().addConversionRecipes) {
-                    OreConversionRecipe.oreMap.put(new ResourceLocation(MOD_ID, fullId), ore.blockId.get(0));
-                }
-                for (String type : Sets.union(new HashSet<>(stone.types), new HashSet<>(ore.types))) {
-                    ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_ores");
-                    ResourceLocation id = new ResourceLocation(MOD_ID, fullId);
-                    planItemTag(rlToBlock(tagRl), id);
-                    planBlockTag(rlToItem(tagRl), id);
-                }
-                tierHolder.add(fullId, ore, stone);
-                ids.add(fullId);
-            }
-            for (String orename : ore.oreName) {
-                for (String this_id : ids) {
-                    String oreTypeName = orename.substring(0, orename.length() - 4);
-                    if (Services.PLATFORM.isQuilt()) {
-                        planItemTag(new ResourceLocation("c", "items/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id), true);
-                        planBlockTag(new ResourceLocation("c", "blocks/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
-                        planItemTag(new ResourceLocation("c", "items/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id), true);
-                        planBlockTag(new ResourceLocation("c", "blocks/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
-                    } else {
-                        if (orename.endsWith("_ore")) {
-                            planItemTag(new ResourceLocation("forge", "items/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id), true);
-                            planBlockTag(new ResourceLocation("forge", "blocks/ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
-                        }
-                    }
-                    if (Arrays.asList("iron_ore", "gold_ore", "coal_ore", "emerald_ore", "diamond_ore", "redstone_ore", "quartz_ore", "copper_ore", "lapis_ore", "netherite_scrap_ore").contains(orename)) {
-                        planItemTag(new ResourceLocation("minecraft", "items/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
-                        planBlockTag(new ResourceLocation("minecraft", "blocks/" + orename + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, this_id));
-                    }
-                }
-            }
-        }
-
-        getConfig().modifiers.forEach(modifier -> {
-            List<ResourceLocation> tags;
-            if (modifier.tags().isPresent() && !(tags = modifier.tags().get()).isEmpty()) {
-                List<ResourceLocation> locations = getMatching(modifier.filter()).stream().map(p ->
-                        new ResourceLocation(ExcavatedVariants.MOD_ID, p.getSecond().id + "_" + p.getFirst().id)).toList();
-                tags.forEach(tag -> locations.forEach(rl -> {
-                    if (tag.getPath().startsWith("blocks/"))
-                        planBlockTag(tag, rl);
-                    else if (tag.getPath().startsWith("items/"))
-                        planItemTag(tag, rl);
-                }));
-            }
-        });
-
-        for (BaseStone stone : knownStones) {
-            for (String type : stone.types) {
-                ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_stones");
-                planItemTag(rlToItem(tagRl), stone.blockId, true);
-                planBlockTag(rlToBlock(tagRl), stone.blockId);
-            }
-        }
-
-        for (BaseOre ore : knownOres) {
-            for (String type : ore.types) {
-                ResourceLocation tagRl = new ResourceLocation(MOD_ID, type + "_ores");
-                ore.blockId.forEach(id -> {
-                    planItemTag(rlToBlock(tagRl), id, true);
-                    planBlockTag(rlToItem(tagRl), id);
-                });
-            }
-        }
-
-        DATA_CACHE.tags().queue(tierHolder);
-
-        Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
-        Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
-
-        loaded = true;
-    }
-
-    // Prior to map setup, filters *must* be called using the BaseOre and BaseStone, not the string IDs.
-    public static boolean setupMap() {
-        if (oreStoneList == null || oreStoneList.size() == 0) {
-            Collection<String> modids;
-            try {
-                modids = Services.PLATFORM.getModIds();
-            } catch (NullPointerException e) {
-                //no need to lock up the class, but we have to guarantee that oreStoneList is NonNull after this.
-                oreStoneList = new ArrayList<>();
-                return false;
-            }
-            internalSetupMap(modids);
-        }
-        return true;
-    }
-
-    public static Set<Pair<BaseOre, BaseStone>> getMatching(Filter filter) {
-        setupMap();
-        return allPairs.stream().filter(p -> filter.matches(p.getFirst(), p.getSecond())).collect(Collectors.toSet());
-    }
-
-    private static synchronized void internalSetupMap(Collection<String> modids) {
-        // Yeah, yeah, I don't like static synchronized either. This way, though, it should only ever fire once, since
-        // this is an internal method and only ever locks if the list is null or empty. And I don't really want to
-        // build the list more than once, since that causes issues, so...
-        oreStoneList = new ArrayList<>();
-        knownOres = new HashSet<>();
-        knownStones = new HashSet<>();
-        Map<String, BaseStone> stoneMap = new HashMap<>();
-        Map<String, List<BaseOre>> oreMap = new HashMap<>();
-        for (ModData mod : ExcavatedVariants.getConfig().mods) {
-            if (modids.containsAll(mod.modId)) {
-                processData(stoneMap, oreMap, mod.providedStones, mod.providedOres);
-            }
-        }
-        List<DataProvider> providers = Services.COMPAT.getListeners(DataProvider.class);
-        for (DataProvider provider : providers) {
-            List<BaseStone> stones = new ArrayList<>();
-            List<BaseOre> ores = new ArrayList<>();
-            provider.provideOres(ore -> ores.add(ore.getBase()), stone -> stones.add(stone.getBase()));
-            processData(stoneMap, oreMap, stones, ores);
-        }
-        for (String id : oreMap.keySet()) {
-            List<BaseOre> oreList = oreMap.get(id);
-            List<String> stones = new ArrayList<>();
-            for (BaseOre ore : oreList) {
-                stones.addAll(ore.stone);
-            }
-            Pair<BaseOre, HashSet<BaseStone>> pair = new Pair<>(oreList.get(0).clone(), new HashSet<>());
-            if (oreList.size() > 1) {
-                pair.getFirst().blockId = new ArrayList<>();
-                pair.getFirst().oreName = new ArrayList<>();
-                pair.getFirst().stone = new ArrayList<>();
-                pair.getFirst().types = new ArrayList<>();
-                for (BaseOre baseOre : oreList) {
-                    pair.getFirst().blockId.addAll(baseOre.blockId);
-                    pair.getFirst().oreName.addAll(baseOre.oreName);
-                    pair.getFirst().stone.addAll(baseOre.stone);
-                    pair.getFirst().types.addAll(baseOre.types);
-                }
-                List<String> types = new HashSet<>(pair.getFirst().types).stream().toList();
-                pair.getFirst().types.clear();
-                pair.getFirst().types.addAll(types);
-                List<String> oreNames = new HashSet<>(pair.getFirst().oreName).stream().toList();
-                pair.getFirst().oreName.clear();
-                pair.getFirst().oreName.addAll(oreNames);
-            }
-            oreStoneList.add(pair);
-            for (BaseStone stone : stoneMap.values()) {
-                if (!stones.contains(stone.id) && pair.getFirst().types.stream().anyMatch(stone.types::contains)) {
-                    if (!ExcavatedVariants.getConfig().configResource.getBlacklist().matches(pair.getFirst(), stone)) {
-                        pair.getSecond().add(stone);
-                    }
-                }
-            }
-        }
-
-        List<Pair<Ore, Set<Stone>>> apiListBuilder = new ArrayList<>();
-        for (Pair<BaseOre, HashSet<BaseStone>> p : oreStoneList) {
-            apiListBuilder.add(new Pair<>(new Ore(p.getFirst()), p.getSecond().stream().map(Stone::new).collect(Collectors.toSet())));
-        }
-        var apiList = Collections.unmodifiableList(apiListBuilder);
-        Services.COMPAT.getListeners(DataReceiver.class).forEach(r -> r.receiveData(apiList));
-
-        HashSet<String> doneIds = new HashSet<>();
-        ArrayList<Pair<BaseOre, HashSet<BaseStone>>> out = new ArrayList<>();
-        for (Pair<BaseOre, HashSet<BaseStone>> p : oreStoneList) {
-            BaseOre ore = p.getFirst();
-            if (!doneIds.contains(ore.id)) {
-                doneIds.add(ore.id);
-                Pair<BaseOre, HashSet<BaseStone>> o = new Pair<>(ore, new HashSet<>());
-                out.add(o);
-                knownOres.add(o.getFirst());
-                for (BaseStone stone : p.getSecond()) {
-                    if (!ExcavatedVariants.getConfig().configResource.getBlacklist().matches(ore, stone)) {
-                        o.getSecond().add(stone);
-                    }
-                }
-            }
-        }
-        knownStones.addAll(stoneMap.values());
-        stones = knownStones.stream().collect(Collectors.toMap(s -> s.id, Functions.identity()));
-        ores = knownOres.stream().collect(Collectors.toMap(o -> o.id, Functions.identity()));
-        allPairs = out.stream().flatMap(p -> p.getSecond().stream().map(o -> new Pair<>(p.getFirst(), o))).collect(Collectors.toSet());
-        oreStoneList = out;
-    }
-
-    private static void processData(Map<String, BaseStone> stoneMap, Map<String, List<BaseOre>> oreMap, List<BaseStone> providedStones, List<BaseOre> providedOres) {
-        for (BaseStone stone : providedStones) {
-            if (!stoneMap.containsKey(stone.id)) stoneMap.put(stone.id, stone);
-            else {
-                BaseStone stoneOld = stoneMap.get(stone.id);
-                List<String> types = new ArrayList<>(stoneOld.types);
-                types.addAll(stone.types.stream().filter(s -> !stoneOld.types.contains(s)).toList());
-                stoneOld.types = types;
-            }
-        }
-        for (BaseOre ore : providedOres) {
-            oreMap.computeIfAbsent(ore.id, k -> new ArrayList<>());
-            oreMap.get(ore.id).add(ore);
-        }
-    }
-
-    public static Map<String, BaseOre> getOres() {
-        return ores;
-    }
-
-    public static Map<String, BaseStone> getStones() {
-        return stones;
-    }
-
     public static ModConfig getConfig() {
-        if (configs == null) {
-            configs = ModConfig.load();
+        if (CONFIG == null) {
+            CONFIG = ModConfig.load();
         }
-        return configs;
-    }
-
-    public static Map<String, ModifiedOreBlock> getBlocks() {
-        return blocks;
-    }
-
-    public static List<RegistryFuture> getBlockList() {
-        return blockList;
+        return CONFIG;
     }
 
     public static void registerBlockAndItem(BiConsumer<ResourceLocation, Block> blockRegistrar, BiFunction<ResourceLocation, Supplier<Item>, Supplier<Item>> itemRegistrar, RegistryFuture future) {
@@ -336,84 +339,22 @@ public final class ExcavatedVariants {
             blockRegistrar.accept(rlToReg, b);
             blocks.put(id, b);
             Supplier<Item> i = itemRegistrar.apply(rlToReg, () -> new BlockItem(b, new Item.Properties()));
-            items.add(i);
+            ITEMS.add(i);
 
             ClientServices.RENDER_TYPE_HANDLER.setRenderTypeMipped(b);
         }
     }
 
-    public static List<Supplier<Item>> getItems() {
-        return items;
-    }
-
-    public static boolean hasLoaded() {
-        return loaded;
-    }
-
-    public static synchronized MappingsCache getMappingsCache() {
-        if (mappingsCache == null && setupMap()) {
-            MappingsCache cache = MappingsCache.load();
-            knownOres.forEach(ore -> cache.oreMappings.put(ore.id, Set.copyOf(ore.blockId)));
-            knownStones.forEach(stone -> cache.stoneMappings.put(stone.id, stone.blockId));
-
-            Map<String, Set<ResourceLocation>> newOres = new HashMap<>();
-            Map<String, ResourceLocation> newStones = new HashMap<>();
-            cache.oreMappings.forEach((key, rls) -> {
-                Set<ResourceLocation> set = rls.stream().filter(it -> Services.REGISTRY_UTIL.getBlockById(it) != null).collect(Collectors.toUnmodifiableSet());
-                if (!set.isEmpty()) newOres.put(key, set);
-            });
-            cache.stoneMappings.forEach((key, rl) -> {
-                if (Services.REGISTRY_UTIL.getBlockById(rl) != null) newStones.put(key, rl);
-            });
-
-            cache.oreMappings = newOres;
-            cache.stoneMappings = newStones;
-
-            cache.save();
-
-            mappingsCache = cache;
-        }
-        return mappingsCache;
-    }
-
-    private static void planBlockTag(ResourceLocation tag, ResourceLocation block, boolean inLang) {
-        DATA_CACHE.tags().queue(tag, block);
-        if (inLang) {
-            planTagLang(tag);
-        }
-    }
-
-    private static void planBlockTag(ResourceLocation tag, ResourceLocation block) {
-        planBlockTag(tag, block, false);
-    }
-
-    private static void planItemTag(ResourceLocation tag, ResourceLocation item, boolean inLang) {
-        DATA_CACHE.tags().queue(tag, item);
-        if (inLang) {
-            planTagLang(tag);
-        }
-    }
-
-    private static void planItemTag(ResourceLocation tag, ResourceLocation item) {
-        planItemTag(tag, item, false);
-    }
-
-    private static ResourceLocation rlToBlock(ResourceLocation rl) {
-        return new ResourceLocation(rl.getNamespace(), "blocks/" + rl.getPath());
-    }
-
-    private static ResourceLocation rlToItem(ResourceLocation rl) {
-        return new ResourceLocation(rl.getNamespace(), "items/" + rl.getPath());
-    }
-
     public static class RegistryFuture {
-        public final BaseOre ore;
-        public final BaseStone stone;
-        public final String full_id;
+        public final Ore ore;
+        public final Stone stone;
+        public final String fullId;
         public boolean done = false;
+        public boolean foundStone = false;
+        public boolean foundOre = false;
 
-        public RegistryFuture(String s, BaseOre ore, BaseStone stone) {
-            this.full_id = s;
+        public RegistryFuture(String s, Ore ore, Stone stone) {
+            this.fullId = s;
             this.ore = ore;
             this.stone = stone;
         }

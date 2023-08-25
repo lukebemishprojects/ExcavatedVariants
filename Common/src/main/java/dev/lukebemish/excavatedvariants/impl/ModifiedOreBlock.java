@@ -7,9 +7,9 @@ package dev.lukebemish.excavatedvariants.impl;
 
 import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
 import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
-import dev.lukebemish.excavatedvariants.impl.data.modifier.BlockProps;
+import dev.lukebemish.excavatedvariants.impl.data.modifier.BlockPropsModifierImpl;
 import dev.lukebemish.excavatedvariants.impl.data.modifier.Flag;
-import dev.lukebemish.excavatedvariants.impl.mixin.IBlockPropertiesMixin;
+import dev.lukebemish.excavatedvariants.impl.mixin.BlockPropertiesMixin;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -76,15 +76,15 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             copyBlockstateDefs();
         }
 
-        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.filter().matches(ore, stone)).forEach(modifier -> {
-            if (modifier.properties().flatMap(BlockProps::xpDropped).isPresent()) this.delegateSpecialDrops = false;
+        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.variantFilter().matches(ore, stone)).forEach(modifier -> {
+            if (modifier.properties().flatMap(BlockPropsModifierImpl::xpDropped).isPresent()) this.delegateSpecialDrops = false;
         });
     }
 
     private static IntProvider getXpProvider(BaseOre ore, BaseStone stone) {
-        return ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.filter().matches(ore, stone)).map(modifier -> {
-            if (modifier.properties().flatMap(BlockProps::xpDropped).isPresent())
-                return modifier.properties().flatMap(BlockProps::xpDropped).get();
+        return ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.variantFilter().matches(ore, stone)).map(modifier -> {
+            if (modifier.properties().flatMap(BlockPropsModifierImpl::xpDropped).isPresent())
+                return modifier.properties().flatMap(BlockPropsModifierImpl::xpDropped).get();
             return null;
         }).filter(Objects::nonNull).collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
             Collections.reverse(list);
@@ -119,8 +119,8 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             Properties properties = Properties.copy(stoneTarget);
             Properties oreProperties = Properties.copy(target);
             properties.requiresCorrectToolForDrops();
-            IBlockPropertiesMixin newProperties = (IBlockPropertiesMixin) properties;
-            IBlockPropertiesMixin oreProps = (IBlockPropertiesMixin) oreProperties;
+            BlockPropertiesMixin newProperties = (BlockPropertiesMixin) properties;
+            BlockPropertiesMixin oreProps = (BlockPropertiesMixin) oreProperties;
             properties.strength(avgStrength(target.defaultDestroyTime(), stoneTarget.defaultDestroyTime(), 0.5f),
                             avgF(target.getExplosionResistance(), stoneTarget.getExplosionResistance(), 0.5f))
                     .mapColor(avgColor(stoneTarget.defaultMapColor(), target.defaultMapColor(), 0.8F));
@@ -136,9 +136,9 @@ public class ModifiedOreBlock extends DropExperienceBlock {
                     .requiresCorrectToolForDrops()
                     .strength(3.0f, 3.0f);
         }
-        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.filter().matches(ore, stone)).forEach(modifier -> {
-            modifier.properties().flatMap(BlockProps::explosionResistance).ifPresent(outProperties::explosionResistance);
-            modifier.properties().flatMap(BlockProps::destroyTime).ifPresent(outProperties::destroyTime);
+        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.variantFilter().matches(ore, stone)).forEach(modifier -> {
+            modifier.properties().flatMap(BlockPropsModifierImpl::explosionResistance).ifPresent(outProperties::explosionResistance);
+            modifier.properties().flatMap(BlockPropsModifierImpl::destroyTime).ifPresent(outProperties::destroyTime);
         });
         return outProperties;
     }

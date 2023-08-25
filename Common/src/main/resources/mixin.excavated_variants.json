@@ -6,7 +6,9 @@
   "mixins": [
     "BlockMixin",
     "CreativeModeTabMixin",
-    "IBlockPropertiesMixin"
+    "BlockPropertiesMixin",
+    "BuiltInRegistriesMixin",
+    "MappedRegistryMixin"
   ],
   "client": [],
   "server": [],

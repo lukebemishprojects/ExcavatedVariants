@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.function.ToIntFunction;
 
 @Mixin(BlockBehaviour.Properties.class)
-public interface IBlockPropertiesMixin {
+public interface BlockPropertiesMixin {
 
     @Accessor
     boolean getIsRandomlyTicking();

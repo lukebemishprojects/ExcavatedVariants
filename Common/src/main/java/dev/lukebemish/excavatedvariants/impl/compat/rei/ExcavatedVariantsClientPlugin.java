@@ -31,7 +31,7 @@ public class ExcavatedVariantsClientPlugin implements REIClientPlugin {
     public void registerDisplays(DisplayRegistry registry) {
         if (ExcavatedVariants.getConfig().addConversionRecipes && ExcavatedVariants.getConfig().jeiReiCompat) {
             List<CraftingRecipe> recipes = new ArrayList<>();
-            OreConversionRecipe.assembleOrNull();
+            OreConversionRecipe.assembleMap();
             for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
                 ArrayList<Item> items = new ArrayList<>();
                 for (BaseStone stone : p.getSecond()) {
