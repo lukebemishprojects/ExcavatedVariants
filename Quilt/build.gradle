@@ -27,16 +27,8 @@ dependencies {
 	compileOnly libs.autoservice
 	annotationProcessor libs.autoservice
 
-	compileOnly libs.rei.common
-
-	modCompileOnly libs.jei.fabric
-	modCompileOnly libs.jei.common
-
 	modImplementation libs.dynassetgen.quilt
 	modImplementation libs.defaultresources.quilt
-
-	modCompileOnly(variantOf(libs.emi.fabric) { classifier 'api' })
-	modLocalRuntime libs.emi.fabric
 
 	include libs.defaultresources.quilt
 

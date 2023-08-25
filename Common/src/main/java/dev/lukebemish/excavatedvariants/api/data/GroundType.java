@@ -11,7 +11,9 @@ import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Objects;
 
@@ -46,5 +48,13 @@ public class GroundType {
             Objects.requireNonNull(dimensionTag);
             return new GroundType(dimensionTag);
         }
+    }
+
+    public final TagKey<Block> getOreTagKey() {
+        return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("ores_in_ground_type/"));
+    }
+
+    public final TagKey<Block> getStoneTagKey() {
+        return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("stones_in_ground_type/"));
     }
 }

@@ -26,7 +26,7 @@ public class BlockAddedCallback {
             registering = true;
             ExcavatedVariants.VariantFuture future;
             while ((future = ExcavatedVariants.READY_QUEUE.poll()) != null) {
-                Services.REGISTRY_UTIL.register(future);
+                Services.PLATFORM.register(future);
             }
             registering = false;
         }

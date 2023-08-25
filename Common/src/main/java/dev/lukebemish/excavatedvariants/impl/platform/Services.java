@@ -5,17 +5,15 @@
 
 package dev.lukebemish.excavatedvariants.impl.platform;
 
-import java.util.ServiceLoader;
-
 import dev.lukebemish.excavatedvariants.impl.platform.services.CreativeTabLoader;
 import dev.lukebemish.excavatedvariants.impl.platform.services.Listeners;
-import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
-import dev.lukebemish.excavatedvariants.impl.platform.services.RegistryUtil;
 import dev.lukebemish.excavatedvariants.impl.platform.services.MainPlatformTarget;
+import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
 import dev.lukebemish.excavatedvariants.impl.util.ThreadsafeLazy;
 
+import java.util.ServiceLoader;
+
 public class Services {
-    public static final RegistryUtil REGISTRY_UTIL = load(RegistryUtil.class);
     public static final Platform PLATFORM = load(Platform.class);
     public static final ThreadsafeLazy<CreativeTabLoader> CREATIVE_TAB_LOADER = loadLazy(CreativeTabLoader.class);
     public static final ThreadsafeLazy<MainPlatformTarget> MAIN_PLATFORM_TARGET = loadLazy(MainPlatformTarget.class);

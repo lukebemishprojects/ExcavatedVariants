@@ -77,14 +77,6 @@ dependencies {
 
     annotationProcessor(variantOf(libs.mixin) { classifier 'processor' })
 
-    compileOnly fg.deobf(libs.jei.forge.get())
-    compileOnly fg.deobf(libs.jei.common.get())
-
-    compileOnly fg.deobf(libs.rei.common.get())
-
-    compileOnly fg.deobf(variantOf(libs.emi.forge) { classifier 'api' }.get())
-    runtimeOnly fg.deobf(libs.emi.forge.get())
-
     implementation fg.deobf(libs.dynassetgen.forge.get())
     implementation fg.deobf(libs.defaultresources.forge.get())
 

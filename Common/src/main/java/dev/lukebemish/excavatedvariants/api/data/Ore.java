@@ -14,6 +14,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -131,5 +132,13 @@ public class Ore {
             Objects.requireNonNull(types);
             return new Ore(names, blocks, translation, types);
         }
+    }
+
+    public final TagKey<Block> getTagKey() {
+        return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("ores/"));
+    }
+
+    public final TagKey<Block> getConvertibleTagKey() {
+        return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("ores_convertible/"));
     }
 }

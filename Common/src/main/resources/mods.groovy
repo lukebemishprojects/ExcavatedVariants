@@ -45,11 +45,11 @@ ModsDotGroovy.make {
         entrypoints {
             init = ['dev.lukebemish.excavatedvariants.impl.quilt.ExcavatedVariantsQuilt']
             client_init = ['dev.lukebemish.excavatedvariants.impl.quilt.ExcavatedVariantsClientQuilt']
-            rei_init = ['dev.lukebemish.excavatedvariants.impl.compat.rei.ExcavatedVariantsClientPlugin']
-            jei_mod_plugin = ['dev.lukebemish.excavatedvariants.impl.compat.jei.JeiCompat']
-            emi = ['dev.lukebemish.excavatedvariants.impl.compat.emi.EmiCompat']
             excavated_variants_client = [
                     'dev.lukebemish.excavatedvariants.impl.client.DefaultProvider'
+            ]
+            excavated_variants = [
+                    'dev.lukebemish.excavatedvariants.impl.DefaultRegistryListener'
             ]
         }
     }

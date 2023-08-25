@@ -24,11 +24,6 @@ dependencies {
 
     compileOnly libs.dynassetgen.common
     compileOnly libs.defaultresources.common
-
-    modCompileOnly libs.jei.common
-    modCompileOnly libs.rei.common
-
-    modCompileOnly(variantOf(libs.emi.common) { classifier 'api' })
 }
 
 import net.fabricmc.loom.task.AbstractRemapJarTask

@@ -30,8 +30,7 @@ public class ModConfig {
     public static final Path FULL_PATH = CONFIG_PATH.resolve(ExcavatedVariants.MOD_ID + ".toml");
     public static final Codec<ModConfig> CODEC = CommentedCodec.of(RecordCodecBuilder.<ModConfig>create(instance -> instance.group(
                     Codec.BOOL.fieldOf("attempt_worldgen_replacement").forGetter(c -> c.attemptWorldgenReplacement),
-                    Codec.BOOL.fieldOf("add_conversion_recipes").forGetter(c -> c.addConversionRecipes),
-                    Codec.BOOL.fieldOf("jei_rei_compat").forGetter(c -> c.jeiReiCompat)
+                    Codec.BOOL.fieldOf("add_conversion_recipes").forGetter(c -> c.addConversionRecipes)
             ).apply(instance, ModConfig::new)))
             .comment("Toggles ore-gen changes; without this, ores won't be replaced during world gen.", "attempt_worldgen_replacement")
             .comment("Toggles whether to add recipes to convert variants back to the base ore.", "add_conversion_recipes")
@@ -43,16 +42,14 @@ public class ModConfig {
 
     public final boolean attemptWorldgenReplacement;
     public final boolean addConversionRecipes;
-    public final boolean jeiReiCompat;
 
-    private ModConfig(boolean attemptWorldgenReplacement, boolean addConversionRecipes, boolean jeiReiCompat) {
+    private ModConfig(boolean attemptWorldgenReplacement, boolean addConversionRecipes) {
         this.attemptWorldgenReplacement = attemptWorldgenReplacement;
         this.addConversionRecipes = addConversionRecipes;
-        this.jeiReiCompat = jeiReiCompat;
     }
 
     private static ModConfig defaultConfig() {
-        return new ModConfig(true, true, true);
+        return new ModConfig(true, true);
     }
 
     public static ModConfig load() {

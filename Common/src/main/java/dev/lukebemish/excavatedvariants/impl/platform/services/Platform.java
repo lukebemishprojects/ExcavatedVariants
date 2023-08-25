@@ -5,11 +5,14 @@
 
 package dev.lukebemish.excavatedvariants.impl.platform.services;
 
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
+import net.minecraft.resources.ResourceLocation;
+
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
+import java.util.function.Consumer;
 
 public interface Platform {
     boolean isQuilt();
@@ -27,5 +30,6 @@ public interface Platform {
     /**
      * Gets a list of mining levels, ordered softest to hardest
      */
-    List<ResourceLocation> getMiningLevels();
+    List<ResourceLocation> getMiningLevels(ResourceGenerationContext context, Consumer<String> cacheKeyConsumer);
+    void register(ExcavatedVariants.VariantFuture future);
 }

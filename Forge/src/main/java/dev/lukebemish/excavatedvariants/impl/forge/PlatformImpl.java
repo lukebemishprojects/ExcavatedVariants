@@ -6,6 +6,7 @@
 package dev.lukebemish.excavatedvariants.impl.forge;
 
 import com.google.auto.service.AutoService;
+import com.google.common.base.Suppliers;
 import com.google.common.graph.ElementOrder;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -13,26 +14,32 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.forge.mixin.ForgeTierSortingRegistryAccessor;
 import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.toposort.TopologicalSort;
 import net.minecraftforge.forgespi.language.IModInfo;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @AutoService(Platform.class)
 public class PlatformImpl implements Platform {
@@ -64,27 +71,33 @@ public class PlatformImpl implements Platform {
 
     @SuppressWarnings("UnstableApiUsage")
     @Override
-    public List<ResourceLocation> getMiningLevels() {
+    public List<ResourceLocation> getMiningLevels(ResourceGenerationContext context, Consumer<String> cacheKeyConsumer) {
         ResourceLocation ORDERING = new ResourceLocation("forge", "item_tier_ordering.json");
         var tiers = ForgeTierSortingRegistryAccessor.getTiers();
         List<Tier> tierList = new ArrayList<>();
-        try (var stream = ServerPrePackRepository.getResource(ORDERING);
-             var reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
-            var ordering = ItemTierOrdering.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(reader)).getOrThrow(false, e->{});
-            boolean missingTiers = tiers.keySet().stream().anyMatch(tier -> !ordering.order.contains(tier));
-            boolean extraTiers = ordering.order.stream().anyMatch(tier -> !tiers.containsKey(tier));
-            if (!missingTiers && !extraTiers) {
-                for (ResourceLocation rl : ordering.order) {
-                    tierList.add(tiers.get(rl));
+        try {
+            var resource = context.getResourceSource().getResource(ORDERING);
+            if (resource == null) throw new IOException("Tier ordering resource not found");
+            try (var stream = resource.get()) {
+                byte[] bytes = stream.readAllBytes();
+                cacheKeyConsumer.accept(Base64.getEncoder().encodeToString(bytes));
+                var ordering = ItemTierOrdering.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(new InputStreamReader(new ByteArrayInputStream(bytes)))).getOrThrow(false, e->{});
+                boolean missingTiers = tiers.keySet().stream().anyMatch(tier -> !ordering.order.contains(tier));
+                boolean extraTiers = ordering.order.stream().anyMatch(tier -> !tiers.containsKey(tier));
+                if (!missingTiers && !extraTiers) {
+                    for (ResourceLocation rl : ordering.order) {
+                        tierList.add(tiers.get(rl));
+                    }
+                    return tierList.stream().filter(it -> it.getTag() != null).map(it->{
+                        var l = it.getTag().location();
+                        return new ResourceLocation(l.getNamespace(), "blocks/"+l.getPath());
+                    }).toList();
                 }
-                return tierList.stream().filter(it -> it.getTag() != null).map(it->{
-                    var l = it.getTag().location();
-                    return new ResourceLocation(l.getNamespace(), "blocks/"+l.getPath());
-                }).toList();
             }
         } catch (IOException | RuntimeException ignored) {
             // Huh, who knows, let's ignore it
             // (Could be it just doesn't exist)
+            cacheKeyConsumer.accept("DNE");
         }
         final MutableGraph<Tier> graph = GraphBuilder.directed().nodeOrder(ElementOrder.<Tier>insertion()).build();
 
@@ -106,5 +119,16 @@ public class PlatformImpl implements Platform {
         static final Codec<ItemTierOrdering> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ResourceLocation.CODEC.listOf().optionalFieldOf("order", List.of()).forGetter(ItemTierOrdering::order)
         ).apply(instance, ItemTierOrdering::new));
+    }
+
+    private static final Supplier<ModContainer> EV_CONTAINER = Suppliers.memoize(() -> ModList.get().getModContainerById(ExcavatedVariants.MOD_ID).orElseThrow());
+
+    public void register(ExcavatedVariants.VariantFuture future) {
+        ExcavatedVariants.registerBlockAndItem((rlr, bl) -> {
+            final ModContainer activeContainer = ModLoadingContext.get().getActiveContainer();
+            ModLoadingContext.get().setActiveContainer(EV_CONTAINER.get());
+            ForgeRegistries.BLOCKS.register(rlr, bl);
+            ModLoadingContext.get().setActiveContainer(activeContainer);
+        }, (rlr, it) -> ExcavatedVariantsForge.TO_REGISTER.register(rlr.getPath(), it), future);
     }
 }

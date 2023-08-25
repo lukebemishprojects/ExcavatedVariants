@@ -9,7 +9,6 @@ package dev.lukebemish.excavatedvariants.impl.forge;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.MissingVariantHelper;
 import dev.lukebemish.excavatedvariants.impl.S2CConfigAgreementPacket;
-import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreFinderUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.entity.player.PlayerNegotiationEvent;
@@ -26,17 +25,15 @@ public class EventHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onServerStarting(ServerAboutToStartEvent event) {
         //Ore Gen
-        Services.REGISTRY_UTIL.reset();
-        ExcavatedVariants.oreStoneList = null;
         OreFinderUtil.setupBlocks();
-        ExcavatedVariants.setupMap();
     }
 
     @SubscribeEvent
     public static void onPlayerNegotiation(PlayerNegotiationEvent playerNegotiationEvent) {
-        EVPacketHandler.INSTANCE.sendTo(new S2CConfigAgreementPacket(
-                        ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
-                                stone -> stone.id + "_" + p.getFirst().id)).collect(Collectors.toSet())),
+        EVPacketHandler.INSTANCE.sendTo(
+                new S2CConfigAgreementPacket(
+                        ExcavatedVariants.COMPLETE_VARIANTS.stream().map(v -> v.fullId).collect(Collectors.toSet())
+                ),
                 playerNegotiationEvent.getConnection(),
                 NetworkDirection.LOGIN_TO_CLIENT
         );

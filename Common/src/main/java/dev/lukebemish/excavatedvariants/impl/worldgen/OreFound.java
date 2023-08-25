@@ -5,18 +5,19 @@
 
 package dev.lukebemish.excavatedvariants.impl.worldgen;
 
-import java.util.HashSet;
-
-import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
 
 public interface OreFound {
-    Pair<BaseOre, HashSet<BaseStone>> excavated_variants$getPair();
+    Ore excavated_variants$getOre();
 
-    void excavated_variants$setPair(Pair<BaseOre, HashSet<BaseStone>> p);
+    void excavated_variants$setOre(Ore o);
 
-    BaseStone excavated_variants$getStone();
+    Stone excavated_variants$getOreStone();
 
-    void excavated_variants$setStone(BaseStone stone);
+    void excavated_variants$setOreStone(Stone o);
+
+    Stone excavated_variants$getStone();
+
+    void excavated_variants$setStone(Stone stone);
 }

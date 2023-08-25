@@ -16,6 +16,8 @@ import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagEntry;
+import org.apache.commons.lang3.mutable.Mutable;
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class MiningLevelTagHolder implements TagSupplier {
     public Map<ResourceLocation, Set<ResourceLocation>> apply(ResourceGenerationContext context) {
         Map<ResourceLocation, Set<ResourceLocation>> tags = new HashMap<>();
 
-        List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels();
+        List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels(context, s -> {});
         Map<ResourceLocation, Integer> blockToLevelMap = new HashMap<>();
         Map<ResourceLocation, List<ResourceLocation>> memberMap = tagNames.stream().collect(Collectors.toMap(Function.identity(), name -> getTagMembers(name, context), (l1, l2) -> {
             List<ResourceLocation> out = new ArrayList<>(l1);
@@ -75,7 +77,13 @@ public class MiningLevelTagHolder implements TagSupplier {
     @Override
     public @Nullable String createSupplierCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
         StringBuilder builder = new StringBuilder();
-        for (ResourceLocation tag : Services.PLATFORM.getMiningLevels()) {
+        Mutable<String> cacheKey = new MutableObject<>();
+        List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels(context, cacheKey::setValue);
+        if (cacheKey.getValue() == null) {
+            return null;
+        }
+        builder.append(cacheKey.getValue());
+        for (ResourceLocation tag : tagNames) {
             ResourceLocation tagFile = new ResourceLocation(tag.getNamespace(), "tags/"+tag.getPath()+".json");
             var foundResources = context.getResourceSource().getResourceStack(tagFile);
             for (var supplier : foundResources) {

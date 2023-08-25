@@ -36,21 +36,20 @@ public record S2CConfigAgreementPacket(Set<String> blocks) {
 
     public void consumeMessage(Consumer<String> disconnecter) {
         ExcavatedVariants.setupMap();
-        Set<String> knownBlocks = ExcavatedVariants.oreStoneList.stream().flatMap(p -> p.getSecond().stream().map(
-                stone -> stone.id + "_" + p.getFirst().id)).collect(Collectors.toSet());
+        Set<String> knownBlocks = ExcavatedVariants.COMPLETE_VARIANTS.stream().map(v -> v.fullId).collect(Collectors.toSet());
         var serverOnly = this.blocks.stream().filter(b -> !knownBlocks.contains(b)).collect(Collectors.toSet());
         var clientOnly = knownBlocks.stream().filter(b -> !this.blocks.contains(b)).collect(Collectors.toSet());
 
-        if (clientOnly.size() == 0 && serverOnly.size() == 0) {
+        if (clientOnly.isEmpty() && serverOnly.isEmpty()) {
             return;
         }
         String disconnect = "Connection closed - mismatched ore variant list";
-        if (clientOnly.size() > 0) {
+        if (!clientOnly.isEmpty()) {
             String clientOnlyStr = String.join("\n    ", clientOnly.stream().toList());
             ExcavatedVariants.LOGGER.error("Client contains ore variants not present on server:\n    {}", clientOnlyStr);
             disconnect += "\nMissing on server: " + ellipsis(clientOnly.toString(), 50);
         }
-        if (serverOnly.size() > 0) {
+        if (!serverOnly.isEmpty()) {
             String serverOnlyStr = String.join("\n    ", serverOnly.stream().toList());
             ExcavatedVariants.LOGGER.error("Server contains ore variants not present on client:\n    {}", serverOnlyStr);
             disconnect += "\nMissing on client: " + ellipsis(serverOnly.toString(), 50);

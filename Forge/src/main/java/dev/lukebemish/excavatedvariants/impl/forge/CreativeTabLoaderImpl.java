@@ -23,7 +23,7 @@ public class CreativeTabLoaderImpl implements CreativeTabLoader {
                 .title(Component.translatable("itemGroup."+CREATIVE_TAB_ID.getNamespace()+"."+CREATIVE_TAB_ID.getPath()))
                 .icon(() -> new ItemStack(Items.DEEPSLATE_COPPER_ORE))
                 .displayItems((displayParameters, output) -> {
-                    for (var supplier : ExcavatedVariants.getItems()) {
+                    for (var supplier : ExcavatedVariants.ITEMS) {
                         output.accept(supplier.get());
                     }
                 });

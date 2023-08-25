@@ -21,11 +21,6 @@ defaultresources = "3.0.0-pr39"
 
 jetbrains_annotations = "24.0.1"
 
-jei = "15.2.0.22"
-rei = "12.0.625"
-
-emi = "1.0.9+1.20.1"
-
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
@@ -48,15 +43,6 @@ dynassetgen_forge = { module = "dev.lukebemish.dynamicassetgenerator:dynamicasse
 defaultresources_common = { module = "dev.lukebemish.defaultresources:defaultresources-common-1.20", version.ref = "defaultresources" }
 defaultresources_quilt = { module = "dev.lukebemish.defaultresources:defaultresources-quilt-1.20", version.ref = "defaultresources" }
 defaultresources_forge = { module = "dev.lukebemish.defaultresources:defaultresources-forge-1.20", version.ref = "defaultresources" }
-
-jei_common = { module = "mezz.jei:jei-1.20.1-common-api", version.ref = "jei" }
-jei_forge = { module = "mezz.jei:jei-1.20.1-forge-api", version.ref = "jei" }
-jei_fabric= { module = "mezz.jei:jei-1.20.1-fabric-api", version.ref = "jei" }
-rei_common = { module = "me.shedaniel:RoughlyEnoughItems-api", version.ref = "rei" }
-
-emi_common = { module = "dev.emi:emi-xplat-intermediary", version.ref = "emi" }
-emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
-emi_forge = { module = "dev.emi:emi-forge", version.ref = "emi" }
 
 [plugins]
 quilt_loom = { id = "org.quiltmc.loom", version = "1.2.3" }

@@ -54,7 +54,6 @@ public class ExcavatedVariantsForge {
         CREATIVE_TABS.register(modbus);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         //ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
-        MainPlatformTargetImpl.RECIPE_SERIALIZERS.register(modbus);
 
         EVPacketHandler.INSTANCE.registerMessage(0, S2CConfigAgreementPacket.class, S2CConfigAgreementPacket::encoder, S2CConfigAgreementPacket::decoder, (msg, c) -> {
             c.get().enqueueWork(() -> msg.consumeMessage(string -> c.get().getNetworkManager().disconnect(Component.literal(string))));

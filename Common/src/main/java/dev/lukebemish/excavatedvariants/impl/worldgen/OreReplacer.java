@@ -6,14 +6,11 @@
 package dev.lukebemish.excavatedvariants.impl.worldgen;
 
 import com.mojang.datafixers.util.Pair;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
-import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
-import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,8 +20,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashSet;
 
 public class OreReplacer extends Feature<NoneFeatureConfiguration> {
     private static final int[] xs = new int[]{-1, 0, 1, 1, -1, -1, 0, 1};
@@ -88,11 +83,12 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
                 inner_loop:
                 for (int j = 0; j < 16; j++) {
                     BlockState newState = cache[i][y & 15][j] == null ? chunkSection.getBlockState(i, y & 15, j) : cache[i][y & 15][j];
-                    @Nullable Pair<BaseOre, HashSet<BaseStone>> pair = ((OreFound) newState.getBlock()).excavated_variants$getPair();
                     if (cache[i][y & 15][j] == null) {
                         cache[i][y & 15][j] = newState;
                     }
-                    if (pair != null) {
+                    @Nullable Ore ore = ((OreFound) newState.getBlock()).excavated_variants$getOre();
+                    if (ore != null) {
+                        @Nullable Stone oreStone = ((OreFound) newState.getBlock()).excavated_variants$getOreStone();
                         for (int c = 0; c < as.length; c++) {
                             if (i + as[c] < 16 && i + as[c] >= 0 && j + bs[c] < 16 && j + bs[c] >= 0 && y + ys[c] >= SectionPos.sectionToBlockCoord(sectionIndex) && y + ys[c] < SectionPos.sectionToBlockCoord(sectionIndex + 1)) {
                                 BlockState thisState = cache[i + as[c]][y + ys[c] & 15][j + bs[c]];
@@ -100,11 +96,11 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
                                     thisState = chunkSection.getBlockState(i + as[c], y + ys[c] & 15, j + bs[c]);
                                     cache[i + as[c]][y + ys[c] & 15][j + bs[c]] = thisState;
                                 }
-                                BaseStone stone = ((OreFound) thisState.getBlock()).excavated_variants$getStone();
-                                if (stone != null) {
-                                    Block oreBlock = Services.REGISTRY_UTIL.getBlockById(new ResourceLocation(ExcavatedVariants.MOD_ID, stone.id + "_" + pair.getFirst().id));
-                                    if (pair.getSecond().contains(stone) && oreBlock instanceof ModifiedOreBlock modifiedOreBlock) {
-                                        BlockState def = modifiedOreBlock.withPropertiesOf(thisState);
+                                Stone stone = ((OreFound) thisState.getBlock()).excavated_variants$getStone();
+                                if (stone != null && stone != oreStone) {
+                                    Block newOreBlock = OreFinderUtil.getBlock(ore, stone);
+                                    if (newOreBlock != null) {
+                                        BlockState def = newOreBlock.withPropertiesOf(thisState);
                                         chunkSection.setBlockState(i, y & 15, j, def, false);
                                         continue inner_loop;
                                     }

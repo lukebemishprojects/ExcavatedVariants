@@ -57,15 +57,6 @@ subprojects {
         }
 
         maven {
-            // JEI
-            name = 'BlameJared Maven (CrT / Bookshelf)'
-            url = 'https://maven.blamejared.com'
-            content {
-                includeGroup 'mezz.jei'
-            }
-        }
-
-        maven {
             name = 'ParchmentMC'
             url = 'https://maven.parchmentmc.org'
         }
@@ -75,6 +66,7 @@ subprojects {
             url 'https://maven.quiltmc.org/repository/release/'
         }
 
+        // TODO: switch to central
         maven {
             name = 'TheModdingInquisition'
             url = 'https://maven.moddinginquisition.org/releases'
@@ -87,24 +79,6 @@ subprojects {
         // TODO: Remove this once actual releases exist
         maven {
             url = 'https://maven.lukebemish.dev/pullrequests'
-        }
-
-        maven {
-            // REI
-            url "https://maven.architectury.dev/"
-            content {
-                includeGroupAndSubgroups 'me.shedaniel'
-                includeGroupAndSubgroups 'dev.architectury'
-            }
-        }
-
-        maven {
-            // EMI
-            name = "TerraformersMC"
-            url = "https://maven.terraformersmc.com/"
-            content {
-                includeGroupAndSubgroups 'dev.emi'
-            }
         }
     }
 
