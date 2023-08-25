@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.data.filter;
+package dev.lukebemish.excavatedvariants.api.data.filter;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import dev.lukebemish.excavatedvariants.impl.data.Ore;
-import dev.lukebemish.excavatedvariants.impl.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.impl.data.filter.ObjectVariantFilter;
+import dev.lukebemish.excavatedvariants.impl.data.filter.StringHeldVariantFilter;
 import net.minecraft.util.ExtraCodecs;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -35,17 +36,9 @@ public interface VariantFilter {
         return new ObjectVariantFilter.OrVariantFilter(variantFilters);
     }
 
-    static VariantFilter union(VariantFilter... variantFilters) {
-        return union(Arrays.asList(variantFilters));
-    }
-
     static VariantFilter intersect(List<VariantFilter> variantFilters) {
         variantFilters = variantFilters.stream().flatMap(VariantFilter::expandAnd).toList();
         return new ObjectVariantFilter.AndVariantFilter(variantFilters);
-    }
-
-    static VariantFilter intersect(VariantFilter... variantFilters) {
-        return intersect(Arrays.asList(variantFilters));
     }
 
     private static Stream<VariantFilter> expandOr(VariantFilter variantFilter) {

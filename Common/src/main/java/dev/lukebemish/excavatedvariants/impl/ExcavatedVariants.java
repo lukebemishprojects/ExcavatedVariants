@@ -9,14 +9,18 @@ import blue.endless.jankson.Jankson;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.sources.TagSupplier;
 import dev.lukebemish.excavatedvariants.impl.client.ClientServices;
-import dev.lukebemish.excavatedvariants.impl.data.*;
-import dev.lukebemish.excavatedvariants.impl.data.modifier.Modifier;
+import dev.lukebemish.excavatedvariants.api.data.GroundType;
+import dev.lukebemish.excavatedvariants.impl.data.ModConfig;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.modifier.BlockPropsModifier;
+import dev.lukebemish.excavatedvariants.api.data.modifier.Flag;
+import dev.lukebemish.excavatedvariants.api.data.modifier.Modifier;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import dev.lukebemish.excavatedvariants.impl.recipe.OreConversionRecipe;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -51,21 +55,28 @@ public final class ExcavatedVariants {
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     private static final List<Supplier<Item>> ITEMS = new ArrayList<>();
-    private static boolean LOADED = false;
+    private static State LOAD_STATE = State.PRE;
     private static ModConfig CONFIG;
     public static final DataResourceCache DATA_CACHE = ResourceCache.register(new DataResourceCache(new ResourceLocation(MOD_ID, "data")));
-    public static Map<Ore, List<Stone>> NEW_VARIANTS_MAP;
-    public static List<Pair<Ore, Stone>> NEW_VARIANTS;
-    public static final Map<ResourceKey<Block>, List<RegistryFuture>> NEEDED_KEYS = new IdentityHashMap<>();
-    public static final Map<RegistryFuture, List<ResourceKey<Block>>> REVERSE_NEEDED_KEYS = new IdentityHashMap<>();
-    public static final Deque<RegistryFuture> READY_QUEUE = new ArrayDeque<>();
+    private static Map<Ore, List<Stone>> NEW_VARIANTS_MAP;
+    private static final List<VariantFuture> NEW_VARIANTS = new ArrayList<>();
+    public static final Map<ResourceKey<Block>, List<VariantFuture>> NEEDED_KEYS = new IdentityHashMap<>();
+    public static final Map<VariantFuture, List<ResourceKey<Block>>> REVERSE_NEEDED_KEYS = new IdentityHashMap<>();
+    public static final Deque<VariantFuture> READY_QUEUE = new ArrayDeque<>();
+    public static final Map<VariantFuture, ModifiedOreBlock> BLOCKS = new IdentityHashMap<>();
+    public static final List<VariantFuture> COMPLETE_VARIANTS = new ArrayList<>();
 
     public static final Set<String> VANILLA_ORE_NAMES = Set.of("iron", "gold", "coal", "emerald", "diamond", "redstone", "copper", "lapis");
+
+    public enum State {
+        PRE,
+        REGISTRATION,
+        POST
+    }
 
     public synchronized static void setupMap() {
         if (NEW_VARIANTS_MAP == null) {
             Map<Ore, List<Stone>> newVariants = new HashMap<>();
-            List<Pair<Ore, Stone>> newVariantsList = new ArrayList<>();
             Map<Ore, Set<Stone>> newVariantsSet = new HashMap<>();
             Map<GroundType, List<Ore>> groundTypeOreMap = new HashMap<>();
 
@@ -91,7 +102,6 @@ public final class ExcavatedVariants {
                             var set = newVariantsSet.computeIfAbsent(ore, k -> new HashSet<>());
                             if (set.add(stone)) {
                                 newVariants.computeIfAbsent(ore, k -> new ArrayList<>()).add(stone);
-                                newVariantsList.add(new Pair<>(ore, stone));
                             }
                         }
                     }
@@ -100,12 +110,15 @@ public final class ExcavatedVariants {
 
             // TODO: filter stuff out here
 
-            NEW_VARIANTS_MAP = Map.copyOf(newVariants);
-            NEW_VARIANTS = List.copyOf(newVariantsList);
+            NEW_VARIANTS_MAP = newVariants;
         }
     }
 
     public static void init() {
+        if (LOAD_STATE != State.PRE) {
+            return;
+        }
+
         RegistriesImpl.bootstrap();
 
         setupMap();
@@ -119,7 +132,7 @@ public final class ExcavatedVariants {
             for (Stone stone : stones) {
                 String fullId = computeFullId(ore, stone);
                 tierHolder.add(fullId, ore, stone);
-                RegistryFuture future = new RegistryFuture(fullId, ore, stone);
+                VariantFuture future = new VariantFuture(fullId, ore, stone);
                 ore.addPossibleVariant(stone, new ResourceLocation(ExcavatedVariants.MOD_ID, fullId));
                 List<ResourceKey<Block>> keys = new ArrayList<>();
                 for (Map.Entry<ResourceKey<Block>, ResourceKey<Stone>> blockEntry : ore.getBlocks().entrySet()) {
@@ -135,6 +148,7 @@ public final class ExcavatedVariants {
                     NEEDED_KEYS.computeIfAbsent(key, k -> new ArrayList<>()).add(future);
                 }
                 REVERSE_NEEDED_KEYS.put(future, keys);
+                NEW_VARIANTS.add(future);
 
                 OreConversionRecipe.ORE_MAP.put(new ResourceLocation(ExcavatedVariants.MOD_ID, fullId), ore.getBlocks().keySet().stream().sorted().toList());
 
@@ -163,14 +177,19 @@ public final class ExcavatedVariants {
 
         for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
             if (!modifier.tags.isEmpty()) {
-                List<ResourceLocation> locations = NEW_VARIANTS.stream().filter(p -> modifier.variantFilter.matches(p.getFirst(), p.getSecond()))
-                        .map(p -> new ResourceLocation(ExcavatedVariants.MOD_ID, computeFullId(p.getFirst(), p.getSecond()))).toList();
+                List<VariantFuture> futures = NEW_VARIANTS.stream().filter(p -> modifier.variantFilter.matches(p.ore, p.stone)).toList();
+                List<ResourceLocation> locations = futures.stream()
+                        .map(p -> new ResourceLocation(ExcavatedVariants.MOD_ID, p.fullId)).toList();
                 modifier.tags.forEach(tag -> locations.forEach(rl -> {
                     if (tag.getPath().startsWith("blocks/"))
                         planBlockTag(tag, rl);
                     else if (tag.getPath().startsWith("items/"))
                         planItemTag(tag, rl);
                 }));
+                for (VariantFuture future : futures) {
+                    future.flags.addAll(modifier.flags);
+                    future.propsModifiers.add(modifier.properties);
+                }
             }
         }
 
@@ -230,15 +249,38 @@ public final class ExcavatedVariants {
         Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
         Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
 
-        setHasLoaded();
+        inRegistrationState();
     }
 
-    private static synchronized void setHasLoaded() {
-        LOADED = true;
+    private static synchronized void inRegistrationState() {
+        LOAD_STATE = State.REGISTRATION;
     }
 
-    public static boolean hasLoaded() {
-        return LOADED;
+    public static State getState() {
+        return LOAD_STATE;
+    }
+
+    public static synchronized void initPostRegister() {
+        if (LOAD_STATE != State.REGISTRATION) {
+            return;
+        }
+
+        for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
+            ore.bakeExistingBlocks();
+        }
+
+        // No reason to keep any of this around; this way some of it can be GCed...
+        NEW_VARIANTS.clear();
+        NEW_VARIANTS_MAP.clear();
+        NEEDED_KEYS.clear();
+        REVERSE_NEEDED_KEYS.clear();
+        READY_QUEUE.clear();
+
+        inPostState();
+    }
+
+    private static synchronized void inPostState() {
+        LOAD_STATE = State.POST;
     }
 
     public static String computeFullId(ResourceLocation ore, ResourceLocation stone) {
@@ -327,33 +369,38 @@ public final class ExcavatedVariants {
         return CONFIG;
     }
 
-    public static void registerBlockAndItem(BiConsumer<ResourceLocation, Block> blockRegistrar, BiFunction<ResourceLocation, Supplier<Item>, Supplier<Item>> itemRegistrar, RegistryFuture future) {
+    public static void registerBlockAndItem(BiConsumer<ResourceLocation, Block> blockRegistrar, BiFunction<ResourceLocation, Supplier<Item>, Supplier<Item>> itemRegistrar, VariantFuture future) {
         if (!future.done) {
             future.done = true;
-            String id = future.full_id;
-            BaseOre o = future.ore;
-            BaseStone s = future.stone;
-            ResourceLocation rlToReg = new ResourceLocation(ExcavatedVariants.MOD_ID, future.full_id);
-            ModifiedOreBlock.setupStaticWrapper(o, s);
-            ModifiedOreBlock b = Services.MAIN_PLATFORM_TARGET.get().makeDefaultOreBlock(o, s);
+            ResourceLocation rlToReg = new ResourceLocation(ExcavatedVariants.MOD_ID, future.fullId);
+            ModifiedOreBlock.setupStaticWrapper(future);
+            ModifiedOreBlock b = Services.MAIN_PLATFORM_TARGET.get().makeDefaultOreBlock(future);
             blockRegistrar.accept(rlToReg, b);
-            blocks.put(id, b);
             Supplier<Item> i = itemRegistrar.apply(rlToReg, () -> new BlockItem(b, new Item.Properties()));
             ITEMS.add(i);
+            BLOCKS.put(future, b);
 
-            ClientServices.RENDER_TYPE_HANDLER.setRenderTypeMipped(b);
+            if (Services.PLATFORM.isClient()) {
+                ClientServices.RENDER_TYPE_HANDLER.setRenderTypeMipped(b);
+            }
+
+            COMPLETE_VARIANTS.add(future);
         }
     }
 
-    public static class RegistryFuture {
+    public static class VariantFuture {
         public final Ore ore;
         public final Stone stone;
         public final String fullId;
         public boolean done = false;
-        public boolean foundStone = false;
-        public boolean foundOre = false;
+        public Block foundStone = null;
+        public Block foundOre = null;
+        public ResourceKey<Block> foundOreKey = null;
+        public Stone foundSourceStone = null;
+        public final Set<Flag> flags = new HashSet<>();
+        public final List<BlockPropsModifier> propsModifiers = new ArrayList<>();
 
-        public RegistryFuture(String s, Ore ore, Stone stone) {
+        public VariantFuture(String s, Ore ore, Stone stone) {
             this.fullId = s;
             this.ore = ore;
             this.stone = stone;

@@ -8,7 +8,6 @@ package dev.lukebemish.excavatedvariants.impl.quilt;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariantsClient;
 import dev.lukebemish.excavatedvariants.impl.S2CConfigAgreementPacket;
 import net.minecraft.network.FriendlyByteBuf;
-
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.networking.api.client.ClientLoginNetworking;

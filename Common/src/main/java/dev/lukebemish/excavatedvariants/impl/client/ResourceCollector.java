@@ -5,29 +5,40 @@
 
 package dev.lukebemish.excavatedvariants.impl.client;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.ResourceProvider;
 import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class ResourceCollector {
     private static final List<ResourceProvider> PROVIDERS = Services.COMPAT.getClientListeners(ResourceProvider.class);
 
-    static Map<ResourceLocation, List<ModelData>> makeStoneTextures(List<ResourceLocation> stones) {
-        Map<ResourceLocation, List<ModelData>> stoneTextures = new HashMap<>();
-        PROVIDERS.forEach(provider -> provider.provideStoneTextures(stones, stoneTextures::put));
-        return stoneTextures;
+    static @Nullable List<ModelData> makeStoneTextures(Stone stone, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+        for (var provider : PROVIDERS) {
+            var models = provider.provideStoneTextures(stone, context, cacheKeyBuilder);
+            if (models != null) {
+                return models;
+            }
+        }
+        return null;
     }
 
-    static Map<ResourceLocation, List<TexFaceProvider>> makeOreTextures(List<ResourceLocation> ores) {
-        Map<ResourceLocation, List<TexFaceProvider>> oreTextures = new HashMap<>();
-        PROVIDERS.forEach(provider -> provider.provideOreTextures(ores, oreTextures::put));
-        return oreTextures;
+    static @Nullable List<TexFaceProvider> makeOreTextures(Ore ore, ResourceKey<Block> selectedBlock, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+        for (var provider : PROVIDERS) {
+            var models = provider.provideOreTextures(ore, selectedBlock, context, cacheKeyBuilder);
+            if (models != null) {
+                return models;
+            }
+        }
+        return null;
     }
 }

@@ -6,14 +6,21 @@
 package dev.lukebemish.excavatedvariants.impl.forge;
 
 import com.google.auto.service.AutoService;
+import com.google.common.base.Suppliers;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
+import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import dev.lukebemish.excavatedvariants.impl.platform.services.RegistryUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 @AutoService(RegistryUtil.class)
 public class RegistryUtilImpl implements RegistryUtil {
@@ -62,5 +69,19 @@ public class RegistryUtilImpl implements RegistryUtil {
 
     public Iterable<Block> getAllBlocks() {
         return ForgeRegistries.BLOCKS.getValues();
+    }
+
+    private static final Supplier<ModContainer> EV_CONTAINER = Suppliers.memoize(() -> ModList.get().getModContainerById(ExcavatedVariants.MOD_ID).orElseThrow());
+
+    public void register(ExcavatedVariants.VariantFuture future) {
+        ExcavatedVariants.registerBlockAndItem((rlr, bl) -> {
+            final ModContainer activeContainer = ModLoadingContext.get().getActiveContainer();
+            ModLoadingContext.get().setActiveContainer(EV_CONTAINER.get());
+            ForgeRegistries.BLOCKS.register(rlr, bl);
+            ModLoadingContext.get().setActiveContainer(activeContainer);
+        }, (rlr, it) -> {
+            ExcavatedVariantsForge.TO_REGISTER.register(rlr.getPath(), it);
+            return () -> Services.REGISTRY_UTIL.getItemById(rlr);
+        }, future);
     }
 }

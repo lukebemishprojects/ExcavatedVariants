@@ -6,20 +6,19 @@
 package dev.lukebemish.excavatedvariants.impl.client;
 
 import com.google.gson.JsonElement;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import dev.lukebemish.dynamicassetgenerator.api.InputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.PathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
-import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerator;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureGenerator;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureMetaGenerator;
 import dev.lukebemish.excavatedvariants.api.client.*;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
-import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
 import org.jetbrains.annotations.NotNull;
@@ -31,77 +30,50 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ResourceAssembler implements PathAwareInputStreamSource {
-    private final Map<String, BaseStone> originalPairs = new HashMap<>();
-    private final List<Pair<BaseOre, BaseStone>> toMake;
-
-    private final Map<String, ResourceLocation> oreBlocks = new HashMap<>();
-    private final Map<String, ResourceLocation> stoneBlocks = new HashMap<>();
-    private final Map<ResourceLocation, List<ModelData>> stoneModels;
-    private final Map<ResourceLocation, List<TexFaceProvider>> oreModels;
-
+    private final Map<ResourceKey<Stone>, List<ModelData>> stoneModels = new HashMap<>();
+    private final Map<ResourceKey<Ore>, List<TexFaceProvider>> oreModels = new HashMap<>();
     private final Map<ResourceLocation, InputStreamSource> resources = new HashMap<>();
+    private final List<InputStreamSource> cacheKeys = new ArrayList<>();
+    private final StringBuilder cacheExtraBuilder = new StringBuilder();
 
-    public ResourceAssembler(Map<BaseOre, BaseStone> originalPairs, List<Pair<BaseOre, BaseStone>> toMake) {
-        for (Map.Entry<BaseOre, BaseStone> entry : originalPairs.entrySet()) {
-            this.originalPairs.put(entry.getKey().id, entry.getValue());
-        }
-        this.toMake = toMake;
-
-        for (Map.Entry<BaseOre, BaseStone> pair : originalPairs.entrySet()) {
-            BaseOre ore = pair.getKey();
-            BaseStone stone = pair.getValue();
-            oreBlocks.put(ore.id, ore.blockId.get(0));
-            stoneBlocks.put(stone.id, stone.blockId);
-        }
-
-        for (Pair<BaseOre, BaseStone> pair : toMake) {
-            BaseOre ore = pair.getFirst();
-            BaseStone stone = pair.getSecond();
-            oreBlocks.put(ore.id, ore.blockId.get(0));
-            stoneBlocks.put(stone.id, stone.blockId);
-        }
-
-        stoneModels = ResourceCollector.makeStoneTextures(List.copyOf(stoneBlocks.values()));
-        oreModels = ResourceCollector.makeOreTextures(List.copyOf(oreBlocks.values()));
-    }
-
-    /*
-     * Main entrypoint for the resource assembler - calls everything else
-     */
-    public void assemble() {
-        /*
-         * First, we need to assemble the data we need. This involves:
-         *  - use that texture data to generate new textures
-         *  - ...and then generate new models from this.
-         *  - Finally, we generate a single new blockstate per pair which uses the new models.
-         */
-        for (Pair<BaseOre, BaseStone> pair : toMake) {
-            BaseOre ore = pair.getFirst();
-            BaseStone newStone = pair.getSecond();
-            BaseStone oldStone = originalPairs.get(ore.id);
-            if (oldStone == null) {
-                ExcavatedVariants.LOGGER.warn("Ore "+ore.id+" has no existing stone variant to extract from!");
-                continue;
+    public void addFuture(ExcavatedVariants.VariantFuture future, ResourceGenerationContext context) {
+        if (!stoneModels.containsKey(future.stone.getKeyOrThrow())) {
+            var textures = ResourceCollector.makeStoneTextures(future.stone, context, cacheExtraBuilder::append);
+            if (textures != null) {
+                stoneModels.put(future.stone.getKeyOrThrow(), textures);
             }
-            processPair(ore, oldStone, newStone);
         }
+        if (!stoneModels.containsKey(future.foundSourceStone.getKeyOrThrow())) {
+            var textures = ResourceCollector.makeStoneTextures(future.foundSourceStone, context, cacheExtraBuilder::append);
+            if (textures != null) {
+                stoneModels.put(future.foundSourceStone.getKeyOrThrow(), textures);
+            }
+        }
+        if (!oreModels.containsKey(future.ore.getKeyOrThrow())) {
+            var textures = ResourceCollector.makeOreTextures(future.ore, future.foundOreKey, context, cacheExtraBuilder::append);
+            if (textures != null) {
+                oreModels.put(future.ore.getKeyOrThrow(), textures);
+            }
+        }
+
+        processPair(future);
     }
 
-    private void processPair(BaseOre ore, BaseStone oldStone, BaseStone newStone) {
-        List<ModelData> oldStoneModels = stoneModels.get(stoneBlocks.get(oldStone.id));
-        List<ModelData> newStoneModels = stoneModels.get(stoneBlocks.get(newStone.id));
-        List<TexFaceProvider> oreModels = this.oreModels.get(oreBlocks.get(ore.id));
+    private void processPair(ExcavatedVariants.VariantFuture future) {
+        List<ModelData> oldStoneModels = stoneModels.get(future.foundSourceStone.getKeyOrThrow());
+        List<ModelData> newStoneModels = stoneModels.get(future.stone.getKeyOrThrow());
+        List<TexFaceProvider> oreModels = this.oreModels.get(future.ore.getKeyOrThrow());
 
         if (oldStoneModels == null) {
-            ExcavatedVariants.LOGGER.warn("No existing stone models found for "+oldStone.id);
+            ExcavatedVariants.LOGGER.warn("No existing stone models found for "+future.foundSourceStone.getKeyOrThrow());
             return;
         }
         if (newStoneModels == null) {
-            ExcavatedVariants.LOGGER.warn("No new stone models found for "+newStone.id);
+            ExcavatedVariants.LOGGER.warn("No new stone models found for "+future.stone.getKeyOrThrow());
             return;
         }
         if (oreModels == null || oreModels.isEmpty()) {
-            ExcavatedVariants.LOGGER.warn("No ore models found for "+ore.id);
+            ExcavatedVariants.LOGGER.warn("No ore models found for "+future.ore.getKeyOrThrow());
             return;
         }
 
@@ -111,29 +83,49 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         List<ResourceLocation> models = new ArrayList<>();
         for (ModelData newStoneModel : newStoneModels) {
             for (TexFaceProvider oreModel : oreModels) {
-                ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+newStone.id+"_"+ore.id+"_"+counter);
-                assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, oldStone);
+                ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+future.fullId+"__"+counter);
+                assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, future.foundSourceStone);
                 models.add(modelLocation);
                 counter += 1;
             }
         }
 
         // Generate blockstate file
-        var fullId = newStone.id + "_" + ore.id;
-        ModifiedOreBlock block = ExcavatedVariants.getBlocks().get(fullId);
+        var fullId = future.fullId;
+        ModifiedOreBlock block = ExcavatedVariants.BLOCKS.get(future);
 
         var assembled = BlockStateData.create(block, models);
         var encoded = BlockStateData.CODEC.encodeStart(JsonOps.INSTANCE, assembled).result();
         if (encoded.isPresent()) {
             var json = ExcavatedVariants.GSON_CONDENSED.toJson(encoded.get());
-            resources.put(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/"+fullId+".json"),
+            addResource(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/"+fullId+".json"),
                     (resourceLocation, context) -> () -> new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)));
         } else {
             ExcavatedVariants.LOGGER.warn("Failed to encode blockstate for "+fullId);
         }
     }
 
-    private void assembleModel(ResourceLocation modelLocation, TexFaceProvider ore, ModelData oldStone, ModelData newStone, BaseStone oldStoneData) {
+    private PathAwareInputStreamSource singleSource(ResourceLocation location, InputStreamSource source) {
+        return new PathAwareInputStreamSource() {
+            @Override
+            public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+                return Collections.singleton(location);
+            }
+
+            @Override
+            public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
+                return source.get(outRl, context);
+            }
+
+            @Override
+            public @Nullable String createCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
+                // TODO: implement
+                return PathAwareInputStreamSource.super.createCacheKey(outRl, context);
+            }
+        };
+    }
+
+    private void assembleModel(ResourceLocation modelLocation, TexFaceProvider ore, ModelData oldStone, ModelData newStone, Stone oldStoneData) {
         Map<String, StoneTexFace> stoneFaceLocationMap = new HashMap<>();
         Map<String, ResourceLocation> modelTextureTranslations = new HashMap<>();
         NamedTextureProvider[] oldStoneTexSource = new NamedTextureProvider[1];
@@ -141,14 +133,14 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         oldStone.produceTextures((name, texture, faces) -> oldStoneTexSource[0] = texture);
 
         if (oldStoneTexSource[0] == null) {
-            ExcavatedVariants.LOGGER.warn("No existing stone texture found for "+oldStoneData.id);
+            ExcavatedVariants.LOGGER.warn("No existing stone texture found for "+oldStoneData.getKeyOrThrow().location());
             return;
         }
 
         int[] counter = new int[] {0};
         newStone.produceTextures((name, texture, faces) -> {
             counter[0] += 1;
-            ResourceLocation location = new ResourceLocation(modelLocation.getNamespace(), modelLocation.getPath()+"_"+counter[0]);
+            ResourceLocation location = new ResourceLocation(modelLocation.getNamespace(), modelLocation.getPath()+"__"+counter[0]);
             modelTextureTranslations.put(name, location);
 
             if (faces.isEmpty()) {
@@ -160,7 +152,9 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         // Make the actual model here...
         JsonElement model = newStone.assembleModel(Collections.unmodifiableMap(modelTextureTranslations));
         ResourceLocation modelJsonLocation = new ResourceLocation(modelLocation.getNamespace(), "models/"+modelLocation.getPath()+".json");
-        resources.put(modelJsonLocation, (resourceLocation, context) -> () -> new ByteArrayInputStream(model.toString().getBytes(StandardCharsets.UTF_8)));
+        addResource(modelJsonLocation, (resourceLocation, context) -> () -> new ByteArrayInputStream(model.toString().getBytes(StandardCharsets.UTF_8)));
+
+        // TODO: handle cache key
 
         // And now we'll generate the ore textures
         for (Map.Entry<String, StoneTexFace> entry : stoneFaceLocationMap.entrySet()) {
@@ -171,38 +165,51 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         }
     }
 
-    @Override
-    public @NotNull Set<ResourceLocation> getLocations() {
-        return resources.keySet();
-    }
-
-    @Override
-    public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
-        return resources.get(outRl).get(outRl, context);
-    }
-
-    private record StoneTexFace(Set<Face> faces, ResourceLocation textureLocation, NamedTextureProvider texture) {}
-
     private void assembleTextures(ResourceLocation output, TextureProducer oreTexture, NamedTextureProvider oldStoneTexture, NamedTextureProvider newStoneTexture) {
         List<ResourceLocation> usedLocations = new ArrayList<>();
 
         var oreTextureResult = oreTexture.produce(newStoneTexture, oldStoneTexture);
-        TexSource outTexture = oreTextureResult.getFirst().cached();
+        TexSource outTexture = oreTextureResult.getFirst();
         usedLocations.addAll(oreTextureResult.getSecond());
         usedLocations.addAll(oldStoneTexture.getUsedTextures());
         usedLocations.addAll(newStoneTexture.getUsedTextures());
-        processGenerator(new TextureMetaGenerator(
-                usedLocations,
-                Optional.empty(),
-                Optional.empty(),
-                Optional.empty(),
-                output));
-        processGenerator(new TextureGenerator(output, outTexture));
+        flattenResources(new TextureMetaGenerator.Builder().withOutputLocation(output).withSources(usedLocations).build());
+        flattenResources(new TextureGenerator(output, outTexture));
     }
 
-    private void processGenerator(ResourceGenerator generator) {
-        for (ResourceLocation location : generator.getLocations()) {
-            resources.put(location, generator);
+    private void flattenResources(PathAwareInputStreamSource source) {
+        for (ResourceLocation location : source.getLocations(null)) {
+            resources.put(location, source);
         }
+        cacheKeys.add(source);
+    }
+
+    private void addResource(ResourceLocation location, InputStreamSource source) {
+        resources.put(location, source);
+        cacheKeys.add(source);
+    }
+
+    private record StoneTexFace(Set<Face> faces, ResourceLocation textureLocation, NamedTextureProvider texture) {}
+
+    @Override
+    public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+        return null;
+    }
+
+    @Override
+    public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
+        return null;
+    }
+
+    @Override
+    public @Nullable String createCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
+        StringBuilder builder = new StringBuilder();
+        for (var entry : cacheKeys) {
+            String key = entry.createCacheKey(outRl, context);
+            if (key == null) return null;
+            builder.append(Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.UTF_8)));
+            builder.append('\n');
+        }
+        return builder.substring(0, builder.length() - 1);
     }
 }

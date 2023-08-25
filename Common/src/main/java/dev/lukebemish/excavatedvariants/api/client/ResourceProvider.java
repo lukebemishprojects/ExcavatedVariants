@@ -5,22 +5,29 @@
 
 package dev.lukebemish.excavatedvariants.api.client;
 
-import java.util.List;
-import java.util.function.BiConsumer;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
+import java.util.List;
+import java.util.function.Consumer;
 
 public interface ResourceProvider extends ClientListener {
     /**
      * Provides stone textures to the resource collector.
-     * @param textureConsumer consumes pairs of block resource locations and model lists.
      */
-    default void provideStoneTextures(List<ResourceLocation> stones, BiConsumer<ResourceLocation, List<ModelData>> textureConsumer) {}
+    default @Nullable List<ModelData> provideStoneTextures(Stone stone, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+        return null;
+    }
 
     /**
      * Provides ore textures to the resource collector.
-     * @param textureProducerConsumer consumes pairs of block resource locations and model lists.
      */
-    default void provideOreTextures(List<ResourceLocation> ores, BiConsumer<ResourceLocation, List<TexFaceProvider>> textureProducerConsumer) {}
+    default @Nullable List<TexFaceProvider> provideOreTextures(Ore ore, ResourceKey<Block> selectedBlock, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+        return null;
+    }
 
 }

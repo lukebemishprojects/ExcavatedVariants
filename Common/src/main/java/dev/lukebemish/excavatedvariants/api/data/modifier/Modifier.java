@@ -1,12 +1,19 @@
-package dev.lukebemish.excavatedvariants.impl.data.modifier;
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+package dev.lukebemish.excavatedvariants.api.data.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.excavatedvariants.impl.data.filter.VariantFilter;
+import dev.lukebemish.excavatedvariants.api.data.filter.VariantFilter;
+import dev.lukebemish.excavatedvariants.impl.data.modifier.BlockPropsModifierImpl;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Modifier {
@@ -31,5 +38,39 @@ public class Modifier {
         this.properties = properties;
         this.tags = tags;
         this.flags = flags;
+    }
+
+    public static class Builder {
+        private VariantFilter variantFilter;
+        private BlockPropsModifier properties;
+        private List<ResourceLocation> tags;
+        private List<Flag> flags;
+
+        public Builder setVariantFilter(VariantFilter variantFilter) {
+            this.variantFilter = variantFilter;
+            return this;
+        }
+
+        public Builder setProperties(BlockPropsModifier properties) {
+            this.properties = properties;
+            return this;
+        }
+
+        public Builder setTags(List<ResourceLocation> tags) {
+            this.tags = tags;
+            return this;
+        }
+
+        public Builder setFlags(List<Flag> flags) {
+            this.flags = flags;
+            return this;
+        }
+
+        public Modifier build() {
+            Objects.requireNonNull(this.variantFilter);
+            Objects.requireNonNull(this.tags);
+            Objects.requireNonNull(this.flags);
+            return new Modifier(variantFilter, properties, tags, flags);
+        }
     }
 }

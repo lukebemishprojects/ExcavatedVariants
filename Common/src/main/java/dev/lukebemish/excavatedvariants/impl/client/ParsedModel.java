@@ -10,6 +10,7 @@ import blue.endless.jankson.api.SyntaxError;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.*;
 import dev.lukebemish.excavatedvariants.api.client.Face;
@@ -25,11 +26,11 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 // ONLY fit to be used for parsing, not for writing
-public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String> textures,
-                          List<ElementDefinition> elements, Optional<Map<String, ParsedModel>> children) {
+public final class ParsedModel {
 
     public static @Nullable ResourceLocation resolveTexture(Map<String, String> map, String texName) {
         texName = texName.substring(1);
@@ -55,12 +56,31 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
             ElementDefinition.CODEC.listOf().optionalFieldOf("elements", List.of()).forGetter(ParsedModel::elements),
             Codec.unboundedMap(Codec.STRING, ParsedModel.CODEC).optionalFieldOf("children").forGetter(ParsedModel::children)
     ).apply(i, ParsedModel::new)));
+    private final Optional<ResourceLocation> parent;
+    private final Map<String, String> textures;
+    private final List<ElementDefinition> elements;
+    private final Optional<Map<String, ParsedModel>> children;
+
+    public ParsedModel(Optional<ResourceLocation> parent, Map<String, String> textures,
+                       List<ElementDefinition> elements, Optional<Map<String, ParsedModel>> children) {
+        this.parent = parent;
+        this.textures = textures;
+        this.elements = elements;
+        this.children = children;
+    }
+
+    private ResourceGenerationContext context;
+    private Consumer<String> cacheKeyBuilder;
 
     @NotNull
-    public static ParsedModel getFromLocation(ResourceLocation rl) throws IOException {
-        try (InputStream is = BackupFetcher.getModelFile(rl)) {
+    public static ParsedModel getFromLocation(ResourceLocation rl, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) throws IOException {
+        try (InputStream is = BackupFetcher.getModelFile(rl, context, cacheKeyBuilder)) {
             JsonObject json = ExcavatedVariants.JANKSON.load(is);
-            return ParsedModel.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {});
+            ParsedModel model = ParsedModel.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
+            });
+            model.cacheKeyBuilder = cacheKeyBuilder;
+            model.context = context;
+            return model;
         } catch (SyntaxError | IOException | RuntimeException e) {
             throw new IOException("Could not read model " + rl, e);
         }
@@ -68,7 +88,7 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
 
     public Map<String, String> getTextureMap() throws IOException {
         Map<String, String> textures = new HashMap<>();
-        ParsedModel parent = parent().isEmpty() ? null : getFromLocation(parent().get());
+        ParsedModel parent = parent().isEmpty() ? null : getFromLocation(parent().get(), context, cacheKeyBuilder);
         if (parent != null)
             textures.putAll(parent.getTextureMap());
         textures.putAll(this.textures());
@@ -86,7 +106,7 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
         texMap.putAll(getTextureMap());
 
         if (parent().isPresent()) {
-            map.putAll(getFromLocation(parent().get()).getRlMapForSide(side, texMap));
+            map.putAll(getFromLocation(parent().get(), context, cacheKeyBuilder).getRlMapForSide(side, texMap));
         }
 
         if (children().isEmpty() || children().get().isEmpty()) {
@@ -96,7 +116,7 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
                     LocationKey key = definition.getLocationKey();
                     NamedResourceList rls = map.computeIfAbsent(key, k -> new NamedResourceList(texName));
                     rls.name = texName;
-                    ResourceLocation location = resolveTexture(texMap, "#"+texName);
+                    ResourceLocation location = resolveTexture(texMap, "#" + texName);
                     if (location != null)
                         rls.resources.add(location);
                 }
@@ -115,7 +135,8 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
         return map;
     }
 
-    public record SideInformation(Set<Face> faces, List<ResourceLocation> textureStack) {}
+    public record SideInformation(Set<Face> faces, List<ResourceLocation> textureStack) {
+    }
 
     private Map<String, SideInformation> processIntoSides() throws IOException {
         Map<String, SideInformation> sides = new HashMap<>();
@@ -142,42 +163,84 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
         }
         return face -> (newStone, oldStone) -> {
             List<ResourceLocation> oreTextures = map.get(face);
-            int[] c = new int[] {0};
-            Map<String, AnimationSplittingSource.TimeAwareSource> sourceMap = new HashMap<>();
+            int[] c = new int[]{0};
+            Map<String, TexSource> sourceMap = new HashMap<>();
 
             TexSource newStoneSource = newStone.apply(source -> {
-                String name = "stoneNew"+c[0];
+                String name = "stoneNew" + c[0];
                 c[0] += 1;
-                sourceMap.put(name, new AnimationSplittingSource.TimeAwareSource(source.cached(), 1));
+                sourceMap.put(name, source);
                 return new AnimationFrameCapture.Builder().setCapture(name).build();
             });
             c[0] = 0;
 
             TexSource oldStoneSource = oldStone.apply(source -> {
-                String name = "stoneOld"+c[0];
+                String name = "stoneOld" + c[0];
                 c[0] += 1;
-                sourceMap.put(name, new AnimationSplittingSource.TimeAwareSource(source.cached(), 1));
+                sourceMap.put(name, source);
                 return new AnimationFrameCapture.Builder().setCapture(name).build();
             });
             c[0] = 0;
 
             List<TexSource> oreSources = new ArrayList<>();
             for (ResourceLocation location : map.get(face)) {
-                String name = "ore"+c[0];
+                String name = "ore" + c[0];
                 c[0] += 1;
-                sourceMap.put(name, new AnimationSplittingSource.TimeAwareSource(new TextureReaderSource.Builder().setPath(location).build().cached(), 1));
+                sourceMap.put(name, new TextureReaderSource.Builder().setPath(location).build());
                 oreSources.add(new AnimationFrameCapture.Builder().setCapture(name).build());
             }
 
             return new Pair<>(new AnimationSplittingSource.Builder()
                     .setGenerator(new ForegroundTransferSource.Builder()
                             .setBackground(oldStoneSource)
-                            .setFull(new OverlaySource.Builder().setSources(oreSources).build().cached())
+                            .setFull(new OverlaySource.Builder().setSources(oreSources).build())
                             .setNewBackground(newStoneSource)
-                            .build().cached())
-                    .setSources(sourceMap).build().cached(), oreTextures);
+                            .build())
+                    .setSources(sourceMap).build(), oreTextures);
         };
     }
+
+    public Optional<ResourceLocation> parent() {
+        return parent;
+    }
+
+    public Map<String, String> textures() {
+        return textures;
+    }
+
+    public List<ElementDefinition> elements() {
+        return elements;
+    }
+
+    public Optional<Map<String, ParsedModel>> children() {
+        return children;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (ParsedModel) obj;
+        return Objects.equals(this.parent, that.parent) &&
+                Objects.equals(this.textures, that.textures) &&
+                Objects.equals(this.elements, that.elements) &&
+                Objects.equals(this.children, that.children);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(parent, textures, elements, children);
+    }
+
+    @Override
+    public String toString() {
+        return "ParsedModel[" +
+                "parent=" + parent + ", " +
+                "textures=" + textures + ", " +
+                "elements=" + elements + ", " +
+                "children=" + children + ']';
+    }
+
 
     public record ElementDefinition(Map<String, FaceDefinition> faces, List<Integer> from, List<Integer> to,
                                     RotationDefinition rotation) {
@@ -204,7 +267,8 @@ public record ParsedModel(Optional<ResourceLocation> parent, Map<String, String>
         ).apply(i, RotationDefinition::new));
     }
 
-    public record LocationKey(List<Integer> origin, String axis, float angle, List<Integer> of, List<Integer> to) {}
+    public record LocationKey(List<Integer> origin, String axis, float angle, List<Integer> of, List<Integer> to) {
+    }
 
     public static class NamedResourceList {
         public String name;

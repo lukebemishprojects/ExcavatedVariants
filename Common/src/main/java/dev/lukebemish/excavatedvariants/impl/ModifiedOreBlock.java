@@ -5,12 +5,10 @@
 
 package dev.lukebemish.excavatedvariants.impl;
 
-import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
-import dev.lukebemish.excavatedvariants.impl.data.modifier.BlockPropsModifierImpl;
-import dev.lukebemish.excavatedvariants.impl.data.modifier.Flag;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.modifier.Flag;
 import dev.lukebemish.excavatedvariants.impl.mixin.BlockPropertiesMixin;
-import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
@@ -43,20 +41,24 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
+import org.apache.commons.lang3.mutable.Mutable;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ModifiedOreBlock extends DropExperienceBlock {
-    static Property<?>[] staticProps;
-    public final BaseOre ore;
-    public final BaseStone stone;
+    static Property<?>[] STATIC_PROPS;
+    public final Ore ore;
+    public final Stone stone;
     final Set<Flag> flags;
-    protected Block target;
-    protected Block stoneTarget;
-    protected boolean delegateSpecialDrops = true;
+    protected final Block target;
+    protected final Block stoneTarget;
+    protected final boolean delegateSpecialDrops;
     private boolean isLit = false;
     private boolean isHorizontalFacing = false;
     private boolean isFacing = false;
@@ -65,31 +67,36 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     private boolean isHorizontalAxis = false;
     private Property<?>[] props;
 
-    public ModifiedOreBlock(BaseOre ore, BaseStone stone) {
-        super(copyProperties(ore, stone), getXpProvider(ore, stone));
-        this.ore = ore;
-        this.stone = stone;
-        this.flags = ExcavatedVariants.getConfig().flags.getFlags(ore, stone);
-        if (staticProps != null) {
-            this.props = staticProps.clone();
-            staticProps = null;
+    public ModifiedOreBlock(ExcavatedVariants.VariantFuture future) {
+        super(copyProperties(future), getXpProvider(future));
+        this.ore = future.ore;
+        this.stone = future.stone;
+        this.flags = Set.copyOf(future.flags);
+        this.target = future.foundOre;
+        this.stoneTarget = future.foundStone;
+        if (STATIC_PROPS != null) {
+            this.props = STATIC_PROPS.clone();
+            STATIC_PROPS = null;
             copyBlockstateDefs();
         }
 
-        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.variantFilter().matches(ore, stone)).forEach(modifier -> {
-            if (modifier.properties().flatMap(BlockPropsModifierImpl::xpDropped).isPresent()) this.delegateSpecialDrops = false;
-        });
+
+        // TODO: remove
+        MutableBoolean shouldDelegateSpecialDrops = new MutableBoolean(true);
+        for (var propsModifier : future.propsModifiers) {
+            propsModifier.setXpDropped(xp -> {
+                shouldDelegateSpecialDrops.setValue(true);
+            });
+        }
+        this.delegateSpecialDrops = shouldDelegateSpecialDrops.booleanValue();
     }
 
-    private static IntProvider getXpProvider(BaseOre ore, BaseStone stone) {
-        return ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.variantFilter().matches(ore, stone)).map(modifier -> {
-            if (modifier.properties().flatMap(BlockPropsModifierImpl::xpDropped).isPresent())
-                return modifier.properties().flatMap(BlockPropsModifierImpl::xpDropped).get();
-            return null;
-        }).filter(Objects::nonNull).collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
-            Collections.reverse(list);
-            return list.stream();
-        })).findFirst().orElse(ConstantInt.of(0));
+    private static IntProvider getXpProvider(ExcavatedVariants.VariantFuture future) {
+        Mutable<IntProvider> out = new MutableObject<>(ConstantInt.of(0));
+        for (var propsModifier : future.propsModifiers) {
+            propsModifier.setXpDropped(out::setValue);
+        }
+        return out.getValue();
     }
 
     private static float avgF(float a, float b, float weight) {
@@ -111,9 +118,9 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return MapColor.byId(lowest);
     }
 
-    private static Properties copyProperties(BaseOre ore, BaseStone stone) {
-        Block target = Services.REGISTRY_UTIL.getBlockById(ore.blockId.get(0));
-        Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.blockId);
+    private static Properties copyProperties(ExcavatedVariants.VariantFuture future) {
+        Block target = future.foundOre;
+        Block stoneTarget = future.foundStone;
         BlockBehaviour.Properties outProperties;
         if (target != null && stoneTarget != null) {
             Properties properties = Properties.copy(stoneTarget);
@@ -136,10 +143,10 @@ public class ModifiedOreBlock extends DropExperienceBlock {
                     .requiresCorrectToolForDrops()
                     .strength(3.0f, 3.0f);
         }
-        ExcavatedVariants.getConfig().modifiers.stream().filter(m -> m.variantFilter().matches(ore, stone)).forEach(modifier -> {
-            modifier.properties().flatMap(BlockPropsModifierImpl::explosionResistance).ifPresent(outProperties::explosionResistance);
-            modifier.properties().flatMap(BlockPropsModifierImpl::destroyTime).ifPresent(outProperties::destroyTime);
-        });
+        for (var propsModifier : future.propsModifiers) {
+            propsModifier.setExplosionResistance(outProperties::explosionResistance);
+            propsModifier.setDestroyTime(outProperties::destroyTime);
+        }
         return outProperties;
     }
 
@@ -153,7 +160,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         Block block = state.getBlock();
         if (block instanceof ModifiedOreBlock self) {
 
-            var arr = self.props == null ? staticProps : self.props;
+            var arr = self.props == null ? STATIC_PROPS : self.props;
             for (Property<?> property : arr) {
                 if (blockState.hasProperty(property)) {
                     blockState = copyProperty(state, blockState, property);
@@ -168,71 +175,56 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return targetState.setValue(property, sourceState.getValue(property));
     }
 
-    public static void setupStaticWrapper(BaseOre ore, BaseStone stone) {
-        Block target = Services.REGISTRY_UTIL.getBlockById(ore.blockId.get(0));
-        Block stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.blockId);
-        if (target != null && stoneTarget != null) {
-            ArrayList<Property<?>> propBuilder = new ArrayList<>();
-            for (Property<?> p : target.defaultBlockState().getProperties()) {
-                if (p == BlockStateProperties.LIT) {
-                    propBuilder.add(p);
-                }
+    public static void setupStaticWrapper(ExcavatedVariants.VariantFuture future) {
+        Block target = future.foundOre;
+        Block stoneTarget = future.foundStone;
+        ArrayList<Property<?>> propBuilder = new ArrayList<>();
+        for (Property<?> p : target.defaultBlockState().getProperties()) {
+            if (p == BlockStateProperties.LIT) {
+                propBuilder.add(p);
             }
-            for (Property<?> p : stoneTarget.defaultBlockState().getProperties()) {
-                if (p == BlockStateProperties.AXIS
-                        || p == BlockStateProperties.HORIZONTAL_AXIS
-                        || p == BlockStateProperties.FACING
-                        || p == BlockStateProperties.FACING_HOPPER
-                        || p == BlockStateProperties.HORIZONTAL_FACING) {
-                    propBuilder.add(p);
-                }
-            }
-            staticProps = propBuilder.toArray(new Property<?>[]{});
-        } else {
-            ExcavatedVariants.LOGGER.warn("Could not find block properties for: {}, {}", ore.blockId.get(0), stone.blockId);
         }
-
+        for (Property<?> p : stoneTarget.defaultBlockState().getProperties()) {
+            if (p == BlockStateProperties.AXIS
+                    || p == BlockStateProperties.HORIZONTAL_AXIS
+                    || p == BlockStateProperties.FACING
+                    || p == BlockStateProperties.FACING_HOPPER
+                    || p == BlockStateProperties.HORIZONTAL_FACING) {
+                propBuilder.add(p);
+            }
+        }
+        STATIC_PROPS = propBuilder.toArray(new Property<?>[]{});
     }
 
-    public void copyBlockstateDefs() {
-        if (target == null || stoneTarget == null) {
-            target = Services.REGISTRY_UTIL.getBlockById(ore.blockId.get(0));
-            stoneTarget = Services.REGISTRY_UTIL.getBlockById(stone.blockId);
-        }
-        if (target != null && stoneTarget != null) {
-            BlockState bs = this.defaultBlockState();
-            for (Property<?> p : props) {
-                if (p == BlockStateProperties.LIT) {
-                    this.isLit = true;
-                    bs = bs.setValue(BlockStateProperties.LIT, false);
-                }
-                if (p == BlockStateProperties.FACING) {
-                    this.isFacing = true;
-                    bs = bs.setValue(BlockStateProperties.FACING, Direction.NORTH);
-                }
-                if (p == BlockStateProperties.FACING_HOPPER) {
-                    this.isHopperFacing = true;
-                    bs = bs.setValue(BlockStateProperties.FACING_HOPPER, Direction.NORTH);
-                }
-                if (p == BlockStateProperties.HORIZONTAL_FACING) {
-                    this.isHorizontalFacing = true;
-                    bs = bs.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH);
-                }
-                if (p == BlockStateProperties.AXIS) {
-                    this.isAxis = true;
-                    bs = bs.setValue(BlockStateProperties.AXIS, Direction.Axis.Y);
-                }
-                if (p == BlockStateProperties.HORIZONTAL_AXIS) {
-                    this.isHorizontalAxis = true;
-                    bs = bs.setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.Z);
-                }
+    private void copyBlockstateDefs() {
+        BlockState bs = this.defaultBlockState();
+        for (Property<?> p : props) {
+            if (p == BlockStateProperties.LIT) {
+                this.isLit = true;
+                bs = bs.setValue(BlockStateProperties.LIT, false);
             }
-            this.registerDefaultState(bs);
+            if (p == BlockStateProperties.FACING) {
+                this.isFacing = true;
+                bs = bs.setValue(BlockStateProperties.FACING, Direction.NORTH);
+            }
+            if (p == BlockStateProperties.FACING_HOPPER) {
+                this.isHopperFacing = true;
+                bs = bs.setValue(BlockStateProperties.FACING_HOPPER, Direction.NORTH);
+            }
+            if (p == BlockStateProperties.HORIZONTAL_FACING) {
+                this.isHorizontalFacing = true;
+                bs = bs.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH);
+            }
+            if (p == BlockStateProperties.AXIS) {
+                this.isAxis = true;
+                bs = bs.setValue(BlockStateProperties.AXIS, Direction.Axis.Y);
+            }
+            if (p == BlockStateProperties.HORIZONTAL_AXIS) {
+                this.isHorizontalAxis = true;
+                bs = bs.setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.Z);
+            }
         }
-    }
-
-    public boolean isLit() {
-        return isLit;
+        this.registerDefaultState(bs);
     }
 
     @Override
@@ -303,8 +295,8 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             if (props.length != 0) {
                 builder.add(props);
             }
-        } else if (staticProps != null && staticProps.length != 0) {
-            builder.add(staticProps);
+        } else if (STATIC_PROPS != null && STATIC_PROPS.length != 0) {
+            builder.add(STATIC_PROPS);
         }
     }
 

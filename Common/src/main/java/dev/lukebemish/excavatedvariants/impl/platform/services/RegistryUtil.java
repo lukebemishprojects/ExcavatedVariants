@@ -5,6 +5,7 @@
 
 package dev.lukebemish.excavatedvariants.impl.platform.services;
 
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
@@ -24,4 +25,6 @@ public interface RegistryUtil {
     ResourceLocation getRlByBlock(Block block);
 
     Iterable<Block> getAllBlocks();
+
+    void register(ExcavatedVariants.VariantFuture future);
 }

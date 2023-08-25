@@ -10,8 +10,8 @@ import com.mojang.serialization.JsonOps;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.sources.TagSupplier;
 import dev.lukebemish.dynamicassetgenerator.api.templates.TagFile;
-import dev.lukebemish.excavatedvariants.impl.data.Ore;
-import dev.lukebemish.excavatedvariants.impl.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -74,8 +74,19 @@ public class MiningLevelTagHolder implements TagSupplier {
 
     @Override
     public @Nullable String createSupplierCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-        // TODO: implement
-        return TagSupplier.super.createSupplierCacheKey(outRl, context);
+        StringBuilder builder = new StringBuilder();
+        for (ResourceLocation tag : Services.PLATFORM.getMiningLevels()) {
+            ResourceLocation tagFile = new ResourceLocation(tag.getNamespace(), "tags/"+tag.getPath()+".json");
+            var foundResources = context.getResourceSource().getResourceStack(tagFile);
+            for (var supplier : foundResources) {
+                try (var is = supplier.get()) {
+                    builder.append(Base64.getEncoder().encodeToString(is.readAllBytes()));
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+        }
+        return builder.toString();
     }
 
     private List<ResourceLocation> getTagMembers(ResourceLocation location, ResourceGenerationContext context) {

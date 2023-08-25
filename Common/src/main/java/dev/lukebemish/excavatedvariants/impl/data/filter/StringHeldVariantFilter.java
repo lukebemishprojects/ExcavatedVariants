@@ -8,9 +8,10 @@ package dev.lukebemish.excavatedvariants.impl.data.filter;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import dev.lukebemish.excavatedvariants.api.RegistryKeys;
-import dev.lukebemish.excavatedvariants.impl.data.GroundType;
-import dev.lukebemish.excavatedvariants.impl.data.Ore;
-import dev.lukebemish.excavatedvariants.impl.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.GroundType;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.filter.VariantFilter;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 

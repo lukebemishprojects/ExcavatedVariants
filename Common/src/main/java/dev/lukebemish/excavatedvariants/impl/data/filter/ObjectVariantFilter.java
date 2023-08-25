@@ -12,8 +12,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.excavatedvariants.impl.data.Ore;
-import dev.lukebemish.excavatedvariants.impl.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.filter.VariantFilter;
 import net.minecraft.util.ExtraCodecs;
 
 import java.util.List;

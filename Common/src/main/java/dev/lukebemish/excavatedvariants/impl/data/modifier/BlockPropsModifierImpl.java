@@ -7,6 +7,7 @@ package dev.lukebemish.excavatedvariants.impl.data.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.lukebemish.excavatedvariants.api.data.modifier.BlockPropsModifier;
 import net.minecraft.util.valueproviders.IntProvider;
 
 import java.util.Optional;

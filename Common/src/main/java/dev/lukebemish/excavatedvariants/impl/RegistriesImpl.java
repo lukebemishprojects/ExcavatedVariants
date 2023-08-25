@@ -1,11 +1,16 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 package dev.lukebemish.excavatedvariants.impl;
 
 import com.mojang.serialization.Lifecycle;
 import dev.lukebemish.excavatedvariants.api.RegistryListener;
-import dev.lukebemish.excavatedvariants.impl.data.GroundType;
-import dev.lukebemish.excavatedvariants.impl.data.Ore;
-import dev.lukebemish.excavatedvariants.impl.data.Stone;
-import dev.lukebemish.excavatedvariants.impl.data.modifier.Modifier;
+import dev.lukebemish.excavatedvariants.api.data.GroundType;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.modifier.Modifier;
 import dev.lukebemish.excavatedvariants.impl.mixin.BuiltInRegistriesMixin;
 import dev.lukebemish.excavatedvariants.impl.mixin.MappedRegistryMixin;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;

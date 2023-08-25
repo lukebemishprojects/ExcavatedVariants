@@ -7,7 +7,8 @@ package dev.lukebemish.excavatedvariants.impl.data.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.excavatedvariants.impl.data.filter.VariantFilter;
+import dev.lukebemish.excavatedvariants.api.data.filter.VariantFilter;
+import dev.lukebemish.excavatedvariants.api.data.modifier.Flag;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public record VariantModifier(VariantFilter variantFilter, Optional<BlockPropsMo
             Flag.CODEC.listOf().optionalFieldOf("flags").forGetter(VariantModifier::flags),
             ResourceLocation.CODEC.listOf().optionalFieldOf("tags").forGetter(VariantModifier::tags)
     ).apply(instance, VariantModifier::new));
+
+
 }

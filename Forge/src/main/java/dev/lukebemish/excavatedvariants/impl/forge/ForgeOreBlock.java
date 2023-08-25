@@ -5,20 +5,18 @@
 
 package dev.lukebemish.excavatedvariants.impl.forge;
 
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
-import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
-import net.minecraftforge.common.extensions.IForgeBlock;
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.extensions.IForgeBlock;
+import org.jetbrains.annotations.NotNull;
 
 public class ForgeOreBlock extends ModifiedOreBlock implements IForgeBlock {
-    public ForgeOreBlock(BaseOre ore, BaseStone stone) {
-        super(ore, stone);
+    public ForgeOreBlock(ExcavatedVariants.VariantFuture future) {
+        super(future);
     }
 
     @Override

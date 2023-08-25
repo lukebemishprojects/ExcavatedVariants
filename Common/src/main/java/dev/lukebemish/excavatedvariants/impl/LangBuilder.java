@@ -7,8 +7,8 @@ package dev.lukebemish.excavatedvariants.impl;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
-import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
+import dev.lukebemish.excavatedvariants.api.data.Ore;
+import dev.lukebemish.excavatedvariants.api.data.Stone;
 import net.minecraft.server.packs.resources.IoSupplier;
 
 import java.io.ByteArrayInputStream;
@@ -22,13 +22,13 @@ public class LangBuilder {
     private static final Codec<Map<String,String>> CODEC = Codec.unboundedMap(Codec.STRING, Codec.STRING);
     private final Map<String, Map<String, String>> internal = new HashMap<>();
 
-    public void add(String fullId, BaseStone stone, BaseOre ore) {
-        Set<String> combinedKeys = new HashSet<>(stone.lang.keySet());
-        combinedKeys.addAll(ore.lang.keySet());
-        for (String langName : combinedKeys) {
-            String stoneLang = stone.lang.getOrDefault(langName,"excavated_variants.stone." + stone.id);
-            String oreLang = ore.lang.getOrDefault(langName,"excavated_variants.ore." + ore.id);
-            String name = oreLang.contains("$") ? oreLang.replaceFirst("\\$", stoneLang) : stoneLang + " " + oreLang;
+    public void add(String fullId, Stone stone, Ore ore) {
+        Set<String> langs = new HashSet<>(stone.translation.keySet());
+        langs.addAll(ore.translation.keySet());
+        for (String langName : langs) {
+            String stoneLang = stone.translation.getOrDefault(langName,stone.getKeyOrThrow().location().toLanguageKey("excavated_variants.stone"));
+            String oreLang = ore.translation.getOrDefault(langName,ore.getKeyOrThrow().location().toLanguageKey("excavated_variants.ore"));
+            String name = oreLang.contains("%s") ? oreLang.replaceFirst("%s", stoneLang) : stoneLang + " " + oreLang;
             internal.computeIfAbsent(langName, k -> new HashMap<>()).put("block."+ExcavatedVariants.MOD_ID+"."+fullId,name);
         }
     }

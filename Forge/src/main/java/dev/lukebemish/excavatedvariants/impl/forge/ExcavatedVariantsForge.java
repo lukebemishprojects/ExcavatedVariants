@@ -7,12 +7,10 @@ package dev.lukebemish.excavatedvariants.impl.forge;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.impl.ExcavatedVariantsClient;
-import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
-import dev.lukebemish.excavatedvariants.impl.S2CConfigAgreementPacket;
-import dev.lukebemish.excavatedvariants.impl.forge.registry.BlockAddedCallback;
+import dev.lukebemish.excavatedvariants.impl.*;
+import dev.lukebemish.excavatedvariants.impl.BlockAddedCallback;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreReplacer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -69,14 +67,20 @@ public class ExcavatedVariantsForge {
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             RegistriesImpl.registerRegistries();
-            ExcavatedVariants.getMappingsCache();
+            //ExcavatedVariants.getMappingsCache();
         });
     }
 
     public static void registerListener(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
-            ExcavatedVariants.loadedBlockRLs.addAll(ForgeRegistries.BLOCKS.getKeys().stream().filter(ExcavatedVariants.neededRls::contains).toList());
+            BuiltInRegistries.BLOCK.holders().forEach(reference -> {
+                BlockAddedCallback.onRegister(reference.value(), reference.key());
+            });
+            BlockAddedCallback.setReady();
             BlockAddedCallback.register();
+        });
+        event.register(ForgeRegistries.Keys.ITEMS, helper -> {
+            ExcavatedVariants.initPostRegister();
         });
     }
 

@@ -7,7 +7,7 @@ package dev.lukebemish.excavatedvariants.impl.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.excavatedvariants.impl.data.filter.VariantFilter;
+import dev.lukebemish.excavatedvariants.api.data.filter.VariantFilter;
 import dev.lukebemish.excavatedvariants.impl.data.filter.ObjectVariantFilter;
 
 import net.minecraft.resources.ResourceLocation;
@@ -41,7 +41,7 @@ public class ConfigResource {
     }
 
     public void addFrom(ConfigResource resource) {
-        this.blacklist = VariantFilter.union(this.blacklist, resource.blacklist);
+        this.blacklist = VariantFilter.union(List.of(this.blacklist, resource.blacklist));
         addAllNew(this.priority, resource.priority);
     }
 }

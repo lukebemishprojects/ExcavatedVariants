@@ -5,43 +5,70 @@
 
 package dev.lukebemish.excavatedvariants.api.data;
 
-import java.util.Collections;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.lukebemish.excavatedvariants.api.RegistryKeys;
+import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.Block;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
-import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-
-import net.minecraft.resources.ResourceLocation;
-
-@SuppressWarnings("unused")
 public class Stone {
-    private final BaseStone stone;
+    public static final Codec<Stone> CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translation").forGetter(s -> s.translation),
+            ResourceKey.codec(Registries.BLOCK).fieldOf("block").forGetter(s -> s.block),
+            ResourceKey.codec(RegistryKeys.GROUND_TYPE).listOf().xmap(Set::copyOf, List::copyOf).fieldOf("types").forGetter(o -> o.types)
+    ).apply(i, Stone::new));
 
-    @ApiStatus.Internal
-    public Stone(@NotNull BaseStone stone) {
-        this.stone = stone;
+    public final Map<String, String> translation;
+    public final ResourceKey<Block> block;
+    public final Set<ResourceKey<GroundType>> types;
+
+    private Stone(Map<String, String> translation, ResourceKey<Block> block, Set<ResourceKey<GroundType>> types) {
+        this.translation = translation;
+        this.block = block;
+        this.types = types;
     }
 
-    public String getId() {
-        return stone.id;
+    public final Holder<Stone> getHolder() {
+        return RegistriesImpl.STONE_REGISTRY.wrapAsHolder(this);
     }
 
-    public Map<String, String> getTranslations() {
-        return Collections.unmodifiableMap(stone.lang);
+    public final ResourceKey<Stone> getKeyOrThrow() {
+        return getHolder().unwrapKey().orElseThrow(() -> new IllegalStateException("Unregistered stone"));
     }
 
-    public ResourceLocation getBlockId() {
-        return stone.blockId;
-    }
+    public static class Builder {
+        private Map<String, String> translation;
+        private ResourceKey<Block> block;
+        private Set<ResourceKey<GroundType>> types;
 
-    public List<String> getTypes() {
-        return Collections.unmodifiableList(stone.types);
-    }
+        public Builder setTranslation(Map<String, String> translation) {
+            this.translation = translation;
+            return this;
+        }
 
-    @ApiStatus.Internal
-    public BaseStone getBase() {
-        return stone;
+        public Builder setBlock(ResourceKey<Block> block) {
+            this.block = block;
+            return this;
+        }
+
+        public Builder setTypes(Set<ResourceKey<GroundType>> types) {
+            this.types = types;
+            return this;
+        }
+
+        public Stone build() {
+            Objects.requireNonNull(block);
+            Objects.requireNonNull(translation);
+            Objects.requireNonNull(types);
+            return new Stone(translation, block, types);
+        }
     }
 }

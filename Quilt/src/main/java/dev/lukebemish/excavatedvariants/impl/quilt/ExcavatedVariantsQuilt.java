@@ -43,8 +43,8 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
 
         ExcavatedVariants.loadedBlockRLs.addAll(BuiltInRegistries.BLOCK.keySet());
 
-        ArrayList<ExcavatedVariants.RegistryFuture> toRemove = new ArrayList<>();
-        for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
+        ArrayList<ExcavatedVariants.VariantFuture> toRemove = new ArrayList<>();
+        for (ExcavatedVariants.VariantFuture b : ExcavatedVariants.getBlockList()) {
             if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.blockId.get(0)) &&
                     ExcavatedVariants.loadedBlockRLs.contains(b.stone.blockId)) {
                 ExcavatedVariants.registerBlockAndItem(
@@ -64,8 +64,8 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
                 ExcavatedVariants.loadedBlockRLs.add(rl);
                 if (!isRegistering) {
                     isRegistering = true;
-                    ArrayList<ExcavatedVariants.RegistryFuture> toRemove2 = new ArrayList<>();
-                    for (ExcavatedVariants.RegistryFuture b : ExcavatedVariants.getBlockList()) {
+                    ArrayList<ExcavatedVariants.VariantFuture> toRemove2 = new ArrayList<>();
+                    for (ExcavatedVariants.VariantFuture b : ExcavatedVariants.getBlockList()) {
                         if (ExcavatedVariants.loadedBlockRLs.contains(b.ore.blockId.get(0)) &&
                                 ExcavatedVariants.loadedBlockRLs.contains(b.stone.blockId)) {
                             ExcavatedVariants.registerBlockAndItem(
