@@ -7,7 +7,7 @@ package dev.lukebemish.excavatedvariants.impl.worldgen;
 
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
-import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
+import dev.lukebemish.excavatedvariants.impl.ModLifecycle;
 import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
@@ -25,7 +25,7 @@ public final class OreFinderUtil {
     }
 
     public static @Nullable Block getBlock(Ore ore, Stone newStone) {
-        if (ExcavatedVariants.getState() == ExcavatedVariants.State.POST) {
+        if (ModLifecycle.getState() == ModLifecycle.State.POST) {
             var map = ORE_STONE_MAP.get(ore);
             if (map != null) {
                 return map.get(newStone);
@@ -35,7 +35,7 @@ public final class OreFinderUtil {
     }
 
     public static void setupBlocks() {
-        if (ExcavatedVariants.getState() == ExcavatedVariants.State.POST) {
+        if (ModLifecycle.getState() == ModLifecycle.State.POST) {
             for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
                 Map<Stone, Block> map = new IdentityHashMap<>();
                 for (var entry : ore.getBlocks().entrySet()) {

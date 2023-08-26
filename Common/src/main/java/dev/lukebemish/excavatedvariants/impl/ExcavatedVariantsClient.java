@@ -29,6 +29,7 @@ public class ExcavatedVariantsClient {
     }
 
     public static void init() {
+        // lang - don't bother caching
         ASSET_CACHE.planSource(new PathAwareInputStreamSource() {
             @Override
             public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
@@ -38,11 +39,6 @@ public class ExcavatedVariantsClient {
             @Override
             public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
                 return LANG_BUILDER.build(outRl.getPath().substring(5, outRl.getPath().length() - 5));
-            }
-
-            @Override
-            public String createCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-                return "LANG_BUILDER";
             }
         });
         ASSET_CACHE.planSource(new PathAwareInputStreamSource() {

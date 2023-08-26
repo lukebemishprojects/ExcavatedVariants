@@ -16,9 +16,6 @@ import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagEntry;
-import org.apache.commons.lang3.mutable.Mutable;
-import org.apache.commons.lang3.mutable.MutableObject;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -72,29 +69,6 @@ public class MiningLevelTagHolder implements TagSupplier {
             }
             return -1;
         });
-    }
-
-    @Override
-    public @Nullable String createSupplierCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-        StringBuilder builder = new StringBuilder();
-        Mutable<String> cacheKey = new MutableObject<>();
-        List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels(context, cacheKey::setValue);
-        if (cacheKey.getValue() == null) {
-            return null;
-        }
-        builder.append(cacheKey.getValue());
-        for (ResourceLocation tag : tagNames) {
-            ResourceLocation tagFile = new ResourceLocation(tag.getNamespace(), "tags/"+tag.getPath()+".json");
-            var foundResources = context.getResourceSource().getResourceStack(tagFile);
-            for (var supplier : foundResources) {
-                try (var is = supplier.get()) {
-                    builder.append(Base64.getEncoder().encodeToString(is.readAllBytes()));
-                } catch (IOException e) {
-                    return null;
-                }
-            }
-        }
-        return builder.toString();
     }
 
     private List<ResourceLocation> getTagMembers(ResourceLocation location, ResourceGenerationContext context) {

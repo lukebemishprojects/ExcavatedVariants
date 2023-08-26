@@ -20,19 +20,19 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class Stone {
+public final class Stone {
     public static final Codec<Stone> CODEC = RecordCodecBuilder.create(i -> i.group(
-            Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translation").forGetter(s -> s.translation),
+            Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translations").forGetter(s -> s.translations),
             ResourceKey.codec(Registries.BLOCK).fieldOf("block").forGetter(s -> s.block),
             ResourceKey.codec(RegistryKeys.GROUND_TYPE).listOf().xmap(Set::copyOf, List::copyOf).fieldOf("types").forGetter(o -> o.types)
     ).apply(i, Stone::new));
 
-    public final Map<String, String> translation;
+    public final Map<String, String> translations;
     public final ResourceKey<Block> block;
     public final Set<ResourceKey<GroundType>> types;
 
-    private Stone(Map<String, String> translation, ResourceKey<Block> block, Set<ResourceKey<GroundType>> types) {
-        this.translation = translation;
+    private Stone(Map<String, String> translations, ResourceKey<Block> block, Set<ResourceKey<GroundType>> types) {
+        this.translations = translations;
         this.block = block;
         this.types = types;
     }
@@ -46,12 +46,12 @@ public class Stone {
     }
 
     public static class Builder {
-        private Map<String, String> translation;
+        private Map<String, String> translations;
         private ResourceKey<Block> block;
         private Set<ResourceKey<GroundType>> types;
 
-        public Builder setTranslation(Map<String, String> translation) {
-            this.translation = translation;
+        public Builder setTranslations(Map<String, String> translations) {
+            this.translations = translations;
             return this;
         }
 
@@ -67,9 +67,9 @@ public class Stone {
 
         public Stone build() {
             Objects.requireNonNull(block);
-            Objects.requireNonNull(translation);
+            Objects.requireNonNull(translations);
             Objects.requireNonNull(types);
-            return new Stone(translation, block, types);
+            return new Stone(translations, block, types);
         }
     }
 

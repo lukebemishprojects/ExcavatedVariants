@@ -48,7 +48,7 @@ public class DefaultRegistryListener implements RegistryListener {
 
     public static <T> void loadType(String prefix, Codec<T> codec, BiConsumer<ResourceLocation, T> consumer, boolean firstOnly) {
         BiConsumer<ResourceLocation, List<Resource>> foundConsumer = (rl, resources) -> resources.forEach(resource -> {
-            ResourceLocation processed = new ResourceLocation(rl.getNamespace(), rl.getPath().substring(0, rl.getPath().length() - 5));
+            ResourceLocation processed = new ResourceLocation(rl.getNamespace(), rl.getPath().substring(prefix.length()+1, rl.getPath().length() - 5));
             try (Reader reader = resource.openAsReader()) {
                 JsonElement json = ExcavatedVariants.GSON.fromJson(reader, JsonElement.class);
                 var t = codec.parse(JsonOps.INSTANCE, json);

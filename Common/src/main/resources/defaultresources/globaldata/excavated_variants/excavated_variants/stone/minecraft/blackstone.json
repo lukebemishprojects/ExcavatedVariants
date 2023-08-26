@@ -1,0 +1,9 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Blackstone"
+  },
+  "block": "minecraft:blackstone"
+}

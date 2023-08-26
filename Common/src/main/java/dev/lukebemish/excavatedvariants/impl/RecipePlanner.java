@@ -58,8 +58,5 @@ public class RecipePlanner implements PathAwareInputStreamSource {
         return () -> new ByteArrayInputStream(recipe.getBytes());
     }
 
-    @Override
-    public @Nullable String createCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-        return "RECIPE_PLANNER";
-    }
+    // Don't bother caching
 }

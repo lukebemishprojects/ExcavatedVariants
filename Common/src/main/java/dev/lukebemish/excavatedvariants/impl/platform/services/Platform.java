@@ -10,7 +10,6 @@ import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import net.minecraft.resources.ResourceLocation;
 
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -19,11 +18,10 @@ public interface Platform {
 
     boolean isForge();
 
-    Collection<String> getModIds();
-
     Path getConfigFolder();
-
     Path getModDataFolder();
+
+    String getModVersion();
 
     boolean isClient();
 

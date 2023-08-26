@@ -22,7 +22,7 @@ public class BlockAddedCallback {
     }
 
     public static void register() {
-        if (ready && ExcavatedVariants.getState() == ExcavatedVariants.State.REGISTRATION && !registering) {
+        if (ready && ModLifecycle.getState() == ModLifecycle.State.REGISTRATION && !registering) {
             registering = true;
             ExcavatedVariants.VariantFuture future;
             while ((future = ExcavatedVariants.READY_QUEUE.poll()) != null) {
@@ -33,16 +33,16 @@ public class BlockAddedCallback {
     }
 
     public static void onRegister(Block value, ResourceKey<Block> blockKey) {
-        if (ExcavatedVariants.getState() != ExcavatedVariants.State.REGISTRATION) {
+        if (ModLifecycle.getState() != ModLifecycle.State.REGISTRATION) {
             return;
         }
         List<ExcavatedVariants.VariantFuture> futures = ExcavatedVariants.NEEDED_KEYS.get(blockKey);
         if (futures != null) {
             Map<ExcavatedVariants.VariantFuture, List<ResourceKey<Block>>> toRemove = new IdentityHashMap<>();
             for (ExcavatedVariants.VariantFuture future : futures) {
-                if (blockKey == future.stone.block) {
+                if (blockKey == future.stone.block && future.foundStone == null) {
                     future.foundStone = value;
-                } else {
+                } else if (future.foundOre == null) {
                     future.foundOre = value;
                     future.foundOreKey = blockKey;
                     ResourceKey<Stone> sourceStoneKey = future.ore.getBlocks().get(blockKey);
@@ -58,8 +58,11 @@ public class BlockAddedCallback {
                 for (var entry : toRemove.entrySet()) {
                     for (var key : entry.getValue()) {
                         var list = ExcavatedVariants.NEEDED_KEYS.get(key);
+                        if (list == null) continue;
                         list.remove(entry.getKey());
-                        toRemoveKeys.add(key);
+                        if (list.isEmpty()) {
+                            toRemoveKeys.add(key);
+                        }
                     }
                 }
                 if (!toRemoveKeys.isEmpty()) {

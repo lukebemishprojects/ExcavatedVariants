@@ -9,7 +9,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.excavatedvariants.api.data.filter.VariantFilter;
+import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import dev.lukebemish.excavatedvariants.impl.data.modifier.BlockPropsModifierImpl;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -38,6 +41,14 @@ public class Modifier {
         this.properties = properties;
         this.tags = tags;
         this.flags = flags;
+    }
+
+    public Holder<Modifier> getHolder() {
+        return RegistriesImpl.MODIFIER_REGISTRY.wrapAsHolder(this);
+    }
+
+    public final ResourceKey<Modifier> getKeyOrThrow() {
+        return getHolder().unwrapKey().orElseThrow(() -> new IllegalStateException("Unregistered modifier"));
     }
 
     public static class Builder {

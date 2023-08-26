@@ -21,24 +21,24 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.*;
 
-public class Ore {
+public final class Ore {
     public static final Codec<Ore> CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.STRING.listOf().optionalFieldOf("names", List.of()).forGetter(o -> o.names),
             Codec.unboundedMap(ResourceLocation.CODEC, ResourceKey.codec(RegistryKeys.STONE)).fieldOf("blocks").forGetter(o -> o.blocks),
-            Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translation").forGetter(o -> o.translation),
+            Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translations").forGetter(o -> o.translations),
             ResourceKey.codec(RegistryKeys.GROUND_TYPE).listOf().xmap(Set::copyOf, List::copyOf).fieldOf("types").forGetter(o -> o.types)
     ).apply(i, Ore::new));
 
     public final List<String> names;
     private final Map<ResourceLocation, ResourceKey<Stone>> blocks;
     private Map<ResourceKey<Block>, ResourceKey<Stone>> blocksBaked;
-    public final Map<String, String> translation;
+    public final Map<String, String> translations;
     public final Set<ResourceKey<GroundType>> types;
 
-    private Ore(List<String> names, Map<ResourceLocation, ResourceKey<Stone>> blocks, Map<String, String> translation, Set<ResourceKey<GroundType>> types) {
+    private Ore(List<String> names, Map<ResourceLocation, ResourceKey<Stone>> blocks, Map<String, String> translations, Set<ResourceKey<GroundType>> types) {
         this.names = names;
         this.blocks = new HashMap<>(blocks);
-        this.translation = translation;
+        this.translations = translations;
         this.types = types;
 
         Map<ResourceKey<Block>, ResourceKey<Stone>> baked = new HashMap<>();
@@ -85,7 +85,7 @@ public class Ore {
                 }
             }
             blocks.putAll(ore.blocks);
-            translation.putAll(ore.translation);
+            translation.putAll(ore.translations);
             types.addAll(ore.types);
         }
         return new Ore(alternativeNames, blocks, translation, types);
@@ -102,7 +102,7 @@ public class Ore {
     public static class Builder {
         private List<String> names;
         private Map<ResourceLocation, ResourceKey<Stone>> blocks;
-        private Map<String, String> translation;
+        private Map<String, String> translations;
         private Set<ResourceKey<GroundType>> types;
 
         public Builder setNames(List<String> names) {
@@ -115,8 +115,8 @@ public class Ore {
             return this;
         }
 
-        public Builder setTranslation(Map<String, String> translation) {
-            this.translation = translation;
+        public Builder setTranslations(Map<String, String> translations) {
+            this.translations = translations;
             return this;
         }
 
@@ -128,9 +128,9 @@ public class Ore {
         public Ore build() {
             Objects.requireNonNull(names);
             Objects.requireNonNull(blocks);
-            Objects.requireNonNull(translation);
+            Objects.requireNonNull(translations);
             Objects.requireNonNull(types);
-            return new Ore(names, blocks, translation, types);
+            return new Ore(names, blocks, translations, types);
         }
     }
 

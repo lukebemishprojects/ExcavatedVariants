@@ -1,0 +1,9 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "End Stone"
+  },
+  "block": "minecraft:end_stone"
+}

@@ -285,6 +285,4 @@ public final class ParsedModel {
                 Codec.STRING.fieldOf("texture").forGetter(FaceDefinition::texture)
         ).apply(i, FaceDefinition::new));
     }
-
-
 }

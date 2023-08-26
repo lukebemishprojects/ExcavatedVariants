@@ -9,6 +9,7 @@ import blue.endless.jankson.Jankson;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mojang.serialization.JsonOps;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
@@ -28,9 +29,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -49,7 +50,6 @@ public final class ExcavatedVariants {
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static final List<Supplier<Item>> ITEMS = new ArrayList<>();
-    private static State LOAD_STATE = State.PRE;
     private static ModConfig CONFIG;
     public static final DataResourceCache DATA_CACHE = ResourceCache.register(new DataResourceCache(new ResourceLocation(MOD_ID, "data")));
     private static Map<Ore, List<Stone>> NEW_VARIANTS_MAP;
@@ -63,33 +63,44 @@ public final class ExcavatedVariants {
 
     public static final Set<String> VANILLA_ORE_NAMES = Set.of("iron", "gold", "coal", "emerald", "diamond", "redstone", "copper", "lapis");
 
-    public enum State {
-        PRE,
-        REGISTRATION,
-        POST
+    public static String universalCacheKey(String remainder) {
+        if (UNIVERSAL_CACHE_KEY == null || remainder == null) return null;
+        return Services.PLATFORM.getModVersion()+":"+UNIVERSAL_CACHE_KEY+"\n"+remainder;
     }
+
+    public static String UNIVERSAL_CACHE_KEY = null;
 
     public synchronized static void setupMap() {
         if (NEW_VARIANTS_MAP == null) {
+            MutableBoolean noCacheKey = new MutableBoolean(false);
+            StringBuilder universalCacheKey = new StringBuilder();
             Map<Ore, List<Stone>> newVariants = new HashMap<>();
             Map<Ore, Set<Stone>> newVariantsSet = new HashMap<>();
             Map<GroundType, List<Ore>> groundTypeOreMap = new HashMap<>();
 
             for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
+                universalCacheKey.append(ore.getKeyOrThrow().location());
+                universalCacheKey.append('@');
+                Ore.CODEC.encodeStart(JsonOps.INSTANCE, ore).map(GSON_CONDENSED::toJson).result().ifPresentOrElse(universalCacheKey::append, noCacheKey::setTrue);
+                universalCacheKey.append(',');
                 for (ResourceKey<GroundType> groundTypeKey : ore.types) {
                     var groundType = RegistriesImpl.GROUND_TYPE_REGISTRY.get(groundTypeKey);
                     if (groundType == null) {
-                        throw new RuntimeException("Ground type " + groundTypeKey + " does not exist, but is referenced by ore " + ore.getHolder());
+                        throw new RuntimeException("Ground type " + groundTypeKey.location() + " does not exist, but is referenced by ore " + ore.getHolder().unwrapKey().orElseThrow().location());
                     }
                     groundTypeOreMap.computeIfAbsent(groundType, k -> new ArrayList<>()).add(ore);
                 }
             }
 
             for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
+                universalCacheKey.append(stone.getKeyOrThrow().location());
+                universalCacheKey.append('@');
+                Stone.CODEC.encodeStart(JsonOps.INSTANCE, stone).map(GSON_CONDENSED::toJson).result().ifPresentOrElse(universalCacheKey::append, noCacheKey::setTrue);
+                universalCacheKey.append(',');
                 for (ResourceKey<GroundType> groundTypeKey : stone.types) {
                     var groundType = RegistriesImpl.GROUND_TYPE_REGISTRY.get(groundTypeKey);
                     if (groundType == null) {
-                        throw new RuntimeException("Ground type " + groundTypeKey + " does not exist, but is referenced by stone " + stone.getHolder());
+                        throw new RuntimeException("Ground type " + groundTypeKey.location() + " does not exist, but is referenced by stone " + stone.getHolder().unwrapKey().orElseThrow().location());
                     }
                     var ores = groundTypeOreMap.getOrDefault(groundType, List.of());
                     for (Ore ore : ores) {
@@ -103,14 +114,33 @@ public final class ExcavatedVariants {
                 }
             }
 
+            for (GroundType groundType : RegistriesImpl.GROUND_TYPE_REGISTRY) {
+                universalCacheKey.append(groundType.getKeyOrThrow().location());
+                universalCacheKey.append('@');
+                GroundType.CODEC.encodeStart(JsonOps.INSTANCE, groundType).map(GSON_CONDENSED::toJson).result().ifPresentOrElse(universalCacheKey::append, noCacheKey::setTrue);
+                universalCacheKey.append(',');
+            }
+
+            for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
+                universalCacheKey.append(modifier.getKeyOrThrow().location());
+                universalCacheKey.append('@');
+                for (ResourceLocation rl : modifier.tags) {
+                    universalCacheKey.append(rl.toString());
+                }
+                universalCacheKey.append(',');
+            }
+
             // TODO: filter stuff out here
 
             NEW_VARIANTS_MAP = newVariants;
+            if (noCacheKey.isFalse()) {
+                UNIVERSAL_CACHE_KEY = universalCacheKey.toString();
+            }
         }
     }
 
     public static void init() {
-        if (LOAD_STATE != State.PRE) {
+        if (ModLifecycle.getState() != ModLifecycle.State.PRE) {
             return;
         }
 
@@ -131,9 +161,6 @@ public final class ExcavatedVariants {
                 ore.addPossibleVariant(stone, new ResourceLocation(ExcavatedVariants.MOD_ID, fullId));
                 List<ResourceKey<Block>> keys = new ArrayList<>();
                 for (Map.Entry<ResourceKey<Block>, ResourceKey<Stone>> blockEntry : ore.getBlocks().entrySet()) {
-                    if (blockEntry.getValue() != stone.getKeyOrThrow()) {
-                        continue;
-                    }
                     ResourceKey<Block> key = blockEntry.getKey();
                     Stone originalStone = RegistriesImpl.STONE_REGISTRY.get(blockEntry.getValue());
                     if (originalStone == null) {
@@ -142,6 +169,8 @@ public final class ExcavatedVariants {
                     keys.add(key);
                     NEEDED_KEYS.computeIfAbsent(key, k -> new ArrayList<>()).add(future);
                 }
+                keys.add(stone.block);
+                NEEDED_KEYS.computeIfAbsent(stone.block, k -> new ArrayList<>()).add(future);
                 REVERSE_NEEDED_KEYS.put(future, keys);
                 NEW_VARIANTS.add(future);
 
@@ -229,10 +258,7 @@ public final class ExcavatedVariants {
                 return output;
             }
 
-            @Override
-            public @Nullable String createSupplierCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-                return TAG_QUEUE.createSupplierCacheKey(outRl, context);
-            }
+            // Not worth caching - may change this later depending?
 
             @Override
             public void reset(ResourceGenerationContext context) {
@@ -243,19 +269,11 @@ public final class ExcavatedVariants {
         Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
         Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
 
-        inRegistrationState();
-    }
-
-    private static synchronized void inRegistrationState() {
-        LOAD_STATE = State.REGISTRATION;
-    }
-
-    public static State getState() {
-        return LOAD_STATE;
+        ModLifecycle.inRegistrationState();
     }
 
     public static synchronized void initPostRegister() {
-        if (LOAD_STATE != State.REGISTRATION) {
+        if (ModLifecycle.getState() != ModLifecycle.State.REGISTRATION) {
             return;
         }
 
@@ -295,15 +313,13 @@ public final class ExcavatedVariants {
             }
         }
 
-        inPostState();
-    }
-
-    private static synchronized void inPostState() {
-        LOAD_STATE = State.POST;
+        ModLifecycle.inPostState();
     }
 
     public static String computeFullId(ResourceLocation ore, ResourceLocation stone) {
-        return ore.getNamespace() + "__" + ore.getPath() + "__" + stone.getNamespace() + "__" + stone.getPath();
+        return ore.getNamespace() + "__" +
+                String.join("_", ore.getPath().split("/")) + "__" + stone.getNamespace() + "__" +
+                String.join("_",stone.getPath().split("/"));
     }
 
     public static String computeFullId(ResourceKey<Ore> ore, ResourceKey<Stone> stone) {
@@ -404,6 +420,9 @@ public final class ExcavatedVariants {
             }
 
             COMPLETE_VARIANTS.add(future);
+            if (Services.PLATFORM.isClient()) {
+                ExcavatedVariantsClient.setUp(future);
+            }
         }
     }
 

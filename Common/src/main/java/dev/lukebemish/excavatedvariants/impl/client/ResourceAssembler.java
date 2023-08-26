@@ -34,23 +34,41 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
     private final Map<ResourceKey<Ore>, List<TexFaceProvider>> oreModels = new HashMap<>();
     private final Map<ResourceLocation, InputStreamSource> resources = new HashMap<>();
     private final List<InputStreamSource> cacheKeys = new ArrayList<>();
-    private final StringBuilder cacheExtraBuilder = new StringBuilder();
+    private StringBuilder cacheExtraBuilder = new StringBuilder();
 
     public void addFuture(ExcavatedVariants.VariantFuture future, ResourceGenerationContext context) {
         if (!stoneModels.containsKey(future.stone.getKeyOrThrow())) {
-            var textures = ResourceCollector.makeStoneTextures(future.stone, context, cacheExtraBuilder::append);
+            var textures = ResourceCollector.makeStoneTextures(future.stone, context, s -> {
+                if (s != null && cacheExtraBuilder != null) {
+                    cacheExtraBuilder.append(s);
+                } else {
+                    cacheExtraBuilder = null;
+                }
+            });
             if (textures != null) {
                 stoneModels.put(future.stone.getKeyOrThrow(), textures);
             }
         }
         if (!stoneModels.containsKey(future.foundSourceStone.getKeyOrThrow())) {
-            var textures = ResourceCollector.makeStoneTextures(future.foundSourceStone, context, cacheExtraBuilder::append);
+            var textures = ResourceCollector.makeStoneTextures(future.foundSourceStone, context, s -> {
+                if (s != null && cacheExtraBuilder != null) {
+                    cacheExtraBuilder.append(s);
+                } else {
+                    cacheExtraBuilder = null;
+                }
+            });
             if (textures != null) {
                 stoneModels.put(future.foundSourceStone.getKeyOrThrow(), textures);
             }
         }
         if (!oreModels.containsKey(future.ore.getKeyOrThrow())) {
-            var textures = ResourceCollector.makeOreTextures(future.ore, future.foundOreKey, context, cacheExtraBuilder::append);
+            var textures = ResourceCollector.makeOreTextures(future.ore, future.foundOreKey, context, s -> {
+                if (s != null && cacheExtraBuilder != null) {
+                    cacheExtraBuilder.append(s);
+                } else {
+                    cacheExtraBuilder = null;
+                }
+            });
             if (textures != null) {
                 oreModels.put(future.ore.getKeyOrThrow(), textures);
             }
@@ -103,26 +121,6 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         } else {
             ExcavatedVariants.LOGGER.warn("Failed to encode blockstate for "+fullId);
         }
-    }
-
-    private PathAwareInputStreamSource singleSource(ResourceLocation location, InputStreamSource source) {
-        return new PathAwareInputStreamSource() {
-            @Override
-            public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
-                return Collections.singleton(location);
-            }
-
-            @Override
-            public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
-                return source.get(outRl, context);
-            }
-
-            @Override
-            public @Nullable String createCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-                // TODO: implement
-                return PathAwareInputStreamSource.super.createCacheKey(outRl, context);
-            }
-        };
     }
 
     private void assembleModel(ResourceLocation modelLocation, TexFaceProvider ore, ModelData oldStone, ModelData newStone, Stone oldStoneData) {
@@ -193,12 +191,14 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
 
     @Override
     public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
-        return null;
+        return resources.keySet();
     }
 
     @Override
     public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
-        return null;
+        var supplier = resources.get(outRl);
+        if (supplier == null) return null;
+        return supplier.get(outRl, context);
     }
 
     @Override
@@ -210,6 +210,6 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
             builder.append(Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.UTF_8)));
             builder.append('\n');
         }
-        return builder.substring(0, builder.length() - 1);
+        return ExcavatedVariants.universalCacheKey(builder.substring(0, builder.length() - 1));
     }
 }

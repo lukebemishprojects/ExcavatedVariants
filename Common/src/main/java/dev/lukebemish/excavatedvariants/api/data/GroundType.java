@@ -15,46 +15,47 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import java.util.List;
 import java.util.Objects;
 
-public class GroundType {
+public final class GroundType {
     public static final Codec<GroundType> CODEC = RecordCodecBuilder.create(i -> i.group(
-            ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension_tag").forGetter(g -> g.dimensionTag)
+            ResourceKey.codec(Registries.DIMENSION).listOf().fieldOf("dimensions").forGetter(g -> g.dimensions)
     ).apply(i, GroundType::new));
 
-    public final ResourceKey<Level> dimensionTag;
+    public final List<ResourceKey<Level>> dimensions;
 
-    private GroundType(ResourceKey<Level> dimensionTag) {
-        this.dimensionTag = dimensionTag;
+    private GroundType(List<ResourceKey<Level>> dimensions) {
+        this.dimensions = dimensions;
     }
 
-    public final Holder<GroundType> getHolder() {
+    public Holder<GroundType> getHolder() {
         return RegistriesImpl.GROUND_TYPE_REGISTRY.wrapAsHolder(this);
     }
 
-    public final ResourceKey<GroundType> getKeyOrThrow() {
+    public ResourceKey<GroundType> getKeyOrThrow() {
         return getHolder().unwrapKey().orElseThrow(() -> new IllegalStateException("Unregistered ground type"));
     }
 
     public static class Builder {
-        private ResourceKey<Level> dimensionTag;
+        private List<ResourceKey<Level>> dimensions;
 
-        public Builder setDimensionTag(ResourceKey<Level> dimensionTag) {
-            this.dimensionTag = dimensionTag;
+        public Builder setDimensions(List<ResourceKey<Level>> dimensions) {
+            this.dimensions = dimensions;
             return this;
         }
 
         public GroundType build() {
-            Objects.requireNonNull(dimensionTag);
-            return new GroundType(dimensionTag);
+            Objects.requireNonNull(dimensions);
+            return new GroundType(dimensions);
         }
     }
 
-    public final TagKey<Block> getOreTagKey() {
+    public TagKey<Block> getOreTagKey() {
         return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("ores_in_ground_type/"));
     }
 
-    public final TagKey<Block> getStoneTagKey() {
+    public TagKey<Block> getStoneTagKey() {
         return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("stones_in_ground_type/"));
     }
 }

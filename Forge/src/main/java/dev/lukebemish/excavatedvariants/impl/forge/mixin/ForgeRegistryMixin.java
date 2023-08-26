@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = ForgeRegistry.class, remap = false)
 public abstract class ForgeRegistryMixin<V> {
@@ -27,7 +27,7 @@ public abstract class ForgeRegistryMixin<V> {
     private ResourceKey<Registry<V>> key;
 
     @Inject(method = "add(ILnet/minecraft/resources/ResourceLocation;Ljava/lang/Object;Ljava/lang/String;)I", at = @At("RETURN"))
-    private void excavated_variants$registryRegisterHackery(int id, ResourceLocation rl, V value, String owner, CallbackInfo ci) {
+    private void excavated_variants$registryRegisterHackery(int id, ResourceLocation rl, V value, String owner, CallbackInfoReturnable<Integer> ci) {
         if (key.equals(ForgeRegistries.Keys.BLOCKS)) {
             ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, rl);
             BlockAddedCallback.onRegister((Block) value, blockKey);

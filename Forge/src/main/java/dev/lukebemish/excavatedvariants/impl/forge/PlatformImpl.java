@@ -15,6 +15,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
+import dev.lukebemish.dynamicassetgenerator.impl.DynamicAssetGenerator;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.forge.mixin.ForgeTierSortingRegistryAccessor;
 import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
@@ -27,7 +28,6 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.toposort.TopologicalSort;
-import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.ByteArrayInputStream;
@@ -36,32 +36,35 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @AutoService(Platform.class)
 public class PlatformImpl implements Platform {
+    private static final String MOD_VERSION = ModList.get().getModFileById(DynamicAssetGenerator.MOD_ID).versionString();
+    @Override
     public boolean isQuilt() {
         return false;
     }
 
+    @Override
     public boolean isForge() {
         return true;
     }
 
-    public Collection<String> getModIds() {
-        return ModList.get().getMods().stream().map(IModInfo::getModId).toList();
-    }
-
+    @Override
     public Path getConfigFolder() {
         return FMLPaths.CONFIGDIR.get();
     }
-
     @Override
     public Path getModDataFolder() {
-        return FMLPaths.GAMEDIR.get().resolve("mod_data/excavated_variants");
+        return FMLPaths.GAMEDIR.get().resolve("mod_data").resolve(ExcavatedVariants.MOD_ID);
+    }
+
+    @Override
+    public String getModVersion() {
+        return MOD_VERSION;
     }
 
     @Override

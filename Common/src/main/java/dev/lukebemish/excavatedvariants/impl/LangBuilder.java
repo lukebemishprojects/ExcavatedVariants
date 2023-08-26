@@ -23,11 +23,11 @@ public class LangBuilder {
     private final Map<String, Map<String, String>> internal = new HashMap<>();
 
     public void add(String fullId, Stone stone, Ore ore) {
-        Set<String> langs = new HashSet<>(stone.translation.keySet());
-        langs.addAll(ore.translation.keySet());
+        Set<String> langs = new HashSet<>(stone.translations.keySet());
+        langs.addAll(ore.translations.keySet());
         for (String langName : langs) {
-            String stoneLang = stone.translation.getOrDefault(langName,stone.getKeyOrThrow().location().toLanguageKey("excavated_variants.stone"));
-            String oreLang = ore.translation.getOrDefault(langName,ore.getKeyOrThrow().location().toLanguageKey("excavated_variants.ore"));
+            String stoneLang = stone.translations.getOrDefault(langName,stone.getKeyOrThrow().location().toLanguageKey("excavated_variants.stone"));
+            String oreLang = ore.translations.getOrDefault(langName,ore.getKeyOrThrow().location().toLanguageKey("excavated_variants.ore"));
             String name = oreLang.contains("%s") ? oreLang.replaceFirst("%s", stoneLang) : stoneLang + " " + oreLang;
             internal.computeIfAbsent(langName, k -> new HashMap<>()).put("block."+ExcavatedVariants.MOD_ID+"."+fullId,name);
         }
