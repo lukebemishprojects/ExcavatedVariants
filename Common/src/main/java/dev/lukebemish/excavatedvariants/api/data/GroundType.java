@@ -6,28 +6,17 @@
 package dev.lukebemish.excavatedvariants.api.data;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
-import java.util.Objects;
-
 public final class GroundType {
-    public static final Codec<GroundType> CODEC = RecordCodecBuilder.create(i -> i.group(
-            ResourceKey.codec(Registries.DIMENSION).listOf().fieldOf("dimensions").forGetter(g -> g.dimensions)
-    ).apply(i, GroundType::new));
+    public static final Codec<GroundType> CODEC = Codec.unit(GroundType::new);
 
-    public final List<ResourceKey<Level>> dimensions;
-
-    private GroundType(List<ResourceKey<Level>> dimensions) {
-        this.dimensions = dimensions;
-    }
+    private GroundType() {}
 
     public Holder<GroundType> getHolder() {
         return RegistriesImpl.GROUND_TYPE_REGISTRY.wrapAsHolder(this);
@@ -38,16 +27,10 @@ public final class GroundType {
     }
 
     public static class Builder {
-        private List<ResourceKey<Level>> dimensions;
-
-        public Builder setDimensions(List<ResourceKey<Level>> dimensions) {
-            this.dimensions = dimensions;
-            return this;
-        }
+        // More data may be stored here in the future
 
         public GroundType build() {
-            Objects.requireNonNull(dimensions);
-            return new GroundType(dimensions);
+            return new GroundType();
         }
     }
 

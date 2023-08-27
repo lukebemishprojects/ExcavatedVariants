@@ -1,7 +1,4 @@
 {
-  "names": [
-    "emerald"
-  ],
   "types": [
     "excavated_variants:overworld"
   ],
@@ -11,5 +8,11 @@
   "blocks": {
     "minecraft:emerald_ore": "excavated_variants:minecraft/stone",
     "minecraft:deepslate_emerald_ore": "excavated_variants:minecraft/deepslate"
-  }
+  },
+  "tags": [
+    "forge:ores/emerald",
+    "c:ores/emerald",
+    "c:emerald_ores",
+    "minecraft:emerald_ores"
+  ]
 }

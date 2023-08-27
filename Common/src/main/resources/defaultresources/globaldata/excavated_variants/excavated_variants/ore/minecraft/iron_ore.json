@@ -1,7 +1,4 @@
 {
-  "names": [
-    "iron"
-  ],
   "types": [
     "excavated_variants:overworld"
   ],
@@ -11,5 +8,11 @@
   "blocks": {
     "minecraft:iron_ore": "excavated_variants:minecraft/stone",
     "minecraft:deepslate_iron_ore": "excavated_variants:minecraft/deepslate"
-  }
+  },
+  "tags": [
+    "forge:ores/iron",
+    "c:ores/iron",
+    "c:iron_ores",
+    "minecraft:iron_ores"
+  ]
 }

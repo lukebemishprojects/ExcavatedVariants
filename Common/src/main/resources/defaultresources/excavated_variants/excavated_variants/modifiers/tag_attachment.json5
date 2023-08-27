@@ -4,7 +4,14 @@
  */
 
 {
-  filter: '*',
+  filter: {
+    "type": "and",
+    "filters": [
+      "type@excavated_variants:overworld",
+      "type@excavated_variants:nether",
+      "type@excavated_variants:end"
+    ]
+  },
   tags: [
     'minecraft:blocks/mineable/pickaxe',
     'forge:blocks/ores',

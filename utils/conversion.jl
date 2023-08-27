@@ -10,6 +10,8 @@ if !isdir(OUTDIR)
     mkdir(OUTDIR)
 end
 
+const VANILLA_ORES = Set(["iron", "gold", "coal", "emerald", "diamond", "redstone", "copper", "lapis"])
+
 function convertconfig(name)
     originalfile = joinpath(RUNTIME, name*".json")
     json = JSON3.read(originalfile)
@@ -48,6 +50,9 @@ function convertconfig(name)
             out = Dict()
             out["types"] = types
             out["block"] = block
+            out["ore_tags"] = [
+                "forge:ores_in_ground/$id"
+            ]
             out["translations"] = translations
             open(joinpath(newstonedir, id*".json"), "w") do f
                 JSON3.pretty(f, out, JSON3.AlignmentContext(indent = 2))
@@ -80,24 +85,33 @@ function convertconfig(name)
                     push!(types, "excavated_variants:"*type)
                 end
             end
-            names = []
+            tagsraw = []
             if haskey(ore, :orename)
                 if ore[:orename] isa AbstractString
                     processedname = replace(ore[:orename], "_ore" => "")
-                    push!(names, processedname)
+                    push!(tagsraw, processedname)
                 else
                     for name ∈ ore[:orename]
                         processedname = replace(name, "_ore" => "")
-                        push!(names, processedname)
+                        push!(tagsraw, processedname)
                     end
                 end
             else
-                push!(names, replace(id, "_ore" => ""))
+                push!(tagsraw, replace(id, "_ore" => ""))
+            end
+            tags = []
+            for tag ∈ tagsraw
+                push!(tags, "forge:ores/$tag")
+                push!(tags, "c:ores/$tag")
+                push!(tags, "c:$(tag)_ores")
+                if tag in VANILLA_ORES
+                    push!(tags, "minecraft:$(tag)_ores")
+                end
             end
             out = Dict()
             out["types"] = types
             out["blocks"] = blockmap
-            out["names"] = names
+            out["tags"] = tags
             out["translations"] = translations
             open(joinpath(neworedir, id*".json"), "w") do f
                 JSON3.pretty(f, out, JSON3.AlignmentContext(indent = 2))

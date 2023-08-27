@@ -23,20 +23,20 @@ import java.util.*;
 
 public final class Ore {
     public static final Codec<Ore> CODEC = RecordCodecBuilder.create(i -> i.group(
-            Codec.STRING.listOf().optionalFieldOf("names", List.of()).forGetter(o -> o.names),
+            ResourceLocation.CODEC.listOf().fieldOf("tags").forGetter(o -> o.tags),
             Codec.unboundedMap(ResourceLocation.CODEC, ResourceKey.codec(RegistryKeys.STONE)).fieldOf("blocks").forGetter(o -> o.blocks),
             Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translations").forGetter(o -> o.translations),
             ResourceKey.codec(RegistryKeys.GROUND_TYPE).listOf().xmap(Set::copyOf, List::copyOf).fieldOf("types").forGetter(o -> o.types)
     ).apply(i, Ore::new));
 
-    public final List<String> names;
+    public final List<ResourceLocation> tags;
     private final Map<ResourceLocation, ResourceKey<Stone>> blocks;
     private Map<ResourceKey<Block>, ResourceKey<Stone>> blocksBaked;
     public final Map<String, String> translations;
     public final Set<ResourceKey<GroundType>> types;
 
-    private Ore(List<String> names, Map<ResourceLocation, ResourceKey<Stone>> blocks, Map<String, String> translations, Set<ResourceKey<GroundType>> types) {
-        this.names = names;
+    private Ore(List<ResourceLocation> tags, Map<ResourceLocation, ResourceKey<Stone>> blocks, Map<String, String> translations, Set<ResourceKey<GroundType>> types) {
+        this.tags = tags;
         this.blocks = new HashMap<>(blocks);
         this.translations = translations;
         this.types = types;
@@ -49,17 +49,17 @@ public final class Ore {
         this.blocksBaked = Collections.unmodifiableMap(baked);
     }
 
-    public final Map<ResourceKey<Block>, ResourceKey<Stone>> getBlocks() {
+    public Map<ResourceKey<Block>, ResourceKey<Stone>> getBlocks() {
         return blocksBaked;
     }
 
     @ApiStatus.Internal
-    public final void addPossibleVariant(Stone stone, ResourceLocation output) {
+    public void addPossibleVariant(Stone stone, ResourceLocation output) {
         blocks.put(output, stone.getKeyOrThrow());
     }
 
     @ApiStatus.Internal
-    public synchronized final void bakeExistingBlocks() {
+    public synchronized void bakeExistingBlocks() {
         Map<ResourceKey<Block>, ResourceKey<Stone>> baked = new HashMap<>();
         for (Map.Entry<ResourceLocation, ResourceKey<Stone>> entry : blocks.entrySet()) {
             if (BuiltInRegistries.BLOCK.containsKey(entry.getKey())) {
@@ -72,41 +72,41 @@ public final class Ore {
 
     @Contract(value = "_ -> new", pure = true)
     public static Ore merge(List<Ore> ores) {
-        List<String> alternativeNames = new ArrayList<>();
-        Set<String> alternativeNamesSet = new HashSet<>();
+        List<ResourceLocation> tags = new ArrayList<>();
+        Set<ResourceLocation> tagsSet = new HashSet<>();
         Map<ResourceLocation, ResourceKey<Stone>> blocks = new HashMap<>();
         Map<String, String> translation = new HashMap<>();
         Set<ResourceKey<GroundType>> types = new HashSet<>();
         for (Ore ore : ores) {
-            for (String alternativeName : ore.names) {
-                if (!alternativeNamesSet.contains(alternativeName)) {
-                    alternativeNamesSet.add(alternativeName);
-                    alternativeNames.add(alternativeName);
+            for (ResourceLocation alternativeName : ore.tags) {
+                if (!tagsSet.contains(alternativeName)) {
+                    tagsSet.add(alternativeName);
+                    tags.add(alternativeName);
                 }
             }
             blocks.putAll(ore.blocks);
             translation.putAll(ore.translations);
             types.addAll(ore.types);
         }
-        return new Ore(alternativeNames, blocks, translation, types);
+        return new Ore(tags, blocks, translation, types);
     }
 
-    public final Holder<Ore> getHolder() {
+    public Holder<Ore> getHolder() {
         return RegistriesImpl.ORE_REGISTRY.wrapAsHolder(this);
     }
 
-    public final ResourceKey<Ore> getKeyOrThrow() {
+    public ResourceKey<Ore> getKeyOrThrow() {
         return getHolder().unwrapKey().orElseThrow(() -> new IllegalStateException("Unregistered ore"));
     }
 
     public static class Builder {
-        private List<String> names;
+        private List<ResourceLocation> tags;
         private Map<ResourceLocation, ResourceKey<Stone>> blocks;
         private Map<String, String> translations;
         private Set<ResourceKey<GroundType>> types;
 
-        public Builder setNames(List<String> names) {
-            this.names = names;
+        public Builder setTags(List<ResourceLocation> tags) {
+            this.tags = tags;
             return this;
         }
 
@@ -126,19 +126,19 @@ public final class Ore {
         }
 
         public Ore build() {
-            Objects.requireNonNull(names);
+            Objects.requireNonNull(tags);
             Objects.requireNonNull(blocks);
             Objects.requireNonNull(translations);
             Objects.requireNonNull(types);
-            return new Ore(names, blocks, translations, types);
+            return new Ore(tags, blocks, translations, types);
         }
     }
 
-    public final TagKey<Block> getTagKey() {
+    public TagKey<Block> getTagKey() {
         return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("ores/"));
     }
 
-    public final TagKey<Block> getConvertibleTagKey() {
+    public TagKey<Block> getConvertibleTagKey() {
         return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("ores_convertible/"));
     }
 }

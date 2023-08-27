@@ -5,5 +5,8 @@
   "translations": {
     "en_us": "Andesite"
   },
-  "block": "minecraft:andesite"
+  "block": "minecraft:andesite",
+  "ore_tags": [
+    "forge:ores_in_ground/andesite"
+  ]
 }

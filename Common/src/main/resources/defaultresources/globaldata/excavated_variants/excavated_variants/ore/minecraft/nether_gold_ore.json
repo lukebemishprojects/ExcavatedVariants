@@ -1,7 +1,4 @@
 {
-  "names": [
-    "gold"
-  ],
   "types": [
     "excavated_variants:nether"
   ],
@@ -10,5 +7,11 @@
   },
   "blocks": {
     "minecraft:nether_gold_ore": "excavated_variants:minecraft/netherrack"
-  }
+  },
+  "tags": [
+    "forge:ores/gold",
+    "c:ores/gold",
+    "c:gold_ores",
+    "minecraft:gold_ores"
+  ]
 }

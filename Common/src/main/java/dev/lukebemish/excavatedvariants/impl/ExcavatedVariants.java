@@ -61,8 +61,6 @@ public final class ExcavatedVariants {
     public static final List<VariantFuture> COMPLETE_VARIANTS = new ArrayList<>();
     public static final RecipePlanner RECIPE_PLANNER = new RecipePlanner();
 
-    public static final Set<String> VANILLA_ORE_NAMES = Set.of("iron", "gold", "coal", "emerald", "diamond", "redstone", "copper", "lapis");
-
     public static String universalCacheKey(String remainder) {
         if (UNIVERSAL_CACHE_KEY == null || remainder == null) return null;
         return Services.PLATFORM.getModVersion()+":"+UNIVERSAL_CACHE_KEY+"\n"+remainder;
@@ -153,7 +151,6 @@ public final class ExcavatedVariants {
         for (Map.Entry<Ore, List<Stone>> entry : NEW_VARIANTS_MAP.entrySet()) {
             Ore ore = entry.getKey();
             List<Stone> stones = entry.getValue();
-            List<String> ids = new ArrayList<>();
             for (Stone stone : stones) {
                 String fullId = computeFullId(ore, stone);
                 tierHolder.add(fullId, ore, stone);
@@ -173,30 +170,6 @@ public final class ExcavatedVariants {
                 NEEDED_KEYS.computeIfAbsent(stone.block, k -> new ArrayList<>()).add(future);
                 REVERSE_NEEDED_KEYS.put(future, keys);
                 NEW_VARIANTS.add(future);
-
-                ResourceLocation id = new ResourceLocation(ExcavatedVariants.MOD_ID, fullId);
-
-                for (ResourceKey<GroundType> type : Sets.union(stone.types, ore.types)) {
-                    planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getOreTagKey().location(), id);
-                }
-
-                planCombinedTag(ore.getTagKey().location(), id);
-
-                ids.add(fullId);
-            }
-            for (String oreTypeName : ore.names) {
-                String oreName = oreTypeName + "_ores";
-                for (String thisId : ids) {
-                    if (Services.PLATFORM.isQuilt()) {
-                        planCombinedTag(new ResourceLocation("c", "ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId), true);
-                        planCombinedTag(new ResourceLocation("c", oreName + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId), true);
-                    } else {
-                        planCombinedTag(new ResourceLocation("forge", "ores/" + oreTypeName), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId), true);
-                    }
-                    if (VANILLA_ORE_NAMES.contains(oreName)) {
-                        planCombinedTag(new ResourceLocation("minecraft", oreName + "s"), new ResourceLocation(ExcavatedVariants.MOD_ID, thisId));
-                    }
-                }
             }
         }
 
@@ -205,28 +178,6 @@ public final class ExcavatedVariants {
             for (VariantFuture future : futures) {
                 future.flags.addAll(modifier.flags);
                 future.propsModifiers.add(modifier.properties);
-            }
-        }
-
-        for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
-            for (ResourceKey<GroundType> type : stone.types) {
-                planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getStoneTagKey().location(), stone.block.location());
-            }
-        }
-
-        for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
-            for (ResourceKey<Block> block : ore.getBlocks().keySet()) {
-                for (ResourceKey<GroundType> type : ore.types) {
-                    planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getOreTagKey().location(), block.location());
-                }
-                planCombinedTag(ore.getTagKey().location(), block.location());
-                planCombinedTag(
-                        Objects.requireNonNull(
-                                RegistriesImpl.STONE_REGISTRY.get(ore.getBlocks().get(block)),
-                                "Nonexistent stone "+ore.getBlocks().get(block).location()
-                        ).getOreTagKey().location(),
-                        block.location()
-                );
             }
         }
 
@@ -306,10 +257,49 @@ public final class ExcavatedVariants {
             }
         }
 
+        for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
+            for (ResourceKey<GroundType> type : stone.types) {
+                planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getStoneTagKey().location(), stone.block.location());
+            }
+        }
+
+        for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
+            for (ResourceKey<Block> block : ore.getBlocks().keySet()) {
+                for (ResourceKey<GroundType> type : ore.types) {
+                    planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getOreTagKey().location(), block.location());
+                }
+                planCombinedTag(ore.getTagKey().location(), block.location());
+                planCombinedTag(
+                        Objects.requireNonNull(
+                                RegistriesImpl.STONE_REGISTRY.get(ore.getBlocks().get(block)),
+                                "Nonexistent stone "+ore.getBlocks().get(block).location()
+                        ).getOreTagKey().location(),
+                        block.location()
+                );
+            }
+        }
+
         if (getConfig().addConversionRecipes) {
             for (VariantFuture future : COMPLETE_VARIANTS) {
                 planItemTag(future.ore.getConvertibleTagKey().location(), new ResourceLocation(ExcavatedVariants.MOD_ID, future.fullId));
                 RECIPE_PLANNER.oreToBaseOreMap.put(future.ore.getConvertibleTagKey(), future.foundOreKey);
+            }
+        }
+
+        for (VariantFuture future : COMPLETE_VARIANTS) {
+            var id = new ResourceLocation(ExcavatedVariants.MOD_ID, future.fullId);
+            for (ResourceKey<GroundType> type : Sets.union(future.stone.types, future.ore.types)) {
+                planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getOreTagKey().location(), id);
+            }
+
+            planCombinedTag(future.ore.getTagKey().location(), id);
+
+            for (ResourceLocation tag : future.ore.tags) {
+                planCombinedTag(tag, id);
+            }
+
+            for (ResourceLocation tag : future.stone.oreTags) {
+                planCombinedTag(tag, id);
             }
         }
 

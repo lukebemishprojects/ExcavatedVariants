@@ -5,5 +5,8 @@
   "translations": {
     "en_us": "End Stone"
   },
-  "block": "minecraft:end_stone"
+  "block": "minecraft:end_stone",
+  "ore_tags": [
+    "forge:ores_in_ground/end_stone"
+  ]
 }

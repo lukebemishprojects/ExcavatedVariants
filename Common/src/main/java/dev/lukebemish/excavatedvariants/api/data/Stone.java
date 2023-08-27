@@ -12,6 +12,7 @@ import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
@@ -24,24 +25,27 @@ public final class Stone {
     public static final Codec<Stone> CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translations").forGetter(s -> s.translations),
             ResourceKey.codec(Registries.BLOCK).fieldOf("block").forGetter(s -> s.block),
-            ResourceKey.codec(RegistryKeys.GROUND_TYPE).listOf().xmap(Set::copyOf, List::copyOf).fieldOf("types").forGetter(o -> o.types)
+            ResourceKey.codec(RegistryKeys.GROUND_TYPE).listOf().xmap(Set::copyOf, List::copyOf).fieldOf("types").forGetter(o -> o.types),
+            ResourceLocation.CODEC.listOf().fieldOf("ore_tags").forGetter(o -> o.oreTags)
     ).apply(i, Stone::new));
 
     public final Map<String, String> translations;
     public final ResourceKey<Block> block;
     public final Set<ResourceKey<GroundType>> types;
+    public final List<ResourceLocation> oreTags;
 
-    private Stone(Map<String, String> translations, ResourceKey<Block> block, Set<ResourceKey<GroundType>> types) {
+    private Stone(Map<String, String> translations, ResourceKey<Block> block, Set<ResourceKey<GroundType>> types, List<ResourceLocation> oreTags) {
         this.translations = translations;
         this.block = block;
         this.types = types;
+        this.oreTags = oreTags;
     }
 
-    public final Holder<Stone> getHolder() {
+    public Holder<Stone> getHolder() {
         return RegistriesImpl.STONE_REGISTRY.wrapAsHolder(this);
     }
 
-    public final ResourceKey<Stone> getKeyOrThrow() {
+    public ResourceKey<Stone> getKeyOrThrow() {
         return getHolder().unwrapKey().orElseThrow(() -> new IllegalStateException("Unregistered stone"));
     }
 
@@ -49,6 +53,7 @@ public final class Stone {
         private Map<String, String> translations;
         private ResourceKey<Block> block;
         private Set<ResourceKey<GroundType>> types;
+        private List<ResourceLocation> oreTags;
 
         public Builder setTranslations(Map<String, String> translations) {
             this.translations = translations;
@@ -65,15 +70,21 @@ public final class Stone {
             return this;
         }
 
+        public Builder setOreTags(List<ResourceLocation> oreTags) {
+            this.oreTags = oreTags;
+            return this;
+        }
+
         public Stone build() {
             Objects.requireNonNull(block);
             Objects.requireNonNull(translations);
             Objects.requireNonNull(types);
-            return new Stone(translations, block, types);
+            Objects.requireNonNull(oreTags);
+            return new Stone(translations, block, types, oreTags);
         }
     }
 
-    public final TagKey<Block> getOreTagKey() {
+    public TagKey<Block> getOreTagKey() {
         return TagKey.create(Registries.BLOCK, getKeyOrThrow().location().withPrefix("ores_in_stone/"));
     }
 }
