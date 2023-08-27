@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public interface Platform {
@@ -24,6 +25,7 @@ public interface Platform {
     String getModVersion();
 
     boolean isClient();
+    Set<String> getModIds();
 
     /**
      * Gets a list of mining levels, ordered softest to hardest

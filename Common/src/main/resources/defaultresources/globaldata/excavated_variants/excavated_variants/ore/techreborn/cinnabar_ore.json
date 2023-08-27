@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Cinnabar Ore"
+  },
+  "blocks": {
+    "techreborn:cinnabar_ore": "excavated_variants:minecraft/netherrack"
+  },
+  "tags": [
+    "forge:ores/cinnabar",
+    "c:ores/cinnabar",
+    "c:cinnabar_ores"
+  ]
+}

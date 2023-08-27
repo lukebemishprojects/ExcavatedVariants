@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Palladium Ore"
+  },
+  "blocks": {
+    "mythicmetals:palladium_ore": "excavated_variants:minecraft/netherrack"
+  },
+  "tags": [
+    "forge:ores/palladium",
+    "c:ores/palladium",
+    "c:palladium_ores"
+  ]
+}

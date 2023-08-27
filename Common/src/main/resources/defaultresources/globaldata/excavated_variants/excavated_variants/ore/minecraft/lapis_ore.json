@@ -7,7 +7,27 @@
   },
   "blocks": {
     "minecraft:lapis_ore": "excavated_variants:minecraft/stone",
-    "minecraft:deepslate_lapis_ore": "excavated_variants:minecraft/deepslate"
+    "minecraft:deepslate_lapis_ore": "excavated_variants:minecraft/deepslate",
+    "darkerdepths:aridrock_lapis_ore": "excavated_variants:darkerdepths/aridrock",
+    "darkerdepths:limestone_lapis_ore": "excavated_variants:darkerdepths/limestone",
+    "unearthed:siltstone_lapis_ore": "excavated_variants:unearthed/siltstone",
+    "unearthed:sandstone_lapis_ore": "excavated_variants:minecraft/sandstone",
+    "unearthed:phyllite_lapis_ore": "excavated_variants:unearthed/phyllite",
+    "unearthed:granodiorite_lapis_ore": "excavated_variants:unearthed/granodiorite",
+    "unearthed:gabbro_lapis_ore": "excavated_variants:unearthed/gabbro",
+    "unearthed:conglomerate_lapis_ore": "excavated_variants:unearthed/conglomerate",
+    "unearthed:limestone_lapis_ore": "excavated_variants:unearthed/limestone",
+    "unearthed:grey_limestone_lapis_ore": "excavated_variants:unearthed/grey_limestone",
+    "unearthed:mudstone_lapis_ore": "excavated_variants:unearthed/mudstone",
+    "unearthed:slate_lapis_ore": "excavated_variants:unearthed/slate",
+    "unearthed:beige_limestone_lapis_ore": "excavated_variants:unearthed/beige_limestone",
+    "unearthed:rhyolite_lapis_ore": "excavated_variants:unearthed/rhyolite",
+    "unearthed:white_granite_lapis_ore": "excavated_variants:unearthed/white_granite",
+    "universal_ores:andesite_lapis_ore": "excavated_variants:minecraft/andesite",
+    "universal_ores:tuff_lapis_ore": "excavated_variants:minecraft/tuff",
+    "universal_ores:diorite_lapis_ore": "excavated_variants:minecraft/diorite",
+    "universal_ores:granite_lapis_ore": "excavated_variants:minecraft/granite",
+    "universal_ores:calcite_lapis_ore": "excavated_variants:minecraft/calcite"
   },
   "tags": [
     "forge:ores/lapis",

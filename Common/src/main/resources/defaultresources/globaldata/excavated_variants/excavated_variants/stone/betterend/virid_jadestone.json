@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Virid Jadestone"
+  },
+  "block": "betterend:virid_jadestone",
+  "ore_tags": [
+    "forge:ores_in_ground/virid_jadestone"
+  ]
+}

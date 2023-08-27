@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Manganese Ore"
+  },
+  "blocks": {
+    "mythicmetals:manganese_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/manganese",
+    "c:ores/manganese",
+    "c:manganese_ores"
+  ]
+}

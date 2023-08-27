@@ -25,7 +25,7 @@ public final class OreFinderUtil {
     }
 
     public static @Nullable Block getBlock(Ore ore, Stone newStone) {
-        if (ModLifecycle.getState() == ModLifecycle.State.POST) {
+        if (ModLifecycle.getLifecyclePhase() == ModLifecycle.POST) {
             var map = ORE_STONE_MAP.get(ore);
             if (map != null) {
                 return map.get(newStone);
@@ -35,7 +35,7 @@ public final class OreFinderUtil {
     }
 
     public static void setupBlocks() {
-        if (ModLifecycle.getState() == ModLifecycle.State.POST) {
+        if (ModLifecycle.getLifecyclePhase() == ModLifecycle.POST) {
             for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
                 Map<Stone, Block> map = new IdentityHashMap<>();
                 for (var entry : ore.getBlocks().entrySet()) {
@@ -48,7 +48,8 @@ public final class OreFinderUtil {
                 ORE_STONE_MAP.put(ore, map);
             }
             for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
-                var block = Objects.requireNonNull(BuiltInRegistries.BLOCK.get(stone.block));
+                var block = BuiltInRegistries.BLOCK.get(stone.block);
+                if (block == null) continue;
                 ((OreFound) block).excavated_variants$setStone(stone);
             }
         }

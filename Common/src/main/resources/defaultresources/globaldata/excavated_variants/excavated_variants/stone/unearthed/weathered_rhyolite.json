@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Weathered Rhyolite"
+  },
+  "block": "unearthed:weathered_rhyolite",
+  "ore_tags": [
+    "forge:ores_in_ground/weathered_rhyolite"
+  ]
+}

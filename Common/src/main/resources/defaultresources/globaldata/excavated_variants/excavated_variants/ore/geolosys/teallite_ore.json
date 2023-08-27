@@ -1,0 +1,21 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Teallite"
+  },
+  "blocks": {
+    "geolosys:deepslate_teallite_ore": "excavated_variants:minecraft/deepslate",
+    "geolosys:teallite_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/emerald",
+    "c:ores/emerald",
+    "c:emerald_ores",
+    "minecraft:emerald_ores",
+    "forge:ores/tin",
+    "c:ores/tin",
+    "c:tin_ores"
+  ]
+}

@@ -67,7 +67,7 @@ function convertconfig(name)
             for i ∈ 1:numstones
                 stone = ore[:stone][i]
                 if startswith(stone, name*"_")
-                    stone = "excavated_variants:$(id)/"*stone[length(name)+2:end]
+                    stone = "excavated_variants:$(name)/"*stone[length(name)+2:end]
                 else
                     stone = "excavated_variants:minecraft/"*stone
                 end

@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Quartz Ore"
+  },
+  "blocks": {
+    "modern_industrialization:quartz_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/quartz",
+    "c:ores/quartz",
+    "c:quartz_ores"
+  ]
+}

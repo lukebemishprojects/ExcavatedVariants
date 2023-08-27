@@ -7,7 +7,25 @@
   },
   "blocks": {
     "minecraft:emerald_ore": "excavated_variants:minecraft/stone",
-    "minecraft:deepslate_emerald_ore": "excavated_variants:minecraft/deepslate"
+    "minecraft:deepslate_emerald_ore": "excavated_variants:minecraft/deepslate",
+    "unearthed:phyllite_emerald_ore": "excavated_variants:unearthed/phyllite",
+    "unearthed:white_granite_emerald_ore": "excavated_variants:unearthed/white_granite",
+    "unearthed:conglomerate_emerald_ore": "excavated_variants:unearthed/conglomerate",
+    "unearthed:slate_emerald_ore": "excavated_variants:unearthed/slate",
+    "unearthed:granodiorite_emerald_ore": "excavated_variants:unearthed/granodiorite",
+    "unearthed:gabbro_emerald_ore": "excavated_variants:unearthed/gabbro",
+    "unearthed:beige_limestone_emerald_ore": "excavated_variants:unearthed/beige_limestone",
+    "unearthed:grey_limestone_emerald_ore": "excavated_variants:unearthed/grey_limestone",
+    "unearthed:siltstone_emerald_ore": "excavated_variants:unearthed/siltstone",
+    "unearthed:sandstone_emerald_ore": "excavated_variants:minecraft/sandstone",
+    "unearthed:limestone_emerald_ore": "excavated_variants:unearthed/limestone",
+    "unearthed:rhyolite_emerald_ore": "excavated_variants:unearthed/rhyolite",
+    "unearthed:mudstone_emerald_ore": "excavated_variants:unearthed/mudstone",
+    "universal_ores:tuff_emerald_ore": "excavated_variants:minecraft/tuff",
+    "universal_ores:granite_emerald_ore": "excavated_variants:minecraft/granite",
+    "universal_ores:calcite_emerald_ore": "excavated_variants:minecraft/calcite",
+    "universal_ores:diorite_emerald_ore": "excavated_variants:minecraft/diorite",
+    "universal_ores:andesite_emerald_ore": "excavated_variants:minecraft/andesite"
   },
   "tags": [
     "forge:ores/emerald",

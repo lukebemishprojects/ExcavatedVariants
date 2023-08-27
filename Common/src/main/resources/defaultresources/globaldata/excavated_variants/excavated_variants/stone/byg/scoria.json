@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Scoria"
+  },
+  "block": "byg:scoria_stone",
+  "ore_tags": [
+    "forge:ores_in_ground/scoria"
+  ]
+}

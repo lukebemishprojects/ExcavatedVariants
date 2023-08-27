@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Gneiss"
+  },
+  "block": "what_is_stone:gneiss",
+  "ore_tags": [
+    "forge:ores_in_ground/gneiss"
+  ]
+}

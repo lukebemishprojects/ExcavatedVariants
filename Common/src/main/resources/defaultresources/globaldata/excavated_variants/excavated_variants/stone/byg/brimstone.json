@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Brimstone"
+  },
+  "block": "byg:brimstone",
+  "ore_tags": [
+    "forge:ores_in_ground/brimstone"
+  ]
+}

@@ -23,6 +23,8 @@ public sealed interface StringHeldVariantFilter extends VariantFilter {
             return DataResult.success(AllVariantFilter.INSTANCE);
         else if (part.equals("~"))
             return DataResult.success(EmptyVariantFilter.INSTANCE);
+        else if (part.equals("generated"))
+            return DataResult.success(GeneratedVariantFilter.INSTANCE);
         else if (part.contains("@")) {
             if (part.startsWith("stone@"))
                 return ResourceLocation.read(part.replaceFirst("stone@", "")).map(rl -> new StoneVariantFilter(ResourceKey.create(RegistryKeys.STONE, rl)));
@@ -119,6 +121,20 @@ public sealed interface StringHeldVariantFilter extends VariantFilter {
         @Override
         public String toString() {
             return "~";
+        }
+    }
+
+    final class GeneratedVariantFilter implements StringHeldVariantFilter {
+        public static final GeneratedVariantFilter INSTANCE = new GeneratedVariantFilter();
+
+        @Override
+        public boolean matches(Ore ore, Stone stone) {
+            return ore.getOriginalStoneBlocks().get(stone.getKeyOrThrow()) == null;
+        }
+
+        @Override
+        public String toString() {
+            return "generated";
         }
     }
 }

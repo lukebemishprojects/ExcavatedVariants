@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "White Sandstone"
+  },
+  "block": "biomesoplenty:white_sandstone",
+  "ore_tags": [
+    "forge:ores_in_ground/white_sandstone"
+  ]
+}

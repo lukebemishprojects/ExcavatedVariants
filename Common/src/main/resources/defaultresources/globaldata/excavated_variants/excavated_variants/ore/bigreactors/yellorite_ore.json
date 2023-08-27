@@ -1,0 +1,19 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Yellorite Ore"
+  },
+  "blocks": {
+    "bigreactors:yellorite_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/uranium",
+    "c:ores/uranium",
+    "c:uranium_ores",
+    "forge:ores/yellorite",
+    "c:ores/yellorite",
+    "c:yellorite_ores"
+  ]
+}

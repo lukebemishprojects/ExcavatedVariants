@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Lucky Citrine Ore"
+  },
+  "blocks": {
+    "miningmaster:lucky_citrine_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/lucky_citrine",
+    "c:ores/lucky_citrine",
+    "c:lucky_citrine_ores"
+  ]
+}

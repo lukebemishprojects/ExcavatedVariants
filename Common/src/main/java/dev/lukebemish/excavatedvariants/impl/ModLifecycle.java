@@ -1,24 +1,22 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 package dev.lukebemish.excavatedvariants.impl;
 
-public final class ModLifecycle {
+public enum ModLifecycle {
+    PRE,
+    REGISTRATION,
+    POST;
 
-    private static State LOAD_STATE = State.PRE;
-    private ModLifecycle() {}
+    private static ModLifecycle LOAD_STATE = PRE;
 
-    public enum State {
-        PRE,
-        REGISTRATION,
-        POST
+    static synchronized void setLifecyclePhase(ModLifecycle state) {
+        LOAD_STATE = state;
     }
 
-    static synchronized void inRegistrationState() {
-        LOAD_STATE = State.REGISTRATION;
-    }
-    static synchronized void inPostState() {
-        LOAD_STATE = State.POST;
-    }
-
-    public static State getState() {
+    public static ModLifecycle getLifecyclePhase() {
         return LOAD_STATE;
     }
 }

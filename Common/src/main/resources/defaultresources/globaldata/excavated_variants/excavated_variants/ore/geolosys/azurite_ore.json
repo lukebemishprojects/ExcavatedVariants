@@ -1,0 +1,18 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Azurite"
+  },
+  "blocks": {
+    "geolosys:deepslate_azurite_ore": "excavated_variants:minecraft/deepslate",
+    "geolosys:azurite_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/copper",
+    "c:ores/copper",
+    "c:copper_ores",
+    "minecraft:copper_ores"
+  ]
+}

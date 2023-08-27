@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Silver Ore"
+  },
+  "blocks": {
+    "mythicmetals:silver_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/silver",
+    "c:ores/silver",
+    "c:silver_ores"
+  ]
+}

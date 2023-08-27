@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Platinum Ore"
+  },
+  "blocks": {
+    "modern_industrialization:platinum_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/platinum",
+    "c:ores/platinum",
+    "c:platinum_ores"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Emeraldite Ore"
+  },
+  "blocks": {
+    "byg:emeraldite_ore": "excavated_variants:byg/scoria"
+  },
+  "tags": [
+    "forge:ores/emeraldite",
+    "c:ores/emeraldite",
+    "c:emeraldite_ores"
+  ]
+}

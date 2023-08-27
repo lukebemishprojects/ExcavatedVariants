@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Redstone Ore"
+  },
+  "blocks": {
+    "byg:cryptic_redstone_ore": "excavated_variants:byg/cryptic"
+  },
+  "tags": [
+    "forge:ores/redstone",
+    "c:ores/redstone",
+    "c:redstone_ores",
+    "minecraft:redstone_ores"
+  ]
+}

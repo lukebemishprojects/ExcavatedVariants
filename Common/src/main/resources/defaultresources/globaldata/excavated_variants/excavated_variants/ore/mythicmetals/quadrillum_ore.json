@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Quadrillum Ore"
+  },
+  "blocks": {
+    "mythicmetals:quadrillum_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/quadrillum",
+    "c:ores/quadrillum",
+    "c:quadrillum_ores"
+  ]
+}

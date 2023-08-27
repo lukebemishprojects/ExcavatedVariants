@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Peridot Ore"
+  },
+  "blocks": {
+    "techreborn:peridot_ore": "excavated_variants:minecraft/end_stone"
+  },
+  "tags": [
+    "forge:ores/peridot",
+    "c:ores/peridot",
+    "c:peridot_ores"
+  ]
+}

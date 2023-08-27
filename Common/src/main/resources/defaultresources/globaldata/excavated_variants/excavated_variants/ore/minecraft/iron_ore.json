@@ -7,7 +7,27 @@
   },
   "blocks": {
     "minecraft:iron_ore": "excavated_variants:minecraft/stone",
-    "minecraft:deepslate_iron_ore": "excavated_variants:minecraft/deepslate"
+    "minecraft:deepslate_iron_ore": "excavated_variants:minecraft/deepslate",
+    "darkerdepths:limestone_iron_ore": "excavated_variants:darkerdepths/limestone",
+    "darkerdepths:aridrock_iron_ore": "excavated_variants:darkerdepths/aridrock",
+    "unearthed:gabbro_iron_ore": "excavated_variants:unearthed/gabbro",
+    "unearthed:conglomerate_iron_ore": "excavated_variants:unearthed/conglomerate",
+    "unearthed:rhyolite_iron_ore": "excavated_variants:unearthed/rhyolite",
+    "unearthed:siltstone_iron_ore": "excavated_variants:unearthed/siltstone",
+    "unearthed:granodiorite_iron_ore": "excavated_variants:unearthed/granodiorite",
+    "unearthed:beige_limestone_iron_ore": "excavated_variants:unearthed/beige_limestone",
+    "unearthed:grey_limestone_iron_ore": "excavated_variants:unearthed/grey_limestone",
+    "unearthed:phyllite_iron_ore": "excavated_variants:unearthed/phyllite",
+    "unearthed:limestone_iron_ore": "excavated_variants:unearthed/limestone",
+    "unearthed:sandstone_iron_ore": "excavated_variants:minecraft/sandstone",
+    "unearthed:white_granite_iron_ore": "excavated_variants:unearthed/white_granite",
+    "unearthed:mudstone_iron_ore": "excavated_variants:unearthed/mudstone",
+    "unearthed:slate_iron_ore": "excavated_variants:unearthed/slate",
+    "universal_ores:granite_iron_ore": "excavated_variants:minecraft/granite",
+    "universal_ores:tuff_iron_ore": "excavated_variants:minecraft/tuff",
+    "universal_ores:diorite_iron_ore": "excavated_variants:minecraft/diorite",
+    "universal_ores:calcite_iron_ore": "excavated_variants:minecraft/calcite",
+    "universal_ores:andesite_iron_ore": "excavated_variants:minecraft/andesite"
   },
   "tags": [
     "forge:ores/iron",

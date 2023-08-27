@@ -6,7 +6,11 @@
     "en_us": "Quartz Ore"
   },
   "blocks": {
-    "minecraft:nether_quartz_ore": "excavated_variants:minecraft/netherrack"
+    "minecraft:nether_quartz_ore": "excavated_variants:minecraft/netherrack",
+    "byg:brimstone_nether_quartz_ore": "excavated_variants:byg/brimstone",
+    "byg:blue_nether_quartz_ore": "excavated_variants:byg/blue_netherrack",
+    "universal_ores:blackstone_quartz_ore": "excavated_variants:minecraft/blackstone",
+    "universal_ores:basalt_quartz_ore": "excavated_variants:minecraft/basalt"
   },
   "tags": [
     "forge:ores/quartz",

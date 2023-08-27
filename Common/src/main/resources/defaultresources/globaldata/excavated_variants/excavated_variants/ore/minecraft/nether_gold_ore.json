@@ -6,7 +6,9 @@
     "en_us": "Nether Gold Ore"
   },
   "blocks": {
-    "minecraft:nether_gold_ore": "excavated_variants:minecraft/netherrack"
+    "minecraft:nether_gold_ore": "excavated_variants:minecraft/netherrack",
+    "byg:brimstone_nether_gold_ore": "excavated_variants:byg/brimstone",
+    "byg:blue_nether_gold_ore": "excavated_variants:byg/blue_netherrack"
   },
   "tags": [
     "forge:ores/gold",

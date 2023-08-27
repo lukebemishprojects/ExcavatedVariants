@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Grimestone"
+  },
+  "block": "darkerdepths:grimestone",
+  "ore_tags": [
+    "forge:ores_in_ground/grimestone"
+  ]
+}

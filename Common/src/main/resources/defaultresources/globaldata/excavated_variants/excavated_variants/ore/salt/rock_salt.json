@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Rock Salt"
+  },
+  "blocks": {
+    "salt:rock_salt_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/rock_salt",
+    "c:ores/rock_salt",
+    "c:rock_salt_ores"
+  ]
+}

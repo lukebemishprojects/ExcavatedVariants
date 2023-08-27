@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Violecite"
+  },
+  "block": "betterend:violecite",
+  "ore_tags": [
+    "forge:ores_in_ground/violecite"
+  ]
+}

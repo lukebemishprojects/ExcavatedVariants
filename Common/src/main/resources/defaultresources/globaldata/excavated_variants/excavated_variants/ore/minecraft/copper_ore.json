@@ -7,7 +7,25 @@
   },
   "blocks": {
     "minecraft:deepslate_copper_ore": "excavated_variants:minecraft/deepslate",
-    "minecraft:copper_ore": "excavated_variants:minecraft/stone"
+    "minecraft:copper_ore": "excavated_variants:minecraft/stone",
+    "unearthed:beige_limestone_copper_ore": "excavated_variants:unearthed/beige_limestone",
+    "unearthed:limestone_copper_ore": "excavated_variants:unearthed/limestone",
+    "unearthed:rhyolite_copper_ore": "excavated_variants:unearthed/rhyolite",
+    "unearthed:slate_copper_ore": "excavated_variants:unearthed/slate",
+    "unearthed:gabbro_copper_ore": "excavated_variants:unearthed/gabbro",
+    "unearthed:granodiorite_copper_ore": "excavated_variants:unearthed/granodiorite",
+    "unearthed:conglomerate_copper_ore": "excavated_variants:unearthed/conglomerate",
+    "unearthed:grey_limestone_copper_ore": "excavated_variants:unearthed/grey_limestone",
+    "unearthed:sandstone_copper_ore": "excavated_variants:minecraft/sandstone",
+    "unearthed:siltstone_copper_ore": "excavated_variants:unearthed/siltstone",
+    "unearthed:phyllite_copper_ore": "excavated_variants:unearthed/phyllite",
+    "unearthed:white_granite_copper_ore": "excavated_variants:unearthed/white_granite",
+    "unearthed:mudstone_copper_ore": "excavated_variants:unearthed/mudstone",
+    "universal_ores:calcite_copper_ore": "excavated_variants:minecraft/calcite",
+    "universal_ores:diorite_copper_ore": "excavated_variants:minecraft/diorite",
+    "universal_ores:tuff_copper_ore": "excavated_variants:minecraft/tuff",
+    "universal_ores:granite_copper_ore": "excavated_variants:minecraft/granite",
+    "universal_ores:andesite_copper_ore": "excavated_variants:minecraft/andesite"
   },
   "tags": [
     "forge:ores/copper",

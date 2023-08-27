@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Purpur Remnants"
+  },
+  "blocks": {
+    "purpeille:purpur_remnants": "excavated_variants:minecraft/end_stone"
+  },
+  "tags": [
+    "forge:ores/purpur_remnants",
+    "c:ores/purpur_remnants",
+    "c:purpur_remnants_ores"
+  ]
+}

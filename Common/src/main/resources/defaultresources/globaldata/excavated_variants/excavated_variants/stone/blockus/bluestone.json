@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Bluestone"
+  },
+  "block": "blockus:bluestone",
+  "ore_tags": [
+    "forge:ores_in_ground/bluestone"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Mossy Stone"
+  },
+  "block": "byg:mossy_stone",
+  "ore_tags": [
+    "forge:ores_in_ground/mossy_stone"
+  ]
+}

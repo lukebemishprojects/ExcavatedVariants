@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld",
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Scorchia"
+  },
+  "block": "create:scorchia",
+  "ore_tags": [
+    "forge:ores_in_ground/scorchia"
+  ]
+}

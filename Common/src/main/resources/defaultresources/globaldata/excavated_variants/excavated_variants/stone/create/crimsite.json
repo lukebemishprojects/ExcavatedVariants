@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Crimsite"
+  },
+  "block": "create:crimsite",
+  "ore_tags": [
+    "forge:ores_in_ground/crimsite"
+  ]
+}

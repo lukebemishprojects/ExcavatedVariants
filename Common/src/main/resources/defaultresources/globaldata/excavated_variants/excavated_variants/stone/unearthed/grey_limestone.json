@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Grey Limestone"
+  },
+  "block": "unearthed:grey_limestone",
+  "ore_tags": [
+    "forge:ores_in_ground/grey_limestone"
+  ]
+}

@@ -18,12 +18,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public interface VariantFilter {
-    Codec<VariantFilter> CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.either(StringHeldVariantFilter.CODEC, ObjectVariantFilter.CODEC).flatXmap(either -> {
-        if (either.left().isPresent())
-            return DataResult.success(either.left().get());
-        //noinspection OptionalGetWithoutIsPresent
-        return DataResult.success(either.right().get());
-    }, (VariantFilter f) -> {
+    Codec<VariantFilter> CODEC = ExtraCodecs.lazyInitializedCodec(() -> Codec.either(StringHeldVariantFilter.CODEC, ObjectVariantFilter.CODEC)
+            .flatXmap(e -> e.map(DataResult::success, DataResult::success), (VariantFilter f) -> {
         if (f instanceof StringHeldVariantFilter single)
             return DataResult.success(Either.left(single));
         if (f instanceof ObjectVariantFilter objectFilter)

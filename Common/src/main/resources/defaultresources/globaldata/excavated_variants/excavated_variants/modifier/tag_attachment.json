@@ -1,5 +1,18 @@
 {
-  "filter": "*",
+  "filter": {
+    "type": "and",
+    "filters": [
+      {
+        "type": "or",
+        "filters": [
+          "ground_type@excavated_variants:overworld",
+          "ground_type@excavated_variants:nether",
+          "ground_type@excavated_variants:end"
+        ]
+      },
+      "generated"
+    ]
+  },
   "tags": [
     "minecraft:blocks/mineable/pickaxe",
     "forge:blocks/ores",

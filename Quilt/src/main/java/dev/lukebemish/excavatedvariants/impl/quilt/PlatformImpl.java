@@ -6,8 +6,8 @@
 package dev.lukebemish.excavatedvariants.impl.quilt;
 
 import com.google.auto.service.AutoService;
-import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
 import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
+import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.minecraft.resources.ResourceLocation;
@@ -21,21 +21,24 @@ import org.quiltmc.qsl.resource.loader.api.GroupResourcePack;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @AutoService(Platform.class)
 public class PlatformImpl implements Platform {
+    @Override
     public boolean isQuilt() {
         return true;
     }
 
+    @Override
     public boolean isForge() {
         return false;
     }
 
-    public Collection<String> getModIds() {
+    @Override
+    public Set<String> getModIds() {
         return QuiltLoader.getAllMods().stream().map(ModContainer::metadata).map(ModMetadata::id).toList();
     }
 

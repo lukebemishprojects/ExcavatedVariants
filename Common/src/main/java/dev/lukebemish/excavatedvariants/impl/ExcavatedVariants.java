@@ -6,10 +6,8 @@
 package dev.lukebemish.excavatedvariants.impl;
 
 import blue.endless.jankson.Jankson;
-import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mojang.serialization.JsonOps;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
@@ -29,7 +27,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,26 +58,14 @@ public final class ExcavatedVariants {
     public static final List<VariantFuture> COMPLETE_VARIANTS = new ArrayList<>();
     public static final RecipePlanner RECIPE_PLANNER = new RecipePlanner();
 
-    public static String universalCacheKey(String remainder) {
-        if (UNIVERSAL_CACHE_KEY == null || remainder == null) return null;
-        return Services.PLATFORM.getModVersion()+":"+UNIVERSAL_CACHE_KEY+"\n"+remainder;
-    }
-
-    public static String UNIVERSAL_CACHE_KEY = null;
-
     public synchronized static void setupMap() {
         if (NEW_VARIANTS_MAP == null) {
-            MutableBoolean noCacheKey = new MutableBoolean(false);
-            StringBuilder universalCacheKey = new StringBuilder();
             Map<Ore, List<Stone>> newVariants = new HashMap<>();
             Map<Ore, Set<Stone>> newVariantsSet = new HashMap<>();
             Map<GroundType, List<Ore>> groundTypeOreMap = new HashMap<>();
 
             for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
-                universalCacheKey.append(ore.getKeyOrThrow().location());
-                universalCacheKey.append('@');
-                Ore.CODEC.encodeStart(JsonOps.INSTANCE, ore).map(GSON_CONDENSED::toJson).result().ifPresentOrElse(universalCacheKey::append, noCacheKey::setTrue);
-                universalCacheKey.append(',');
+                if (ore.getBlocks().isEmpty()) continue;
                 for (ResourceKey<GroundType> groundTypeKey : ore.types) {
                     var groundType = RegistriesImpl.GROUND_TYPE_REGISTRY.get(groundTypeKey);
                     if (groundType == null) {
@@ -91,18 +76,21 @@ public final class ExcavatedVariants {
             }
 
             for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
-                universalCacheKey.append(stone.getKeyOrThrow().location());
-                universalCacheKey.append('@');
-                Stone.CODEC.encodeStart(JsonOps.INSTANCE, stone).map(GSON_CONDENSED::toJson).result().ifPresentOrElse(universalCacheKey::append, noCacheKey::setTrue);
-                universalCacheKey.append(',');
                 for (ResourceKey<GroundType> groundTypeKey : stone.types) {
                     var groundType = RegistriesImpl.GROUND_TYPE_REGISTRY.get(groundTypeKey);
                     if (groundType == null) {
                         throw new RuntimeException("Ground type " + groundTypeKey.location() + " does not exist, but is referenced by stone " + stone.getHolder().unwrapKey().orElseThrow().location());
                     }
                     var ores = groundTypeOreMap.getOrDefault(groundType, List.of());
+                    ore_loop:
                     for (Ore ore : ores) {
-                        if (!ore.getBlocks().containsValue(stone.getKeyOrThrow())) {
+                        if (ore.getBlocks().isEmpty()) continue;
+                        for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
+                            if (modifier.variantFilter.matches(ore, stone) && modifier.disable) {
+                                continue ore_loop;
+                            }
+                        }
+                        if (!ore.getOriginalStoneBlocks().containsKey(stone.getKeyOrThrow())) {
                             var set = newVariantsSet.computeIfAbsent(ore, k -> new HashSet<>());
                             if (set.add(stone)) {
                                 newVariants.computeIfAbsent(ore, k -> new ArrayList<>()).add(stone);
@@ -112,33 +100,14 @@ public final class ExcavatedVariants {
                 }
             }
 
-            for (GroundType groundType : RegistriesImpl.GROUND_TYPE_REGISTRY) {
-                universalCacheKey.append(groundType.getKeyOrThrow().location());
-                universalCacheKey.append('@');
-                GroundType.CODEC.encodeStart(JsonOps.INSTANCE, groundType).map(GSON_CONDENSED::toJson).result().ifPresentOrElse(universalCacheKey::append, noCacheKey::setTrue);
-                universalCacheKey.append(',');
-            }
-
-            for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
-                universalCacheKey.append(modifier.getKeyOrThrow().location());
-                universalCacheKey.append('@');
-                for (ResourceLocation rl : modifier.tags) {
-                    universalCacheKey.append(rl.toString());
-                }
-                universalCacheKey.append(',');
-            }
-
             // TODO: filter stuff out here
 
             NEW_VARIANTS_MAP = newVariants;
-            if (noCacheKey.isFalse()) {
-                UNIVERSAL_CACHE_KEY = universalCacheKey.toString();
-            }
         }
     }
 
     public static void init() {
-        if (ModLifecycle.getState() != ModLifecycle.State.PRE) {
+        if (ModLifecycle.getLifecyclePhase() != ModLifecycle.PRE) {
             return;
         }
 
@@ -146,14 +115,11 @@ public final class ExcavatedVariants {
 
         setupMap();
 
-        MiningLevelTagHolder tierHolder = new MiningLevelTagHolder();
-
         for (Map.Entry<Ore, List<Stone>> entry : NEW_VARIANTS_MAP.entrySet()) {
             Ore ore = entry.getKey();
             List<Stone> stones = entry.getValue();
             for (Stone stone : stones) {
                 String fullId = computeFullId(ore, stone);
-                tierHolder.add(fullId, ore, stone);
                 VariantFuture future = new VariantFuture(fullId, ore, stone);
                 ore.addPossibleVariant(stone, new ResourceLocation(ExcavatedVariants.MOD_ID, fullId));
                 List<ResourceKey<Block>> keys = new ArrayList<>();
@@ -177,13 +143,13 @@ public final class ExcavatedVariants {
             List<VariantFuture> futures = NEW_VARIANTS.stream().filter(p -> modifier.variantFilter.matches(p.ore, p.stone)).toList();
             for (VariantFuture future : futures) {
                 future.flags.addAll(modifier.flags);
-                future.propsModifiers.add(modifier.properties);
+                if (modifier.properties != null) {
+                    future.propsModifiers.add(modifier.properties);
+                }
             }
         }
 
         ExcavatedVariants.DATA_CACHE.planSource(RECIPE_PLANNER);
-
-        TAG_QUEUE.queue(tierHolder);
 
         ExcavatedVariants.DATA_CACHE.tags().queue(new TagSupplier() {
             @Override
@@ -192,14 +158,12 @@ public final class ExcavatedVariants {
                 Map<ResourceLocation, Set<ResourceLocation>> output = new HashMap<>();
                 for (var entry : map.entrySet()) {
                     for (var rl : entry.getValue()) {
-                        if (rl.getPath().startsWith("blocks/")) {
-                            ResourceLocation remainder = new ResourceLocation(rl.getNamespace(), rl.getPath().substring(7));
-                            if (!BuiltInRegistries.BLOCK.containsKey(remainder)) {
+                        if (entry.getKey().getPath().startsWith("blocks/")) {
+                            if (!BuiltInRegistries.BLOCK.containsKey(rl)) {
                                 continue;
                             }
-                        } else if (rl.getPath().startsWith("items/")) {
-                            ResourceLocation remainder = new ResourceLocation(rl.getNamespace(), rl.getPath().substring(6));
-                            if (!BuiltInRegistries.ITEM.containsKey(remainder)) {
+                        } else if (entry.getKey().getPath().startsWith("items/")) {
+                            if (!BuiltInRegistries.ITEM.containsKey(rl)) {
                                 continue;
                             }
                         }
@@ -220,11 +184,11 @@ public final class ExcavatedVariants {
         Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
         Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
 
-        ModLifecycle.inRegistrationState();
+        ModLifecycle.setLifecyclePhase(ModLifecycle.REGISTRATION);
     }
 
     public static synchronized void initPostRegister() {
-        if (ModLifecycle.getState() != ModLifecycle.State.REGISTRATION) {
+        if (ModLifecycle.getLifecyclePhase() != ModLifecycle.REGISTRATION) {
             return;
         }
 
@@ -247,9 +211,9 @@ public final class ExcavatedVariants {
                         if (modifier.variantFilter.matches(ore, stone)) {
                             for (ResourceLocation tag : modifier.tags) {
                                 if (tag.getPath().startsWith("blocks/"))
-                                    planBlockTag(tag, entry.getKey().location());
+                                    planBlockTag(tag.withPath(tag.getPath().substring(7)), entry.getKey().location());
                                 else if (tag.getPath().startsWith("items/"))
-                                    planItemTag(tag, entry.getKey().location());
+                                    planItemTag(tag.withPath(tag.getPath().substring(6)), entry.getKey().location());
                             }
                         }
                     }
@@ -258,24 +222,28 @@ public final class ExcavatedVariants {
         }
 
         for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
-            for (ResourceKey<GroundType> type : stone.types) {
-                planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getStoneTagKey().location(), stone.block.location());
+            if (BuiltInRegistries.BLOCK.containsKey(stone.block)) {
+                for (ResourceKey<GroundType> type : stone.types) {
+                    planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type " + type.location()).getStoneTagKey().location(), stone.block.location());
+                }
             }
         }
 
         for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
-            for (ResourceKey<Block> block : ore.getBlocks().keySet()) {
-                for (ResourceKey<GroundType> type : ore.types) {
-                    planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getOreTagKey().location(), block.location());
+            for (var entry : ore.getBlocks().entrySet()) {
+                var block = entry.getKey();
+                if (BuiltInRegistries.BLOCK.containsKey(block)) {
+                    Stone stone = Objects.requireNonNull(RegistriesImpl.STONE_REGISTRY.get(entry.getValue()), "Nonexistent stone " + ore.getBlocks().get(block).location());
+                    for (ResourceKey<GroundType> type : ore.types) {
+                        if (!stone.types.contains(type)) continue;
+                        planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type " + type.location()).getOreTagKey().location(), block.location());
+                    }
+                    planCombinedTag(ore.getTagKey().location(), block.location());
+                    planCombinedTag(
+                            stone.getOreTagKey().location(),
+                            block.location()
+                    );
                 }
-                planCombinedTag(ore.getTagKey().location(), block.location());
-                planCombinedTag(
-                        Objects.requireNonNull(
-                                RegistriesImpl.STONE_REGISTRY.get(ore.getBlocks().get(block)),
-                                "Nonexistent stone "+ore.getBlocks().get(block).location()
-                        ).getOreTagKey().location(),
-                        block.location()
-                );
             }
         }
 
@@ -286,13 +254,11 @@ public final class ExcavatedVariants {
             }
         }
 
-        for (VariantFuture future : COMPLETE_VARIANTS) {
-            var id = new ResourceLocation(ExcavatedVariants.MOD_ID, future.fullId);
-            for (ResourceKey<GroundType> type : Sets.union(future.stone.types, future.ore.types)) {
-                planCombinedTag(Objects.requireNonNull(RegistriesImpl.GROUND_TYPE_REGISTRY.get(type), "Nonexistent ground type "+type.location()).getOreTagKey().location(), id);
-            }
+        MiningLevelTagHolder tierHolder = new MiningLevelTagHolder();
 
-            planCombinedTag(future.ore.getTagKey().location(), id);
+        for (VariantFuture future : COMPLETE_VARIANTS) {
+            tierHolder.add(future.fullId, future.ore, future.stone);
+            var id = new ResourceLocation(ExcavatedVariants.MOD_ID, future.fullId);
 
             for (ResourceLocation tag : future.ore.tags) {
                 planCombinedTag(tag, id);
@@ -303,7 +269,9 @@ public final class ExcavatedVariants {
             }
         }
 
-        ModLifecycle.inPostState();
+        TAG_QUEUE.queue(tierHolder);
+
+        ModLifecycle.setLifecyclePhase(ModLifecycle.POST);
     }
 
     public static String computeFullId(ResourceLocation ore, ResourceLocation stone) {
@@ -325,35 +293,17 @@ public final class ExcavatedVariants {
 
     public static final TagSupplier.TagBakery TAG_QUEUE = new TagSupplier.TagBakery();
 
-    private static void planBlockTag(ResourceLocation tag, ResourceLocation block, boolean inLang) {
-        TAG_QUEUE.queue(rlToBlock(tag), block);
-        if (inLang) {
-            ExcavatedVariants.planTagLang(rlToBlock(tag));
-        }
-    }
-
     private static void planBlockTag(ResourceLocation tag, ResourceLocation block) {
-        planBlockTag(tag, block, false);
-    }
-
-    private static void planCombinedTag(ResourceLocation tag, ResourceLocation entry, boolean inLang) {
-        planBlockTag(tag, entry, inLang);
-        planItemTag(tag, entry, inLang);
+        TAG_QUEUE.queue(rlToBlock(tag), block);
     }
 
     private static void planCombinedTag(ResourceLocation tag, ResourceLocation entry) {
-        planCombinedTag(tag, entry, false);
-    }
-
-    private static void planItemTag(ResourceLocation tag, ResourceLocation item, boolean inLang) {
-        TAG_QUEUE.queue(rlToItem(tag), item);
-        if (inLang) {
-            ExcavatedVariants.planTagLang(rlToItem(tag));
-        }
+        planBlockTag(tag, entry);
+        planItemTag(tag, entry);
     }
 
     private static void planItemTag(ResourceLocation tag, ResourceLocation item) {
-        planItemTag(tag, item, false);
+        TAG_QUEUE.queue(rlToItem(tag), item);
     }
 
     private static ResourceLocation rlToBlock(ResourceLocation rl) {
@@ -362,29 +312,6 @@ public final class ExcavatedVariants {
 
     private static ResourceLocation rlToItem(ResourceLocation rl) {
         return rl.withPrefix("items/");
-    }
-
-    private static void planTagLang(ResourceLocation rl) {
-        if (Services.PLATFORM.isClient()) {
-            String path = rl.getPath();
-            if (path.startsWith("items/")) {
-                path = path.replaceFirst("items/","");
-            } else if (path.startsWith("blocks/")) {
-                path = path.replaceFirst("blocks/","");
-            }
-            ArrayList<String> parts = new ArrayList<>(Arrays.asList(path.split("/")));
-            Collections.reverse(parts);
-            String englishName = String.join(" ",parts.stream().flatMap(s -> Arrays.stream(s.split("_")))
-                    .map(s -> {
-                        if (!s.isEmpty()) {
-                            return s.substring(0,1).toUpperCase(Locale.ROOT) + s.substring(1);
-                        }
-                        return s;
-                    })
-                    .toList());
-            String tagName = "tag."+rl.getNamespace()+"."+String.join(".",Arrays.asList(path.split("/")));
-            ExcavatedVariantsClient.planLang(tagName, englishName);
-        }
     }
 
     public static ModConfig getConfig() {

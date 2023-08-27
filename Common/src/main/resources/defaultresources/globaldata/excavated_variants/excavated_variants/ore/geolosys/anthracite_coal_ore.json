@@ -1,0 +1,18 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Anthracite Coal"
+  },
+  "blocks": {
+    "geolosys:deepslate_anthracite_coal_ore": "excavated_variants:minecraft/deepslate",
+    "geolosys:anthracite_coal_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/coal",
+    "c:ores/coal",
+    "c:coal_ores",
+    "minecraft:coal_ores"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Aridrock"
+  },
+  "block": "darkerdepths:aridrock",
+  "ore_tags": [
+    "forge:ores_in_ground/aridrock"
+  ]
+}

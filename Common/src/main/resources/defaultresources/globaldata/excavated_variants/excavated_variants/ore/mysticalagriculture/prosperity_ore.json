@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Prosperity Ore"
+  },
+  "blocks": {
+    "mysticalagriculture:prosperity_ore": "excavated_variants:minecraft/stone",
+    "mysticalagriculture:deepslate_prosperity_ore": "excavated_variants:minecraft/deepslate"
+  },
+  "tags": [
+    "forge:ores/prosperity",
+    "c:ores/prosperity",
+    "c:prosperity_ores"
+  ]
+}

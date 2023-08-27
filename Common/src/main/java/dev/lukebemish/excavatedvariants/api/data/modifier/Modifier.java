@@ -28,19 +28,22 @@ public class Modifier {
                 return DataResult.error(() -> "Not a serializable modifier: " + p);
             }).optionalFieldOf("properties").forGetter(m -> Optional.ofNullable(m.properties)),
             Flag.CODEC.listOf().optionalFieldOf("flags", List.of()).forGetter(m -> m.flags),
-            ResourceLocation.CODEC.listOf().optionalFieldOf("tags", List.of()).forGetter(m -> m.tags)
-    ).apply(instance, (filter, properties, flags, tags) -> new Modifier(filter, properties.orElse(null), tags, flags)));
+            ResourceLocation.CODEC.listOf().optionalFieldOf("tags", List.of()).forGetter(m -> m.tags),
+            Codec.BOOL.optionalFieldOf("disable", false).forGetter(m -> m.disable)
+    ).apply(instance, (filter, properties, flags, tags, disable) -> new Modifier(filter, properties.orElse(null), tags, flags, disable)));
 
     public final VariantFilter variantFilter;
     public final BlockPropsModifier properties;
     public final List<ResourceLocation> tags;
     public final List<Flag> flags;
+    public final boolean disable;
 
-    public Modifier(VariantFilter variantFilter, BlockPropsModifier properties, List<ResourceLocation> tags, List<Flag> flags) {
+    public Modifier(VariantFilter variantFilter, BlockPropsModifier properties, List<ResourceLocation> tags, List<Flag> flags, boolean disable) {
         this.variantFilter = variantFilter;
         this.properties = properties;
         this.tags = tags;
         this.flags = flags;
+        this.disable = disable;
     }
 
     public Holder<Modifier> getHolder() {
@@ -56,6 +59,7 @@ public class Modifier {
         private BlockPropsModifier properties;
         private List<ResourceLocation> tags;
         private List<Flag> flags;
+        private boolean disable = false;
 
         public Builder setVariantFilter(VariantFilter variantFilter) {
             this.variantFilter = variantFilter;
@@ -77,11 +81,16 @@ public class Modifier {
             return this;
         }
 
+        public Builder setDisable(boolean disable) {
+            this.disable = disable;
+            return this;
+        }
+
         public Modifier build() {
             Objects.requireNonNull(this.variantFilter);
             Objects.requireNonNull(this.tags);
             Objects.requireNonNull(this.flags);
-            return new Modifier(variantFilter, properties, tags, flags);
+            return new Modifier(variantFilter, properties, tags, flags, disable);
         }
     }
 }

@@ -7,7 +7,27 @@
   },
   "blocks": {
     "minecraft:coal_ore": "excavated_variants:minecraft/stone",
-    "minecraft:deepslate_coal_ore": "excavated_variants:minecraft/deepslate"
+    "minecraft:deepslate_coal_ore": "excavated_variants:minecraft/deepslate",
+    "darkerdepths:limestone_coal_ore": "excavated_variants:darkerdepths/limestone",
+    "darkerdepths:aridrock_coal_ore": "excavated_variants:darkerdepths/aridrock",
+    "unearthed:rhyolite_coal_ore": "excavated_variants:unearthed/rhyolite",
+    "unearthed:gabbro_coal_ore": "excavated_variants:unearthed/gabbro",
+    "unearthed:granodiorite_coal_ore": "excavated_variants:unearthed/granodiorite",
+    "unearthed:mudstone_coal_ore": "excavated_variants:unearthed/mudstone",
+    "unearthed:white_granite_coal_ore": "excavated_variants:unearthed/white_granite",
+    "unearthed:siltstone_coal_ore": "excavated_variants:unearthed/siltstone",
+    "unearthed:grey_limestone_coal_ore": "excavated_variants:unearthed/grey_limestone",
+    "unearthed:beige_limestone_coal_ore": "excavated_variants:unearthed/beige_limestone",
+    "unearthed:phyllite_coal_ore": "excavated_variants:unearthed/phyllite",
+    "unearthed:sandstone_coal_ore": "excavated_variants:minecraft/sandstone",
+    "unearthed:conglomerate_coal_ore": "excavated_variants:unearthed/conglomerate",
+    "unearthed:slate_coal_ore": "excavated_variants:unearthed/slate",
+    "unearthed:limestone_coal_ore": "excavated_variants:unearthed/limestone",
+    "universal_ores:tuff_coal_ore": "excavated_variants:minecraft/tuff",
+    "universal_ores:andesite_coal_ore": "excavated_variants:minecraft/andesite",
+    "universal_ores:granite_coal_ore": "excavated_variants:minecraft/granite",
+    "universal_ores:diorite_coal_ore": "excavated_variants:minecraft/diorite",
+    "universal_ores:calcite_coal_ore": "excavated_variants:minecraft/calcite"
   },
   "tags": [
     "forge:ores/coal",

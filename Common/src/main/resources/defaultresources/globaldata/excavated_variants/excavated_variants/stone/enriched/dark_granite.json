@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Dark Granite"
+  },
+  "block": "enriched:dark_granite",
+  "ore_tags": [
+    "forge:ores_in_ground/dark_granite"
+  ]
+}

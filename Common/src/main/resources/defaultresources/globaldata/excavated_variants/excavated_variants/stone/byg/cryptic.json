@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Cryptic"
+  },
+  "block": "byg:cryptic_stone",
+  "ore_tags": [
+    "forge:ores_in_ground/cryptic"
+  ]
+}

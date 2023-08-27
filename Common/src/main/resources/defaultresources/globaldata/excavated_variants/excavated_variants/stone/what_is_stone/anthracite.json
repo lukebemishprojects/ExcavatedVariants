@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Anthracite"
+  },
+  "block": "what_is_stone:anthracite",
+  "ore_tags": [
+    "forge:ores_in_ground/anthracite"
+  ]
+}

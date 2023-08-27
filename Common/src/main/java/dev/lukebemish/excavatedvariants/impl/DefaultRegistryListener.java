@@ -14,6 +14,7 @@ import dev.lukebemish.excavatedvariants.api.RegistryListener;
 import dev.lukebemish.excavatedvariants.api.data.GroundType;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.api.data.modifier.Modifier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 
@@ -43,6 +44,12 @@ public class DefaultRegistryListener implements RegistryListener {
                 Ore.CODEC,
                 registrar.oreTypes,
                 false
+        );
+        loadType(
+                RegistriesImpl.MODIFIER_KEY.location().getNamespace()+"/"+RegistriesImpl.MODIFIER_KEY.location().getPath(),
+                Modifier.CODEC,
+                registrar.modifiers,
+                true
         );
     }
 

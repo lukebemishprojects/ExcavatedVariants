@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Conglomerate"
+  },
+  "block": "what_is_stone:conglomerate",
+  "ore_tags": [
+    "forge:ores_in_ground/conglomerate"
+  ]
+}

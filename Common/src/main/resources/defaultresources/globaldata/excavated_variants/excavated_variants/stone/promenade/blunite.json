@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Blunite"
+  },
+  "block": "promenade:blunite",
+  "ore_tags": [
+    "forge:ores_in_ground/blunite"
+  ]
+}

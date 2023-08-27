@@ -22,7 +22,7 @@ public class BlockAddedCallback {
     }
 
     public static void register() {
-        if (ready && ModLifecycle.getState() == ModLifecycle.State.REGISTRATION && !registering) {
+        if (ready && ModLifecycle.getLifecyclePhase() == ModLifecycle.REGISTRATION && !registering) {
             registering = true;
             ExcavatedVariants.VariantFuture future;
             while ((future = ExcavatedVariants.READY_QUEUE.poll()) != null) {
@@ -33,7 +33,7 @@ public class BlockAddedCallback {
     }
 
     public static void onRegister(Block value, ResourceKey<Block> blockKey) {
-        if (ModLifecycle.getState() != ModLifecycle.State.REGISTRATION) {
+        if (ModLifecycle.getLifecyclePhase() != ModLifecycle.REGISTRATION) {
             return;
         }
         List<ExcavatedVariants.VariantFuture> futures = ExcavatedVariants.NEEDED_KEYS.get(blockKey);

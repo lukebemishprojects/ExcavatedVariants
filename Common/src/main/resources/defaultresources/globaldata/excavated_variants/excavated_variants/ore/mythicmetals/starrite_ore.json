@@ -1,0 +1,19 @@
+{
+  "types": [
+    "excavated_variants:overworld",
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Starrite Ore"
+  },
+  "blocks": {
+    "mythicmetals:end_stone_starrite_ore": "excavated_variants:minecraft/end_stone",
+    "mythicmetals:calcite_starrite_ore": "excavated_variants:minecraft/calcite",
+    "mythicmetals:starrite_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/starrite",
+    "c:ores/starrite",
+    "c:starrite_ores"
+  ]
+}

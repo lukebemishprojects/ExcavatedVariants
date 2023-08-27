@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "White Granite"
+  },
+  "block": "what_is_stone:white_granite",
+  "ore_tags": [
+    "forge:ores_in_ground/white_granite"
+  ]
+}

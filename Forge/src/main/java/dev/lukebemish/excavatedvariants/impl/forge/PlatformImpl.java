@@ -15,7 +15,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
-import dev.lukebemish.dynamicassetgenerator.impl.DynamicAssetGenerator;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.forge.mixin.ForgeTierSortingRegistryAccessor;
 import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
@@ -28,6 +27,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.toposort.TopologicalSort;
+import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.ByteArrayInputStream;
@@ -37,12 +37,13 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @AutoService(Platform.class)
 public class PlatformImpl implements Platform {
-    private static final String MOD_VERSION = ModList.get().getModFileById(DynamicAssetGenerator.MOD_ID).versionString();
+    private static final String MOD_VERSION = ModList.get().getModFileById(ExcavatedVariants.MOD_ID).versionString();
     @Override
     public boolean isQuilt() {
         return false;
@@ -70,6 +71,12 @@ public class PlatformImpl implements Platform {
     @Override
     public boolean isClient() {
         return FMLLoader.getDist() == Dist.CLIENT;
+    }
+
+    private static final Supplier<Set<String>> MOD_IDS = Suppliers.memoize(() -> Set.copyOf(ModList.get().getMods().stream().map(IModInfo::getModId).toList()));
+    @Override
+    public Set<String> getModIds() {
+        return MOD_IDS.get();
     }
 
     @SuppressWarnings("UnstableApiUsage")

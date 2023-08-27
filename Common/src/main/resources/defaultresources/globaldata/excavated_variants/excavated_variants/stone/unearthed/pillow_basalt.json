@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Pillow Basalt"
+  },
+  "block": "unearthed:pillow_basalt",
+  "ore_tags": [
+    "forge:ores_in_ground/pillow_basalt"
+  ]
+}

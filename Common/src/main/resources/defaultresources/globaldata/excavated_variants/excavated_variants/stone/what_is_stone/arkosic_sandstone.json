@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Arkosic Sandstone"
+  },
+  "block": "what_is_stone:arkosic_sandstone",
+  "ore_tags": [
+    "forge:ores_in_ground/arkosic_sandstone"
+  ]
+}

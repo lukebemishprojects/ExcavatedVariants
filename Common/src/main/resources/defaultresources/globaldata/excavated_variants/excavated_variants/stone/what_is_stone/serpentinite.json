@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Serpentinite"
+  },
+  "block": "what_is_stone:serpentinite",
+  "ore_tags": [
+    "forge:ores_in_ground/serpentinite"
+  ]
+}

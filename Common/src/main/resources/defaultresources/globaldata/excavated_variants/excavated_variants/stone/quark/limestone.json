@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Limestone"
+  },
+  "block": "quark:limestone",
+  "ore_tags": [
+    "forge:ores_in_ground/limestone"
+  ]
+}
