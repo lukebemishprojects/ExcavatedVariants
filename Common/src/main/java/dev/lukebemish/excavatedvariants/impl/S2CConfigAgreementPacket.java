@@ -24,7 +24,7 @@ public record S2CConfigAgreementPacket(Set<String> blocks) {
         return new S2CConfigAgreementPacket(new HashSet<>(blocks));
     }
 
-    private static String ellipsis(String str, int length) {
+    private static String ellipsis(String str, @SuppressWarnings("SameParameterValue") int length) {
         if (str.length() <= length) return str;
         else return str.substring(0, length - 3) + "...";
     }

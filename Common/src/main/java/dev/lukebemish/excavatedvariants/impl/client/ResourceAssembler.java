@@ -181,12 +181,12 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         ResourceLocation modelJsonLocation = new ResourceLocation(modelLocation.getNamespace(), "models/"+modelLocation.getPath()+".json");
         addResource(modelJsonLocation, (resourceLocation, c) -> () -> new ByteArrayInputStream(model.toString().getBytes(StandardCharsets.UTF_8)));
 
-        // TODO: handle cache key
-
         // And now we'll generate the ore textures
         for (Map.Entry<String, StoneTexFace> entry : stoneFaceLocationMap.entrySet()) {
             StoneTexFace stoneTexFace = entry.getValue();
             Set<Face> faces = stoneTexFace.faces();
+            // note that when a StoneTexFace is constructed it always has at least one face
+            //noinspection OptionalGetWithoutIsPresent
             TextureProducer oreTexture = ore.get(faces.stream().findFirst().get());
             assembleTextures(stoneTexFace.textureLocation(), oreTexture, oldStoneTexSource[0], stoneTexFace.texture(), cacheKey, context);
         }
@@ -210,7 +210,6 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
             if (cacheKey != null) {
                 String cacheKeyForLocation = source.createCacheKey(location, context);
                 if (cacheKeyForLocation != null) {
-                    // TODO: for most cases, I probably only need the tex source cache...
                     cacheKeys.put(location, Services.PLATFORM.getModVersion()+":"+cacheKey + "\n" + cacheKeyForLocation);
                 }
             }

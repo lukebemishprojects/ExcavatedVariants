@@ -5,23 +5,22 @@
 
 package dev.lukebemish.excavatedvariants.impl.worldgen;
 
+import com.mojang.datafixers.util.Pair;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.saveddata.SavedData;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mojang.datafixers.util.Pair;
-import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
-import org.jetbrains.annotations.NotNull;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.saveddata.SavedData;
-
 public class OreGenMapSavedData extends SavedData {
     public static final String DATA_KEY = ExcavatedVariants.MOD_ID + ":ore_replacement";
-    public Map<Pair<Integer, Integer>, Integer> edgeCount = Collections.synchronizedMap(new HashMap<>());
-    public Map<Pair<Integer, Integer>, Boolean> ranMap = Collections.synchronizedMap(new HashMap<>());
+    public final Map<Pair<Integer, Integer>, Integer> edgeCount = Collections.synchronizedMap(new HashMap<>());
+    public final Map<Pair<Integer, Integer>, Boolean> ranMap = Collections.synchronizedMap(new HashMap<>());
 
     public static OreGenMapSavedData load(CompoundTag tag) {
         OreGenMapSavedData data = new OreGenMapSavedData();

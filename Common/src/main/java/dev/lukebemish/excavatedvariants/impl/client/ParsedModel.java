@@ -56,13 +56,18 @@ public final class ParsedModel {
             ElementDefinition.CODEC.listOf().optionalFieldOf("elements", List.of()).forGetter(ParsedModel::elements),
             Codec.unboundedMap(Codec.STRING, ParsedModel.CODEC).optionalFieldOf("children").forGetter(ParsedModel::children)
     ).apply(i, ParsedModel::new)));
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<ResourceLocation> parent;
     private final Map<String, String> textures;
     private final List<ElementDefinition> elements;
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<Map<String, ParsedModel>> children;
 
-    public ParsedModel(Optional<ResourceLocation> parent, Map<String, String> textures,
-                       List<ElementDefinition> elements, Optional<Map<String, ParsedModel>> children) {
+    public ParsedModel(
+            @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<ResourceLocation> parent,
+            Map<String, String> textures,
+            List<ElementDefinition> elements,
+            @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Map<String, ParsedModel>> children) {
         this.parent = parent;
         this.textures = textures;
         this.elements = elements;

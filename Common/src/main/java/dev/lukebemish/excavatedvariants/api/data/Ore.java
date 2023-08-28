@@ -33,6 +33,7 @@ public final class Ore {
     public final List<ResourceLocation> tags;
     private final Map<ResourceLocation, ResourceKey<Stone>> blocks;
     private Map<ResourceKey<Block>, ResourceKey<Stone>> blocksBaked;
+    private final Map<ResourceKey<Block>, ResourceKey<Stone>> blocksOriginalBaked;
     private final Map<ResourceLocation, ResourceKey<Stone>> generatedBlocks = new HashMap<>();
     private final Map<ResourceKey<Stone>, ResourceKey<Block>> originalStoneBlocks;
     private Map<ResourceKey<Stone>, ResourceKey<Block>> generatedStoneBlocks;
@@ -54,12 +55,17 @@ public final class Ore {
             original.put(entry.getValue(), block);
         }
         this.blocksBaked = Collections.unmodifiableMap(baked);
+        this.blocksOriginalBaked = Collections.unmodifiableMap(baked);
         this.originalStoneBlocks = Collections.unmodifiableMap(original);
         this.generatedStoneBlocks = Collections.unmodifiableMap(new HashMap<>());
     }
 
     public Map<ResourceKey<Block>, ResourceKey<Stone>> getBlocks() {
         return blocksBaked;
+    }
+
+    public Map<ResourceKey<Block>, ResourceKey<Stone>> getOriginalBlocks() {
+        return blocksOriginalBaked;
     }
 
     @ApiStatus.Internal

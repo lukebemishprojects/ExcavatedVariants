@@ -12,8 +12,15 @@ import dev.lukebemish.excavatedvariants.api.data.modifier.Modifier;
 import net.minecraft.core.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * A listener used to observe the results of ore/stone/etc. registration.
+ */
 public interface PostRegistrationListener extends CommonListener {
 
+    /**
+     * Called when all variants have been registered.
+     * @param Registries holds filled, frozen registries
+     */
     void registriesComplete(
             Registries Registries
     );

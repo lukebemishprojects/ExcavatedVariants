@@ -14,8 +14,13 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.function.BiConsumer;
 
-// TODO: docs
+/**
+ * A listener used to register new ores and stones.
+ */
 public interface RegistrationListener extends CommonListener {
+    /**
+     * Register new variants. Ores, stones, and other variants can be registered through the consumers in the registrar.
+     */
     void provideEntries(
             Registrar registrar
     );

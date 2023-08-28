@@ -55,6 +55,7 @@ public final class ExcavatedVariants {
     public static final Map<VariantFuture, ModifiedOreBlock> BLOCKS = new IdentityHashMap<>();
     public static final List<VariantFuture> COMPLETE_VARIANTS = new ArrayList<>();
     public static final RecipePlanner RECIPE_PLANNER = new RecipePlanner();
+    public static MappingsCache MAPPINGS_CACHE;
 
     public synchronized static void setupMap() {
         if (NEW_VARIANTS_MAP == null) {
@@ -97,8 +98,6 @@ public final class ExcavatedVariants {
                     }
                 }
             }
-
-            // TODO: mapping stuff?
 
             NEW_VARIANTS_MAP = newVariants;
         }
@@ -181,6 +180,8 @@ public final class ExcavatedVariants {
 
         Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
         Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
+
+        MAPPINGS_CACHE = MappingsCache.load();
 
         ModLifecycle.setLifecyclePhase(ModLifecycle.REGISTRATION);
     }
@@ -268,6 +269,9 @@ public final class ExcavatedVariants {
         }
 
         TAG_QUEUE.queue(tierHolder);
+
+        MAPPINGS_CACHE.update();
+        MAPPINGS_CACHE.save();
 
         ModLifecycle.setLifecyclePhase(ModLifecycle.POST);
     }

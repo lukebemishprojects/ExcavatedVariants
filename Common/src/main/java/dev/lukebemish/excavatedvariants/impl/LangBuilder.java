@@ -29,7 +29,7 @@ public class LangBuilder {
             String stoneLang = stone.translations.getOrDefault(langName,stone.getKeyOrThrow().location().toLanguageKey("excavated_variants.stone"));
             String oreLang = ore.translations.getOrDefault(langName,ore.getKeyOrThrow().location().toLanguageKey("excavated_variants.ore"));
             String name = oreLang.contains("%s") ? oreLang.replaceFirst("%s", stoneLang) : stoneLang + " " + oreLang;
-            internal.computeIfAbsent(langName, k -> new HashMap<>()).put("block."+ExcavatedVariants.MOD_ID+"."+fullId,name);
+            add("block."+ExcavatedVariants.MOD_ID+"."+fullId, name);
         }
     }
 

@@ -26,7 +26,7 @@ public record ModIDBlockStoneMapping(ResourceKey<Stone> stone, List<String> modI
             Codec.STRING.listOf().fieldOf("required_mods").forGetter(ModIDBlockStoneMapping::modIds)
     ).apply(instance, ModIDBlockStoneMapping::new));
     private static final Codec<Either<ResourceKey<Stone>, ModIDBlockStoneMapping>> EITHER_CODEC = Codec.either(ResourceKey.codec(RegistryKeys.STONE), CODEC);
-    public static Codec<Map<ResourceLocation, ResourceKey<Stone>>> MAP_CODEC = Codec.unboundedMap(ResourceLocation.CODEC, EITHER_CODEC)
+    public static final Codec<Map<ResourceLocation, ResourceKey<Stone>>> MAP_CODEC = Codec.unboundedMap(ResourceLocation.CODEC, EITHER_CODEC)
             .xmap(
                     map ->
                             map.entrySet().stream()

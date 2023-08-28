@@ -80,13 +80,9 @@ public class ModifiedOreBlock extends DropExperienceBlock {
             copyBlockstateDefs();
         }
 
-
-        // TODO: remove
         MutableBoolean shouldDelegateSpecialDrops = new MutableBoolean(true);
         for (var propsModifier : future.propsModifiers) {
-            propsModifier.setXpDropped(xp -> {
-                shouldDelegateSpecialDrops.setValue(true);
-            });
+            propsModifier.setXpDropped(xp -> shouldDelegateSpecialDrops.setValue(true));
         }
         this.delegateSpecialDrops = shouldDelegateSpecialDrops.booleanValue();
     }
@@ -103,7 +99,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return (a * (weight) + b * (1 - weight));
     }
 
-    private static MapColor avgColor(MapColor a, MapColor b, float weight) {
+    private static MapColor avgColor(MapColor a, MapColor b, @SuppressWarnings("SameParameterValue") float weight) {
         int avgColor = (int) (a.calculateRGBColor(MapColor.Brightness.HIGH) * weight + b.calculateRGBColor(MapColor.Brightness.HIGH) * (1 - weight));
         int lowest = 0;
         int lowDiff = 0xFFFFFF;
@@ -235,6 +231,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return super.isRandomlyTicking(state);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void attack(BlockState state, Level level, BlockPos pos, Player player) {
         interact(state, level, pos);
@@ -254,8 +251,9 @@ public class ModifiedOreBlock extends DropExperienceBlock {
 
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide) {
             interact(state, level, pos);
         }
@@ -267,6 +265,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
 
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (isLit) {
@@ -300,6 +299,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         if (target != null) {
@@ -319,6 +319,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         return new ArrayList<>();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean bl) {
         if (target != null && this.delegateSpecialDrops) {

@@ -9,12 +9,16 @@ package dev.lukebemish.excavatedvariants.impl.forge;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.S2CConfigAgreementPacket;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreFinderUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.entity.player.PlayerNegotiationEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.MissingMappingsEvent;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class EventHandler {
@@ -35,7 +39,7 @@ public class EventHandler {
         );
     }
 
-    /*
+
     @SubscribeEvent
     public static void mapMissingVariants(MissingMappingsEvent missingMappingsEvent) {
         missingMappingsEvent.getAllMappings(ForgeRegistries.Keys.ITEMS).forEach(EventHandler::remap);
@@ -45,10 +49,18 @@ public class EventHandler {
 
     private static <T> void remap(MissingMappingsEvent.Mapping<T> mapping) {
         if (mapping.getKey().getNamespace().equals(ExcavatedVariants.MOD_ID)) {
-            ResourceLocation newLocation = MissingVariantHelper.getBaseBlock(mapping.getKey().getPath());
-            if (newLocation != null && mapping.getRegistry().containsKey(newLocation))
-                mapping.remap(mapping.getRegistry().getValue(newLocation));
+            List<ResourceLocation> locations = ExcavatedVariants.MAPPINGS_CACHE.get(mapping.getKey().getPath());
+            T target = null;
+            for (ResourceLocation location : locations) {
+                T value = mapping.getRegistry().getValue(location);
+                if (value != null) {
+                    target = value;
+                    break;
+                }
+            }
+            if (target != null) {
+                mapping.remap(target);
+            }
         }
     }
-    */
 }

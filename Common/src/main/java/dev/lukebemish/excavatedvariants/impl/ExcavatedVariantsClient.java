@@ -24,10 +24,6 @@ public class ExcavatedVariantsClient {
 
     public static final AssetResourceCache ASSET_CACHE = ResourceCache.register(new AssetResourceCache(new ResourceLocation(ExcavatedVariants.MOD_ID, "assets")));
 
-    static void planLang(String key, String enName) {
-        LANG_BUILDER.add(key, enName);
-    }
-
     public static void init() {
         // lang - don't bother caching
         ASSET_CACHE.planSource(new PathAwareInputStreamSource() {
