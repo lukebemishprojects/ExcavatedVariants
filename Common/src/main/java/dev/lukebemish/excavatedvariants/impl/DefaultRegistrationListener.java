@@ -10,7 +10,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import dev.lukebemish.defaultresources.api.GlobalResourceManager;
 import dev.lukebemish.excavatedvariants.api.ExcavatedVariantsListener;
-import dev.lukebemish.excavatedvariants.api.RegistryListener;
+import dev.lukebemish.excavatedvariants.api.RegistrationListener;
 import dev.lukebemish.excavatedvariants.api.data.GroundType;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 @ExcavatedVariantsListener
-public class DefaultRegistryListener implements RegistryListener {
+public class DefaultRegistrationListener implements RegistrationListener {
     @Override
     public void provideEntries(Registrar registrar) {
         loadType(
@@ -36,13 +36,13 @@ public class DefaultRegistryListener implements RegistryListener {
         loadType(
                 RegistriesImpl.STONE_KEY.location().getNamespace()+"/"+RegistriesImpl.STONE_KEY.location().getPath(),
                 Stone.CODEC,
-                registrar.stoneTypes,
+                registrar.stones,
                 true
         );
         loadType(
                 RegistriesImpl.ORE_KEY.location().getNamespace()+"/"+RegistriesImpl.ORE_KEY.location().getPath(),
                 Ore.CODEC,
-                registrar.oreTypes,
+                registrar.ores,
                 false
         );
         loadType(

@@ -5,10 +5,10 @@
 
 package dev.lukebemish.excavatedvariants.impl.client;
 
-import blue.endless.jankson.JsonObject;
-import blue.endless.jankson.api.SyntaxError;
+import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
@@ -17,7 +17,6 @@ import dev.lukebemish.excavatedvariants.api.client.Face;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.impl.codecs.JanksonOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -74,14 +74,14 @@ public final class ParsedModel {
 
     @NotNull
     public static ParsedModel getFromLocation(ResourceLocation rl, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) throws IOException {
-        try (InputStream is = BackupFetcher.getModelFile(rl, context, cacheKeyBuilder)) {
-            JsonObject json = ExcavatedVariants.JANKSON.load(is);
-            ParsedModel model = ParsedModel.CODEC.parse(JanksonOps.INSTANCE, json).getOrThrow(false, e -> {
-            });
+        try (InputStream is = BackupFetcher.getModelFile(rl, context, cacheKeyBuilder);
+             var reader = new InputStreamReader(is)) {
+            JsonElement json = ExcavatedVariants.GSON.fromJson(reader, JsonElement.class);
+            ParsedModel model = ParsedModel.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(false, e -> {});
             model.cacheKeyBuilder = cacheKeyBuilder;
             model.context = context;
             return model;
-        } catch (SyntaxError | IOException | RuntimeException e) {
+        } catch (IOException | RuntimeException e) {
             throw new IOException("Could not read model " + rl, e);
         }
     }

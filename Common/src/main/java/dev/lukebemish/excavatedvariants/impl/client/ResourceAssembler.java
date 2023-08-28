@@ -144,7 +144,7 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         var assembled = BlockStateData.create(block, models);
         var encoded = BlockStateData.CODEC.encodeStart(JsonOps.INSTANCE, assembled).result();
         if (encoded.isPresent()) {
-            var json = ExcavatedVariants.GSON_CONDENSED.toJson(encoded.get());
+            var json = ExcavatedVariants.GSON.toJson(encoded.get());
             addResource(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/"+fullId+".json"),
                     (resourceLocation, c) -> () -> new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)));
         } else {
@@ -210,6 +210,7 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
             if (cacheKey != null) {
                 String cacheKeyForLocation = source.createCacheKey(location, context);
                 if (cacheKeyForLocation != null) {
+                    // TODO: for most cases, I probably only need the tex source cache...
                     cacheKeys.put(location, Services.PLATFORM.getModVersion()+":"+cacheKey + "\n" + cacheKeyForLocation);
                 }
             }

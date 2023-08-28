@@ -80,13 +80,8 @@ dependencies {
     implementation fg.deobf(libs.dynassetgen.forge.get())
     implementation fg.deobf(libs.defaultresources.forge.get())
 
-    minecraftLibrary libs.jankson
-
     jarJar(libs.defaultresources.forge.get()) {
         jarJar.ranged(it, "[${libs.versions.defaultresources.get()},)")
-    }
-    jarJar(libs.jankson.get()) {
-        jarJar.ranged(it, "[${libs.versions.jankson.get()},)")
     }
 }
 

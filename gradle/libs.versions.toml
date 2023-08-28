@@ -13,9 +13,6 @@ autoservice = "1.1.1"
 
 mdg_dsl = "1.5.0"
 
-jankson = "1.2.2"
-nightconfig = "3.6.4"
-
 dynassetgen = "5.0.0-pr71"
 defaultresources = "3.0.0-pr39"
 
@@ -32,10 +29,6 @@ mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
 jetbrains_annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains_annotations" }
 autoservice = { module = "com.google.auto.service:auto-service", version.ref = "autoservice" }
-
-jankson = { module = "blue.endless:jankson", version.ref = "jankson" }
-nightconfig_core = { module = "com.electronwill.night-config:core", version.ref = "nightconfig" }
-nightconfig_toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
 
 dynassetgen_common = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-1.20.1", version.ref = "dynassetgen" }
 dynassetgen_quilt = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-quilt-1.20.1", version.ref = "dynassetgen" }

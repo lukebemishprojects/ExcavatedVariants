@@ -7,6 +7,7 @@ package dev.lukebemish.excavatedvariants.impl.worldgen;
 
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModLifecycle;
 import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,23 +36,27 @@ public final class OreFinderUtil {
     }
 
     public static void setupBlocks() {
-        if (ModLifecycle.getLifecyclePhase() == ModLifecycle.POST) {
-            for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
-                Map<Stone, Block> map = new IdentityHashMap<>();
-                for (var entry : ore.getBlocks().entrySet()) {
-                    var stone = Objects.requireNonNull(RegistriesImpl.STONE_REGISTRY.get(entry.getValue()));
-                    var block = Objects.requireNonNull(BuiltInRegistries.BLOCK.get(entry.getKey()));
-                    ((OreFound) block).excavated_variants$setOre(ore);
-                    ((OreFound) block).excavated_variants$setOreStone(stone);
-                    map.put(stone, block);
-                }
-                ORE_STONE_MAP.put(ore, map);
+        if (ModLifecycle.getLifecyclePhase() != ModLifecycle.POST) {
+            var e = new IllegalStateException("Something has gone badly wrong with load ordering. Please report this to Excavated Variants alongside a log!");
+            ExcavatedVariants.LOGGER.error("...huh? Where are we?", e);
+            throw e;
+        }
+
+        for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
+            Map<Stone, Block> map = new IdentityHashMap<>();
+            for (var entry : ore.getBlocks().entrySet()) {
+                var stone = Objects.requireNonNull(RegistriesImpl.STONE_REGISTRY.get(entry.getValue()));
+                var block = Objects.requireNonNull(BuiltInRegistries.BLOCK.get(entry.getKey()));
+                ((OreFound) block).excavated_variants$setOre(ore);
+                ((OreFound) block).excavated_variants$setOreStone(stone);
+                map.put(stone, block);
             }
-            for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
-                var block = BuiltInRegistries.BLOCK.get(stone.block);
-                if (block == null) continue;
-                ((OreFound) block).excavated_variants$setStone(stone);
-            }
+            ORE_STONE_MAP.put(ore, map);
+        }
+        for (Stone stone : RegistriesImpl.STONE_REGISTRY) {
+            var block = BuiltInRegistries.BLOCK.get(stone.block);
+            if (block == null) continue;
+            ((OreFound) block).excavated_variants$setStone(stone);
         }
     }
 }

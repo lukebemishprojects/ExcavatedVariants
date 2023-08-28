@@ -6,7 +6,8 @@
 package dev.lukebemish.excavatedvariants.impl;
 
 import com.mojang.serialization.Lifecycle;
-import dev.lukebemish.excavatedvariants.api.RegistryListener;
+import dev.lukebemish.excavatedvariants.api.PostRegistrationListener;
+import dev.lukebemish.excavatedvariants.api.RegistrationListener;
 import dev.lukebemish.excavatedvariants.api.data.GroundType;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
@@ -60,7 +61,7 @@ public final class RegistriesImpl {
         BiConsumer<ResourceLocation, Ore> oreTypes = (l, o) -> ores.computeIfAbsent(l, k -> new ArrayList<>()).add(o);
         BiConsumer<ResourceLocation, Modifier> modifiers = (l, o) -> Registry.register(MODIFIER_REGISTRY, l, o);
 
-        Services.COMPAT.getListeners(RegistryListener.class).forEach(r -> r.provideEntries(new RegistryListener.Registrar(groundTypes, stoneTypes, oreTypes, modifiers)));
+        Services.COMPAT.getListeners(RegistrationListener.class).forEach(r -> r.provideEntries(new RegistrationListener.Registrar(groundTypes, stoneTypes, oreTypes, modifiers)));
 
         ores.forEach((l, os) -> Registry.register(ORE_REGISTRY, l, Ore.merge(os)));
 
@@ -68,6 +69,8 @@ public final class RegistriesImpl {
         ORE_REGISTRY.freeze();
         STONE_REGISTRY.freeze();
         MODIFIER_REGISTRY.freeze();
+
+        Services.COMPAT.getListeners(PostRegistrationListener.class).forEach(r -> r.registriesComplete(new PostRegistrationListener.Registries(GROUND_TYPE_REGISTRY, STONE_REGISTRY, ORE_REGISTRY, MODIFIER_REGISTRY)));
     }
 
     public static void registerRegistries() {

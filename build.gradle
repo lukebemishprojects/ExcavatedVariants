@@ -90,9 +90,6 @@ subprojects {
 
     dependencies {
         compileOnly libs.jetbrains.annotations
-        implementation libs.nightconfig.core
-        implementation libs.nightconfig.toml
-        implementation libs.jankson
     }
 
     // Disables Gradle's custom module metadata from being published to maven. The

@@ -12,12 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public interface Platform {
-    boolean isQuilt();
-
-    boolean isForge();
 
     Path getConfigFolder();
     Path getModDataFolder();
@@ -30,6 +26,6 @@ public interface Platform {
     /**
      * Gets a list of mining levels, ordered softest to hardest
      */
-    List<ResourceLocation> getMiningLevels(ResourceGenerationContext context, Consumer<String> cacheKeyConsumer);
+    List<ResourceLocation> getMiningLevels(ResourceGenerationContext context);
     void register(ExcavatedVariants.VariantFuture future);
 }

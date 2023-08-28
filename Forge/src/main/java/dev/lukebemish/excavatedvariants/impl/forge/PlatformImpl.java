@@ -35,24 +35,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @AutoService(Platform.class)
 public class PlatformImpl implements Platform {
     private static final String MOD_VERSION = ModList.get().getModFileById(ExcavatedVariants.MOD_ID).versionString();
-    @Override
-    public boolean isQuilt() {
-        return false;
-    }
-
-    @Override
-    public boolean isForge() {
-        return true;
-    }
 
     @Override
     public Path getConfigFolder() {
@@ -60,7 +49,7 @@ public class PlatformImpl implements Platform {
     }
     @Override
     public Path getModDataFolder() {
-        return FMLPaths.GAMEDIR.get().resolve("mod_data").resolve(ExcavatedVariants.MOD_ID);
+        return FMLPaths.GAMEDIR.get().resolve(".cache").resolve(ExcavatedVariants.MOD_ID);
     }
 
     @Override
@@ -81,7 +70,7 @@ public class PlatformImpl implements Platform {
 
     @SuppressWarnings("UnstableApiUsage")
     @Override
-    public List<ResourceLocation> getMiningLevels(ResourceGenerationContext context, Consumer<String> cacheKeyConsumer) {
+    public List<ResourceLocation> getMiningLevels(ResourceGenerationContext context) {
         ResourceLocation ORDERING = new ResourceLocation("forge", "item_tier_ordering.json");
         var tiers = ForgeTierSortingRegistryAccessor.getTiers();
         List<Tier> tierList = new ArrayList<>();
@@ -90,7 +79,6 @@ public class PlatformImpl implements Platform {
             if (resource == null) throw new IOException("Tier ordering resource not found");
             try (var stream = resource.get()) {
                 byte[] bytes = stream.readAllBytes();
-                cacheKeyConsumer.accept(Base64.getEncoder().encodeToString(bytes));
                 var ordering = ItemTierOrdering.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(new InputStreamReader(new ByteArrayInputStream(bytes)))).getOrThrow(false, e->{});
                 boolean missingTiers = tiers.keySet().stream().anyMatch(tier -> !ordering.order.contains(tier));
                 boolean extraTiers = ordering.order.stream().anyMatch(tier -> !tiers.containsKey(tier));
@@ -100,14 +88,13 @@ public class PlatformImpl implements Platform {
                     }
                     return tierList.stream().filter(it -> it.getTag() != null).map(it->{
                         var l = it.getTag().location();
-                        return new ResourceLocation(l.getNamespace(), "blocks/"+l.getPath());
+                        return l.withPrefix("blocks/");
                     }).toList();
                 }
             }
         } catch (IOException | RuntimeException ignored) {
             // Huh, who knows, let's ignore it
             // (Could be it just doesn't exist)
-            cacheKeyConsumer.accept("DNE");
         }
         final MutableGraph<Tier> graph = GraphBuilder.directed().nodeOrder(ElementOrder.<Tier>insertion()).build();
 

@@ -5,7 +5,6 @@
 
 package dev.lukebemish.excavatedvariants.impl;
 
-import blue.endless.jankson.Jankson;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
@@ -37,11 +36,10 @@ import java.util.function.Supplier;
 
 public final class ExcavatedVariants {
     public static final int DEFAULT_COMPAT_PRIORITY = -10;
-    public static final Jankson JANKSON = Jankson.builder().build();
 
     private ExcavatedVariants() {}
-    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().setLenient().create();
-    public static final Gson GSON_CONDENSED = new GsonBuilder().setLenient().create();
+    public static final Gson GSON_PRETTY = new GsonBuilder().setPrettyPrinting().setLenient().create();
+    public static final Gson GSON = new GsonBuilder().setLenient().create();
 
     public static final String MOD_ID = "excavated_variants";
 
@@ -100,7 +98,7 @@ public final class ExcavatedVariants {
                 }
             }
 
-            // TODO: filter stuff out here
+            // TODO: mapping stuff?
 
             NEW_VARIANTS_MAP = newVariants;
         }

@@ -8,7 +8,6 @@ package dev.lukebemish.excavatedvariants.impl.forge;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.excavatedvariants.impl.*;
-import dev.lukebemish.excavatedvariants.impl.BlockAddedCallback;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreReplacer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -21,10 +20,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
@@ -45,7 +44,9 @@ public class ExcavatedVariantsForge {
     public ExcavatedVariantsForge() {
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
         ExcavatedVariants.init();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ExcavatedVariantsClient::init);
+        if (FMLLoader.getDist() == Dist.CLIENT) {
+            ExcavatedVariantsClient.init();
+        }
         modbus.addListener(ExcavatedVariantsForge::commonSetup);
         modbus.addListener(ExcavatedVariantsForge::registerListener);
         TO_REGISTER.register(modbus);

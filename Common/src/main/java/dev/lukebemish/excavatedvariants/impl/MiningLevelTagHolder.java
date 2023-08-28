@@ -34,7 +34,7 @@ public class MiningLevelTagHolder implements TagSupplier {
     public Map<ResourceLocation, Set<ResourceLocation>> apply(ResourceGenerationContext context) {
         Map<ResourceLocation, Set<ResourceLocation>> tags = new HashMap<>();
 
-        List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels(context, s -> {});
+        List<ResourceLocation> tagNames = Services.PLATFORM.getMiningLevels(context);
         Map<ResourceLocation, Integer> blockToLevelMap = new HashMap<>();
         Map<ResourceLocation, List<ResourceLocation>> memberMap = tagNames.stream().collect(Collectors.toMap(Function.identity(), name -> getTagMembers(name, context), (l1, l2) -> {
             List<ResourceLocation> out = new ArrayList<>(l1);

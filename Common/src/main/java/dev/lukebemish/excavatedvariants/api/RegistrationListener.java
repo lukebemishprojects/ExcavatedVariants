@@ -15,22 +15,22 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.function.BiConsumer;
 
 // TODO: docs
-public interface RegistryListener extends CommonListener {
+public interface RegistrationListener extends CommonListener {
     void provideEntries(
             Registrar registrar
     );
 
     final class Registrar {
         public final BiConsumer<ResourceLocation, GroundType> groundTypes;
-        public final BiConsumer<ResourceLocation, Stone> stoneTypes;
-        public final BiConsumer<ResourceLocation, Ore> oreTypes;
+        public final BiConsumer<ResourceLocation, Stone> stones;
+        public final BiConsumer<ResourceLocation, Ore> ores;
         public final BiConsumer<ResourceLocation, Modifier> modifiers;
 
         @ApiStatus.Internal
-        public Registrar(BiConsumer<ResourceLocation, GroundType> groundTypes, BiConsumer<ResourceLocation, Stone> stoneTypes, BiConsumer<ResourceLocation, Ore> oreTypes, BiConsumer<ResourceLocation, Modifier> modifiers) {
+        public Registrar(BiConsumer<ResourceLocation, GroundType> groundTypes, BiConsumer<ResourceLocation, Stone> stones, BiConsumer<ResourceLocation, Ore> ores, BiConsumer<ResourceLocation, Modifier> modifiers) {
             this.groundTypes = groundTypes;
-            this.stoneTypes = stoneTypes;
-            this.oreTypes = oreTypes;
+            this.stones = stones;
+            this.ores = ores;
             this.modifiers = modifiers;
         }
     }

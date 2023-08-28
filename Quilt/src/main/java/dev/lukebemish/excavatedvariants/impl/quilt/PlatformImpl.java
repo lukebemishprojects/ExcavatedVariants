@@ -6,40 +6,36 @@
 package dev.lukebemish.excavatedvariants.impl.quilt;
 
 import com.google.auto.service.AutoService;
-import dev.lukebemish.dynamicassetgenerator.api.ServerPrePackRepository;
+import com.google.common.base.Suppliers;
+import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.Item;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.ModMetadata;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.resource.loader.api.GroupResourcePack;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @AutoService(Platform.class)
 public class PlatformImpl implements Platform {
-    @Override
-    public boolean isQuilt() {
-        return true;
-    }
 
-    @Override
-    public boolean isForge() {
-        return false;
-    }
-
+    private static final Supplier<Set<String>> MOD_IDS = Suppliers.memoize(() -> QuiltLoader.getAllMods().stream().map(ModContainer::metadata).map(ModMetadata::id).collect(Collectors.toSet()));
     @Override
     public Set<String> getModIds() {
-        return QuiltLoader.getAllMods().stream().map(ModContainer::metadata).map(ModMetadata::id).toList();
+        return MOD_IDS.get();
     }
 
     public Path getConfigFolder() {
@@ -48,7 +44,12 @@ public class PlatformImpl implements Platform {
 
     @Override
     public Path getModDataFolder() {
-        return QuiltLoader.getGameDir().resolve("mod_data/excavated_variants").toAbsolutePath().normalize();
+        return QuiltLoader.getCacheDir().resolve(ExcavatedVariants.MOD_ID);
+    }
+
+    @Override
+    public String getModVersion() {
+        return QuiltLoader.getModContainer(ExcavatedVariants.MOD_ID).orElseThrow().metadata().version().raw();
     }
 
     @Override
@@ -57,32 +58,42 @@ public class PlatformImpl implements Platform {
     }
 
     @Override
-    public List<ResourceLocation> getMiningLevels() {
+    public List<ResourceLocation> getMiningLevels(ResourceGenerationContext context) {
         List<ResourceLocation> out = new ArrayList<>();
         out.add(BlockTags.NEEDS_STONE_TOOL.location());
         out.add(BlockTags.NEEDS_IRON_TOOL.location());
         out.add(BlockTags.NEEDS_DIAMOND_TOOL.location());
-        ServerPrePackRepository.getResources().stream().flatMap(resources -> {
-            // TODO: Is this a bug in Quilt? IDK. If it's not, no loss by doing this...
-            if (resources instanceof GroupResourcePack && !resources.getNamespaces(PackType.SERVER_DATA).contains("fabric")) {
-                return Stream.empty();
+        int maxLevel = context.getResourceSource().listResources("tags/blocks", rl -> {
+            if (!rl.getNamespace().equals("fabric")) return false;
+            if (!rl.getPath().startsWith("needs_tool_level_")) return false;
+            if (!rl.getPath().endsWith(".json")) return false;
+            String tagName = rl.getPath().substring("needs_tool_level_".length(), rl.getPath().length() - ".json".length());
+            try {
+                Integer.parseInt(tagName);
+            } catch (NumberFormatException ignored) {
+                return false;
             }
-            List<ResourceLocation> locations = new ArrayList<>();
-            resources.listResources(PackType.SERVER_DATA, "fabric", "minecraft/tags/blocks/", (rl, supplier) -> {
-                if (!rl.getPath().startsWith("needs_tool_level_")) return;
-                try {
-                    String[] parts = rl.getPath().split("/");
-                    Integer.parseInt(parts[parts.length - 1].replace("needs_tool_level_", ""));
-                    locations.add(rl);
-                } catch (NumberFormatException ignored) {
-                }
-            });
-            return locations.stream().map(l -> {
-                String[] parts = l.getPath().split("/");
-                return Integer.parseInt(parts[parts.length - 1].replace("needs_tool_level_", ""));
-            }).filter(it -> it > 0);
-        }).distinct().sorted().forEach(it->out.add(MiningLevelManager.getBlockTag(it).location()));
-        return out.stream().map(it->new ResourceLocation(it.getNamespace(), "blocks/"+it.getPath())).toList();
+            return true;
+        }).keySet().stream().mapToInt(rl -> {
+            String partial = rl.getPath().substring("needs_tool_level_".length(), rl.getPath().length() - ".json".length());
+            return Integer.parseInt(partial);
+        }).max().orElse(0);
+        if (maxLevel >= 4) {
+            for (int i = 4; i <= maxLevel; i++) {
+                out.add(MiningLevelManager.getBlockTag(i).location());
+            }
+        }
+        return out.stream().map(it->it.withPrefix("blocks/")).toList();
+    }
+
+    @Override
+    public void register(ExcavatedVariants.VariantFuture future) {
+        ExcavatedVariants.registerBlockAndItem(
+                (rlr, bl) -> Registry.register(BuiltInRegistries.BLOCK, rlr, bl),
+                (rlr, it) -> {
+                    Item out = Registry.register(BuiltInRegistries.ITEM, rlr, it.get());
+                    return () -> out;
+                }, future);
     }
 
 }

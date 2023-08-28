@@ -5,40 +5,25 @@
 
 package dev.lukebemish.excavatedvariants.impl.data;
 
-import com.electronwill.nightconfig.core.Config;
-import com.electronwill.nightconfig.core.io.IndentStyle;
-import com.electronwill.nightconfig.toml.TomlFormat;
-import com.electronwill.nightconfig.toml.TomlParser;
-import com.electronwill.nightconfig.toml.TomlWriter;
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.lukebemish.defaultresources.api.GlobalResourceManager;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.impl.codecs.CommentedCodec;
-import dev.lukebemish.excavatedvariants.impl.codecs.TomlConfigOps;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ModConfig {
-    public static final TomlParser TOML_PARSER = TomlFormat.instance().createParser();
-    public static final TomlWriter TOML_WRITER = TomlFormat.instance().createWriter();
     public static final Path CONFIG_PATH = Services.PLATFORM.getConfigFolder();
-    public static final Path FULL_PATH = CONFIG_PATH.resolve(ExcavatedVariants.MOD_ID + ".toml");
-    public static final Codec<ModConfig> CODEC = CommentedCodec.of(RecordCodecBuilder.<ModConfig>create(instance -> instance.group(
+    public static final Path FULL_PATH = CONFIG_PATH.resolve(ExcavatedVariants.MOD_ID + ".json");
+    public static final Codec<ModConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                     Codec.BOOL.fieldOf("attempt_worldgen_replacement").forGetter(c -> c.attemptWorldgenReplacement),
                     Codec.BOOL.fieldOf("add_conversion_recipes").forGetter(c -> c.addConversionRecipes)
-            ).apply(instance, ModConfig::new)))
-            .comment("Toggles ore-gen changes; without this, ores won't be replaced during world gen.", "attempt_worldgen_replacement")
-            .comment("Toggles whether to add recipes to convert variants back to the base ore.", "add_conversion_recipes")
-            .comment("Toggles compatibility with JEI and REI for added conversion recipes.", "jei_rei_compat");
-
-    static {
-        TOML_WRITER.setIndent(IndentStyle.SPACES_2);
-    }
+            ).apply(instance, ModConfig::new));
 
     public final boolean attemptWorldgenReplacement;
     public final boolean addConversionRecipes;
@@ -53,29 +38,34 @@ public class ModConfig {
     }
 
     public static ModConfig load() {
-        try {
-            checkExistenceOrSave();
-
-            Config toml = TOML_PARSER.parse(new FileReader(FULL_PATH.toFile()));
-
-            return CODEC.parse(TomlConfigOps.INSTANCE, toml).getOrThrow(false, e -> {});
+        if (!Files.exists(FULL_PATH)) {
+            ModConfig config = defaultConfig();
+            write(config);
+            return config;
+        }
+        try (var reader = Files.newBufferedReader(FULL_PATH, StandardCharsets.UTF_8)) {
+            JsonElement json = ExcavatedVariants.GSON.fromJson(reader, JsonElement.class);
+            return CODEC.parse(JsonOps.INSTANCE, json).mapError(s -> {
+                ExcavatedVariants.LOGGER.error("Failed to parse config: {}", s);
+                return s;
+            }).result().orElseThrow(() -> new IOException("Failed to parse config"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ExcavatedVariants.LOGGER.error("Failed to read config", e);
+            ModConfig config = defaultConfig();
+            write(config);
+            return config;
         }
     }
 
-    private static void checkExistenceOrSave() throws IOException {
-        GlobalResourceManager.forceInitialization();
-        if (!Files.exists(CONFIG_PATH)) Files.createDirectories(CONFIG_PATH);
-        if (!Files.exists(FULL_PATH)) {
-            Files.createFile(FULL_PATH);
-            ModConfig config = defaultConfig();
-            var writer = Files.newBufferedWriter(FULL_PATH);
-            Config toml = (Config) CODEC.encodeStart(TomlConfigOps.INSTANCE, config).getOrThrow(false, e -> {
-            });
-            TOML_WRITER.write(toml.unmodifiable(), writer);
-            writer.flush();
-            writer.close();
+    private static void write(ModConfig config) {
+        try (var writer = Files.newBufferedWriter(FULL_PATH, StandardCharsets.UTF_8)) {
+            JsonElement json = CODEC.encodeStart(JsonOps.INSTANCE, config).mapError(s -> {
+                ExcavatedVariants.LOGGER.error("Failed to encode config: {}", s);
+                return s;
+            }).result().orElseThrow(() -> new IOException("Failed to encode config"));
+            writer.write(ExcavatedVariants.GSON_PRETTY.toJson(json));
+        } catch (IOException e) {
+            ExcavatedVariants.LOGGER.error("Failed to write config", e);
         }
     }
 }

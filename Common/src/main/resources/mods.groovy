@@ -49,11 +49,17 @@ ModsDotGroovy.make {
                     'dev.lukebemish.excavatedvariants.impl.client.DefaultProvider'
             ]
             excavated_variants = [
-                    'dev.lukebemish.excavatedvariants.impl.DefaultRegistryListener'
+                    'dev.lukebemish.excavatedvariants.impl.DefaultRegistrationListener'
             ]
+            // to capture fabric loader's funkiness...
+            // (have to use this format because MDG is funky)
+            entrypoint 'main', ['dev.lukebemish.excavatedvariants.impl.quilt.StateCapturer']
         }
     }
     onQuilt {
-        mixin = ['mixin.excavated_variants.json']
+        mixin = [
+                'mixin.excavated_variants.json',
+                'mixin.excavated_variants_quilt.json'
+        ]
     }
 }

@@ -31,10 +31,6 @@ dependencies {
 	modImplementation libs.defaultresources.quilt
 
 	include libs.defaultresources.quilt
-
-	include libs.nightconfig.core
-	include libs.nightconfig.toml
-	include libs.jankson
 }
 
 loom {
