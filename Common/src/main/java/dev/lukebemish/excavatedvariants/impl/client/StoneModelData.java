@@ -8,12 +8,9 @@ package dev.lukebemish.excavatedvariants.impl.client;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.OverlaySource;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.texsources.TextureReaderSource;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
-import dev.lukebemish.excavatedvariants.api.client.NamedTextureProvider;
-import dev.lukebemish.excavatedvariants.api.client.TextureProducer;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
@@ -53,17 +50,15 @@ class StoneModelData implements ModelData {
                 continue;
             }
 
-            textureProducerConsumer.accept(name, new NamedTextureProvider() {
-                @Override
-                public TexSource apply(TextureProducer.SourceWrapper sourceWrapper) {
-                    return new OverlaySource.Builder().setSources(stack.stream().map(rl -> sourceWrapper.wrap(new TextureReaderSource.Builder().setPath(rl).build())).toList()).build();
-                }
-
-                @Override
-                public List<ResourceLocation> getUsedTextures() {
-                    return stack;
-                }
-            }, info.faces());
+            textureProducerConsumer.accept(name, sourceWrapper ->
+                    new OverlaySource.Builder()
+                            .setSources(stack.stream()
+                                    .map(rl ->
+                                            sourceWrapper.wrap(
+                                                    new TextureReaderSource.Builder()
+                                                            .setPath(rl)
+                                                            .build()))
+                                    .toList()).build(), info.faces());
         }
     }
 }

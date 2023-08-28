@@ -5,25 +5,20 @@
 
 package dev.lukebemish.excavatedvariants.impl.client;
 
+import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import dev.lukebemish.dynamicassetgenerator.api.InputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.PathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureGenerator;
-import dev.lukebemish.dynamicassetgenerator.api.client.generators.TextureMetaGenerator;
 import dev.lukebemish.excavatedvariants.api.client.*;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
-import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
-import org.apache.commons.lang3.mutable.Mutable;
-import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,67 +31,33 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
     private final Map<ResourceKey<Stone>, List<ModelData>> stoneModels = new HashMap<>();
     private final Map<ResourceKey<Ore>, List<TexFaceProvider>> oreModels = new HashMap<>();
     private final Map<ResourceLocation, InputStreamSource> resources = new HashMap<>();
-    private final Map<ResourceLocation, String> cacheKeys = new HashMap<>();
-    private final Map<ResourceKey<Stone>, String> stoneCacheKeys = new HashMap<>();
-    private final Map<ResourceKey<Ore>, String> oreCacheKeys = new HashMap<>();
+    private final TextureAtlasBuilder textureAtlasBuilder = new TextureAtlasBuilder();
 
     public void addFuture(ExcavatedVariants.VariantFuture future, ResourceGenerationContext context) {
         if (!stoneModels.containsKey(future.stone.getKeyOrThrow())) {
-            Mutable<StringBuilder> cacheExtraBuilder = new MutableObject<>(new StringBuilder());
-            var textures = ResourceCollector.makeStoneTextures(future.stone, context, s -> {
-                if (s != null && cacheExtraBuilder.getValue() != null) {
-                    cacheExtraBuilder.getValue().append(s);
-                } else {
-                    cacheExtraBuilder.setValue(null);
-                }
-            });
+
+            var textures = ResourceCollector.makeStoneTextures(future.stone, context);
             if (textures != null) {
                 stoneModels.put(future.stone.getKeyOrThrow(), textures);
-                if (cacheExtraBuilder.getValue() != null) {
-                    String built = cacheExtraBuilder.getValue().toString();
-                    if (!built.isEmpty()) stoneCacheKeys.put(future.stone.getKeyOrThrow(), built);
-                }
             }
         }
         if (!stoneModels.containsKey(future.foundSourceStone.getKeyOrThrow())) {
-            Mutable<StringBuilder> cacheExtraBuilder = new MutableObject<>(new StringBuilder());
-            var textures = ResourceCollector.makeStoneTextures(future.foundSourceStone, context, s -> {
-                if (s != null && cacheExtraBuilder.getValue() != null) {
-                    cacheExtraBuilder.getValue().append(s);
-                } else {
-                    cacheExtraBuilder.setValue(null);
-                }
-            });
+            var textures = ResourceCollector.makeStoneTextures(future.foundSourceStone, context);
             if (textures != null) {
                 stoneModels.put(future.foundSourceStone.getKeyOrThrow(), textures);
-                if (cacheExtraBuilder.getValue() != null) {
-                    String built = cacheExtraBuilder.getValue().toString();
-                    if (!built.isEmpty()) stoneCacheKeys.put(future.foundSourceStone.getKeyOrThrow(), built);
-                }
             }
         }
         if (!oreModels.containsKey(future.ore.getKeyOrThrow())) {
-            Mutable<StringBuilder> cacheExtraBuilder = new MutableObject<>(new StringBuilder());
-            var textures = ResourceCollector.makeOreTextures(future.ore, future.foundOreKey, context, s -> {
-                if (s != null && cacheExtraBuilder.getValue() != null) {
-                    cacheExtraBuilder.getValue().append(s);
-                } else {
-                    cacheExtraBuilder.setValue(null);
-                }
-            });
+            var textures = ResourceCollector.makeOreTextures(future.ore, future.foundOreKey, context);
             if (textures != null) {
                 oreModels.put(future.ore.getKeyOrThrow(), textures);
-                if (cacheExtraBuilder.getValue() != null) {
-                    String built = cacheExtraBuilder.getValue().toString();
-                    if (!built.isEmpty()) oreCacheKeys.put(future.ore.getKeyOrThrow(), built);
-                }
             }
         }
 
-        processPair(future, context);
+        processPair(future);
     }
 
-    private void processPair(ExcavatedVariants.VariantFuture future, ResourceGenerationContext context) {
+    private void processPair(ExcavatedVariants.VariantFuture future) {
         List<ModelData> oldStoneModels = stoneModels.get(future.foundSourceStone.getKeyOrThrow());
         List<ModelData> newStoneModels = stoneModels.get(future.stone.getKeyOrThrow());
         List<TexFaceProvider> oreModels = this.oreModels.get(future.ore.getKeyOrThrow());
@@ -114,16 +75,6 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
             return;
         }
 
-        String oldStoneCacheKey = stoneCacheKeys.get(future.foundSourceStone.getKeyOrThrow());
-        String newStoneCacheKey = stoneCacheKeys.get(future.stone.getKeyOrThrow());
-        String oreCacheKey = oreCacheKeys.get(future.ore.getKeyOrThrow());
-
-        String cacheKey = (oldStoneCacheKey != null && newStoneCacheKey != null && oreCacheKey != null)
-                ? stoneCacheKeys.get(future.foundSourceStone.getKeyOrThrow()) + "\n"
-                + stoneCacheKeys.get(future.stone.getKeyOrThrow()) + "\n"
-                + oreCacheKeys.get(future.ore.getKeyOrThrow())
-                : null;
-
         ModelData oldStoneModel = oldStoneModels.get(0);
 
         int counter = 0;
@@ -131,7 +82,7 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         for (ModelData newStoneModel : newStoneModels) {
             for (TexFaceProvider oreModel : oreModels) {
                 ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+future.fullId+"__"+counter);
-                assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, future.foundSourceStone, cacheKey, context);
+                assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, future.foundSourceStone);
                 models.add(modelLocation);
                 counter += 1;
             }
@@ -152,7 +103,7 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
         }
     }
 
-    private void assembleModel(ResourceLocation modelLocation, TexFaceProvider ore, ModelData oldStone, ModelData newStone, Stone oldStoneData, String cacheKey, ResourceGenerationContext context) {
+    private void assembleModel(ResourceLocation modelLocation, TexFaceProvider ore, ModelData oldStone, ModelData newStone, Stone oldStoneData) {
         Map<String, StoneTexFace> stoneFaceLocationMap = new HashMap<>();
         Map<String, ResourceLocation> modelTextureTranslations = new HashMap<>();
         NamedTextureProvider[] oldStoneTexSource = new NamedTextureProvider[1];
@@ -188,32 +139,13 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
             // note that when a StoneTexFace is constructed it always has at least one face
             //noinspection OptionalGetWithoutIsPresent
             TextureProducer oreTexture = ore.get(faces.stream().findFirst().get());
-            assembleTextures(stoneTexFace.textureLocation(), oreTexture, oldStoneTexSource[0], stoneTexFace.texture(), cacheKey, context);
+            assembleTextures(stoneTexFace.textureLocation(), oreTexture, oldStoneTexSource[0], stoneTexFace.texture());
         }
     }
 
-    private void assembleTextures(ResourceLocation output, TextureProducer oreTexture, NamedTextureProvider oldStoneTexture, NamedTextureProvider newStoneTexture, String cacheKey, ResourceGenerationContext context) {
-        List<ResourceLocation> usedLocations = new ArrayList<>();
-
-        var oreTextureResult = oreTexture.produce(newStoneTexture, oldStoneTexture);
-        TexSource outTexture = oreTextureResult.getFirst();
-        usedLocations.addAll(oreTextureResult.getSecond());
-        usedLocations.addAll(oldStoneTexture.getUsedTextures());
-        usedLocations.addAll(newStoneTexture.getUsedTextures());
-        flattenResources(new TextureMetaGenerator.Builder().withOutputLocation(output).withSources(usedLocations).build(), cacheKey, context);
-        flattenResources(new TextureGenerator(output, outTexture), cacheKey, context);
-    }
-
-    private void flattenResources(PathAwareInputStreamSource source, String cacheKey, ResourceGenerationContext context) {
-        for (ResourceLocation location : source.getLocations(context)) {
-            resources.put(location, source);
-            if (cacheKey != null) {
-                String cacheKeyForLocation = source.createCacheKey(location, context);
-                if (cacheKeyForLocation != null) {
-                    cacheKeys.put(location, Services.PLATFORM.getModVersion()+":"+cacheKey + "\n" + cacheKeyForLocation);
-                }
-            }
-        }
+    private void assembleTextures(ResourceLocation output, TextureProducer oreTexture, NamedTextureProvider oldStoneTexture, NamedTextureProvider newStoneTexture) {
+        var outTexture = oreTexture.produce(newStoneTexture, oldStoneTexture);
+        textureAtlasBuilder.addSource(output, outTexture);
     }
 
     private void addResource(ResourceLocation location, InputStreamSource source) {
@@ -224,18 +156,22 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
 
     @Override
     public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
-        return resources.keySet();
+        return Sets.union(resources.keySet(), textureAtlasBuilder.getLocations(context));
     }
 
     @Override
     public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
         var supplier = resources.get(outRl);
-        if (supplier == null) return null;
-        return supplier.get(outRl, context);
+        if (supplier != null) return supplier.get(outRl, context);
+        if (textureAtlasBuilder.getLocations(context).contains(outRl))
+            return textureAtlasBuilder.get(outRl, context);
+        return null;
     }
 
     @Override
     public @Nullable String createCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-        return cacheKeys.get(outRl);
+        if (textureAtlasBuilder.getLocations(context).contains(outRl))
+            return textureAtlasBuilder.createCacheKey(outRl, context);
+        return null;
     }
 }

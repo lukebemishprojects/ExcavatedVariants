@@ -6,7 +6,6 @@
 package dev.lukebemish.excavatedvariants.impl.client;
 
 import com.google.gson.JsonElement;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -26,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 // ONLY fit to be used for parsing, not for writing
@@ -75,15 +73,13 @@ public final class ParsedModel {
     }
 
     private ResourceGenerationContext context;
-    private Consumer<String> cacheKeyBuilder;
 
     @NotNull
-    public static ParsedModel getFromLocation(ResourceLocation rl, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) throws IOException {
-        try (InputStream is = BackupFetcher.getModelFile(rl, context, cacheKeyBuilder);
+    public static ParsedModel getFromLocation(ResourceLocation rl, ResourceGenerationContext context) throws IOException {
+        try (InputStream is = BackupFetcher.getModelFile(rl, context);
              var reader = new InputStreamReader(is)) {
             JsonElement json = ExcavatedVariants.GSON.fromJson(reader, JsonElement.class);
             ParsedModel model = ParsedModel.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(false, e -> {});
-            model.cacheKeyBuilder = cacheKeyBuilder;
             model.context = context;
             return model;
         } catch (IOException | RuntimeException e) {
@@ -93,7 +89,7 @@ public final class ParsedModel {
 
     public Map<String, String> getTextureMap() throws IOException {
         Map<String, String> textures = new HashMap<>();
-        ParsedModel parent = parent().isEmpty() ? null : getFromLocation(parent().get(), context, cacheKeyBuilder);
+        ParsedModel parent = parent().isEmpty() ? null : getFromLocation(parent().get(), context);
         if (parent != null)
             textures.putAll(parent.getTextureMap());
         textures.putAll(this.textures());
@@ -111,7 +107,7 @@ public final class ParsedModel {
         texMap.putAll(getTextureMap());
 
         if (parent().isPresent()) {
-            map.putAll(getFromLocation(parent().get(), context, cacheKeyBuilder).getRlMapForSide(side, texMap));
+            map.putAll(getFromLocation(parent().get(), context).getRlMapForSide(side, texMap));
         }
 
         if (children().isEmpty() || children().get().isEmpty()) {
@@ -167,7 +163,6 @@ public final class ParsedModel {
             map.put(face, rlMap.values().stream().findFirst().map(it -> it.resources).orElse(List.of()));
         }
         return face -> (newStone, oldStone) -> {
-            List<ResourceLocation> oreTextures = map.get(face);
             int[] c = new int[]{0};
             Map<String, TexSource> sourceMap = new HashMap<>();
 
@@ -195,13 +190,13 @@ public final class ParsedModel {
                 oreSources.add(new AnimationFrameCapture.Builder().setCapture(name).build());
             }
 
-            return new Pair<>(new AnimationSplittingSource.Builder()
+            return new AnimationSplittingSource.Builder()
                     .setGenerator(new ForegroundTransferSource.Builder()
                             .setBackground(oldStoneSource)
                             .setFull(new OverlaySource.Builder().setSources(oreSources).build())
                             .setNewBackground(newStoneSource)
                             .build())
-                    .setSources(sourceMap).build(), oreTextures);
+                    .setSources(sourceMap).build();
         };
     }
 

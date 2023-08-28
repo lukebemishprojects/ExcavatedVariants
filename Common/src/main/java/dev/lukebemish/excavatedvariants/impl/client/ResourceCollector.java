@@ -17,14 +17,13 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class ResourceCollector {
     private static final List<ResourceProvider> PROVIDERS = Services.COMPAT.getClientListeners(ResourceProvider.class);
 
-    static @Nullable List<ModelData> makeStoneTextures(Stone stone, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+    static @Nullable List<ModelData> makeStoneTextures(Stone stone, ResourceGenerationContext context) {
         for (var provider : PROVIDERS) {
-            var models = provider.provideStoneTextures(stone, context, cacheKeyBuilder);
+            var models = provider.provideStoneTextures(stone, context);
             if (models != null) {
                 return models;
             }
@@ -32,9 +31,9 @@ public class ResourceCollector {
         return null;
     }
 
-    static @Nullable List<TexFaceProvider> makeOreTextures(Ore ore, ResourceKey<Block> selectedBlock, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+    static @Nullable List<TexFaceProvider> makeOreTextures(Ore ore, ResourceKey<Block> selectedBlock, ResourceGenerationContext context) {
         for (var provider : PROVIDERS) {
-            var models = provider.provideOreTextures(ore, selectedBlock, context, cacheKeyBuilder);
+            var models = provider.provideOreTextures(ore, selectedBlock, context);
             if (models != null) {
                 return models;
             }

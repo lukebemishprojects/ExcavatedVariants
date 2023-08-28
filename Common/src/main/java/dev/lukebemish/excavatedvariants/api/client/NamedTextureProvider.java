@@ -6,15 +6,12 @@
 package dev.lukebemish.excavatedvariants.api.client;
 
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
-import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
 import java.util.function.Function;
 
 /**
- * Can both provide a texture given a method for wrapping texture sources (this should be used to wrap any direct
- * texture reader, in order to support animations), and provide a list of all textures used by this provider.
+ * Can provide a texture given a method for wrapping texture sources. This should be used to wrap any direct texture
+ * reader, in order to support animations.
  */
 public interface NamedTextureProvider extends Function<TextureProducer.SourceWrapper, TexSource> {
-    List<ResourceLocation> getUsedTextures();
 }

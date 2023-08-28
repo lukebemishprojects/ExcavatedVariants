@@ -66,12 +66,15 @@ public class MappingsCache {
     }
 
     public void save() {
-        try (var writer = Files.newBufferedWriter(CACHE_PATH, StandardCharsets.UTF_8)) {
-            JsonElement json = CODEC.encodeStart(JsonOps.INSTANCE, this).mapError(s -> {
-                ExcavatedVariants.LOGGER.error("Failed to encode mappings cache: {}", s);
-                return s;
-            }).result().orElseThrow(() -> new IOException("Failed to encode mappings cache"));
-            ExcavatedVariants.GSON_PRETTY.toJson(json, writer);
+        try {
+            Files.createDirectories(CACHE_PATH.getParent());
+            try (var writer = Files.newBufferedWriter(CACHE_PATH, StandardCharsets.UTF_8)) {
+                JsonElement json = CODEC.encodeStart(JsonOps.INSTANCE, this).mapError(s -> {
+                    ExcavatedVariants.LOGGER.error("Failed to encode mappings cache: {}", s);
+                    return s;
+                }).result().orElseThrow(() -> new IOException("Failed to encode mappings cache"));
+                ExcavatedVariants.GSON_PRETTY.toJson(json, writer);
+            }
         } catch (IOException e) {
             ExcavatedVariants.LOGGER.error("Failed to save mappings cache", e);
         }

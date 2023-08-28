@@ -10,9 +10,9 @@ import dev.lukebemish.excavatedvariants.api.ExcavatedVariantsListener;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.ResourceProvider;
 import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
-import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import net.minecraft.client.renderer.block.model.BlockModelDefinition;
 import net.minecraft.client.renderer.block.model.MultiVariant;
 import net.minecraft.resources.ResourceKey;
@@ -25,14 +25,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.function.Consumer;
 
 @ExcavatedVariantsListener
 public class DefaultProvider implements ResourceProvider {
 
     @Override
-    public @Nullable List<ModelData> provideStoneTextures(Stone stone, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
-        List<ResourceLocation> blockModels = getBlockModels(stone.block, context, cacheKeyBuilder);
+    public @Nullable List<ModelData> provideStoneTextures(Stone stone, ResourceGenerationContext context) {
+        List<ResourceLocation> blockModels = getBlockModels(stone.block, context);
         if (blockModels == null || blockModels.isEmpty()) {
             ExcavatedVariants.LOGGER.warn("Could not find blockstates for stone " + stone);
             return null;
@@ -40,7 +39,7 @@ public class DefaultProvider implements ResourceProvider {
         List<ModelData> models = new ArrayList<>();
         for (ResourceLocation model : blockModels) {
             try {
-                models.add(ParsedModel.getFromLocation(model, context, cacheKeyBuilder).makeStoneModel());
+                models.add(ParsedModel.getFromLocation(model, context).makeStoneModel());
             } catch (IOException ignored) {}
         }
         if (!models.isEmpty()) {
@@ -50,7 +49,7 @@ public class DefaultProvider implements ResourceProvider {
     }
 
     @Override
-    public @Nullable List<TexFaceProvider> provideOreTextures(Ore ore, ResourceKey<Block> selectedBlock, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+    public @Nullable List<TexFaceProvider> provideOreTextures(Ore ore, ResourceKey<Block> selectedBlock, ResourceGenerationContext context) {
         /*
          * - Reading in the blockstates of ore and stone involved
          * - From each blockstate, getting a list of models involved - this will be a *single list*, not a key-value
@@ -59,7 +58,7 @@ public class DefaultProvider implements ResourceProvider {
          * - Now we have a list of models per blockstate. For each model:
          *    - extract the textures used in the model
          */
-        List<ResourceLocation> blockModels = getBlockModels(selectedBlock, context, cacheKeyBuilder);
+        List<ResourceLocation> blockModels = getBlockModels(selectedBlock, context);
         if (blockModels == null || blockModels.isEmpty()) {
             ExcavatedVariants.LOGGER.warn("Could not find blockstates for ore " + ore);
             return null;
@@ -67,7 +66,7 @@ public class DefaultProvider implements ResourceProvider {
         List<TexFaceProvider> models = new ArrayList<>();
         for (ResourceLocation model : blockModels) {
             try {
-                models.add(ParsedModel.getFromLocation(model, context, cacheKeyBuilder).makeTextureProvider());
+                models.add(ParsedModel.getFromLocation(model, context).makeTextureProvider());
             } catch (IOException ignored) {}
         }
         if (!models.isEmpty()) {
@@ -76,9 +75,9 @@ public class DefaultProvider implements ResourceProvider {
         return null;
     }
 
-    private List<ResourceLocation> getBlockModels(ResourceKey<Block> block, ResourceGenerationContext context, Consumer<String> cacheKeyBuilder) {
+    private List<ResourceLocation> getBlockModels(ResourceKey<Block> block, ResourceGenerationContext context) {
         BlockModelDefinition.Context ctx = new BlockModelDefinition.Context();
-        try (InputStream blockstateStream = BackupFetcher.getBlockStateFile(block.location(), context, cacheKeyBuilder)) {
+        try (InputStream blockstateStream = BackupFetcher.getBlockStateFile(block.location(), context)) {
             BlockModelDefinition definition = BlockModelDefinition.fromStream(ctx, new BufferedReader(new InputStreamReader(blockstateStream)));
             if (!definition.isMultiPart()) {
                 Set<ResourceLocation> oreModels = new HashSet<>();
