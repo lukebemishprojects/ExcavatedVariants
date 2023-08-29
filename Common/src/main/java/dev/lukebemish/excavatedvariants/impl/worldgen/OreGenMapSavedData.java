@@ -22,7 +22,7 @@ public class OreGenMapSavedData extends SavedData {
     public final Map<Pair<Integer, Integer>, Integer> edgeCount = Collections.synchronizedMap(new HashMap<>());
     public final Map<Pair<Integer, Integer>, Boolean> ranMap = Collections.synchronizedMap(new HashMap<>());
 
-    public static OreGenMapSavedData load(CompoundTag tag) {
+    private static OreGenMapSavedData load(CompoundTag tag) {
         OreGenMapSavedData data = new OreGenMapSavedData();
         int[] edge1 = tag.getIntArray("edge_1");
         int[] edge2 = tag.getIntArray("edge_2");
@@ -41,7 +41,7 @@ public class OreGenMapSavedData extends SavedData {
         return data;
     }
 
-    public static OreGenMapSavedData create() {
+    private static OreGenMapSavedData create() {
         return new OreGenMapSavedData();
     }
 

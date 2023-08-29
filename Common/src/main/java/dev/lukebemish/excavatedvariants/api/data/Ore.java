@@ -184,21 +184,36 @@ public final class Ore {
         private Map<String, String> translations;
         private Set<ResourceKey<GroundType>> types;
 
+        /**
+         * @param tags tags which should be added to variants of this ore
+         */
         public Builder setTags(List<ResourceLocation> tags) {
             this.tags = tags;
             return this;
         }
 
+        /**
+         * @param blocks a map from block IDs to {@link DetailedStone}s which represents potential variant/stone
+         *               pairings for this ore
+         */
         public Builder setBlocks(Map<ResourceLocation, DetailedStone> blocks) {
             this.blocks = blocks;
             return this;
         }
 
+        /**
+         * @param translations a map from language codes (e.g. {@code "en_us"}) to translated names for this stone.
+         *                     Translations will be prepended by the stone name, unless the translation contains
+         *                     {@code "%s"}, in which case the stone name will be inserted at that location.
+         */
         public Builder setTranslations(Map<String, String> translations) {
             this.translations = translations;
             return this;
         }
 
+        /**
+         * @param types the types of ground which this ore can generate in
+         */
         public Builder setTypes(Set<ResourceKey<GroundType>> types) {
             this.types = types;
             return this;

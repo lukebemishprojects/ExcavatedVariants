@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * A stone is a block which ores generate in.
+ */
 public final class Stone {
     public static final Codec<Stone> CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("translations").forGetter(s -> s.translations),
@@ -55,21 +58,33 @@ public final class Stone {
         private Set<ResourceKey<GroundType>> types;
         private List<ResourceLocation> oreTags;
 
+        /**
+         * @param translations a map from language codes (e.g. {@code "en_us"}) to translated names for this stone
+         */
         public Builder setTranslations(Map<String, String> translations) {
             this.translations = translations;
             return this;
         }
 
+        /**
+         * @param block the block which this stone represents
+         */
         public Builder setBlock(ResourceKey<Block> block) {
             this.block = block;
             return this;
         }
 
+        /**
+         * @param types the types of ground which this stone can generate ores in
+         */
         public Builder setTypes(Set<ResourceKey<GroundType>> types) {
             this.types = types;
             return this;
         }
 
+        /**
+         * @param oreTags tags which should be added to ores which generate in this stone
+         */
         public Builder setOreTags(List<ResourceLocation> oreTags) {
             this.oreTags = oreTags;
             return this;

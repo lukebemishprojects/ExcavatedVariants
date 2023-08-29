@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -69,22 +70,34 @@ public final class DetailedStone {
         private List<String> modIds;
         private boolean generating = true;
 
+        /**
+         * @param stone the represented stone of this variant/stone pairing
+         */
+
         public Builder setStone(ResourceKey<Stone> stone) {
             this.stone = stone;
             return this;
         }
 
+        /**
+         * @param generating whether this variant/stone pairing can be used to parent new, generated variants
+         */
         public Builder setGenerating(boolean generating) {
             this.generating = generating;
             return this;
         }
 
+        /**
+         * @param modIds mods that must be present for the represented variant/stone pairing to be recognized
+         */
         public Builder setModIds(List<String> modIds) {
             this.modIds = modIds;
             return this;
         }
 
         public DetailedStone build() {
+            Objects.requireNonNull(stone);
+            Objects.requireNonNull(modIds);
             return new DetailedStone(stone, modIds, generating);
         }
 

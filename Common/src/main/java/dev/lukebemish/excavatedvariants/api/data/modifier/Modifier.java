@@ -55,33 +55,51 @@ public class Modifier {
         private final List<ResourceLocation> tags = new ArrayList<>();
         private final Set<Flag> flags = new HashSet<>();
 
+        /**
+         * @param variantFilter a filter that determines which variants this modifier applies to
+         */
         public Builder setVariantFilter(VariantFilter variantFilter) {
             this.variantFilter = variantFilter;
             return this;
         }
 
+        /**
+         * @param properties an optional modifier for block properties of generated variants
+         */
         public Builder setProperties(BlockPropsModifier properties) {
             this.properties = properties;
             return this;
         }
 
+        /**
+         * @param tags tags that should be applied to generated variants
+         */
         public Builder setTags(List<ResourceLocation> tags) {
             this.tags.clear();
             this.tags.addAll(tags);
             return this;
         }
 
+        /**
+         * @param tag a tag that should be applied to generated variants
+         */
         public Builder addTag(ResourceLocation tag) {
             this.tags.add(tag);
             return this;
         }
 
+        /**
+         * @param flags flags that should be applied to generated variants
+         */
         public Builder setFlags(Collection<Flag> flags) {
             this.flags.clear();
             this.flags.addAll(flags);
             return this;
         }
 
+        /**
+         * @param flag a flag that should be applied to generated variants
+         */
         public Builder addFlag(Flag flag) {
             this.flags.add(flag);
             return this;
