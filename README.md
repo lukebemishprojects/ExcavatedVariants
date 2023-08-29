@@ -35,13 +35,13 @@ Except when changed by modifiers, variants are generated for all ore/stone combi
 
 ### Ground Types
 
-Placed in `globalresources/[folder/pack]/[namespace]/excavated_variants/ground_type`. They are JSON files with the following structure:
+Placed in `globalresources/[folder/pack]/globaldata/[namespace]/excavated_variants/ground_type`. They are JSON files with the following structure:
 
 * (nothing): these don't actually hold any data yet! Just use an empty JSON file: `{}`.
 
 ### Ores
 
-Placed in `globalresources/[folder/pack]/[namespace]/excavated_variants/ore`. They are JSON files with the following structure:
+Placed in `globalresources/[folder/pack]/globaldata/[namespace]/excavated_variants/ore`. They are JSON files with the following structure:
 
 * `types`: a list of ground types that this ore can generate in. For example: `["excavated_variants:overworld"]`.
 * `translations`: an object with locales as keys (such as `en_us`) and translated names of the ore as values. Translations will be prepended by the stone name, unless the translation contains `%s`, in which case the stone name will be inserted at that location.
@@ -55,7 +55,7 @@ Placed in `globalresources/[folder/pack]/[namespace]/excavated_variants/ore`. Th
 
 ### Stones
 
-Placed in `globalresources/[folder/pack]/[namespace]/excavated_variants/stone`. They are JSON files with the following structure:
+Placed in `globalresources/[folder/pack]/globaldata/[namespace]/excavated_variants/stone`. They are JSON files with the following structure:
 
 * `types`: a list of ground types that this stone can generate in. For example: `["excavated_variants:overworld"]`.
 * `translations`: an object with locales as keys (such as `en_us`) and translated names of the stone as values.
@@ -64,7 +64,7 @@ Placed in `globalresources/[folder/pack]/[namespace]/excavated_variants/stone`. 
 
 ### Modifiers
 
-Placed in `globalresources/[folder/pack]/[namespace]/excavated_variants/modifier`. They are JSON files with the following structure:
+Placed in `globalresources/[folder/pack]/globaldata/[namespace]/excavated_variants/modifier`. They are JSON files with the following structure:
 
 * `tags`: (optional) a list of tags that variants matching the filter will be added to. Can be either block or item tags, in the format `"namespace:[blocks/items]/path"`.
 * `flags`: (optional) a list of flags from the following set that will be applied to matching variants:
