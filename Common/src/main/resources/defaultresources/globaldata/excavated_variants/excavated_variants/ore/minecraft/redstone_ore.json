@@ -27,7 +27,12 @@
     "universal_ores:calcite_redstone_ore": "excavated_variants:minecraft/calcite",
     "universal_ores:diorite_redstone_ore": "excavated_variants:minecraft/diorite",
     "universal_ores:granite_redstone_ore": "excavated_variants:minecraft/granite",
-    "universal_ores:tuff_redstone_ore": "excavated_variants:minecraft/tuff"
+    "universal_ores:tuff_redstone_ore": "excavated_variants:minecraft/tuff",
+    "spelunkery:granite_redstone_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:andesite_redstone_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:diorite_redstone_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:tuff_redstone_ore": "excavated_variants:minecraft/tuff",
+    "spelunkery:calciite_redstone_ore": "excavated_variants:minecraft/calcite"
   },
   "tags": [
     "forge:ores/redstone",

@@ -27,7 +27,12 @@
     "universal_ores:tuff_lapis_ore": "excavated_variants:minecraft/tuff",
     "universal_ores:diorite_lapis_ore": "excavated_variants:minecraft/diorite",
     "universal_ores:granite_lapis_ore": "excavated_variants:minecraft/granite",
-    "universal_ores:calcite_lapis_ore": "excavated_variants:minecraft/calcite"
+    "universal_ores:calcite_lapis_ore": "excavated_variants:minecraft/calcite",
+    "spelunkery:granite_lapis_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:andesite_lapis_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:diorite_lapis_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:tuff_lapis_ore": "excavated_variants:minecraft/tuff",
+    "spelunkery:sandstone_lapis_ore": "excavated_variants:minecraft/sandstone"
   },
   "tags": [
     "forge:ores/lapis",

@@ -7,7 +7,23 @@
   },
   "blocks": {
     "create:zinc_ore": "excavated_variants:minecraft/stone",
-    "create:deepslate_zinc_ore": "excavated_variants:minecraft/deepslate"
+    "create:deepslate_zinc_ore": "excavated_variants:minecraft/deepslate",
+    "spelunkery:granite_zinc_ore": {
+      "stone": "excavated_variants:minecraft/granite",
+      "required_mods": ["spelunkery", "create"]
+    },
+    "spelunkery:diorite_zinc_ore": {
+      "stone": "excavated_variants:minecraft/diorite",
+      "required_mods": ["spelunkery", "create"]
+    },
+    "spelunkery:andesite_zinc_ore": {
+      "stone": "excavated_variants:minecraft/andesite",
+      "required_mods": ["spelunkery", "create"]
+    },
+    "spelunkery:tuff_zinc_ore": {
+      "stone": "excavated_variants:minecraft/tuff",
+      "required_mods": ["spelunkery", "create"]
+    }
   },
   "tags": [
     "forge:ores/zinc",

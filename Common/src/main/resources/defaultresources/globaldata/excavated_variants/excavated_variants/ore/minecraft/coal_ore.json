@@ -27,7 +27,11 @@
     "universal_ores:andesite_coal_ore": "excavated_variants:minecraft/andesite",
     "universal_ores:granite_coal_ore": "excavated_variants:minecraft/granite",
     "universal_ores:diorite_coal_ore": "excavated_variants:minecraft/diorite",
-    "universal_ores:calcite_coal_ore": "excavated_variants:minecraft/calcite"
+    "universal_ores:calcite_coal_ore": "excavated_variants:minecraft/calcite",
+    "spelunkery:granite_coal_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:andesite_coal_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:diorite_coal_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:tuff_coal_ore": "excavated_variants:minecraft/tuff"
   },
   "tags": [
     "forge:ores/coal",

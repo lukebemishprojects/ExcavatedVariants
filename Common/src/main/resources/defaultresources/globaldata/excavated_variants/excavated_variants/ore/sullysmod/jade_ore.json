@@ -7,7 +7,23 @@
   },
   "blocks": {
     "sullysmod:deepslate_jade_ore": "excavated_variants:minecraft/deepslate",
-    "sullysmod:jade_ore": "excavated_variants:minecraft/stone"
+    "sullysmod:jade_ore": "excavated_variants:minecraft/stone",
+    "spelunkery:granite_jade_ore": {
+      "stone": "excavated_variants:minecraft/granite",
+      "required_mods": ["spelunkery", "sullysmod"]
+    },
+    "spelunkery:diorite_jade_ore": {
+      "stone": "excavated_variants:minecraft/diorite",
+      "required_mods": ["spelunkery", "sullysmod"]
+    },
+    "spelunkery:andesite_jade_ore": {
+      "stone": "excavated_variants:minecraft/andesite",
+      "required_mods": ["spelunkery", "sullysmod"]
+    },
+    "spelunkery:tuff_jade_ore": {
+      "stone": "excavated_variants:minecraft/tuff",
+      "required_mods": ["spelunkery", "sullysmod"]
+    }
   },
   "tags": [
     "forge:ores/jade",

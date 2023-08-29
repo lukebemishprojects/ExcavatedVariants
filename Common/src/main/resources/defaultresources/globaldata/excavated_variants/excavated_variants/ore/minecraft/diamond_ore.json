@@ -27,7 +27,12 @@
     "universal_ores:diorite_diamond_ore": "excavated_variants:minecraft/diorite",
     "universal_ores:calcite_diamond_ore": "excavated_variants:minecraft/calcite",
     "universal_ores:tuff_diamond_ore": "excavated_variants:minecraft/tuff",
-    "universal_ores:granite_diamond_ore": "excavated_variants:minecraft/granite"
+    "universal_ores:granite_diamond_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:granite_diamond_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:diorite_diamond_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:andesite_diamond_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:tuff_diamond_ore": "excavated_variants:minecraft/tuff",
+    "spelunkery:smooth_basalt_diamond_ore": "excavated_variants:minecraft/smooth_basalt"
   },
   "tags": [
     "forge:ores/diamond",

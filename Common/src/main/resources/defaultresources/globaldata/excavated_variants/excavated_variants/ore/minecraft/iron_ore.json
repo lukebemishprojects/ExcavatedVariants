@@ -27,7 +27,11 @@
     "universal_ores:tuff_iron_ore": "excavated_variants:minecraft/tuff",
     "universal_ores:diorite_iron_ore": "excavated_variants:minecraft/diorite",
     "universal_ores:calcite_iron_ore": "excavated_variants:minecraft/calcite",
-    "universal_ores:andesite_iron_ore": "excavated_variants:minecraft/andesite"
+    "universal_ores:andesite_iron_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:granite_iron_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:andesite_iron_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:diorite_iron_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:tuff_iron_ore": "excavated_variants:minecraft/tuff"
   },
   "tags": [
     "forge:ores/iron",

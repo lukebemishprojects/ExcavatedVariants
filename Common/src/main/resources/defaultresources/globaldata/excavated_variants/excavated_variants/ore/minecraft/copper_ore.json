@@ -25,7 +25,11 @@
     "universal_ores:diorite_copper_ore": "excavated_variants:minecraft/diorite",
     "universal_ores:tuff_copper_ore": "excavated_variants:minecraft/tuff",
     "universal_ores:granite_copper_ore": "excavated_variants:minecraft/granite",
-    "universal_ores:andesite_copper_ore": "excavated_variants:minecraft/andesite"
+    "universal_ores:andesite_copper_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:granite_copper_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:andesite_copper_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:diorite_copper_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:tuff_copper_ore": "excavated_variants:minecraft/tuff"
   },
   "tags": [
     "forge:ores/copper",

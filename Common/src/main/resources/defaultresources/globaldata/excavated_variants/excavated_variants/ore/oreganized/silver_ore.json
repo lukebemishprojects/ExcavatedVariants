@@ -7,7 +7,23 @@
   },
   "blocks": {
     "oreganized:silver_ore": "excavated_variants:minecraft/stone",
-    "oreganized:deepslate_silver_ore": "excavated_variants:minecraft/deepslate"
+    "oreganized:deepslate_silver_ore": "excavated_variants:minecraft/deepslate",
+    "spelunkery:granite_silver_ore": {
+      "stone": "excavated_variants:minecraft/granite",
+      "required_mods": ["spelunkery", "oreganized"]
+    },
+    "spelunkery:diorite_silver_ore": {
+      "stone": "excavated_variants:minecraft/diorite",
+      "required_mods": ["spelunkery", "oreganized"]
+    },
+    "spelunkery:andesite_silver_ore": {
+      "stone": "excavated_variants:minecraft/andesite",
+      "required_mods": ["spelunkery", "oreganized"]
+    },
+    "spelunkery:tuff_silver_ore": {
+      "stone": "excavated_variants:minecraft/tuff",
+      "required_mods": ["spelunkery", "oreganized"]
+    }
   },
   "tags": [
     "forge:ores/silver",

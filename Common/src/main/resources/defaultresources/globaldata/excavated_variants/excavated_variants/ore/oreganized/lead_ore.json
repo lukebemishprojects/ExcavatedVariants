@@ -7,7 +7,23 @@
   },
   "blocks": {
     "oreganized:lead_ore": "excavated_variants:minecraft/stone",
-    "oreganized:deepslate_lead_ore": "excavated_variants:minecraft/deepslate"
+    "oreganized:deepslate_lead_ore": "excavated_variants:minecraft/deepslate",
+    "spelunkery:granite_lead_ore": {
+      "stone": "excavated_variants:minecraft/granite",
+      "required_mods": ["spelunkery", "oreganized"]
+    },
+    "spelunkery:diorite_lead_ore": {
+      "stone": "excavated_variants:minecraft/diorite",
+      "required_mods": ["spelunkery", "oreganized"]
+    },
+    "spelunkery:andesite_lead_ore": {
+      "stone": "excavated_variants:minecraft/andesite",
+      "required_mods": ["spelunkery", "oreganized"]
+    },
+    "spelunkery:tuff_lead_ore": {
+      "stone": "excavated_variants:minecraft/tuff",
+      "required_mods": ["spelunkery", "oreganized"]
+    }
   },
   "tags": [
     "forge:ores/lead",
