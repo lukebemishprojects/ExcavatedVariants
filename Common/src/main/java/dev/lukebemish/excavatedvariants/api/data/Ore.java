@@ -10,6 +10,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.excavatedvariants.api.RegistryKeys;
 import dev.lukebemish.excavatedvariants.api.data.modifier.Flag;
 import dev.lukebemish.excavatedvariants.api.data.modifier.Modifier;
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModLifecycle;
 import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import net.minecraft.core.Holder;
@@ -102,7 +103,7 @@ public final class Ore {
         if (ModLifecycle.getLifecyclePhase() != ModLifecycle.PRE_REGISTRATION) {
             throw new IllegalStateException("Cannot add possible variant except during pre-registration");
         }
-        blocks.put(output, new DetailedStone.Builder().setStone(stone.getKeyOrThrow()).build());
+        blocks.put(output, new DetailedStone.Builder().setModIds(List.of(ExcavatedVariants.MOD_ID)).setStone(stone.getKeyOrThrow()).build());
     }
 
     @ApiStatus.Internal
