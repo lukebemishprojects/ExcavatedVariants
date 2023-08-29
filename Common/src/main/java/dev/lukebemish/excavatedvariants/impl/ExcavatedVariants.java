@@ -64,6 +64,10 @@ public final class ExcavatedVariants {
             Map<GroundType, List<Ore>> groundTypeOreMap = new HashMap<>();
 
             for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
+                for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
+                    ore.modifyOriginal(modifier);
+                }
+                ore.bake();
                 if (ore.getBlocks().isEmpty()) continue;
                 for (ResourceKey<GroundType> groundTypeKey : ore.types) {
                     var groundType = RegistriesImpl.GROUND_TYPE_REGISTRY.get(groundTypeKey);
@@ -85,11 +89,11 @@ public final class ExcavatedVariants {
                     for (Ore ore : ores) {
                         if (ore.getBlocks().isEmpty()) continue;
                         for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
-                            if (modifier.variantFilter.matches(ore, stone) && modifier.disable) {
+                            if (modifier.variantFilter.matches(ore, stone, id(computeFullId(ore, stone))) && modifier.flags.contains(Flag.DISABLE)) {
                                 continue ore_loop;
                             }
                         }
-                        if (!ore.getOriginalStoneBlocks().containsKey(stone.getKeyOrThrow())) {
+                        if (ore.isNotOriginal(stone.getKeyOrThrow())) {
                             var set = newVariantsSet.computeIfAbsent(ore, k -> new HashSet<>());
                             if (set.add(stone)) {
                                 newVariants.computeIfAbsent(ore, k -> new ArrayList<>()).add(stone);
@@ -101,10 +105,12 @@ public final class ExcavatedVariants {
 
             NEW_VARIANTS_MAP = newVariants;
         }
+
+        ModLifecycle.setLifecyclePhase(ModLifecycle.PRE_REGISTRATION);
     }
 
     public static void init() {
-        if (ModLifecycle.getLifecyclePhase() != ModLifecycle.PRE) {
+        if (ModLifecycle.getLifecyclePhase() != ModLifecycle.PRE_INITIALIZATION) {
             return;
         }
 
@@ -120,7 +126,7 @@ public final class ExcavatedVariants {
                 VariantFuture future = new VariantFuture(fullId, ore, stone);
                 ore.addPossibleVariant(stone, new ResourceLocation(ExcavatedVariants.MOD_ID, fullId));
                 List<ResourceKey<Block>> keys = new ArrayList<>();
-                for (Map.Entry<ResourceKey<Block>, ResourceKey<Stone>> blockEntry : ore.getBlocks().entrySet()) {
+                for (Map.Entry<ResourceKey<Block>, ResourceKey<Stone>> blockEntry : ore.getGeneratingBlocks().entrySet()) {
                     ResourceKey<Block> key = blockEntry.getKey();
                     Stone originalStone = RegistriesImpl.STONE_REGISTRY.get(blockEntry.getValue());
                     if (originalStone == null) {
@@ -137,7 +143,7 @@ public final class ExcavatedVariants {
         }
 
         for (Modifier modifier : RegistriesImpl.MODIFIER_REGISTRY) {
-            List<VariantFuture> futures = NEW_VARIANTS.stream().filter(p -> modifier.variantFilter.matches(p.ore, p.stone)).toList();
+            List<VariantFuture> futures = NEW_VARIANTS.stream().filter(f -> modifier.variantFilter.matches(f.ore, f.stone, id(f.fullId))).toList();
             for (VariantFuture future : futures) {
                 future.flags.addAll(modifier.flags);
                 if (modifier.properties != null) {
@@ -192,7 +198,7 @@ public final class ExcavatedVariants {
         }
 
         for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
-            ore.bakeExistingBlocks();
+            ore.bake();
         }
 
         // No reason to keep any of this around; this way some of it can be GCed...
@@ -207,7 +213,7 @@ public final class ExcavatedVariants {
                 for (Ore ore : RegistriesImpl.ORE_REGISTRY) {
                     for (var entry : ore.getBlocks().entrySet()) {
                         var stone = Objects.requireNonNull(RegistriesImpl.STONE_REGISTRY.get(entry.getValue()));
-                        if (modifier.variantFilter.matches(ore, stone)) {
+                        if (modifier.variantFilter.matches(ore, stone, entry.getKey().location())) {
                             for (ResourceLocation tag : modifier.tags) {
                                 if (tag.getPath().startsWith("blocks/"))
                                     planBlockTag(tag.withPath(tag.getPath().substring(7)), entry.getKey().location());
@@ -274,6 +280,10 @@ public final class ExcavatedVariants {
         MAPPINGS_CACHE.save();
 
         ModLifecycle.setLifecyclePhase(ModLifecycle.POST);
+    }
+
+    public static ResourceLocation id(String path) {
+        return new ResourceLocation(MOD_ID, path);
     }
 
     public static String computeFullId(ResourceLocation ore, ResourceLocation stone) {

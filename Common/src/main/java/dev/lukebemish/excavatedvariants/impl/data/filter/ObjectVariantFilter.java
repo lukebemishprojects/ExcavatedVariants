@@ -15,6 +15,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.api.data.filter.VariantFilter;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public sealed interface ObjectVariantFilter extends VariantFilter {
         }
 
         @Override
-        public boolean matches(Ore ore, Stone stone) {
+        public boolean matches(Ore ore, Stone stone, ResourceLocation block) {
             return true;
         }
 
@@ -73,8 +74,8 @@ public sealed interface ObjectVariantFilter extends VariantFilter {
 
 
         @Override
-        public boolean matches(Ore ore, Stone stone) {
-            return variantFilters.stream().allMatch(f -> f.matches(ore, stone));
+        public boolean matches(Ore ore, Stone stone, ResourceLocation block) {
+            return variantFilters.stream().allMatch(f -> f.matches(ore, stone, block));
         }
 
         @Override
@@ -90,7 +91,7 @@ public sealed interface ObjectVariantFilter extends VariantFilter {
         }
 
         @Override
-        public boolean matches(Ore ore, Stone stone) {
+        public boolean matches(Ore ore, Stone stone, ResourceLocation block) {
             return false;
         }
 
@@ -106,8 +107,8 @@ public sealed interface ObjectVariantFilter extends VariantFilter {
         ).apply(i, NotVariantFilter::new));
 
         @Override
-        public boolean matches(Ore ore, Stone stone) {
-            return !variantFilter().matches(ore, stone);
+        public boolean matches(Ore ore, Stone stone, ResourceLocation block) {
+            return !variantFilter().matches(ore, stone, block);
         }
 
         @Override
@@ -123,8 +124,8 @@ public sealed interface ObjectVariantFilter extends VariantFilter {
 
 
         @Override
-        public boolean matches(Ore ore, Stone stone) {
-            return variantFilters.stream().anyMatch(f -> f.matches(ore, stone));
+        public boolean matches(Ore ore, Stone stone, ResourceLocation block) {
+            return variantFilters.stream().anyMatch(f -> f.matches(ore, stone, block));
         }
 
         @Override

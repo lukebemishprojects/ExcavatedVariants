@@ -19,7 +19,7 @@ public class StateCapturer implements ModInitializer {
     }
 
     public static void checkState() {
-        if (ModLifecycle.getLifecyclePhase() == ModLifecycle.PRE || !INITIALIZED) {
+        if (ModLifecycle.getLifecyclePhase().above(ModLifecycle.PRE_REGISTRATION) || !INITIALIZED) {
             var e = new RuntimeException("Something has gone very wrong with load ordering, and we have no clue what is going on. Please report this to Excavated Variants and be sure to provide a log!");
             ExcavatedVariants.LOGGER.error("...what the heck? Where are we? Lifecycle state: {}, initialized: {}", ModLifecycle.getLifecyclePhase(), INITIALIZED, e);
             throw e;

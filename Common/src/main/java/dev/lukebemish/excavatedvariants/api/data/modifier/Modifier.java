@@ -15,9 +15,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class Modifier {
     public static final Codec<Modifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -27,23 +25,20 @@ public class Modifier {
                     return DataResult.success(impl);
                 return DataResult.error(() -> "Not a serializable modifier: " + p);
             }).optionalFieldOf("properties").forGetter(m -> Optional.ofNullable(m.properties)),
-            Flag.CODEC.listOf().optionalFieldOf("flags", List.of()).forGetter(m -> m.flags),
-            ResourceLocation.CODEC.listOf().optionalFieldOf("tags", List.of()).forGetter(m -> m.tags),
-            Codec.BOOL.optionalFieldOf("disable", false).forGetter(m -> m.disable)
-    ).apply(instance, (filter, properties, flags, tags, disable) -> new Modifier(filter, properties.orElse(null), tags, flags, disable)));
+            Flag.CODEC.listOf().xmap(Set::copyOf, List::copyOf).optionalFieldOf("flags", Set.of()).forGetter(m -> m.flags),
+            ResourceLocation.CODEC.listOf().optionalFieldOf("tags", List.of()).forGetter(m -> m.tags)
+    ).apply(instance, (filter, properties, flags, tags) -> new Modifier(filter, properties.orElse(null), tags, flags)));
 
     public final VariantFilter variantFilter;
     public final BlockPropsModifier properties;
     public final List<ResourceLocation> tags;
-    public final List<Flag> flags;
-    public final boolean disable;
+    public final Set<Flag> flags;
 
-    public Modifier(VariantFilter variantFilter, BlockPropsModifier properties, List<ResourceLocation> tags, List<Flag> flags, boolean disable) {
+    public Modifier(VariantFilter variantFilter, BlockPropsModifier properties, List<ResourceLocation> tags, Set<Flag> flags) {
         this.variantFilter = variantFilter;
         this.properties = properties;
         this.tags = tags;
         this.flags = flags;
-        this.disable = disable;
     }
 
     public Holder<Modifier> getHolder() {
@@ -57,9 +52,8 @@ public class Modifier {
     public static class Builder {
         private VariantFilter variantFilter;
         private BlockPropsModifier properties;
-        private List<ResourceLocation> tags;
-        private List<Flag> flags;
-        private boolean disable = false;
+        private final List<ResourceLocation> tags = new ArrayList<>();
+        private final Set<Flag> flags = new HashSet<>();
 
         public Builder setVariantFilter(VariantFilter variantFilter) {
             this.variantFilter = variantFilter;
@@ -72,25 +66,30 @@ public class Modifier {
         }
 
         public Builder setTags(List<ResourceLocation> tags) {
-            this.tags = tags;
+            this.tags.clear();
+            this.tags.addAll(tags);
             return this;
         }
 
-        public Builder setFlags(List<Flag> flags) {
-            this.flags = flags;
+        public Builder addTag(ResourceLocation tag) {
+            this.tags.add(tag);
             return this;
         }
 
-        public Builder setDisable(boolean disable) {
-            this.disable = disable;
+        public Builder setFlags(Collection<Flag> flags) {
+            this.flags.clear();
+            this.flags.addAll(flags);
+            return this;
+        }
+
+        public Builder addFlag(Flag flag) {
+            this.flags.add(flag);
             return this;
         }
 
         public Modifier build() {
             Objects.requireNonNull(this.variantFilter);
-            Objects.requireNonNull(this.tags);
-            Objects.requireNonNull(this.flags);
-            return new Modifier(variantFilter, properties, tags, flags, disable);
+            return new Modifier(variantFilter, properties, tags, flags);
         }
     }
 }

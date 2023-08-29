@@ -56,7 +56,7 @@ public class MappingsCache {
         for (ExcavatedVariants.VariantFuture future : ExcavatedVariants.COMPLETE_VARIANTS) {
             List<ResourceLocation> outBlocks = new ArrayList<>();
             outBlocks.add(future.foundOreKey.location());
-            for (ResourceKey<Block> ore : future.ore.getOriginalBlocks().keySet()) {
+            for (ResourceKey<Block> ore : future.ore.originalBlocks) {
                 if (ore == future.foundOreKey) continue;
                 outBlocks.add(ore.location());
             }
