@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Jade Ore"
+  },
+  "blocks": {
+    "sullysmod:deepslate_jade_ore": "excavated_variants:minecraft/deepslate",
+    "sullysmod:jade_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/jade",
+    "c:ores/jade",
+    "c:jade_ores"
+  ]
+}
