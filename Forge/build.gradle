@@ -1,5 +1,5 @@
 plugins {
-    alias libs.plugins.forgegradle
+    alias libs.plugins.neogradle
     alias libs.plugins.librarian
     alias libs.plugins.mixingradle
     alias libs.plugins.minotaur
@@ -9,7 +9,7 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-base.archivesName = "${artifact_id}-forge-${libs.versions.minecraft.get()}"
+base.archivesName = "${artifact_id}-neoforge-${libs.versions.minecraft.get()}"
 
 minecraft {
     mappings channel: 'parchment', version: "${libs.versions.parchment.minecraft.get()}-${libs.versions.parchment.mappings.get()}-${libs.versions.minecraft.get()}"
@@ -69,7 +69,7 @@ configurations {
 }
 
 dependencies {
-    minecraft libs.forge
+    minecraft libs.neoforge
     compileOnly project(":Common")
 
     compileOnly libs.autoservice
@@ -127,9 +127,9 @@ if (System.getenv('CURSEFORGE_KEY')) {
             id = '577411'
             releaseType = "${project.release_type}"
             addGameVersion "${libs.versions.minecraft.get()}"
-            addGameVersion 'Forge'
+            addGameVersion 'NeoForge'
             mainArtifact(tasks.jarJar) {
-                displayName = "Excavated Variants [Forge] v$project.version"
+                displayName = "Excavated Variants [NeoForge] v$project.version"
             }
             relations {
                 requiredDependency 'dynamic-asset-generator'
@@ -150,7 +150,7 @@ if (System.getenv('MODRINTH_KEY')) {
         detectLoaders = false
         uploadFile = tasks.jarJar
         gameVersions = ["${libs.versions.minecraft.get()}"]
-        loaders = ['forge']
+        loaders = ['neoforge']
         dependencies {
             required.project 'dynamic_asset_generator'
         }
