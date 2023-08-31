@@ -65,10 +65,7 @@ public class ExcavatedVariantsForge {
     }
 
     public static void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            RegistriesImpl.registerRegistries();
-            //ExcavatedVariants.getMappingsCache();
-        });
+        event.enqueueWork(RegistriesImpl::registerRegistries);
     }
 
     public static void registerListener(RegisterEvent event) {
@@ -83,5 +80,4 @@ public class ExcavatedVariantsForge {
             ExcavatedVariants.initPostRegister();
         });
     }
-
 }

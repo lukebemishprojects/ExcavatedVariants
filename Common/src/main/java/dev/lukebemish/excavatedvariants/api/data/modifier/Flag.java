@@ -13,8 +13,7 @@ import java.util.Locale;
 
 /**
  * Flags that can be applied to variants.
- * <p>
- * <b>Note that the values of this enum are not considered to be an API surface; more flags may be added at any time.</b>
+ * <p><strong>Note that the values of this enum are not considered to be an API surface; more flags may be added at any time.</strong>
  */
 public enum Flag implements StringRepresentable {
     /**
