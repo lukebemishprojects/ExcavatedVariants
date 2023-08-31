@@ -23,7 +23,7 @@ registries:
     url: https://maven.parchmentmc.org/
   forge:
     type: maven-repository
-    url: https://maven.minecraftforge.net/
+    url: https://maven.neoforged.net/
 updates:
   - package-ecosystem: "gradle"
     directory: "/"

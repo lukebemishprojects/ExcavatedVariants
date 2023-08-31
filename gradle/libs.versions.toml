@@ -1,17 +1,17 @@
 [versions]
 minecraft = "1.20.1"
-parchment_minecraft = "1.19.3"
-parchment_mappings = "2023.03.12"
-quilt_loader = "0.19.1"
+parchment_minecraft = "1.20.1"
+parchment_mappings = "2023.08.20"
+quilt_loader = "0.20.2"
 
-qfapi = "7.0.3+0.83.1-1.20.1"
+qfapi = "7.1.2+0.87.0-1.20.1"
 
-forge = "1.20.1-47.0.3"
+neoforge = "1.20.1-47.1.75"
 mixin = "0.8.5"
 
 autoservice = "1.1.1"
 
-mdg_dsl = "1.5.0"
+mdg_dsl = "1.5.1"
 
 jankson = "1.2.2"
 nightconfig = "3.6.4"
@@ -32,7 +32,7 @@ quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loade
 
 qfapi = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "qfapi" }
 
-forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
+neoforge = { module = "net.neoforged:forge", version.ref = "neoforge" }
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
 jetbrains_annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains_annotations" }
@@ -60,7 +60,7 @@ emi_forge = { module = "dev.emi:emi-forge", version.ref = "emi" }
 
 [plugins]
 quilt_loom = { id = "org.quiltmc.loom", version = "1.2.3" }
-forgegradle = {id = "net.minecraftforge.gradle", version = "6.0.6"}
+neogradle = {id = "net.neoforged.gradle", version = "6.0.18"}
 librarian = {id = "org.parchmentmc.librarian.forgegradle", version = "1.2.0"}
 mixingradle = {id = "org.spongepowered.mixin", version = "0.7.33"}
 mdg = {id = "org.groovymc.modsdotgroovy", version = "1.4.1"}
