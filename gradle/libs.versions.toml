@@ -14,7 +14,7 @@ autoservice = "1.1.1"
 mdg_dsl = "1.5.1"
 
 dynassetgen = "5.0.0-pr71"
-defaultresources = "3.0.0-pr39"
+defaultresources = "3.0.0-pr42"
 
 jetbrains_annotations = "24.0.1"
 
@@ -33,9 +33,9 @@ autoservice = { module = "com.google.auto.service:auto-service", version.ref = "
 dynassetgen_common = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-1.20.1", version.ref = "dynassetgen" }
 dynassetgen_quilt = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-quilt-1.20.1", version.ref = "dynassetgen" }
 dynassetgen_forge = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-forge-1.20.1", version.ref = "dynassetgen" }
-defaultresources_common = { module = "dev.lukebemish.defaultresources:defaultresources-common-1.20", version.ref = "defaultresources" }
-defaultresources_quilt = { module = "dev.lukebemish.defaultresources:defaultresources-quilt-1.20", version.ref = "defaultresources" }
-defaultresources_forge = { module = "dev.lukebemish.defaultresources:defaultresources-forge-1.20", version.ref = "defaultresources" }
+defaultresources_common = { module = "dev.lukebemish.defaultresources:defaultresources-common-1.20.1", version.ref = "defaultresources" }
+defaultresources_quilt = { module = "dev.lukebemish.defaultresources:defaultresources-fabriquilt-1.20.1", version.ref = "defaultresources" }
+defaultresources_forge = { module = "dev.lukebemish.defaultresources:defaultresources-neoforge-1.20.1", version.ref = "defaultresources" }
 
 [plugins]
 quilt_loom = { id = "org.quiltmc.loom", version = "1.2.3" }

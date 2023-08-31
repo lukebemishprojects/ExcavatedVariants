@@ -28,30 +28,32 @@ public class DefaultRegistrationListener implements RegistrationListener {
     @Override
     public void provideEntries(Registrar registrar) {
         loadType(
-                RegistriesImpl.GROUND_TYPE_KEY.location().getNamespace()+"/"+RegistriesImpl.GROUND_TYPE_KEY.location().getPath(),
+                RegistriesImpl.GROUND_TYPE_KEY.location().getPath(),
                 GroundType.CODEC,
                 registrar.groundTypes,
                 true
         );
         loadType(
-                RegistriesImpl.STONE_KEY.location().getNamespace()+"/"+RegistriesImpl.STONE_KEY.location().getPath(),
+                RegistriesImpl.STONE_KEY.location().getPath(),
                 Stone.CODEC,
                 registrar.stones,
                 true
         );
         loadType(
-                RegistriesImpl.ORE_KEY.location().getNamespace()+"/"+RegistriesImpl.ORE_KEY.location().getPath(),
+                RegistriesImpl.ORE_KEY.location().getPath(),
                 Ore.CODEC,
                 registrar.ores,
                 false
         );
         loadType(
-                RegistriesImpl.MODIFIER_KEY.location().getNamespace()+"/"+RegistriesImpl.MODIFIER_KEY.location().getPath(),
+                RegistriesImpl.MODIFIER_KEY.location().getPath(),
                 Modifier.CODEC,
                 registrar.modifiers,
                 true
         );
     }
+
+    private static final GlobalResourceManager DATA = GlobalResourceManager.getGlobalData().prefix(ExcavatedVariants.MOD_ID);
 
     public static <T> void loadType(String prefix, Codec<T> codec, BiConsumer<ResourceLocation, T> consumer, boolean firstOnly) {
         BiConsumer<ResourceLocation, List<Resource>> foundConsumer = (rl, resources) -> resources.forEach(resource -> {
@@ -70,9 +72,9 @@ public class DefaultRegistrationListener implements RegistrationListener {
             }
         });
         if (firstOnly) {
-            GlobalResourceManager.STATIC_DATA.listResources(prefix, rl -> rl.getPath().endsWith(".json")).forEach((rl, r) -> foundConsumer.accept(rl, List.of(r)));
+            DATA.listResources(prefix, rl -> rl.getPath().endsWith(".json")).forEach((rl, r) -> foundConsumer.accept(rl, List.of(r)));
         } else {
-            GlobalResourceManager.STATIC_DATA.listResourceStacks(prefix, rl -> rl.getPath().endsWith(".json")).forEach(foundConsumer);
+            DATA.listResourceStacks(prefix, rl -> rl.getPath().endsWith(".json")).forEach(foundConsumer);
         }
     }
 

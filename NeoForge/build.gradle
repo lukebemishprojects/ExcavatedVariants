@@ -1,0 +1,177 @@
+plugins {
+    alias libs.plugins.neogradle
+    alias libs.plugins.librarian
+    alias libs.plugins.mixingradle
+    alias libs.plugins.minotaur
+    alias libs.plugins.cursegradle
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+base.archivesName = "${artifact_id}-neoforge-${libs.versions.minecraft.get()}"
+
+minecraft {
+    mappings channel: 'parchment', version: "${libs.versions.parchment.minecraft.get()}-${libs.versions.parchment.mappings.get()}-${libs.versions.minecraft.get()}"
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Client'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modClientRun {
+                    source sourceSets.main
+                    source project(":Common").sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('runserver')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Server'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modServerRun {
+                    source sourceSets.main
+                    source project(":Common").sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            taskName 'Data'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modDataRun {
+                    source sourceSets.main
+                    source project(":Common").sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+jarJar.enable()
+
+configurations {
+    testCompileClasspath.extendsFrom(compileClasspath)
+}
+
+dependencies {
+    minecraft libs.neoforge
+    compileOnly project(":Common")
+
+    compileOnly libs.autoservice
+    annotationProcessor libs.autoservice
+
+    annotationProcessor(variantOf(libs.mixin) { classifier 'processor' })
+
+    implementation fg.deobf(libs.dynassetgen.forge.get())
+    implementation fg.deobf(libs.defaultresources.forge.get())
+
+    jarJar(libs.defaultresources.forge.get()) {
+        jarJar.ranged(it, "[${libs.versions.defaultresources.get()},)")
+    }
+}
+
+mixin {
+    add sourceSets.main, 'excavated_variants.refmap.json'
+    config 'mixin.excavated_variants_forge.json'
+    add project(":Common").sourceSets.main, 'excavated_variants.refmap.json'
+    config 'mixin.excavated_variants.json'
+}
+
+tasks.withType(JavaCompile) {
+    source(project(":Common").sourceSets.main.allSource)
+}
+
+processResources {
+    from project(":Common").sourceSets.main.resources
+}
+
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId base.archivesName.get()
+            version project.version
+            artifact tasks.jarJar
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+    repositories {
+    }
+}
+
+// Publishing
+
+if (System.getenv('CURSEFORGE_KEY')) {
+    curseforge {
+        apiKey = System.getenv('CURSEFORGE_KEY')
+        project {
+            id = '577411'
+            releaseType = "${project.release_type}"
+            addGameVersion "${libs.versions.minecraft.get()}"
+            addGameVersion 'NeoForge'
+            mainArtifact(tasks.jarJar) {
+                displayName = "Excavated Variants [NeoForge] v$project.version"
+            }
+            relations {
+                requiredDependency 'dynamic-asset-generator'
+            }
+        }
+        options {
+            forgeGradleIntegration = true
+        }
+    }
+}
+
+if (System.getenv('MODRINTH_KEY')) {
+    modrinth {
+        token = System.getenv('MODRINTH_KEY')
+        projectId = 'IZaMGxb0'
+        versionNumber = "$project.version"
+        versionType = "${project.release_type}"
+        detectLoaders = false
+        uploadFile = tasks.jarJar
+        gameVersions = ["${libs.versions.minecraft.get()}"]
+        loaders = ['neoforge']
+        dependencies {
+            required.project 'dynamic_asset_generator'
+        }
+    }
+}
+
+tasks.build.dependsOn tasks.jarJar
+
+reobf {
+    jarJar {}
+}
+
+tasks.jarJar.finalizedBy("reobfJarJar")
+
+afterEvaluate {
+    tasks.curseforge.dependsOn tasks.jarJar
+    tasks.modrinth.dependsOn tasks.jarJar
+    tasks.jarJar {
+        archiveClassifier = ''
+    }
+    jar {
+        archiveClassifier = 'partial'
+    }
+}

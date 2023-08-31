@@ -110,6 +110,7 @@ public final class Ore {
     public void modifyOriginal(Modifier modifier) {
         for (var entry : this.blocksBaked.entrySet()) {
             Stone stone = RegistriesImpl.STONE_REGISTRY.get(entry.getValue());
+            if (stone == null) throw new IllegalStateException("Stone " + entry.getValue().location() + " is not registered but is referenced by ore " + getKeyOrThrow().location());
             if (modifier.variantFilter.matches(this, stone, entry.getKey().location())) {
                 if (modifier.flags.contains(Flag.DISABLE)) {
                     blocks.remove(entry.getKey().location());
