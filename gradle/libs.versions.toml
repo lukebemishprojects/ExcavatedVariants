@@ -14,7 +14,7 @@ autoservice = "1.1.1"
 mdg_dsl = "1.5.1"
 
 jankson = "1.2.2"
-nightconfig = "3.6.4"
+nightconfig = "3.6.7"
 
 dynassetgen = "4.0.0"
 defaultresources = "2.0.0"
