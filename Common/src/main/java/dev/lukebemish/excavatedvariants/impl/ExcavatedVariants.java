@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
+import dev.lukebemish.excavatedvariants.TagQueue;
 import dev.lukebemish.excavatedvariants.api.DataProvider;
 import dev.lukebemish.excavatedvariants.api.DataReceiver;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
@@ -171,6 +172,7 @@ public final class ExcavatedVariants {
         }
 
         DATA_CACHE.tags().queue(tierHolder);
+        DATA_CACHE.tags().queue(TAG_QUEUE);
 
         Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
         Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
@@ -376,8 +378,10 @@ public final class ExcavatedVariants {
         return mappingsCache;
     }
 
+    private static final TagQueue TAG_QUEUE = new TagQueue();
+
     private static void planBlockTag(ResourceLocation tag, ResourceLocation block, boolean inLang) {
-        DATA_CACHE.tags().queue(tag, block);
+        TAG_QUEUE.queue(tag, block);
         if (inLang) {
             planTagLang(tag);
         }
@@ -388,7 +392,7 @@ public final class ExcavatedVariants {
     }
 
     private static void planItemTag(ResourceLocation tag, ResourceLocation item, boolean inLang) {
-        DATA_CACHE.tags().queue(tag, item);
+        TAG_QUEUE.queue(tag, item);
         if (inLang) {
             planTagLang(tag);
         }

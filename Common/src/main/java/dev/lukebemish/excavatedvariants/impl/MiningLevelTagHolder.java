@@ -12,6 +12,7 @@ import dev.lukebemish.dynamicassetgenerator.api.templates.TagFile;
 import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
 import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagEntry;
 
@@ -43,10 +44,13 @@ public class MiningLevelTagHolder implements Supplier<Map<ResourceLocation, Set<
         }));
 
         toCheck.forEach(pair -> {
-            int maxValue = Math.max(getOrCreateLevel(tagNames, memberMap, blockToLevelMap, pair.stoneId),
-                    getOrCreateLevel(tagNames, memberMap, blockToLevelMap, pair.oreId));
-            if (maxValue != -1)
-                tags.computeIfAbsent(tagNames.get(maxValue), k->new HashSet<>()).add(new ResourceLocation(ExcavatedVariants.MOD_ID, pair.fullId));
+            var id = new ResourceLocation(ExcavatedVariants.MOD_ID, pair.fullId);
+            if (BuiltInRegistries.BLOCK.containsKey(id)) {
+                int maxValue = Math.max(getOrCreateLevel(tagNames, memberMap, blockToLevelMap, pair.stoneId),
+                        getOrCreateLevel(tagNames, memberMap, blockToLevelMap, pair.oreId));
+                if (maxValue != -1)
+                    tags.computeIfAbsent(tagNames.get(maxValue), k -> new HashSet<>()).add(id);
+            }
         });
 
         return tags;

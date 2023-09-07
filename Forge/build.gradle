@@ -141,6 +141,7 @@ if (System.getenv('CURSEFORGE_KEY')) {
             releaseType = "${project.release_type}"
             addGameVersion "${libs.versions.minecraft.get()}"
             addGameVersion 'NeoForge'
+            addGameVersion 'Forge'
             mainArtifact(tasks.jarJar) {
                 displayName = "Excavated Variants [NeoForge] v$project.version"
             }
@@ -163,7 +164,7 @@ if (System.getenv('MODRINTH_KEY')) {
         detectLoaders = false
         uploadFile = tasks.jarJar
         gameVersions = ["${libs.versions.minecraft.get()}"]
-        loaders = ['neoforge']
+        loaders = ['neoforge', 'forge']
         dependencies {
             required.project 'dynamic_asset_generator'
         }

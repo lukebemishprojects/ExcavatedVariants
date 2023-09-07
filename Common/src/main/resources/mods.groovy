@@ -27,7 +27,7 @@ ModsDotGroovy.make {
             minecraft = this.minecraftVersionRange
 
             forge {
-                versionRange = ">=${this.forgeVersion}"
+                versionRange = ">=${this.buildProperties.forge_compat}"
             }
 
             quiltLoader {

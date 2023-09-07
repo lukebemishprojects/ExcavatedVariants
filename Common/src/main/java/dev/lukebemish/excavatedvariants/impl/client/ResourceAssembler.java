@@ -88,48 +88,50 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
     }
 
     private void processPair(BaseOre ore, BaseStone oldStone, BaseStone newStone) {
-        List<ModelData> oldStoneModels = stoneModels.get(stoneBlocks.get(oldStone.id));
-        List<ModelData> newStoneModels = stoneModels.get(stoneBlocks.get(newStone.id));
-        List<TexFaceProvider> oreModels = this.oreModels.get(oreBlocks.get(ore.id));
-
-        if (oldStoneModels == null) {
-            ExcavatedVariants.LOGGER.warn("No existing stone models found for "+oldStone.id);
-            return;
-        }
-        if (newStoneModels == null) {
-            ExcavatedVariants.LOGGER.warn("No new stone models found for "+newStone.id);
-            return;
-        }
-        if (oreModels == null || oreModels.isEmpty()) {
-            ExcavatedVariants.LOGGER.warn("No ore models found for "+ore.id);
-            return;
-        }
-
-        ModelData oldStoneModel = oldStoneModels.get(0);
-
-        int counter = 0;
-        List<ResourceLocation> models = new ArrayList<>();
-        for (ModelData newStoneModel : newStoneModels) {
-            for (TexFaceProvider oreModel : oreModels) {
-                ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/"+newStone.id+"_"+ore.id+"_"+counter);
-                assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, oldStone);
-                models.add(modelLocation);
-                counter += 1;
-            }
-        }
-
-        // Generate blockstate file
         var fullId = newStone.id + "_" + ore.id;
         ModifiedOreBlock block = ExcavatedVariants.getBlocks().get(fullId);
 
-        var assembled = BlockStateData.create(block, models);
-        var encoded = BlockStateData.CODEC.encodeStart(JsonOps.INSTANCE, assembled).result();
-        if (encoded.isPresent()) {
-            var json = ExcavatedVariants.GSON_CONDENSED.toJson(encoded.get());
-            resources.put(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/"+fullId+".json"),
-                    (resourceLocation, context) -> () -> new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)));
-        } else {
-            ExcavatedVariants.LOGGER.warn("Failed to encode blockstate for "+fullId);
+        if (block != null) {
+            List<ModelData> oldStoneModels = stoneModels.get(stoneBlocks.get(oldStone.id));
+            List<ModelData> newStoneModels = stoneModels.get(stoneBlocks.get(newStone.id));
+            List<TexFaceProvider> oreModels = this.oreModels.get(oreBlocks.get(ore.id));
+
+            if (oldStoneModels == null) {
+                ExcavatedVariants.LOGGER.warn("No existing stone models found for " + oldStone.id);
+                return;
+            }
+            if (newStoneModels == null) {
+                ExcavatedVariants.LOGGER.warn("No new stone models found for " + newStone.id);
+                return;
+            }
+            if (oreModels == null || oreModels.isEmpty()) {
+                ExcavatedVariants.LOGGER.warn("No ore models found for " + ore.id);
+                return;
+            }
+
+            ModelData oldStoneModel = oldStoneModels.get(0);
+
+            int counter = 0;
+            List<ResourceLocation> models = new ArrayList<>();
+            for (ModelData newStoneModel : newStoneModels) {
+                for (TexFaceProvider oreModel : oreModels) {
+                    ResourceLocation modelLocation = new ResourceLocation(ExcavatedVariants.MOD_ID, "block/" + newStone.id + "_" + ore.id + "_" + counter);
+                    assembleModel(modelLocation, oreModel, oldStoneModel, newStoneModel, oldStone);
+                    models.add(modelLocation);
+                    counter += 1;
+                }
+            }
+
+            // Generate blockstate file
+            var assembled = BlockStateData.create(block, models);
+            var encoded = BlockStateData.CODEC.encodeStart(JsonOps.INSTANCE, assembled).result();
+            if (encoded.isPresent()) {
+                var json = ExcavatedVariants.GSON_CONDENSED.toJson(encoded.get());
+                resources.put(new ResourceLocation(ExcavatedVariants.MOD_ID, "blockstates/" + fullId + ".json"),
+                        (resourceLocation, context) -> () -> new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)));
+            } else {
+                ExcavatedVariants.LOGGER.warn("Failed to encode blockstate for " + fullId);
+            }
         }
     }
 
