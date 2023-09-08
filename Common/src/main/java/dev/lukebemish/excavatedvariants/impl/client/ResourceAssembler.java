@@ -19,8 +19,8 @@ import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -155,7 +155,7 @@ public class ResourceAssembler implements PathAwareInputStreamSource {
     private record StoneTexFace(Set<Face> faces, ResourceLocation textureLocation, NamedTextureProvider texture) {}
 
     @Override
-    public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+    public @NonNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
         return Sets.union(resources.keySet(), textureAtlasBuilder.getLocations(context));
     }
 

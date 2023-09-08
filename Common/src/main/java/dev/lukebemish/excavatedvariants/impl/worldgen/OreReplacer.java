@@ -19,7 +19,7 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class OreReplacer extends Feature<NoneFeatureConfiguration> {
     private static final int[] xs = new int[]{-1, 0, 1, 1, -1, -1, 0, 1};

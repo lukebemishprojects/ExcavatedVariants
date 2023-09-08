@@ -10,7 +10,7 @@ import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.saveddata.SavedData;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class OreGenMapSavedData extends SavedData {
     }
 
     @Override
-    @NotNull
+    @NonNull
     public CompoundTag save(CompoundTag tag) {
         ArrayList<Integer> edge1 = new ArrayList<>();
         ArrayList<Integer> edge2 = new ArrayList<>();

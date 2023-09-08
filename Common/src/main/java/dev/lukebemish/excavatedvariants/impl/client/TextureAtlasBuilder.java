@@ -17,8 +17,8 @@ import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class TextureAtlasBuilder implements PathAwareInputStreamSource {
     private final Map<ResourceLocation, TexSource> sources = new HashMap<>();
 
     @Override
-    public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+    public @NonNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
         return Set.of(new ResourceLocation("minecraft", "atlases/blocks.json"));
     }
 

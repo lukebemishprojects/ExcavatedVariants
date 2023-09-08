@@ -44,8 +44,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -253,7 +253,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NonNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide) {
             interact(state, level, pos);
         }
@@ -301,7 +301,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+    public @NonNull List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         if (target != null) {
             BlockState targetState = target.defaultBlockState();
             List<ItemStack> items = target.getDrops(targetState, builder);

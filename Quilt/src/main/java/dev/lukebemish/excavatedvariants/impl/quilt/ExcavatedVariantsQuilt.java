@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 public class ExcavatedVariantsQuilt implements ModInitializer {
     public static final ResourceLocation S2C_CONFIG_AGREEMENT_PACKET = new ResourceLocation(ExcavatedVariants.MOD_ID, "config_agreement");
 
-    private boolean isRegistering = false;
-
     @Override
     public void onInitialize(ModContainer modContainer) {
         ExcavatedVariants.init();
@@ -39,19 +37,16 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
             ExcavatedVariantsClient.init();
         }
 
-        BuiltInRegistries.BLOCK.holders().forEach(reference -> {
-            BlockAddedCallback.onRegister(reference.value(), reference.key());
-        });
+        BuiltInRegistries.BLOCK.holders().forEach(reference ->
+                BlockAddedCallback.onRegister(reference.value(), reference.key()));
         BlockAddedCallback.setReady();
         BlockAddedCallback.register();
 
-        RegistryEvents.getEntryAddEvent(BuiltInRegistries.BLOCK).register(ctx -> {
-            BlockAddedCallback.onRegister(ctx.value(), ResourceKey.create(Registries.BLOCK, ctx.id()));
-        });
+        RegistryEvents.getEntryAddEvent(BuiltInRegistries.BLOCK).register(ctx ->
+                BlockAddedCallback.onRegister(ctx.value(), ResourceKey.create(Registries.BLOCK, ctx.id())));
 
-        ServerLifecycleEvents.STARTING.register(server -> {
-            OreFinderUtil.setupBlocks();
-        });
+        ServerLifecycleEvents.STARTING.register(server ->
+                OreFinderUtil.setupBlocks());
         ResourceKey<PlacedFeature> confKey = ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"));
         BiomeModifications.create(confKey.location()).add(ModificationPhase.POST_PROCESSING, (x) -> true, context ->
                 context.getGenerationSettings().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, confKey));

@@ -70,14 +70,12 @@ public class ExcavatedVariantsForge {
 
     public static void registerListener(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
-            BuiltInRegistries.BLOCK.holders().forEach(reference -> {
-                BlockAddedCallback.onRegister(reference.value(), reference.key());
-            });
+            BuiltInRegistries.BLOCK.holders().forEach(reference ->
+                    BlockAddedCallback.onRegister(reference.value(), reference.key()));
             BlockAddedCallback.setReady();
             BlockAddedCallback.register();
         });
-        event.register(ForgeRegistries.Keys.ITEMS, helper -> {
-            ExcavatedVariants.initPostRegister();
-        });
+        event.register(ForgeRegistries.Keys.ITEMS, helper ->
+                ExcavatedVariants.initPostRegister());
     }
 }

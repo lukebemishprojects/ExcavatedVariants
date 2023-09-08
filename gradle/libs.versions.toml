@@ -17,6 +17,7 @@ dynassetgen = "5.0.0-pr71"
 defaultresources = "3.0.0-pr42"
 
 jetbrains_annotations = "24.0.1"
+jspecify = "0.3.0"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -28,6 +29,8 @@ neoforge = { module = "net.neoforged:forge", version.ref = "neoforge" }
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
 jetbrains_annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains_annotations" }
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
+
 autoservice = { module = "com.google.auto.service:auto-service", version.ref = "autoservice" }
 
 dynassetgen_common = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-1.20.1", version.ref = "dynassetgen" }

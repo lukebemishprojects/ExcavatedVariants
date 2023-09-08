@@ -12,7 +12,7 @@ import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +29,7 @@ public class MappingsCache {
         this.mappings = new HashMap<>(mappings);
     }
 
-    public @NotNull List<ResourceLocation> get(String id) {
+    public @NonNull List<ResourceLocation> get(String id) {
         return Collections.unmodifiableList(mappings.getOrDefault(id, List.of()));
     }
 

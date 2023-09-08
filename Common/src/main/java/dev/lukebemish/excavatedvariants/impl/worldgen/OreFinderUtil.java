@@ -12,7 +12,7 @@ import dev.lukebemish.excavatedvariants.impl.ModLifecycle;
 import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.IdentityHashMap;
 import java.util.Map;

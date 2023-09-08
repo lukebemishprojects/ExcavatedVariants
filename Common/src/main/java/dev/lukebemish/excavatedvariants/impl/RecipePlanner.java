@@ -12,8 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -39,7 +39,7 @@ public class RecipePlanner implements PathAwareInputStreamSource {
     }
 
     @Override
-    public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+    public @NonNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
         initialize();
         return recipeToTagMap.keySet();
     }

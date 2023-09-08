@@ -7,7 +7,7 @@ package dev.lukebemish.excavatedvariants.api.data.modifier;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.StringRepresentable;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Locale;
 
@@ -38,7 +38,7 @@ public enum Flag implements StringRepresentable {
     public static final Codec<Flag> CODEC = StringRepresentable.fromEnum(Flag::values);
 
     @Override
-    @NotNull
+    @NonNull
     public String getSerializedName() {
         return name().toLowerCase(Locale.ROOT);
     }

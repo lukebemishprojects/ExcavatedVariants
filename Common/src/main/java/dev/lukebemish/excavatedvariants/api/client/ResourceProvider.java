@@ -10,7 +10,7 @@ import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 

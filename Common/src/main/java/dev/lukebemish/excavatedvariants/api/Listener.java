@@ -5,7 +5,7 @@
 
 package dev.lukebemish.excavatedvariants.api;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * An implementation of any number of different events that can be fired by Excavated Variants, which mods can provide
@@ -19,7 +19,7 @@ public interface Listener extends Comparable<Listener> {
     }
 
     @Override
-    default int compareTo(@NotNull Listener o) {
+    default int compareTo(@NonNull Listener o) {
         return o.priority() - this.priority();
     }
 }

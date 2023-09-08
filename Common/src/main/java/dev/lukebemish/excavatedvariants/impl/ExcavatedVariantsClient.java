@@ -12,8 +12,8 @@ import dev.lukebemish.dynamicassetgenerator.api.client.AssetResourceCache;
 import dev.lukebemish.excavatedvariants.impl.client.ResourceAssembler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.InputStream;
 import java.util.Set;
@@ -28,7 +28,7 @@ public class ExcavatedVariantsClient {
         // lang - don't bother caching
         ASSET_CACHE.planSource(new PathAwareInputStreamSource() {
             @Override
-            public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+            public @NonNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
                 return LANG_BUILDER.languages().stream().map(s -> new ResourceLocation(ExcavatedVariants.MOD_ID+"_generated", "lang/" + s + ".json")).collect(Collectors.toSet());
             }
 
@@ -50,7 +50,7 @@ public class ExcavatedVariantsClient {
             }
 
             @Override
-            public @NotNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+            public @NonNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
                 setup(context);
                 return assembler.getLocations(context);
             }

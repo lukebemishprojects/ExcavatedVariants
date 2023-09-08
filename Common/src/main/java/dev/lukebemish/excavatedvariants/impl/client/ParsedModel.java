@@ -18,8 +18,8 @@ import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,7 +74,7 @@ public final class ParsedModel {
 
     private ResourceGenerationContext context;
 
-    @NotNull
+    @NonNull
     public static ParsedModel getFromLocation(ResourceLocation rl, ResourceGenerationContext context) throws IOException {
         try (InputStream is = BackupFetcher.getModelFile(rl, context);
              var reader = new InputStreamReader(is)) {
