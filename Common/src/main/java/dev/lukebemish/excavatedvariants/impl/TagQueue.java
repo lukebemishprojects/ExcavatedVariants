@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants;
+package dev.lukebemish.excavatedvariants.impl;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -40,7 +40,7 @@ public class TagQueue implements Supplier<Map<ResourceLocation, Set<ResourceLoca
                     set.add(rl);
                 }
             }
-            out.put(entry.getKey(), entry.getValue());
+            out.put(entry.getKey(), set);
         }
 
         return out;

@@ -13,7 +13,6 @@ import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.dynamicassetgenerator.api.DataResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
-import dev.lukebemish.excavatedvariants.TagQueue;
 import dev.lukebemish.excavatedvariants.api.DataProvider;
 import dev.lukebemish.excavatedvariants.api.DataReceiver;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
