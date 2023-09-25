@@ -6,7 +6,7 @@ quilt_loader = "0.20.2"
 
 qfapi = "7.1.2+0.87.0-1.20.1"
 
-neoforge = "1.20.1-47.1.75"
+neoforge = "1.20.1-47.1.77"
 mixin = "0.8.5"
 
 autoservice = "1.1.1"
