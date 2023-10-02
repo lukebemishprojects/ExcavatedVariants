@@ -59,7 +59,7 @@ emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
 emi_forge = { module = "dev.emi:emi-forge", version.ref = "emi" }
 
 [plugins]
-quilt_loom = { id = "org.quiltmc.loom", version = "1.2.3" }
+quilt_loom = { id = "org.quiltmc.loom", version = "1.4.1" }
 neogradle = {id = "net.neoforged.gradle", version = "6.0.18"}
 librarian = {id = "org.parchmentmc.librarian.forgegradle", version = "1.2.0"}
 mixingradle = {id = "org.spongepowered.mixin", version = "0.7.33"}
