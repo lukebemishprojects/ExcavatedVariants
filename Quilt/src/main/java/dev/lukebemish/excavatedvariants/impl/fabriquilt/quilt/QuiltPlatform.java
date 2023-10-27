@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 package dev.lukebemish.excavatedvariants.impl.fabriquilt.quilt;
 
 import com.google.common.base.Suppliers;
@@ -20,10 +25,6 @@ public class QuiltPlatform implements FabriQuiltPlatform {
     @Override
     public Set<String> getModIds() {
         return MOD_IDS.get();
-    }
-    @Override
-    public boolean isQuilt() {
-        return true;
     }
 
     @Override

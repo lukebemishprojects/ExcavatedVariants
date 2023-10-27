@@ -14,7 +14,6 @@ import dev.lukebemish.dynamicassetgenerator.api.PathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.generators.TexSource;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.impl.platform.Services;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
 import org.jspecify.annotations.NonNull;
@@ -66,20 +65,5 @@ public class TextureAtlasBuilder implements PathAwareInputStreamSource {
             root.add("sources", sources);
             return new ByteArrayInputStream(ExcavatedVariants.GSON.toJson(root).getBytes(StandardCharsets.UTF_8));
         };
-    }
-
-    @Override
-    public @Nullable String createCacheKey(ResourceLocation outRl, ResourceGenerationContext context) {
-        JsonObject cacheKey = new JsonObject();
-        for (var entry : sources.entrySet()) {
-            TexSource source = entry.getValue();
-            var json = TexSource.CODEC.encodeStart(JsonOps.INSTANCE, source);
-            if (json.error().isPresent()) {
-                return null;
-            } else if (json.result().isPresent()) {
-                cacheKey.add(entry.getKey().toString(), json.result().get());
-            }
-        }
-        return Services.PLATFORM.getModVersion()+":"+ExcavatedVariants.GSON.toJson(cacheKey);
     }
 }

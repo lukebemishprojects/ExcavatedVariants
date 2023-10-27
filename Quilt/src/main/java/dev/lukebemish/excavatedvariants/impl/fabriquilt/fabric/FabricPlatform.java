@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 package dev.lukebemish.excavatedvariants.impl.fabriquilt.fabric;
 
 import com.google.common.base.Suppliers;
@@ -17,10 +22,6 @@ public final class FabricPlatform implements FabriQuiltPlatform {
     public static final FabricPlatform INSTANCE = new FabricPlatform();
     private static final Supplier<Set<String>> MOD_IDS = Suppliers.memoize(() -> FabricLoader.getInstance().getAllMods().stream().map(ModContainer::getMetadata).map(ModMetadata::getId).collect(Collectors.toSet()));
     private FabricPlatform() {}
-    @Override
-    public boolean isQuilt() {
-        return false;
-    }
 
     @Override
     public Path getCacheFolder() {

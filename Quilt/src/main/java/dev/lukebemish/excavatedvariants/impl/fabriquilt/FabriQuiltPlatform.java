@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2023 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 package dev.lukebemish.excavatedvariants.impl.fabriquilt;
 
 import dev.lukebemish.excavatedvariants.impl.fabriquilt.fabric.FabricPlatform;
@@ -8,7 +13,6 @@ import java.nio.file.Path;
 import java.util.Set;
 
 public interface FabriQuiltPlatform {
-    boolean isQuilt();
 
     @SuppressWarnings("deprecation")
     static FabriQuiltPlatform getInstance() {

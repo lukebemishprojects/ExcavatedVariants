@@ -73,6 +73,7 @@ public final class ParsedModel {
     }
 
     private ResourceGenerationContext context;
+    private ResourceLocation location;
 
     @NonNull
     public static ParsedModel getFromLocation(ResourceLocation rl, ResourceGenerationContext context) throws IOException {
@@ -81,6 +82,7 @@ public final class ParsedModel {
             JsonElement json = ExcavatedVariants.GSON.fromJson(reader, JsonElement.class);
             ParsedModel model = ParsedModel.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(false, e -> {});
             model.context = context;
+            model.location = rl;
             return model;
         } catch (IOException | RuntimeException e) {
             throw new IOException("Could not read model " + rl, e);
@@ -89,9 +91,10 @@ public final class ParsedModel {
 
     public Map<String, String> getTextureMap() throws IOException {
         Map<String, String> textures = new HashMap<>();
-        ParsedModel parent = parent().isEmpty() ? null : getFromLocation(parent().get(), context);
-        if (parent != null)
+        if (parent().isPresent() && !parent().get().equals(location)) {
+            ParsedModel parent = getFromLocation(parent().get(), context);
             textures.putAll(parent.getTextureMap());
+        }
         textures.putAll(this.textures());
         return textures;
     }
@@ -106,7 +109,7 @@ public final class ParsedModel {
         var texMap = new HashMap<>(oldTexMap);
         texMap.putAll(getTextureMap());
 
-        if (parent().isPresent()) {
+        if (parent().isPresent() && !parent().get().equals(location)) {
             map.putAll(getFromLocation(parent().get(), context).getRlMapForSide(side, texMap));
         }
 
