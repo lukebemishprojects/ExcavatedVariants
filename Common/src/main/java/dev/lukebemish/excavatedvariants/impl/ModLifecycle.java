@@ -22,6 +22,6 @@ public enum ModLifecycle {
     }
 
     public boolean above(ModLifecycle state) {
-        return this.ordinal() >= state.ordinal();
+        return this.ordinal() > state.ordinal();
     }
 }

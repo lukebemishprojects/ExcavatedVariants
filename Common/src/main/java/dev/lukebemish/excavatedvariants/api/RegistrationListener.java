@@ -17,7 +17,7 @@ import java.util.function.BiConsumer;
 /**
  * A listener used to register new ores and stones.
  */
-public interface RegistrationListener extends CommonListener {
+public interface RegistrationListener extends Listener {
     /**
      * Register new variants. Ores, stones, and other variants can be registered through the consumers in the registrar.
      */

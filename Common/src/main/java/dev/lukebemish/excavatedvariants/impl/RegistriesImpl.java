@@ -48,6 +48,9 @@ public final class RegistriesImpl {
         MODIFIER_REGISTRY.freeze();
     }
 
+    private static final List<RegistrationListener> REGISTRATION_LISTENERS = Services.loadListeners(RegistrationListener.class);
+    private static final List<PostRegistrationListener> POST_REGISTRATION_LISTENERS = Services.loadListeners(PostRegistrationListener.class);
+
     public static void bootstrap() {
         ((MappedRegistryMixin) GROUND_TYPE_REGISTRY).setFrozen(false);
         ((MappedRegistryMixin) ORE_REGISTRY).setFrozen(false);
@@ -61,7 +64,7 @@ public final class RegistriesImpl {
         BiConsumer<ResourceLocation, Ore> oreTypes = (l, o) -> ores.computeIfAbsent(l, k -> new ArrayList<>()).add(o);
         BiConsumer<ResourceLocation, Modifier> modifiers = (l, o) -> Registry.register(MODIFIER_REGISTRY, l, o);
 
-        Services.COMPAT.getListeners(RegistrationListener.class).forEach(r -> r.provideEntries(new RegistrationListener.Registrar(groundTypes, stoneTypes, oreTypes, modifiers)));
+        REGISTRATION_LISTENERS.forEach(r -> r.provideEntries(new RegistrationListener.Registrar(groundTypes, stoneTypes, oreTypes, modifiers)));
 
         ores.forEach((l, os) -> Registry.register(ORE_REGISTRY, l, Ore.merge(os)));
 
@@ -70,7 +73,7 @@ public final class RegistriesImpl {
         STONE_REGISTRY.freeze();
         MODIFIER_REGISTRY.freeze();
 
-        Services.COMPAT.getListeners(PostRegistrationListener.class).forEach(r -> r.registriesComplete(new PostRegistrationListener.Registries(GROUND_TYPE_REGISTRY, STONE_REGISTRY, ORE_REGISTRY, MODIFIER_REGISTRY)));
+        POST_REGISTRATION_LISTENERS.forEach(r -> r.registriesComplete(new PostRegistrationListener.Registries(GROUND_TYPE_REGISTRY, STONE_REGISTRY, ORE_REGISTRY, MODIFIER_REGISTRY)));
     }
 
     public static void registerRegistries() {

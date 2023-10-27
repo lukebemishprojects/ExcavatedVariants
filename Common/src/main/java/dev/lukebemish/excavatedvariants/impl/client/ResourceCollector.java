@@ -19,7 +19,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 public class ResourceCollector {
-    private static final List<ResourceProvider> PROVIDERS = Services.COMPAT.getClientListeners(ResourceProvider.class);
+    private static final List<ResourceProvider> PROVIDERS = Services.loadListeners(ResourceProvider.class);
 
     static @Nullable List<ModelData> makeStoneTextures(Stone stone, ResourceGenerationContext context) {
         for (var provider : PROVIDERS) {

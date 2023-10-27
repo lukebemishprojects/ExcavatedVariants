@@ -28,7 +28,7 @@ public abstract class ForgeRegistryMixin<V> {
 
     @Inject(method = "add(ILnet/minecraft/resources/ResourceLocation;Ljava/lang/Object;Ljava/lang/String;)I", at = @At("RETURN"))
     private void excavated_variants$registryRegisterHackery(int id, ResourceLocation rl, V value, String owner, CallbackInfoReturnable<Integer> ci) {
-        if (key.equals(ForgeRegistries.Keys.BLOCKS)) {
+        if (key == (ResourceKey<? extends Registry<?>>) ForgeRegistries.Keys.BLOCKS) {
             ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, rl);
             BlockAddedCallback.onRegister((Block) value, blockKey);
         }

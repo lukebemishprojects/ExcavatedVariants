@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.quilt;
+package dev.lukebemish.excavatedvariants.impl.fabriquilt;
 
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;

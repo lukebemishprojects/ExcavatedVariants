@@ -1,39 +1,31 @@
-/*
- * Copyright (C) 2023 Luke Bemish and contributors
- * SPDX-License-Identifier: LGPL-3.0-or-later
- */
-
-package dev.lukebemish.excavatedvariants.impl.quilt;
+package dev.lukebemish.excavatedvariants.impl.fabriquilt;
 
 import dev.lukebemish.excavatedvariants.impl.*;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreFinderUtil;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
-import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
-import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
-import org.quiltmc.qsl.networking.api.ServerLoginConnectionEvents;
-import org.quiltmc.qsl.networking.api.ServerLoginNetworking;
-import org.quiltmc.qsl.registry.api.event.RegistryEvents;
-import org.quiltmc.qsl.worldgen.biome.api.BiomeModifications;
-import org.quiltmc.qsl.worldgen.biome.api.ModificationPhase;
 
 import java.util.stream.Collectors;
 
-public class ExcavatedVariantsQuilt implements ModInitializer {
+public class ExcavatedVariantsFabriQuilt {
     public static final ResourceLocation S2C_CONFIG_AGREEMENT_PACKET = new ResourceLocation(ExcavatedVariants.MOD_ID, "config_agreement");
 
-    @Override
-    public void onInitialize(ModContainer modContainer) {
+    @SuppressWarnings("deprecation")
+    public static void onInitialize() {
         ExcavatedVariants.init();
-        if (MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             ExcavatedVariantsClient.init();
         }
 
@@ -42,11 +34,9 @@ public class ExcavatedVariantsQuilt implements ModInitializer {
         BlockAddedCallback.setReady();
         BlockAddedCallback.register();
 
-        RegistryEvents.getEntryAddEvent(BuiltInRegistries.BLOCK).register(ctx ->
-                BlockAddedCallback.onRegister(ctx.value(), ResourceKey.create(Registries.BLOCK, ctx.id())));
-
-        ServerLifecycleEvents.STARTING.register(server ->
+        ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 OreFinderUtil.setupBlocks());
+
         ResourceKey<PlacedFeature> confKey = ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"));
         BiomeModifications.create(confKey.location()).add(ModificationPhase.POST_PROCESSING, (x) -> true, context ->
                 context.getGenerationSettings().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, confKey));

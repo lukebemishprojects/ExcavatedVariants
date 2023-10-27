@@ -2,9 +2,12 @@
 minecraft = "1.20.1"
 parchment_minecraft = "1.20.1"
 parchment_mappings = "2023.08.20"
-quilt_loader = "0.20.2"
 
-qfapi = "7.1.2+0.87.0-1.20.1"
+quilt_loader = "0.21.1"
+fabric_loader = "0.14.24"
+
+qfapi = "7.2.2+0.88.1-1.20.1"
+fapi = "0.88.1+1.20.1"
 
 neoforge = "1.20.1-47.1.75"
 mixin = "0.8.5"
@@ -21,9 +24,12 @@ jspecify = "0.3.0"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+
 quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
 qfapi = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "qfapi" }
+fapi = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fapi" }
 
 neoforge = { module = "net.neoforged:forge", version.ref = "neoforge" }
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
@@ -34,14 +40,15 @@ jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 autoservice = { module = "com.google.auto.service:auto-service", version.ref = "autoservice" }
 
 dynassetgen_common = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-common-1.20.1", version.ref = "dynassetgen" }
-dynassetgen_quilt = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-quilt-1.20.1", version.ref = "dynassetgen" }
-dynassetgen_forge = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-forge-1.20.1", version.ref = "dynassetgen" }
+dynassetgen_fabriquilt = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-fabriquilt-1.20.1", version.ref = "dynassetgen" }
+dynassetgen_neoforge = { module = "dev.lukebemish.dynamicassetgenerator:dynamicassetgenerator-neoforge-1.20.1", version.ref = "dynassetgen" }
+
 defaultresources_common = { module = "dev.lukebemish.defaultresources:defaultresources-common-1.20.1", version.ref = "defaultresources" }
-defaultresources_quilt = { module = "dev.lukebemish.defaultresources:defaultresources-fabriquilt-1.20.1", version.ref = "defaultresources" }
-defaultresources_forge = { module = "dev.lukebemish.defaultresources:defaultresources-neoforge-1.20.1", version.ref = "defaultresources" }
+defaultresources_fabriquilt = { module = "dev.lukebemish.defaultresources:defaultresources-fabriquilt-1.20.1", version.ref = "defaultresources" }
+defaultresources_neoforge = { module = "dev.lukebemish.defaultresources:defaultresources-neoforge-1.20.1", version.ref = "defaultresources" }
 
 [plugins]
-quilt_loom = { id = "org.quiltmc.loom", version = "1.2.3" }
+quilt_loom = { id = "org.quiltmc.loom", version = "1.4.1" }
 neogradle = {id = "net.neoforged.gradle", version = "6.0.18"}
 librarian = {id = "org.parchmentmc.librarian.forgegradle", version = "1.2.0"}
 mixingradle = {id = "org.spongepowered.mixin", version = "0.7.33"}

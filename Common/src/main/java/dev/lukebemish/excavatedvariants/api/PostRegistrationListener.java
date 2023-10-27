@@ -15,7 +15,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * A listener used to observe the results of ore/stone/etc. registration.
  */
-public interface PostRegistrationListener extends CommonListener {
+public interface PostRegistrationListener extends Listener {
 
     /**
      * Called when all variants have been registered.

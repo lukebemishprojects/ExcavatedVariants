@@ -5,11 +5,11 @@
 
 package dev.lukebemish.excavatedvariants.impl;
 
+import com.google.auto.service.AutoService;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import dev.lukebemish.defaultresources.api.GlobalResourceManager;
-import dev.lukebemish.excavatedvariants.api.ExcavatedVariantsListener;
 import dev.lukebemish.excavatedvariants.api.RegistrationListener;
 import dev.lukebemish.excavatedvariants.api.data.GroundType;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
@@ -23,7 +23,7 @@ import java.io.Reader;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-@ExcavatedVariantsListener
+@AutoService(RegistrationListener.class)
 public class DefaultRegistrationListener implements RegistrationListener {
     @Override
     public void provideEntries(Registrar registrar) {

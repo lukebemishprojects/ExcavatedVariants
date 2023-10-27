@@ -9,8 +9,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-base.archivesName = "${artifact_id}-neoforge-${libs.versions.minecraft.get()}"
-
 minecraft {
     mappings channel: 'parchment', version: "${libs.versions.parchment.minecraft.get()}-${libs.versions.parchment.mappings.get()}-${libs.versions.minecraft.get()}"
 
@@ -77,10 +75,10 @@ dependencies {
 
     annotationProcessor(variantOf(libs.mixin) { classifier 'processor' })
 
-    implementation fg.deobf(libs.dynassetgen.forge.get())
-    implementation fg.deobf(libs.defaultresources.forge.get())
+    implementation fg.deobf(libs.dynassetgen.neoforge.get())
+    implementation fg.deobf(libs.defaultresources.neoforge.get())
 
-    jarJar(libs.defaultresources.forge.get()) {
+    jarJar(libs.defaultresources.neoforge.get()) {
         jarJar.ranged(it, "[${libs.versions.defaultresources.get()},)")
     }
 }
@@ -92,7 +90,7 @@ mixin {
     config 'mixin.excavated_variants.json'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     source(project(":Common").sourceSets.main.allSource)
 }
 
@@ -106,12 +104,10 @@ jar.finalizedBy('reobfJar')
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId base.archivesName.get()
-            version project.version
             artifact tasks.jarJar
             artifact sourcesJar
             artifact javadocJar
+            artifactId base.archivesName.get()
         }
     }
     repositories {

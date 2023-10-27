@@ -6,6 +6,7 @@
 package dev.lukebemish.excavatedvariants.api.client;
 
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
+import dev.lukebemish.excavatedvariants.api.Listener;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
 import net.minecraft.resources.ResourceKey;
@@ -14,7 +15,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
-public interface ResourceProvider extends ClientListener {
+public interface ResourceProvider extends Listener {
     /**
      * Provides stone textures to the resource collector.
      */

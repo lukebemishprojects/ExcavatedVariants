@@ -5,8 +5,8 @@
 
 package dev.lukebemish.excavatedvariants.impl.client;
 
+import com.google.auto.service.AutoService;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
-import dev.lukebemish.excavatedvariants.api.ExcavatedVariantsListener;
 import dev.lukebemish.excavatedvariants.api.client.ModelData;
 import dev.lukebemish.excavatedvariants.api.client.ResourceProvider;
 import dev.lukebemish.excavatedvariants.api.client.TexFaceProvider;
@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-@ExcavatedVariantsListener
+@AutoService(ResourceProvider.class)
 public class DefaultProvider implements ResourceProvider {
 
     @Override

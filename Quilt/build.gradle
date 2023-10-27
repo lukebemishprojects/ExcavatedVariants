@@ -6,8 +6,6 @@ plugins {
 
 apply plugin: 'org.quiltmc.loom'
 
-base.archivesName = "${artifact_id}-quilt-${libs.versions.minecraft.get()}"
-
 configurations {
 	testCompileClasspath.extendsFrom(compileClasspath)
 }
@@ -18,35 +16,42 @@ dependencies {
 		officialMojangMappings()
 		parchment("org.parchmentmc.data:parchment-${libs.versions.parchment.minecraft.get()}:${libs.versions.parchment.mappings.get()}@zip")
 	}
-	modImplementation libs.quilt.loader
 
-	modImplementation libs.qfapi
+	modCompileOnly libs.quilt.loader
+	modCompileOnly libs.qfapi
 
-	implementation project(":Common")
+	modLocalRuntime libs.fabric.loader
+	modLocalRuntime libs.fapi
+
+	compileOnly project(":Common")
 
 	compileOnly libs.autoservice
 	annotationProcessor libs.autoservice
 
-	modImplementation libs.dynassetgen.quilt
-	modImplementation libs.defaultresources.quilt
+	modImplementation libs.dynassetgen.fabriquilt
+	modImplementation libs.defaultresources.fabriquilt
 
-	include libs.defaultresources.quilt
+	include libs.defaultresources.fabriquilt
 }
 
 loom {
 	runs {
 		client {
 			client()
-			setConfigName("Quilt Client")
+			setConfigName("Fabric Client")
 			ideConfigGenerated(true)
 			runDir("run")
 		}
 		server {
 			server()
-			setConfigName("Quilt Server")
+			setConfigName("Fabric Server")
 			ideConfigGenerated(true)
 			runDir("runserver")
 		}
+	}
+
+	runs.configureEach {
+		it.mainClass.set "net.fabricmc.loader.launch.knot.KnotClient"
 	}
 
 	mixin {
@@ -63,8 +68,8 @@ processResources {
 	}
 }
 
-tasks.withType(JavaCompile) {
-    source(project(":Common").sourceSets.main.allSource)
+tasks.withType(JavaCompile).configureEach {
+	source(project(":Common").sourceSets.main.allSource)
 }
 
 jar {
@@ -78,10 +83,8 @@ tasks.jar.finalizedBy(tasks.remapJar)
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId base.archivesName.get()
-            version project.version
             from components.java
+			artifactId base.archivesName.get()
         }
     }
 

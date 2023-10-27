@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.quilt.compat;
+package dev.lukebemish.excavatedvariants.impl.fabriquilt.compat;
 
 public class HyleCompat {
     private static Map<Block, Pair<BaseOre, HashSet<BaseStone>>> excavatedVariantsOres;

@@ -26,12 +26,28 @@ ModsDotGroovy.make {
         dependencies {
             minecraft = this.minecraftVersionRange
 
-            forge {
-                versionRange = ">=${this.forgeVersion}"
+            onForge {
+                forge {
+                    versionRange = ">=${this.forgeVersion}"
+                }
             }
 
-            quiltLoader {
-                versionRange = ">=${this.quiltLoaderVersion}"
+            onQuilt {
+                quiltLoader {
+                    versionRange = ">=${this.libs.versions.quilt.loader}"
+                }
+                mod('quilted_fabric_api') {
+                    versionRange = ">=${this.libs.versions.qfapi}"
+                }
+            }
+
+            onFabric {
+                fabricLoader {
+                    versionRange = ">=${this.libs.versions.fabric.loader}"
+                }
+                mod('fabric-api') {
+                    versionRange = ">=${this.libs.versions.fapi}"
+                }
             }
 
             mod('dynamic_asset_generator') {
@@ -43,23 +59,32 @@ ModsDotGroovy.make {
         }
 
         entrypoints {
-            init = ['dev.lukebemish.excavatedvariants.impl.quilt.ExcavatedVariantsQuilt']
-            client_init = ['dev.lukebemish.excavatedvariants.impl.quilt.ExcavatedVariantsClientQuilt']
-            excavated_variants_client = [
-                    'dev.lukebemish.excavatedvariants.impl.client.DefaultProvider'
-            ]
-            excavated_variants = [
-                    'dev.lukebemish.excavatedvariants.impl.DefaultRegistrationListener'
-            ]
-            // to capture fabric loader's funkiness...
-            // (have to use this format because MDG is funky)
-            entrypoint 'main', ['dev.lukebemish.excavatedvariants.impl.quilt.StateCapturer']
+            onQuilt {
+                init = ['dev.lukebemish.excavatedvariants.impl.fabriquilt.quilt.ExcavatedVariantsQuilt']
+                // to capture fabric loader's funkiness...
+                // (have to use this format because MDG is funky)
+                entrypoint 'main', ['dev.lukebemish.excavatedvariants.impl.fabriquilt.StateCapturer']
+            }
+            onFabric {
+                main = [
+                        'dev.lukebemish.excavatedvariants.impl.fabriquilt.fabric.ExcavatedVariantsFabric',
+                        'dev.lukebemish.excavatedvariants.impl.fabriquilt.StateCapturer'
+                ]
+            }
+            entrypoint 'client', ['dev.lukebemish.excavatedvariants.impl.fabriquilt.ExcavatedVariantsClientFabriQuilt']
         }
     }
     onQuilt {
         mixin = [
                 'mixin.excavated_variants.json',
-                'mixin.excavated_variants_quilt.json'
+                'mixin.excavated_variants_fabriquilt.json'
+        ]
+    }
+    onFabric {
+        mixin = [
+                'mixin.excavated_variants.json',
+                'mixin.excavated_variants_fabriquilt.json',
+                'mixin.excavated_variants_fabric.json'
         ]
     }
 }

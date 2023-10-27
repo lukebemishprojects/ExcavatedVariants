@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.quilt;
+package dev.lukebemish.excavatedvariants.impl.fabriquilt;
 
 import dev.lukebemish.excavatedvariants.impl.S2CConfigAgreementPacket;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
 import net.minecraft.network.FriendlyByteBuf;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
-import org.quiltmc.qsl.networking.api.client.ClientLoginNetworking;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ExcavatedVariantsClientQuilt implements ClientModInitializer {
+@SuppressWarnings("deprecation")
+public class ExcavatedVariantsClientFabriQuilt implements ClientModInitializer {
     @Override
-    public void onInitializeClient(ModContainer container) {
-        ClientLoginNetworking.registerGlobalReceiver(ExcavatedVariantsQuilt.S2C_CONFIG_AGREEMENT_PACKET, ((client, handler, buf, listenerAdder) -> {
+    public void onInitializeClient() {
+        ClientLoginNetworking.registerGlobalReceiver(ExcavatedVariantsFabriQuilt.S2C_CONFIG_AGREEMENT_PACKET, ((client, handler, buf, listenerAdder) -> {
             S2CConfigAgreementPacket msg = S2CConfigAgreementPacket.decoder(buf);
             msg.consumeMessage(string -> handler.handleDisconnect(new S2CConfigAgreementPacket.ExcavatedVariantsDisconnectPacket(string)));
             CompletableFuture<FriendlyByteBuf> future = new CompletableFuture<>();
