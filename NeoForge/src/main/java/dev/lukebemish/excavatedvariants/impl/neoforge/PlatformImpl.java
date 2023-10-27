@@ -126,6 +126,6 @@ public class PlatformImpl implements Platform {
             ModLoadingContext.get().setActiveContainer(EV_CONTAINER.get());
             ForgeRegistries.BLOCKS.register(rlr, bl);
             ModLoadingContext.get().setActiveContainer(activeContainer);
-        }, (rlr, it) -> ExcavatedVariantsForge.TO_REGISTER.register(rlr.getPath(), it), future);
+        }, (rlr, it) -> ExcavatedVariantsNeoForge.TO_REGISTER.register(rlr.getPath(), it), future);
     }
 }

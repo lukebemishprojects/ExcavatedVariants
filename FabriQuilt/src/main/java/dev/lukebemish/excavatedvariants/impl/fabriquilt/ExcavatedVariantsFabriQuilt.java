@@ -7,6 +7,7 @@ package dev.lukebemish.excavatedvariants.impl.fabriquilt;
 
 import dev.lukebemish.excavatedvariants.impl.*;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreFinderUtil;
+import dev.lukebemish.excavatedvariants.impl.worldgen.OreReplacer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
@@ -15,6 +16,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -60,6 +62,8 @@ public class ExcavatedVariantsFabriQuilt {
         ServerLoginNetworking.registerGlobalReceiver(S2C_CONFIG_AGREEMENT_PACKET, ((server, handler, understood, buf, synchronizer, responseSender) -> {
             //Do I need to do anything here?
         }));
+
+        Registry.register(BuiltInRegistries.FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), new OreReplacer());
     }
 
     public static void cleanup() {

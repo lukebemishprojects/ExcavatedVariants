@@ -30,7 +30,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod(ExcavatedVariants.MOD_ID)
-public class ExcavatedVariantsForge {
+public class ExcavatedVariantsNeoForge {
     public static final DeferredRegister<Item> TO_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, ExcavatedVariants.MOD_ID);
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, ExcavatedVariants.MOD_ID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ExcavatedVariants.MOD_ID);
@@ -41,14 +41,14 @@ public class ExcavatedVariantsForge {
             ).apply(i, AddFeatureLateModifier::new))
     );
 
-    public ExcavatedVariantsForge() {
+    public ExcavatedVariantsNeoForge() {
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
         ExcavatedVariants.init();
         if (FMLLoader.getDist() == Dist.CLIENT) {
             ExcavatedVariantsClient.init();
         }
-        modbus.addListener(ExcavatedVariantsForge::commonSetup);
-        modbus.addListener(ExcavatedVariantsForge::registerListener);
+        modbus.addListener(ExcavatedVariantsNeoForge::commonSetup);
+        modbus.addListener(ExcavatedVariantsNeoForge::registerListener);
         TO_REGISTER.register(modbus);
         BIOME_MODIFIERS.register(modbus);
         FEATURES.register(modbus);

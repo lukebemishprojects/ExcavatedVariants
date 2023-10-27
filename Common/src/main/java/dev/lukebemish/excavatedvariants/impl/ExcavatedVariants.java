@@ -184,7 +184,6 @@ public final class ExcavatedVariants {
             }
         });
 
-        Services.MAIN_PLATFORM_TARGET.get().registerFeatures();
         Services.CREATIVE_TAB_LOADER.get().registerCreativeTab();
 
         MAPPINGS_CACHE = MappingsCache.load();
@@ -338,7 +337,7 @@ public final class ExcavatedVariants {
             future.done = true;
             ResourceLocation rlToReg = new ResourceLocation(ExcavatedVariants.MOD_ID, future.fullId);
             ModifiedOreBlock.setupStaticWrapper(future);
-            ModifiedOreBlock b = Services.MAIN_PLATFORM_TARGET.get().makeDefaultOreBlock(future);
+            ModifiedOreBlock b = new ModifiedOreBlock(future);
             blockRegistrar.accept(rlToReg, b);
             Supplier<Item> i = itemRegistrar.apply(rlToReg, () -> new BlockItem(b, new Item.Properties()));
             ITEMS.add(i);

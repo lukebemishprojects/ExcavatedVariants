@@ -27,6 +27,6 @@ public record AddFeatureLateModifier(HolderSet<PlacedFeature> feature) implement
 
     @Override
     public Codec<? extends BiomeModifier> codec() {
-        return ExcavatedVariantsForge.ADD_FEATURE_LATE_MODIFIER.get();
+        return ExcavatedVariantsNeoForge.ADD_FEATURE_LATE_MODIFIER.get();
     }
 }

@@ -1,22 +1,31 @@
-/*
- * Copyright (C) 2023 Luke Bemish and contributors
- * SPDX-License-Identifier: LGPL-3.0-or-later
- */
+package dev.lukebemish.excavatedvariants.impl.neoforge.mixin;
 
-package dev.lukebemish.excavatedvariants.impl.neoforge;
-
-import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.extensions.IForgeBlock;
 import org.jspecify.annotations.NonNull;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
-public class ForgeOreBlock extends ModifiedOreBlock implements IForgeBlock {
-    public ForgeOreBlock(ExcavatedVariants.VariantFuture future) {
-        super(future);
+@Mixin(value = ModifiedOreBlock.class, remap = false)
+public abstract class ModifiedOreBlockMixin extends DropExperienceBlock implements IForgeBlock {
+    @Shadow
+    @Final
+    protected Block target;
+
+    @Shadow
+    @Final
+    protected boolean delegateSpecialDrops;
+
+    public ModifiedOreBlockMixin(Properties pProperties) {
+        super(pProperties);
+        throw new IllegalStateException();
     }
 
     @Override

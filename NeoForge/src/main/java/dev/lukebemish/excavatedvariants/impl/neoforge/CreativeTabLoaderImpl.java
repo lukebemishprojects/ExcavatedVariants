@@ -31,7 +31,7 @@ public class CreativeTabLoaderImpl implements CreativeTabLoader {
 
     @Override
     public void registerCreativeTab() {
-        ExcavatedVariantsForge.CREATIVE_TABS.register(CREATIVE_TAB_ID.getPath(), () -> {
+        ExcavatedVariantsNeoForge.CREATIVE_TABS.register(CREATIVE_TAB_ID.getPath(), () -> {
             var builder = CreativeModeTab.builder();
             setup(builder);
             return builder.build();
