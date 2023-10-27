@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.forge;
+package dev.lukebemish.excavatedvariants.impl.neoforge;
 
 import com.google.auto.service.AutoService;
 import com.google.common.base.Suppliers;
@@ -16,7 +16,7 @@ import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
-import dev.lukebemish.excavatedvariants.impl.forge.mixin.ForgeTierSortingRegistryAccessor;
+import dev.lukebemish.excavatedvariants.impl.neoforge.mixin.ForgeTierSortingRegistryAccessor;
 import dev.lukebemish.excavatedvariants.impl.platform.services.Platform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tier;

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.forge;
+package dev.lukebemish.excavatedvariants.impl.neoforge;
 
 import com.mojang.serialization.Codec;
 import net.minecraftforge.common.world.BiomeModifier;

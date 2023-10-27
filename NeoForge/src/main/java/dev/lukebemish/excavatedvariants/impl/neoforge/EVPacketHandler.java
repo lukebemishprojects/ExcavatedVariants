@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.forge;
+package dev.lukebemish.excavatedvariants.impl.neoforge;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;

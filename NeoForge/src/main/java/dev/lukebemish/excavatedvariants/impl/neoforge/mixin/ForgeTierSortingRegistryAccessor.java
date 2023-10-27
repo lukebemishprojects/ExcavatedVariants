@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.forge.mixin;
+package dev.lukebemish.excavatedvariants.impl.neoforge.mixin;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Multimap;

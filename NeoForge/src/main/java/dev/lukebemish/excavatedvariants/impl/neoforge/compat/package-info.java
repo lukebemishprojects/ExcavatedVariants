@@ -1,6 +1,6 @@
 @NullMarked
 @ApiStatus.Internal
-package dev.lukebemish.excavatedvariants.impl.forge.client;
+package dev.lukebemish.excavatedvariants.impl.neoforge.compat;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;

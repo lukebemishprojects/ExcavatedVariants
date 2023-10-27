@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.forge.mixin;
+package dev.lukebemish.excavatedvariants.impl.neoforge.mixin;
 
 import dev.lukebemish.excavatedvariants.impl.BlockAddedCallback;
 import net.minecraft.core.Registry;
@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@SuppressWarnings("UnstableApiUsage")
 @Mixin(value = ForgeRegistry.class, remap = false)
 public abstract class ForgeRegistryMixin<V> {
     @Shadow

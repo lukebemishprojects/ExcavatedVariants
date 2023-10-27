@@ -70,7 +70,7 @@ dependencies {
 
 mixin {
     add sourceSets.main, 'excavated_variants.refmap.json'
-    config 'mixin.excavated_variants_forge.json'
+    config 'mixin.excavated_variants_neoforge.json'
     add project(":Common").sourceSets.main, 'excavated_variants.refmap.json'
     config 'mixin.excavated_variants.json'
 }

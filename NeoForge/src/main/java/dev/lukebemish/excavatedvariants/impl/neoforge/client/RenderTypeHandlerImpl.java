@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl.forge.client;
+package dev.lukebemish.excavatedvariants.impl.neoforge.client;
 
 import com.google.auto.service.AutoService;
 import dev.lukebemish.excavatedvariants.impl.client.RenderTypeHandler;
