@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Silver Ore"
+  },
+  "blocks": {
+    "embers:silver_ore": "excavated_variants:minecraft/stone",
+    "embers:deepslate_silver_ore": "excavated_variants:minecraft/deepslate"
+  },
+  "tags": [
+    "forge:ores/silver",
+    "c:ores/silver",
+    "c:silver_ores"
+  ]
+}
