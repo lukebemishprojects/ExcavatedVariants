@@ -11,8 +11,8 @@ modsDotGroovy {
     platform 'multiloader'
     multiloader {
         forge = [project(':NeoForge')]
-        quilt = [project(':Quilt')]
-        fabric = [project(':Quilt')]
+        quilt = [project(':FabriQuilt')]
+        fabric = [project(':FabriQuilt')]
     }
 }
 

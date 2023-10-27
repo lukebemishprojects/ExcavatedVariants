@@ -1,0 +1,132 @@
+plugins {
+	id 'maven-publish'
+	alias libs.plugins.cursegradle
+	alias libs.plugins.minotaur
+}
+
+apply plugin: 'org.quiltmc.loom'
+
+configurations {
+	testCompileClasspath.extendsFrom(compileClasspath)
+}
+
+dependencies {
+	minecraft libs.minecraft
+	mappings loom.layered() {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-${libs.versions.parchment.minecraft.get()}:${libs.versions.parchment.mappings.get()}@zip")
+	}
+
+	modCompileOnly libs.quilt.loader
+	modCompileOnly libs.qfapi
+
+	modLocalRuntime libs.fabric.loader
+	modLocalRuntime libs.fapi
+
+	compileOnly project(":Common")
+
+	compileOnly libs.autoservice
+	annotationProcessor libs.autoservice
+
+	modImplementation libs.dynassetgen.fabriquilt
+	modImplementation libs.defaultresources.fabriquilt
+
+	include libs.defaultresources.fabriquilt
+}
+
+loom {
+	runs {
+		client {
+			client()
+			setConfigName("Fabric Client")
+			ideConfigGenerated(true)
+			runDir("run")
+			mainClass.set "net.fabricmc.loader.launch.knot.KnotClient"
+		}
+		server {
+			server()
+			setConfigName("Fabric Server")
+			ideConfigGenerated(true)
+			runDir("runserver")
+			mainClass.set "net.fabricmc.loader.launch.knot.KnotClient"
+		}
+	}
+
+	mixin {
+		defaultRefmapName = "excavated_variants.refmap.json"
+	}
+}
+
+processResources {
+    from project(":Common").sourceSets.main.resources
+	inputs.property "version", project.version
+
+	filesMatching("quilt.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.named('compileJava', JavaCompile).configure {
+	source(project(":Common").sourceSets.main.allSource)
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${mod_name}"}
+	}
+}
+
+tasks.jar.finalizedBy(tasks.remapJar)
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+			artifactId base.archivesName.get()
+        }
+    }
+
+    repositories {
+    }
+}
+
+// Publishing
+
+if (System.getenv('CURSEFORGE_KEY')) {
+	curseforge {
+		apiKey = System.getenv('CURSEFORGE_KEY')
+		project {
+			id = '577411'
+			releaseType = "${project.release_type}"
+			addGameVersion "${libs.versions.minecraft.get()}"
+			addGameVersion 'Quilt'
+			mainArtifact(remapJar) {
+				displayName = "Excavated Variants [Quilt] v$project.version"
+			}
+			relations {
+				requiredDependency 'dynamic-asset-generator'
+				requiredDependency 'qsl'
+			}
+		}
+		options {
+			forgeGradleIntegration = true
+		}
+	}
+}
+
+if (System.getenv('MODRINTH_KEY')) {
+	modrinth {
+		token = System.getenv('MODRINTH_KEY')
+		projectId = 'IZaMGxb0'
+		versionNumber = "$project.version"
+		versionType = "${project.release_type}"
+		detectLoaders = false
+		uploadFile = remapJar
+		gameVersions = ["${libs.versions.minecraft.get()}"]
+		loaders = ['quilt']
+		dependencies {
+			required.project 'dynamic_asset_generator'
+			required.project 'qsl'
+		}
+	}
+}
