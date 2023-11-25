@@ -1,0 +1,96 @@
+plugins {
+    id 'convention.consumer'
+    alias libs.plugins.curseforgegradle
+    alias libs.plugins.minotaur
+    alias libs.plugins.architectury.loom
+}
+
+repositories {
+    maven {
+        name = 'NeoForged'
+        url = 'https://maven.neoforged.net/'
+    }
+}
+
+dependencies {
+    minecraft libs.minecraft
+    neoForge libs.neoforge
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${libs.versions.parchment.minecraft.get()}:${libs.versions.parchment.mappings.get()}@zip")
+    }
+
+    modImplementation libs.dynassetgen.neoforge
+    modImplementation libs.defaultresources.neoforge
+    include libs.defaultresources.neoforge
+}
+
+loom {
+    runs {
+        client {
+            client()
+            setConfigName("NeoForge Client")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+        server {
+            server()
+            setConfigName("NeoForge Server")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+    }
+}
+
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+processResources {
+    doLast {
+        fileTree(dir: outputs.files.asPath, include: "mixin.*.json").each { File file ->
+            def obj = new JsonSlurper().parse(file)
+            if (obj.refmap) {
+                obj.remove('refmap')
+            }
+            file.text = JsonOutput.toJson(obj)
+        }
+    }
+}
+
+// Publishing
+
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
+if (System.getenv('CURSEFORGE_KEY')) {
+    tasks.register('curseforge', TaskPublishCurseForge) {
+        disableVersionDetection()
+        apiToken = System.getenv('CURSEFORGE_KEY')
+        def projectId = '577411'
+        def mainFile = upload(projectId, tasks.remapJar)
+        mainFile.displayName = "Excavated Variants [NeoForge] v$project.version"
+        mainFile.releaseType = "${project.release_type}"
+        mainFile.addModLoader('NeoForge')
+        mainFile.addGameVersion("${libs.versions.minecraft.get()}")
+        mainFile.addRequirement("dynamic-asset-generator")
+        mainFile.changelog = ''
+    }
+
+    afterEvaluate {
+        tasks.curseforge.dependsOn tasks.remapJar
+    }
+}
+
+if (System.getenv('MODRINTH_KEY')) {
+    modrinth {
+        token = System.getenv('MODRINTH_KEY')
+        projectId = 'IZaMGxb0'
+        versionNumber = "$project.version"
+        versionType = "${project.release_type}"
+        detectLoaders = false
+        uploadFile = remapJar
+        gameVersions = ["${libs.versions.minecraft.get()}"]
+        loaders = ['neoforge']
+        dependencies {
+            required.project 'dynamic_asset_generator'
+        }
+    }
+}
