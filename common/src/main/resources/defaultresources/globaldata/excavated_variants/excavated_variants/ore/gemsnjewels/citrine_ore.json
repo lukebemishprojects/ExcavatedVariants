@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Citrine Ore"
+  },
+  "blocks": {
+    "gemsnjewels:citrine_deepslate_ore_block": "excavated_variants:minecraft/deepslate",
+    "gemsnjewels:citrine_ore_block": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/citrine",
+    "c:ores/citrine",
+    "c:citrine_ores"
+  ]
+}

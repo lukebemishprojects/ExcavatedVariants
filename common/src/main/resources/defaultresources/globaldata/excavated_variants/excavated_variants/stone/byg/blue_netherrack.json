@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Blue Netherrack"
+  },
+  "block": "byg:blue_netherrack",
+  "ore_tags": [
+    "forge:ores_in_ground/blue_netherrack"
+  ]
+}

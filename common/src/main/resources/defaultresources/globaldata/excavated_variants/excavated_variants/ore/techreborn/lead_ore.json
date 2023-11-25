@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Lead Ore"
+  },
+  "blocks": {
+    "techreborn:deepslate_lead_ore": "excavated_variants:minecraft/deepslate",
+    "techreborn:lead_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/lead",
+    "c:ores/lead",
+    "c:lead_ores"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Tin Ore"
+  },
+  "blocks": {
+    "mythicmetals:tin_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/tin",
+    "c:ores/tin",
+    "c:tin_ores"
+  ]
+}

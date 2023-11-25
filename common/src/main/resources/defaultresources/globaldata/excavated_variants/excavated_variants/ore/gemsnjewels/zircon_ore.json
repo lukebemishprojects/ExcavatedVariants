@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Zircon Ore"
+  },
+  "blocks": {
+    "gemsnjewels:zircon_deepslate_ore_block": "excavated_variants:minecraft/deepslate",
+    "gemsnjewels:zircon_ore_block": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/zircon",
+    "c:ores/zircon",
+    "c:zircon_ores"
+  ]
+}

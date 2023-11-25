@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Dripstone"
+  },
+  "block": "minecraft:dripstone_block",
+  "ore_tags": [
+    "forge:ores_in_ground/dripstone"
+  ]
+}

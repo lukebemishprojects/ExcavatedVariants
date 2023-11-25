@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:mysticalagriculture/soul"
+  ],
+  "translations": {
+    "en_us": "Soulium Ore"
+  },
+  "blocks": {
+    "mysticalagriculture:soulium_ore": "excavated_variants:mysticalagriculture/soulstone"
+  },
+  "tags": [
+    "forge:ores/soulium",
+    "c:ores/soulium",
+    "c:soulium_ores"
+  ]
+}

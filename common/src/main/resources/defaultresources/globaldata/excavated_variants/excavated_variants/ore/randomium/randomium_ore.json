@@ -1,0 +1,19 @@
+{
+  "types": [
+    "excavated_variants:overworld",
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Randomium Ore"
+  },
+  "blocks": {
+    "randomium:randomium_ore_end": "excavated_variants:minecraft/end_stone",
+    "randomium:randomium_ore_deepslate": "excavated_variants:minecraft/deepslate",
+    "randomium:randomium_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/randomium",
+    "c:ores/randomium",
+    "c:randomium_ores"
+  ]
+}

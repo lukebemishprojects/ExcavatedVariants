@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Dusk Emerald Ore"
+  },
+  "blocks": {
+    "gemsnjewels:emerald_ore_block": "excavated_variants:minecraft/stone",
+    "gemsnjewels:emerald_deepslate_ore_block": "excavated_variants:minecraft/deepslate"
+  },
+  "tags": [
+    "forge:ores/dusk_emerald",
+    "c:ores/dusk_emerald",
+    "c:dusk_emerald_ores"
+  ]
+}

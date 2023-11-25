@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Haste Peridot Ore"
+  },
+  "blocks": {
+    "miningmaster:haste_peridot_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/haste_peridot",
+    "c:ores/haste_peridot",
+    "c:haste_peridot_ores"
+  ]
+}

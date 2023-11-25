@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Quartz"
+  },
+  "blocks": {
+    "geolosys:quartz_ore": "excavated_variants:minecraft/stone",
+    "geolosys:deepslate_quartz_ore": "excavated_variants:minecraft/deepslate"
+  },
+  "tags": [
+    "forge:ores/quartz",
+    "c:ores/quartz",
+    "c:quartz_ores"
+  ]
+}

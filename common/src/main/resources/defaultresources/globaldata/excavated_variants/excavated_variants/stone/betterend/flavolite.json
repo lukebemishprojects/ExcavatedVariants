@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Flavolite"
+  },
+  "block": "betterend:flavolite",
+  "ore_tags": [
+    "forge:ores_in_ground/flavolite"
+  ]
+}

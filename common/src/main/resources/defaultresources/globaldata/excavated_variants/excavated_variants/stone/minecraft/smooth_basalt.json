@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Smooth Basalt"
+  },
+  "block": "minecraft:smooth_basalt",
+  "ore_tags": [
+    "forge:ores_in_ground/smooth_basalt"
+  ]
+}

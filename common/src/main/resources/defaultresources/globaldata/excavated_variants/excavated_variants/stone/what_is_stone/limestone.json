@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Beige Limestone"
+  },
+  "block": "what_is_stone:limestone",
+  "ore_tags": [
+    "forge:ores_in_ground/limestone"
+  ]
+}

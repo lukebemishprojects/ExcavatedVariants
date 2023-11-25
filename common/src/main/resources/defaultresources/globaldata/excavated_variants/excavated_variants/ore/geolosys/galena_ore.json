@@ -1,0 +1,20 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Galena"
+  },
+  "blocks": {
+    "geolosys:deepslate_galena_ore": "excavated_variants:minecraft/deepslate",
+    "geolosys:galena_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/lead",
+    "c:ores/lead",
+    "c:lead_ores",
+    "forge:ores/silver",
+    "c:ores/silver",
+    "c:silver_ores"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Ice Sapphire Ore"
+  },
+  "blocks": {
+    "miningmaster:ice_sapphire_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/ice_sapphire",
+    "c:ores/ice_sapphire",
+    "c:ice_sapphire_ores"
+  ]
+}

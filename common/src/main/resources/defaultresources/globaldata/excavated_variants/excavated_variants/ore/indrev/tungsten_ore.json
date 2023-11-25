@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Tungsten Ore"
+  },
+  "blocks": {
+    "indrev:tungsten_ore": "excavated_variants:minecraft/stone",
+    "indrev:deepslate_tungsten_ore": "excavated_variants:minecraft/deepslate"
+  },
+  "tags": [
+    "forge:ores/tungsten",
+    "c:ores/tungsten",
+    "c:tungsten_ores"
+  ]
+}

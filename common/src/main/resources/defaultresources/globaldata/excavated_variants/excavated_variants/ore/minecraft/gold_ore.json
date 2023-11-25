@@ -1,0 +1,44 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Gold Ore"
+  },
+  "blocks": {
+    "minecraft:gold_ore": "excavated_variants:minecraft/stone",
+    "minecraft:deepslate_gold_ore": "excavated_variants:minecraft/deepslate",
+    "darkerdepths:limestone_gold_ore": "excavated_variants:darkerdepths/limestone",
+    "darkerdepths:aridrock_gold_ore": "excavated_variants:darkerdepths/aridrock",
+    "unearthed:granodiorite_gold_ore": "excavated_variants:unearthed/granodiorite",
+    "unearthed:siltstone_gold_ore": "excavated_variants:unearthed/siltstone",
+    "unearthed:gabbro_gold_ore": "excavated_variants:unearthed/gabbro",
+    "unearthed:phyllite_gold_ore": "excavated_variants:unearthed/phyllite",
+    "unearthed:white_granite_gold_ore": "excavated_variants:unearthed/white_granite",
+    "unearthed:rhyolite_gold_ore": "excavated_variants:unearthed/rhyolite",
+    "unearthed:mudstone_gold_ore": "excavated_variants:unearthed/mudstone",
+    "unearthed:slate_gold_ore": "excavated_variants:unearthed/slate",
+    "unearthed:limestone_gold_ore": "excavated_variants:unearthed/limestone",
+    "unearthed:conglomerate_gold_ore": "excavated_variants:unearthed/conglomerate",
+    "unearthed:beige_limestone_gold_ore": "excavated_variants:unearthed/beige_limestone",
+    "unearthed:sandstone_gold_ore": "excavated_variants:minecraft/sandstone",
+    "unearthed:grey_limestone_gold_ore": "excavated_variants:unearthed/grey_limestone",
+    "universal_ores:blackstone_gold_ore": "excavated_variants:minecraft/blackstone",
+    "universal_ores:basalt_gold_ore": "excavated_variants:minecraft/basalt",
+    "universal_ores:diorite_gold_ore": "excavated_variants:minecraft/diorite",
+    "universal_ores:andesite_gold_ore": "excavated_variants:minecraft/andesite",
+    "universal_ores:calcite_gold_ore": "excavated_variants:minecraft/calcite",
+    "universal_ores:tuff_gold_ore": "excavated_variants:minecraft/tuff",
+    "universal_ores:granite_gold_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:granite_gold_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:andesite_gold_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:diorite_gold_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:tuff_gold_ore": "excavated_variants:minecraft/tuff"
+  },
+  "tags": [
+    "forge:ores/gold",
+    "c:ores/gold",
+    "c:gold_ores",
+    "minecraft:gold_ores"
+  ]
+}

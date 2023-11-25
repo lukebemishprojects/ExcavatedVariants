@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Granodiorite"
+  },
+  "block": "unearthed:granodiorite",
+  "ore_tags": [
+    "forge:ores_in_ground/granodiorite"
+  ]
+}

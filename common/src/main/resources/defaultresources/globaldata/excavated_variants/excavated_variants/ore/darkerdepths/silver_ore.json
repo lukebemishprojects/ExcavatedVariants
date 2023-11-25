@@ -1,0 +1,18 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Silver Ore"
+  },
+  "blocks": {
+    "darkerdepths:silver_ore": "excavated_variants:minecraft/stone",
+    "darkerdepths:limestone_silver_ore": "excavated_variants:darkerdepths/limestone",
+    "darkerdepths:aridrock_silver_ore": "excavated_variants:darkerdepths/aridrock"
+  },
+  "tags": [
+    "forge:ores/silver",
+    "c:ores/silver",
+    "c:silver_ores"
+  ]
+}

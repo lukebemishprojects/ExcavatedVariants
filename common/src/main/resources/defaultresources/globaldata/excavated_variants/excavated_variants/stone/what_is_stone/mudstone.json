@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Mudstone"
+  },
+  "block": "what_is_stone:mudstone",
+  "ore_tags": [
+    "forge:ores_in_ground/mudstone"
+  ]
+}

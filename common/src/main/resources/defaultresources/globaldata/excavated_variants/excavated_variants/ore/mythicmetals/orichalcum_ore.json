@@ -1,0 +1,19 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Orichalcum Ore"
+  },
+  "blocks": {
+    "mythicmetals:deepslate_orichalcum_ore": "excavated_variants:minecraft/deepslate",
+    "mythicmetals:smooth_basalt_orichalcum_ore": "excavated_variants:minecraft/smooth_basalt",
+    "mythicmetals:orichalcum_ore": "excavated_variants:minecraft/stone",
+    "mythicmetals:tuff_orichalcum_ore": "excavated_variants:minecraft/tuff"
+  },
+  "tags": [
+    "forge:ores/orichalcum",
+    "c:ores/orichalcum",
+    "c:orichalcum_ores"
+  ]
+}

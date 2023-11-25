@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Thallasium Ore"
+  },
+  "blocks": {
+    "betterend:thallasium_ore": "excavated_variants:minecraft/end_stone"
+  },
+  "tags": [
+    "forge:ores/thallasium",
+    "c:ores/thallasium",
+    "c:thallasium_ores"
+  ]
+}

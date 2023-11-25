@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Blackstone"
+  },
+  "block": "minecraft:blackstone",
+  "ore_tags": [
+    "forge:ores_in_ground/blackstone"
+  ]
+}

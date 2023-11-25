@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Red Rock"
+  },
+  "block": "byg:red_rock",
+  "ore_tags": [
+    "forge:ores_in_ground/red_rock"
+  ]
+}

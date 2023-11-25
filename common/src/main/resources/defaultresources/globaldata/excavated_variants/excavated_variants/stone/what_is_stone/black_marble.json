@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Black Marble"
+  },
+  "block": "what_is_stone:black_marble",
+  "ore_tags": [
+    "forge:ores_in_ground/black_marble"
+  ]
+}

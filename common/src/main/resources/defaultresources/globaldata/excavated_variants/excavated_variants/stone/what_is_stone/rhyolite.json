@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Rhyolite"
+  },
+  "block": "what_is_stone:rhyolite",
+  "ore_tags": [
+    "forge:ores_in_ground/rhyolite"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Aquarium Ore"
+  },
+  "blocks": {
+    "mythicmetals:aquarium_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/aquarium",
+    "c:ores/aquarium",
+    "c:aquarium_ores"
+  ]
+}

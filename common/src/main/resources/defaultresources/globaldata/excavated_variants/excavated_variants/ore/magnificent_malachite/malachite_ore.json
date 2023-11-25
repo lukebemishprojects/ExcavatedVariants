@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Malachite Ore"
+  },
+  "blocks": {
+    "magnificent_malachite:deepslate_malachite_ore": "excavated_variants:minecraft/deepslate",
+    "magnificent_malachite:malachite_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/malachite",
+    "c:ores/malachite",
+    "c:malachite_ores"
+  ]
+}

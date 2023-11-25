@@ -1,34 +1,33 @@
 pluginManagement {
-
     repositories {
-        
         maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
 
         maven {
-            name = 'NeoForged'
-            url = 'https://maven.neoforged.net'
-        }
-        
-        maven {
-            name = 'Sponge Snapshots'
-            url = 'https://repo.spongepowered.org/repository/maven-public/'
-        }
-        
-        maven {
             name = 'Quilt (Release)'
             url = 'https://maven.quiltmc.org/repository/release'
         }
-        
+
         maven {
-            name = 'Quilt (Snapshot)'
-            url = 'https://maven.quiltmc.org/repository/snapshot'
+            name = 'NeoForged'
+            url = 'https://maven.neoforged.net/'
         }
 
         maven {
-            url "https://maven.lukebemish.dev/releases"
+            name = "Luke's Maven"
+            url = 'https://maven.lukebemish.dev/releases'
+        }
+
+        maven {
+            name = 'ParchmentMC'
+            url = 'https://maven.parchmentmc.org'
+        }
+
+        maven {
+            name = 'Architectury'
+            url "https://maven.architectury.dev/"
         }
 
         mavenCentral()
@@ -37,8 +36,8 @@ pluginManagement {
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.6.0'
 }
 
-rootProject.name = 'excavated_variants'
-include("Common", "Forge", "Quilt")
+rootProject.name = 'excavatedvariants'
+include("common", "neoforge", "fabriquilt")

@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Ender Ore"
+  },
+  "blocks": {
+    "betterend:ender_ore": "excavated_variants:minecraft/end_stone"
+  },
+  "tags": [
+    "forge:ores/ender",
+    "c:ores/ender",
+    "c:ender_ores"
+  ]
+}

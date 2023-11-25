@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Kyber Ore"
+  },
+  "blocks": {
+    "mythicmetals:calcite_kyber_ore": "excavated_variants:minecraft/calcite",
+    "mythicmetals:kyber_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/kyber",
+    "c:ores/kyber",
+    "c:kyber_ores"
+  ]
+}

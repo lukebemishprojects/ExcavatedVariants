@@ -1,19 +1,46 @@
 plugins {
     alias libs.plugins.quilt.licenser apply false
-    alias libs.plugins.mdg
-    alias libs.plugins.quilt.loom apply false
+    alias libs.plugins.mdg.plugin
+    alias libs.plugins.managedversioning
+    alias libs.plugins.architectury.loom apply false
 }
 
-apply from: 'version.gradle'
+managedVersioning {
+    versionFile.set rootProject.file('version.properties')
+    metadataVersion.set libs.versions.minecraft
+    if (System.getenv('PR_NUMBER')) {
+        suffix.set("pr${System.getenv('PR_NUMBER')}")
+    } else if (System.getenv('SNAPSHOT_MAVEN_URL')) {
+        suffix.set('SNAPSHOT')
+    }
+}
+
+managedVersioning.apply()
+
+println "Building: $version"
+
+configurations {
+    license {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+artifacts {
+    add 'license', file("LICENSE")
+}
 
 modsDotGroovy {
     dslVersion = libs.versions.mdg.dsl.get()
     platform 'multiloader'
+    multiloader {
+        forge = [project(':neoforge')]
+        fabric = [project(':fabriquilt')]
+        quilt = []
+    }
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'idea'
+subprojects { p ->
     apply plugin: 'maven-publish'
     apply plugin: 'java-library'
     apply plugin: libs.plugins.quilt.licenser.get().pluginId
@@ -21,10 +48,6 @@ subprojects {
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
     java.withJavadocJar()
-
-    javadoc {
-        include "**/api/**"
-    }
 
     license {
         rule rootProject.file('header.txt')
@@ -35,92 +58,10 @@ subprojects {
     jar {
         manifest {
             attributes([
-                    'Specification-Title'     : mod_name,
-                    'Specification-Vendor'    : mod_author,
-                    'Specification-Version'   : rootProject.version,
-                    'Implementation-Title'    : project.name,
-                    'Implementation-Version'  : rootProject.version,
-                    'Implementation-Vendor'   : mod_author,
-                    'Implementation-Commit-Time': versioning.getGitCommitDate(),
-                    'Implementation-Commit': versioning.getGitCommit(),
-                    'Build-On-Minecraft'      : libs.versions.minecraft.get(),
+                'Implementation-Commit-Time': managedVersioning.timestamp.get(),
+                'Implementation-Commit': managedVersioning.hash.get()
             ])
         }
-    }
-    
-    repositories {
-        mavenCentral()
-
-        maven {
-            name = 'Sponge / Mixin'
-            url = 'https://repo.spongepowered.org/repository/maven-public/'
-        }
-
-        maven {
-            // JEI
-            name = 'BlameJared Maven (CrT / Bookshelf)'
-            url = 'https://maven.blamejared.com'
-            content {
-                includeGroup 'mezz.jei'
-            }
-        }
-
-        maven {
-            name = 'ParchmentMC'
-            url = 'https://maven.parchmentmc.org'
-        }
-
-        maven {
-            name 'Quilt (Release)'
-            url 'https://maven.quiltmc.org/repository/release/'
-        }
-
-        maven {
-            name = 'TheModdingInquisition'
-            url = 'https://maven.moddinginquisition.org/releases'
-        }
-
-        maven {
-            url = 'https://maven.lukebemish.dev/releases'
-        }
-
-        maven {
-            // REI
-            url "https://maven.architectury.dev/"
-            content {
-                includeGroupAndSubgroups 'me.shedaniel'
-                includeGroupAndSubgroups 'dev.architectury'
-            }
-        }
-
-        maven {
-            // EMI
-            name = "TerraformersMC"
-            url = "https://maven.terraformersmc.com/"
-            content {
-                includeGroupAndSubgroups 'dev.emi'
-            }
-        }
-    }
-
-
-    tasks.withType(JavaCompile).configureEach {
-        it.options.encoding = 'UTF-8'
-        it.options.release = 17
-    }
-
-    dependencies {
-        compileOnly libs.jetbrains.annotations
-        implementation libs.nightconfig.core
-        implementation libs.nightconfig.toml
-        implementation libs.jankson
-    }
-
-    // Disables Gradle's custom module metadata from being published to maven. The
-    // metadata includes mapped dependencies which are not reasonably consumable by
-    // other mod developers.
-    tasks.withType(GenerateModuleMetadata) {
-        enabled = false
     }
 
     publishing {
@@ -130,16 +71,28 @@ subprojects {
                     name = 'LocalMaven'
                     url = rootProject.layout.buildDirectory.dir('repo')
                 }
-            } else {
+            } else if (System.getenv('MAVEN_PASSWORD')) {
                 maven {
                     name = 'PersonalMaven'
-                    url = uri(System.getenv('SNAPSHOT_MAVEN_URL') ?: System.getenv('MAVEN_URL') ?: 'https://maven.lukebemish.dev/releases')
+                    url = uri(System.getenv('SNAPSHOT_MAVEN_URL') ?: System.getenv('MAVEN_URL'))
                     credentials {
-                        username = System.getenv('MAVEN_USER') ?: findProperty('lukebemishMavenUser') ?: ''
-                        password = System.getenv('MAVEN_PASSWORD') ?: findProperty('lukebemishMavenPassword') ?: ''
+                        username = System.getenv('MAVEN_USER')
+                        password = System.getenv('MAVEN_PASSWORD')
                     }
                 }
             }
         }
     }
+}
+
+javadoc {
+    source subprojects.collect { it.sourceSets.main.allJava }
+    classpath = files(subprojects.collect { it.sourceSets.main.compileClasspath })
+    include "**/api/**"
+}
+
+tasks.register('prepareJavadoc', Copy) {
+    dependsOn tasks.javadoc
+    from tasks.javadoc.outputs
+    into layout.buildDirectory.dir("prepareJavadoc/${project.group.replace('.','/')}/${project.version.split('\\.')[0]}")
 }

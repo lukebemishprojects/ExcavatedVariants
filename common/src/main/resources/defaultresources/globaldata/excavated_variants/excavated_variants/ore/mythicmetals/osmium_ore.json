@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Osmium Ore"
+  },
+  "blocks": {
+    "mythicmetals:osmium_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/osmium",
+    "c:ores/osmium",
+    "c:osmium_ores"
+  ]
+}

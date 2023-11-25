@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Pegmatite"
+  },
+  "block": "what_is_stone:pegmatite",
+  "ore_tags": [
+    "forge:ores_in_ground/pegmatite"
+  ]
+}

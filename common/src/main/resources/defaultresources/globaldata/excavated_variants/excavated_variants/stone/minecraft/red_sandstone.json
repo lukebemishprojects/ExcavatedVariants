@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Red Sandstone"
+  },
+  "block": "minecraft:red_sandstone",
+  "ore_tags": [
+    "forge:ores_in_ground/red_sandstone"
+  ]
+}

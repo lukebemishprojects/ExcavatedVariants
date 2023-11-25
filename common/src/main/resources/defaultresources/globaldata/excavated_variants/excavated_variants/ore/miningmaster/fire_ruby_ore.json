@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Fire Ruby Ore"
+  },
+  "blocks": {
+    "miningmaster:fire_ruby_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/fire_ruby",
+    "c:ores/fire_ruby",
+    "c:fire_ruby_ores"
+  ]
+}

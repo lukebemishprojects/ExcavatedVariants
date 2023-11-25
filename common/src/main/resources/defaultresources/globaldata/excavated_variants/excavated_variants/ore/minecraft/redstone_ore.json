@@ -1,0 +1,43 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Redstone Ore"
+  },
+  "blocks": {
+    "minecraft:redstone_ore": "excavated_variants:minecraft/stone",
+    "minecraft:deepslate_redstone_ore": "excavated_variants:minecraft/deepslate",
+    "darkerdepths:aridrock_redstone_ore": "excavated_variants:darkerdepths/aridrock",
+    "darkerdepths:limestone_redstone_ore": "excavated_variants:darkerdepths/limestone",
+    "unearthed:phyllite_redstone_ore": "excavated_variants:unearthed/phyllite",
+    "unearthed:granodiorite_redstone_ore": "excavated_variants:unearthed/granodiorite",
+    "unearthed:sandstone_redstone_ore": "excavated_variants:minecraft/sandstone",
+    "unearthed:conglomerate_redstone_ore": "excavated_variants:unearthed/conglomerate",
+    "unearthed:siltstone_redstone_ore": "excavated_variants:unearthed/siltstone",
+    "unearthed:grey_limestone_redstone_ore": "excavated_variants:unearthed/grey_limestone",
+    "unearthed:slate_redstone_ore": "excavated_variants:unearthed/slate",
+    "unearthed:beige_limestone_redstone_ore": "excavated_variants:unearthed/beige_limestone",
+    "unearthed:gabbro_redstone_ore": "excavated_variants:unearthed/gabbro",
+    "unearthed:rhyolite_redstone_ore": "excavated_variants:unearthed/rhyolite",
+    "unearthed:white_granite_redstone_ore": "excavated_variants:unearthed/white_granite",
+    "unearthed:limestone_redstone_ore": "excavated_variants:unearthed/limestone",
+    "unearthed:mudstone_redstone_ore": "excavated_variants:unearthed/mudstone",
+    "universal_ores:andesite_redstone_ore": "excavated_variants:minecraft/andesite",
+    "universal_ores:calcite_redstone_ore": "excavated_variants:minecraft/calcite",
+    "universal_ores:diorite_redstone_ore": "excavated_variants:minecraft/diorite",
+    "universal_ores:granite_redstone_ore": "excavated_variants:minecraft/granite",
+    "universal_ores:tuff_redstone_ore": "excavated_variants:minecraft/tuff",
+    "spelunkery:granite_redstone_ore": "excavated_variants:minecraft/granite",
+    "spelunkery:andesite_redstone_ore": "excavated_variants:minecraft/andesite",
+    "spelunkery:diorite_redstone_ore": "excavated_variants:minecraft/diorite",
+    "spelunkery:tuff_redstone_ore": "excavated_variants:minecraft/tuff",
+    "spelunkery:calciite_redstone_ore": "excavated_variants:minecraft/calcite"
+  },
+  "tags": [
+    "forge:ores/redstone",
+    "c:ores/redstone",
+    "c:redstone_ores",
+    "minecraft:redstone_ores"
+  ]
+}

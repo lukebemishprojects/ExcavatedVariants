@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Granite"
+  },
+  "block": "minecraft:granite",
+  "ore_tags": [
+    "forge:ores_in_ground/granite"
+  ]
+}

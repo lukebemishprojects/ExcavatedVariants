@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:nether",
+    "excavated_variants:mysticalagriculture/soul"
+  ],
+  "translations": {
+    "en_us": "Soulstone"
+  },
+  "block": "mysticalagriculture:soulstone",
+  "ore_tags": [
+    "forge:ores_in_ground/soulstone"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Ametrine Ore"
+  },
+  "blocks": {
+    "byg:ametrine_ore": "excavated_variants:byg/ether_stone"
+  },
+  "tags": [
+    "forge:ores/ametrine",
+    "c:ores/ametrine",
+    "c:ametrine_ores"
+  ]
+}

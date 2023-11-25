@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Netherrack"
+  },
+  "block": "minecraft:netherrack",
+  "ore_tags": [
+    "forge:ores_in_ground/netherrack"
+  ]
+}

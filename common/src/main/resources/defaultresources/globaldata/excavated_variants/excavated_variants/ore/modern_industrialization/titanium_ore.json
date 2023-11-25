@@ -1,0 +1,16 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Titanium Ore"
+  },
+  "blocks": {
+    "modern_industrialization:titanium_ore": "excavated_variants:minecraft/stone"
+  },
+  "tags": [
+    "forge:ores/titanium",
+    "c:ores/titanium",
+    "c:titanium_ores"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Stormyx Ore"
+  },
+  "blocks": {
+    "mythicmetals:stormyx_ore": "excavated_variants:minecraft/netherrack",
+    "mythicmetals:blackstone_stormyx_ore": "excavated_variants:minecraft/blackstone"
+  },
+  "tags": [
+    "forge:ores/stormyx",
+    "c:ores/stormyx",
+    "c:stormyx_ores"
+  ]
+}

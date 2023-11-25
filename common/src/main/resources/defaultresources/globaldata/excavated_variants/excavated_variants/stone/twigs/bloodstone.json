@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:nether"
+  ],
+  "translations": {
+    "en_us": "Bloodstone"
+  },
+  "block": "twigs:bloodstone",
+  "ore_tags": [
+    "forge:ores_in_ground/bloodstone"
+  ]
+}

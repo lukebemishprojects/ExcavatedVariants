@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Soapstone"
+  },
+  "block": "byg:soapstone",
+  "ore_tags": [
+    "forge:ores_in_ground/soapstone"
+  ]
+}

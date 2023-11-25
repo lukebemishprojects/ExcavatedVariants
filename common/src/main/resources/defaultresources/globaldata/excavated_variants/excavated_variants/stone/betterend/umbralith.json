@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:end"
+  ],
+  "translations": {
+    "en_us": "Umbralith"
+  },
+  "block": "betterend:umbralith",
+  "ore_tags": [
+    "forge:ores_in_ground/umbralith"
+  ]
+}

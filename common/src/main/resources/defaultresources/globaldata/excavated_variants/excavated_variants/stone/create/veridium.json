@@ -1,0 +1,12 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Veridium"
+  },
+  "block": "create:veridium",
+  "ore_tags": [
+    "forge:ores_in_ground/veridium"
+  ]
+}
