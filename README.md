@@ -26,6 +26,7 @@ Change `unextracted` to `extract` and load the game once. Now, the default confi
 **Note**: If you just want to add more configs, you do not need to (and should not) do this. You can add new config files without extracting existing ones.
 
 Configs define four main data types:
+
 * **Ground Types**: Ground types represent classes of ores and stones. They are used to determine which new ore/stone combinations (variants) should be created. For example: `excavated_variants:overworld` is a category shared by normal minecraft stone, deepslate, and overworld ores. 
 * **Ores**: Ores are types of blocks which can exist in any number of different stones. During worldgen, they are replaced with variants matching neighboring stones. For example: `excavated_variants:minecraft/iron_ore` represents both normal and deepslate iron ore, as well as any other variants generated.
 * **Stones**: Stones are blocks which ores generate within. For example: `excavated_variants:minecraft/granite` represents granite, and contains information about which new variants to generate based off of granite.
