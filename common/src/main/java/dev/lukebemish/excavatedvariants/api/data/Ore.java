@@ -24,6 +24,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class Ore {
     public static final Codec<Ore> CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -48,7 +49,23 @@ public final class Ore {
 
     private Ore(List<ResourceLocation> tags, Map<ResourceLocation, DetailedStone> blocks, Map<String, String> translations, Set<ResourceKey<GroundType>> types) {
         this.tags = tags;
-        this.blocks = new HashMap<>(blocks);
+        Set<Set<String>> modLists = new HashSet<>();
+        // sanity check on the required mods for generating variants
+        Map<ResourceLocation, DetailedStone> blocksCopy = new HashMap<>(blocks);
+        for (var entry : blocks.entrySet()) {
+            if (entry.getValue().isGenerating()) {
+                modLists.add(Set.copyOf(entry.getValue().requiredMods()));
+                if (modLists.size() > 1) {
+                    ExcavatedVariants.LOGGER.error(
+                            "Ore " + getKeyOrThrow().location() + " has multiple generating blocks with different required mods, and will be disabled: " +
+                                    modLists.stream().map(s -> "["+String.join(", ", s)+"]").collect(Collectors.joining("; "))
+                    );
+                    blocksCopy = Collections.emptyMap();
+                    break;
+                }
+            }
+        }
+        this.blocks = blocksCopy;
         this.translations = translations;
         this.types = types;
 
@@ -103,7 +120,7 @@ public final class Ore {
         if (ModLifecycle.getLifecyclePhase() != ModLifecycle.PRE_REGISTRATION) {
             throw new IllegalStateException("Cannot add possible variant except during pre-registration");
         }
-        blocks.put(output, new DetailedStone.Builder().setModIds(List.of(ExcavatedVariants.MOD_ID)).setStone(stone.getKeyOrThrow()).build());
+        blocks.put(output, new DetailedStone.Builder().setModIds(List.of(ExcavatedVariants.MOD_ID)).setStone(stone.getKeyOrThrow()).setGenerating(false).build());
     }
 
     @ApiStatus.Internal

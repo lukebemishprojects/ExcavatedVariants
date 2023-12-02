@@ -55,7 +55,10 @@ public class ExcavatedVariantsNeoForge {
         BIOME_MODIFIERS.register(modbus);
         FEATURES.register(modbus);
         CREATIVE_TABS.register(modbus);
-        NeoForge.EVENT_BUS.register(EventHandler.class);
+        modbus.addListener(FMLCommonSetupEvent.class, e -> {
+            //no more race conditions... thanks FML
+            e.enqueueWork(() -> NeoForge.EVENT_BUS.register(EventHandler.class));
+        });
         //ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
 
         // TODO: Reimplement network checks, hopefully with new API

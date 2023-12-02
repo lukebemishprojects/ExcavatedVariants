@@ -7,7 +7,10 @@
   },
   "blocks": {
     "sullysmod:deepslate_jade_ore": "excavated_variants:minecraft/deepslate",
-    "sullysmod:jade_ore": "excavated_variants:minecraft/stone",
+    "sullysmod:jade_ore": {
+      "stone": "excavated_variants:minecraft/stone",
+      "generating": true
+    },
     "spelunkery:granite_jade_ore": {
       "stone": "excavated_variants:minecraft/granite",
       "required_mods": ["spelunkery", "sullysmod"]

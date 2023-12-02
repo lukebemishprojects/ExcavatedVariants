@@ -5,7 +5,6 @@
 
 package dev.lukebemish.excavatedvariants.impl.worldgen;
 
-import com.mojang.datafixers.util.Pair;
 import dev.lukebemish.excavatedvariants.api.data.Ore;
 import dev.lukebemish.excavatedvariants.api.data.Stone;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
@@ -19,6 +18,7 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class OreReplacer extends Feature<NoneFeatureConfiguration> {
@@ -33,7 +33,7 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
+    public boolean place(@NonNull FeaturePlaceContext<NoneFeatureConfiguration> ctx) {
         if (!ExcavatedVariants.getConfig().attemptWorldgenReplacement)
             return true;
         return modifyUnmodifiedNeighboringChunks(ctx.level(), ctx.origin());
@@ -43,25 +43,25 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
         OreGenMapSavedData data = OreGenMapSavedData.getOrCreate(level);
         int minY = level.getMinBuildHeight();
         int maxY = level.getMaxBuildHeight();
-        if (data.edgeCount.containsKey(new Pair<>(pos.getX(), pos.getZ())) && data.edgeCount.get(new Pair<>(pos.getX(), pos.getZ())) == 8) {
-            ChunkAccess chunkAccess = level.getChunk(pos);
-            modifyChunk(chunkAccess, minY, maxY);
-            data.edgeCount.put(new Pair<>(pos.getX(), pos.getZ()), 9);
-        }
         BlockPos.MutableBlockPos newPos = new BlockPos.MutableBlockPos(pos.getX(), pos.getY(), pos.getZ());
         for (int i = 0; i < xs.length; i++) {
             newPos.setX(pos.getX() + xs[i] * 16);
             newPos.setZ(pos.getZ() + zs[i] * 16);
-            Pair<Integer, Integer> chunkPos = new Pair<>(newPos.getX(), newPos.getZ());
-            if (!data.edgeCount.containsKey(chunkPos)) data.edgeCount.put(chunkPos, 0);
-            data.edgeCount.put(chunkPos, data.edgeCount.get(chunkPos) + 1);
-            if (data.edgeCount.get(chunkPos) == 8 && data.ranMap.containsKey(chunkPos) && data.ranMap.get(chunkPos)) {
+            OreGenMapSavedData.ChunkKey chunkPos = new OreGenMapSavedData.ChunkKey(newPos.getX(), newPos.getZ());
+            data.edgeCount.put(chunkPos, data.edgeCount.getInt(chunkPos) + 1);
+            if (data.edgeCount.getInt(chunkPos) == 8 && data.ranMap.contains(chunkPos)) {
                 ChunkAccess chunkAccess = level.getChunk(newPos);
                 modifyChunk(chunkAccess, minY, maxY);
                 data.edgeCount.put(chunkPos, 9);
             }
         }
-        data.ranMap.put(new Pair<>(pos.getX(), pos.getZ()), true);
+        OreGenMapSavedData.ChunkKey chunkPos = new OreGenMapSavedData.ChunkKey(pos.getX(), pos.getZ());
+        data.ranMap.add(chunkPos);
+        if (data.edgeCount.getInt(chunkPos) == 8) {
+            ChunkAccess chunkAccess = level.getChunk(pos);
+            modifyChunk(chunkAccess, minY, maxY);
+            data.edgeCount.put(chunkPos, 9);
+        }
         return true;
     }
 

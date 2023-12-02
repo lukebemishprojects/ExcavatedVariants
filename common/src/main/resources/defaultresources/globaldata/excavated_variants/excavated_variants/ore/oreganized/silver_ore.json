@@ -6,8 +6,14 @@
     "en_us": "Silver Ore"
   },
   "blocks": {
-    "oreganized:silver_ore": "excavated_variants:minecraft/stone",
-    "oreganized:deepslate_silver_ore": "excavated_variants:minecraft/deepslate",
+    "oreganized:silver_ore": {
+      "stone": "excavated_variants:minecraft/stone",
+      "generating": true
+    },
+    "oreganized:deepslate_silver_ore": {
+      "stone": "excavated_variants:minecraft/deepslate",
+      "generating": true
+    },
     "spelunkery:granite_silver_ore": {
       "stone": "excavated_variants:minecraft/granite",
       "required_mods": ["spelunkery", "oreganized"]

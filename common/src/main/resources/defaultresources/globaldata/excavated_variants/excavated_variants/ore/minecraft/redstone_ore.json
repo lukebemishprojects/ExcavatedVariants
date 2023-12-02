@@ -6,7 +6,10 @@
     "en_us": "Redstone Ore"
   },
   "blocks": {
-    "minecraft:redstone_ore": "excavated_variants:minecraft/stone",
+    "minecraft:redstone_ore": {
+      "stone": "excavated_variants:minecraft/stone",
+      "generating": true
+    },
     "minecraft:deepslate_redstone_ore": "excavated_variants:minecraft/deepslate",
     "darkerdepths:aridrock_redstone_ore": "excavated_variants:darkerdepths/aridrock",
     "darkerdepths:limestone_redstone_ore": "excavated_variants:darkerdepths/limestone",

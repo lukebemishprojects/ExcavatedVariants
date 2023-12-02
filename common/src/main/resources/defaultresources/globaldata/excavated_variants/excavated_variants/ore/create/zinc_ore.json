@@ -6,7 +6,10 @@
     "en_us": "Zinc Ore"
   },
   "blocks": {
-    "create:zinc_ore": "excavated_variants:minecraft/stone",
+    "create:zinc_ore": {
+      "stone": "excavated_variants:minecraft/stone",
+      "generating": true
+    },
     "create:deepslate_zinc_ore": "excavated_variants:minecraft/deepslate",
     "spelunkery:granite_zinc_ore": {
       "stone": "excavated_variants:minecraft/granite",

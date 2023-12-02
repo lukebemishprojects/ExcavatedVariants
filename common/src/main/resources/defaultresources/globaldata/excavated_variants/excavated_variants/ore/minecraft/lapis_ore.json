@@ -6,7 +6,10 @@
     "en_us": "Lapis Lazuli Ore"
   },
   "blocks": {
-    "minecraft:lapis_ore": "excavated_variants:minecraft/stone",
+    "minecraft:lapis_ore": {
+      "stone": "excavated_variants:minecraft/stone",
+      "generating": true
+    },
     "minecraft:deepslate_lapis_ore": "excavated_variants:minecraft/deepslate",
     "darkerdepths:aridrock_lapis_ore": "excavated_variants:darkerdepths/aridrock",
     "darkerdepths:limestone_lapis_ore": "excavated_variants:darkerdepths/limestone",

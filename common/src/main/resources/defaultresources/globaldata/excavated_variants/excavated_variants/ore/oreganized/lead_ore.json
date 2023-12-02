@@ -6,7 +6,10 @@
     "en_us": "Lead Ore"
   },
   "blocks": {
-    "oreganized:lead_ore": "excavated_variants:minecraft/stone",
+    "oreganized:lead_ore": {
+      "stone": "excavated_variants:minecraft/stone",
+      "generating": true
+    },
     "oreganized:deepslate_lead_ore": "excavated_variants:minecraft/deepslate",
     "spelunkery:granite_lead_ore": {
       "stone": "excavated_variants:minecraft/granite",

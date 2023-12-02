@@ -6,7 +6,10 @@
     "en_us": "Emerald Ore"
   },
   "blocks": {
-    "minecraft:emerald_ore": "excavated_variants:minecraft/stone",
+    "minecraft:emerald_ore": {
+      "stone": "excavated_variants:minecraft/stone",
+      "generating": true
+    },
     "minecraft:deepslate_emerald_ore": "excavated_variants:minecraft/deepslate",
     "unearthed:phyllite_emerald_ore": "excavated_variants:unearthed/phyllite",
     "unearthed:white_granite_emerald_ore": "excavated_variants:unearthed/white_granite",
