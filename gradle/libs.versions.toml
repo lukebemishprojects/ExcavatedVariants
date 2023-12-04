@@ -25,7 +25,7 @@ quilt_licenser = "2.0.1"
 jetbrains_annotations = "24.0.1"
 jspecify = "0.3.0"
 
-minotaur = "2.8.3"
+minotaur = "2.8.7"
 
 managedversioning = "1.0.0"
 
