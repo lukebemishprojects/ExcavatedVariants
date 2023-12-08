@@ -48,19 +48,19 @@ public class OreReplacer extends Feature<NoneFeatureConfiguration> {
             newPos.setX(pos.getX() + xs[i] * 16);
             newPos.setZ(pos.getZ() + zs[i] * 16);
             OreGenMapSavedData.ChunkKey chunkPos = new OreGenMapSavedData.ChunkKey(newPos.getX(), newPos.getZ());
-            data.edgeCount.put(chunkPos, data.edgeCount.getInt(chunkPos) + 1);
-            if (data.edgeCount.getInt(chunkPos) == 8 && data.ranMap.contains(chunkPos)) {
+            data.setEdgeCount(chunkPos, data.getEdgeCount(chunkPos) + 1);
+            if (data.getEdgeCount(chunkPos) == 8 && data.didChunkRun(chunkPos)) {
                 ChunkAccess chunkAccess = level.getChunk(newPos);
                 modifyChunk(chunkAccess, minY, maxY);
-                data.edgeCount.put(chunkPos, 9);
+                data.setEdgeCount(chunkPos, 9);
             }
         }
         OreGenMapSavedData.ChunkKey chunkPos = new OreGenMapSavedData.ChunkKey(pos.getX(), pos.getZ());
-        data.ranMap.add(chunkPos);
-        if (data.edgeCount.getInt(chunkPos) == 8) {
+        data.chunkRan(chunkPos);
+        if (data.getEdgeCount(chunkPos) == 8) {
             ChunkAccess chunkAccess = level.getChunk(pos);
             modifyChunk(chunkAccess, minY, maxY);
-            data.edgeCount.put(chunkPos, 9);
+            data.setEdgeCount(chunkPos, 9);
         }
         return true;
     }

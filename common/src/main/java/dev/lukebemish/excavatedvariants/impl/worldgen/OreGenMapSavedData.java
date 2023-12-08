@@ -21,13 +21,31 @@ import java.util.Set;
 
 public class OreGenMapSavedData extends SavedData {
     public static final String DATA_KEY = ExcavatedVariants.MOD_ID + ":ore_replacement";
-    public final Object2IntMap<ChunkKey> edgeCount;
-    public final Set<ChunkKey> ranMap = Collections.synchronizedSet(new HashSet<>());
+    private final Object2IntMap<ChunkKey> edgeCount;
+    private final Set<ChunkKey> ranMap = Collections.synchronizedSet(new HashSet<>());
 
     public OreGenMapSavedData() {
         Object2IntMap<ChunkKey> edgeMap = new Object2IntOpenHashMap<>();
         edgeMap.defaultReturnValue(0);
         this.edgeCount = Object2IntMaps.synchronize(edgeMap);
+    }
+
+    public int getEdgeCount(ChunkKey chunkPos) {
+        return edgeCount.getInt(chunkPos);
+    }
+
+    public void setEdgeCount(ChunkKey chunkPos, int count) {
+        edgeCount.put(chunkPos, count);
+        this.setDirty();
+    }
+
+    public void chunkRan(ChunkKey chunkPos) {
+        ranMap.add(chunkPos);
+        this.setDirty();
+    }
+
+    public boolean didChunkRun(ChunkKey chunkPos) {
+        return ranMap.contains(chunkPos);
     }
 
     public record ChunkKey(int x, int z) {}
