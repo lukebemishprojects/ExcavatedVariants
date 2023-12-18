@@ -35,7 +35,7 @@ jobs:
           env:
               PR_NUMBER: ${{ github.event.pull_request.number }}
         - name: Archive publishable artifacts
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4
           with:
               name: artifacts
               path: build/repo
