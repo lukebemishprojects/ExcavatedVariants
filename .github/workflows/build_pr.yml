@@ -37,12 +37,7 @@
                     "run": "./gradlew checkLicenses build",
                     "id": "build",
                     "env": {
-                        "BUILD_CACHE_PASSWORD": "${{ secrets.BUILD_CACHE_PASSWORD }}",
-                        "BUILD_CACHE_USER": "${{ secrets.BUILD_CACHE_USER }}",
-                        "BUILD_CACHE_URL": "${{ secrets.BUILD_CACHE_URL }}",
-                        "SNAPSHOT_MAVEN_PASSWORD": "${{ secrets.SNAPSHOT_MAVEN_PASSWORD }}",
-                        "SNAPSHOT_MAVEN_USER": "github",
-                        "SNAPSHOT_MAVEN_URL": "https://maven.lukebemish.dev/snapshots/"
+                        "PR_NUMBER": "${{ github.event.pull_request.number }}"
                     }
                 },
                 {
@@ -50,27 +45,25 @@
                     "run": "./gradlew publish",
                     "id": "publish",
                     "env": {
-                        "BUILD_CACHE_PASSWORD": "${{ secrets.BUILD_CACHE_PASSWORD }}",
-                        "BUILD_CACHE_USER": "${{ secrets.BUILD_CACHE_USER }}",
-                        "BUILD_CACHE_URL": "${{ secrets.BUILD_CACHE_URL }}",
-                        "SNAPSHOT_MAVEN_PASSWORD": "${{ secrets.SNAPSHOT_MAVEN_PASSWORD }}",
-                        "SNAPSHOT_MAVEN_USER": "github",
-                        "SNAPSHOT_MAVEN_URL": "https://maven.lukebemish.dev/snapshots/"
+                        "PR_NUMBER": "${{ github.event.pull_request.number }}"
                     }
+                },
+                {
+                    "with": {
+                        "name": "artifacts",
+                        "path": "build/repo"
+                    },
+                    "name": "Archive Publishable Artifacts",
+                    "uses": "actions/upload-artifact@v4"
                 }
             ]
         }
     },
-    "name": "Snapshot",
+    "name": "Build PR",
     "concurrency": "ci-${{ github.ref }}",
     "on": {
-        "workflow_dispatch": {
+        "pull_request": {
             
-        },
-        "push": {
-            "branches": [
-                "1.*"
-            ]
         }
     }
 }
