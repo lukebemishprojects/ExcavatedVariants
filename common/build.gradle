@@ -35,6 +35,8 @@ dependencies {
 
     compileOnly libs.dynassetgen.common
     compileOnly libs.defaultresources.common
+
+    compileOnly libs.mixinextras.common
 }
 
 artifacts {

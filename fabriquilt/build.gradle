@@ -26,15 +26,10 @@ dependencies {
     include libs.defaultresources.fabriquilt
 
     compileOnly libs.quilt.loader
-
-    modImplementation libs.mixinextras.fabric
-    include libs.mixinextras.fabric
-    annotationProcessor libs.mixinextras.fabric
 }
 
 loom {
     mixin {
-        useLegacyMixinAp = true
         defaultRefmapName.set("${mod_id}.refmap.json")
     }
     runs {

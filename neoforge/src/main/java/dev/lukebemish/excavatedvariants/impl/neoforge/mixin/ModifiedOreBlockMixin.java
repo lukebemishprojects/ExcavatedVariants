@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Luke Bemish and contributors
+ * Copyright (C) 2023-2024 Luke Bemish and contributors
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -8,6 +8,7 @@ package dev.lukebemish.excavatedvariants.impl.neoforge.mixin;
 import dev.lukebemish.excavatedvariants.impl.ModifiedOreBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -28,8 +29,8 @@ public abstract class ModifiedOreBlockMixin extends DropExperienceBlock implemen
     @Final
     protected boolean delegateSpecialDrops;
 
-    public ModifiedOreBlockMixin(Properties pProperties) {
-        super(pProperties);
+    public ModifiedOreBlockMixin(IntProvider arg, Properties pProperties) {
+        super(arg, pProperties);
         throw new IllegalStateException();
     }
 

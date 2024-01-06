@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Luke Bemish and contributors
+ * Copyright (C) 2023-2024 Luke Bemish and contributors
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -68,7 +68,7 @@ public class ModifiedOreBlock extends DropExperienceBlock {
     private Property<?>[] props;
 
     public ModifiedOreBlock(ExcavatedVariants.VariantFuture future) {
-        super(copyProperties(future), getXpProvider(future));
+        super(getXpProvider(future), copyProperties(future));
         this.ore = future.ore;
         this.stone = future.stone;
         this.flags = Set.copyOf(future.flags);
@@ -119,8 +119,8 @@ public class ModifiedOreBlock extends DropExperienceBlock {
         Block stoneTarget = future.foundStone;
         BlockBehaviour.Properties outProperties;
         if (target != null && stoneTarget != null) {
-            Properties properties = Properties.copy(stoneTarget);
-            Properties oreProperties = Properties.copy(target);
+            Properties properties = Properties.ofFullCopy(stoneTarget);
+            Properties oreProperties = Properties.ofFullCopy(target);
             properties.requiresCorrectToolForDrops();
             BlockPropertiesMixin newProperties = (BlockPropertiesMixin) properties;
             BlockPropertiesMixin oreProps = (BlockPropertiesMixin) oreProperties;

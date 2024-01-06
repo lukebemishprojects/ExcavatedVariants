@@ -1,13 +1,13 @@
 /*
- * Copyright (C) 2023 Luke Bemish and contributors
+ * Copyright (C) 2023-2024 Luke Bemish and contributors
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-package dev.lukebemish.excavatedvariants.impl;
+package dev.lukebemish.excavatedvariants.impl.network;
 
+import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.login.ClientboundLoginDisconnectPacket;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,21 +15,17 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public record S2CConfigAgreementPacket(Set<String> blocks) {
+public record SyncOresPayload(Set<String> blocks) {
+    public static final ResourceLocation ID = ExcavatedVariants.id("sync_ores");
 
-    public static S2CConfigAgreementPacket decoder(FriendlyByteBuf buffer) {
+    public static SyncOresPayload decode(FriendlyByteBuf buffer) {
         ArrayList<String> blocks = new ArrayList<>();
         int i = buffer.readInt();
         for (int j = 0; j < i; j++) blocks.add(buffer.readUtf());
-        return new S2CConfigAgreementPacket(new HashSet<>(blocks));
+        return new SyncOresPayload(new HashSet<>(blocks));
     }
 
-    private static String ellipsis(String str, @SuppressWarnings("SameParameterValue") int length) {
-        if (str.length() <= length) return str;
-        else return str.substring(0, length - 3) + "...";
-    }
-
-    public void encoder(FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(blocks.size());
         blocks.forEach(buffer::writeUtf);
     }
@@ -47,19 +43,13 @@ public record S2CConfigAgreementPacket(Set<String> blocks) {
         if (!clientOnly.isEmpty()) {
             String clientOnlyStr = String.join("\n    ", clientOnly.stream().toList());
             ExcavatedVariants.LOGGER.error("Client contains ore variants not present on server:\n    {}", clientOnlyStr);
-            disconnect += "\nMissing on server: " + ellipsis(clientOnly.toString(), 50);
+            disconnect += "\nSee log for details";
         }
         if (!serverOnly.isEmpty()) {
             String serverOnlyStr = String.join("\n    ", serverOnly.stream().toList());
             ExcavatedVariants.LOGGER.error("Server contains ore variants not present on client:\n    {}", serverOnlyStr);
-            disconnect += "\nMissing on client: " + ellipsis(serverOnly.toString(), 50);
+            disconnect += "\nSee log for details";
         }
         disconnecter.accept(disconnect);
-    }
-
-    public static final class ExcavatedVariantsDisconnectPacket extends ClientboundLoginDisconnectPacket {
-        public ExcavatedVariantsDisconnectPacket(String reason) {
-            super(Component.literal(reason));
-        }
     }
 }

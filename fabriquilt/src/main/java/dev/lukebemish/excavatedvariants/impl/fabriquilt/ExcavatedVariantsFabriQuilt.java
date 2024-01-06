@@ -1,24 +1,24 @@
 /*
- * Copyright (C) 2023 Luke Bemish and contributors
+ * Copyright (C) 2023-2024 Luke Bemish and contributors
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 package dev.lukebemish.excavatedvariants.impl.fabriquilt;
 
 import dev.lukebemish.excavatedvariants.impl.*;
+import dev.lukebemish.excavatedvariants.impl.network.SyncOresPayload;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreFinderUtil;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreReplacer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
+import net.fabricmc.fabric.api.networking.v1.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -27,8 +27,6 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import java.util.stream.Collectors;
 
 public class ExcavatedVariantsFabriQuilt {
-    public static final ResourceLocation S2C_CONFIG_AGREEMENT_PACKET = new ResourceLocation(ExcavatedVariants.MOD_ID, "config_agreement");
-
     public static void onInitialize() {
         ExcavatedVariants.init();
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
@@ -51,16 +49,10 @@ public class ExcavatedVariantsFabriQuilt {
             HyleCompat.init();
         }*/
 
-        ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) -> {
-            var packet = new S2CConfigAgreementPacket(ExcavatedVariants.COMPLETE_VARIANTS.stream().map(v -> v.fullId).collect(Collectors.toSet()));
-            var buf = PacketByteBufs.create();
-            packet.encoder(buf);
-            sender.sendPacket(sender.createPacket(S2C_CONFIG_AGREEMENT_PACKET, buf));
+        ServerConfigurationConnectionEvents.CONFIGURE.register((handler, server) -> {
+            var packet = new SyncOresPayload(ExcavatedVariants.COMPLETE_VARIANTS.stream().map(v -> v.fullId).collect(Collectors.toSet()));
+            ServerConfigurationNetworking.send(handler, new SyncFabricPacket(packet));
         });
-
-        ServerLoginNetworking.registerGlobalReceiver(S2C_CONFIG_AGREEMENT_PACKET, ((server, handler, understood, buf, synchronizer, responseSender) -> {
-            //Do I need to do anything here?
-        }));
 
         Registry.register(BuiltInRegistries.FEATURE, new ResourceLocation(ExcavatedVariants.MOD_ID, "ore_replacer"), new OreReplacer());
     }
@@ -69,5 +61,19 @@ public class ExcavatedVariantsFabriQuilt {
         StateCapturer.checkState();
         RegistriesImpl.registerRegistries();
         ExcavatedVariants.initPostRegister();
+    }
+
+    public record SyncFabricPacket(SyncOresPayload payload) implements FabricPacket {
+        public static PacketType<?> TYPE = PacketType.create(SyncOresPayload.ID, buf -> new SyncFabricPacket(SyncOresPayload.decode(buf)));
+
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            payload.encode(buf);
+        }
+
+        @Override
+        public PacketType<?> getType() {
+            return TYPE;
+        }
     }
 }

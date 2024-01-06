@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Luke Bemish and contributors
+ * Copyright (C) 2023-2024 Luke Bemish and contributors
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -11,10 +11,16 @@ import dev.lukebemish.excavatedvariants.impl.BlockAddedCallback;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariants;
 import dev.lukebemish.excavatedvariants.impl.ExcavatedVariantsClient;
 import dev.lukebemish.excavatedvariants.impl.RegistriesImpl;
+import dev.lukebemish.excavatedvariants.impl.network.AckOresPayload;
+import dev.lukebemish.excavatedvariants.impl.network.SyncOresPayload;
 import dev.lukebemish.excavatedvariants.impl.worldgen.OreReplacer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -23,13 +29,20 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.network.configuration.ICustomConfigurationTask;
+import net.neoforged.neoforge.network.event.OnGameConfigurationEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.neoforge.network.handling.ConfigurationPayloadContext;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Mod(ExcavatedVariants.MOD_ID)
 public class ExcavatedVariantsNeoForge {
@@ -43,14 +56,15 @@ public class ExcavatedVariantsNeoForge {
             ).apply(i, AddFeatureLateModifier::new))
     );
 
-    public ExcavatedVariantsNeoForge() {
-        IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
+    public ExcavatedVariantsNeoForge(IEventBus modbus) {
         ExcavatedVariants.init();
         if (FMLLoader.getDist() == Dist.CLIENT) {
             ExcavatedVariantsClient.init();
         }
         modbus.addListener(ExcavatedVariantsNeoForge::commonSetup);
         modbus.addListener(ExcavatedVariantsNeoForge::registerListener);
+        modbus.addListener(ExcavatedVariantsNeoForge::onRegisterPayloads);
+        modbus.addListener(ExcavatedVariantsNeoForge::onCollectConfigTasks);
         TO_REGISTER.register(modbus);
         BIOME_MODIFIERS.register(modbus);
         FEATURES.register(modbus);
@@ -60,14 +74,6 @@ public class ExcavatedVariantsNeoForge {
             e.enqueueWork(() -> NeoForge.EVENT_BUS.register(EventHandler.class));
         });
         //ModList.get().getModContainerById("hyle").ifPresent(container -> MinecraftForge.EVENT_BUS.register(new HyleCompat()));
-
-        // TODO: Reimplement network checks, hopefully with new API
-        /*
-        EVPacketHandler.INSTANCE.registerMessage(0, S2CConfigAgreementPacket.class, S2CConfigAgreementPacket::encoder, S2CConfigAgreementPacket::decoder, (msg, c) -> {
-            c.enqueueWork(() -> msg.consumeMessage(string -> c.getNetworkManager().disconnect(Component.literal(string))));
-            c.setPacketHandled(true);
-        });
-        */
 
         FEATURES.register("ore_replacer", OreReplacer::new);
     }
@@ -85,5 +91,75 @@ public class ExcavatedVariantsNeoForge {
         });
         event.register(Registries.ITEM, helper ->
                 ExcavatedVariants.initPostRegister());
+    }
+
+    public static void onRegisterPayloads(final RegisterPayloadHandlerEvent event) {
+        event.registrar(ExcavatedVariants.MOD_ID)
+                .configuration(
+                        SyncOresPayload.ID,
+                        buf -> new SyncPayload(SyncOresPayload.decode(buf)),
+                        handler -> handler.client(OresConfigTask::handleSync)
+                )
+                .configuration(
+                        AckOresPayload.ID,
+                        buf -> new AckPayload(AckOresPayload.decode(buf)),
+                        handler -> handler.server((payload, ctx) -> ctx.taskCompletedHandler().onTaskCompleted(OresConfigTask.TYPE))
+                );
+    }
+
+    private record SyncPayload(SyncOresPayload payload) implements CustomPacketPayload {
+        @Override
+        public void write(FriendlyByteBuf buffer) {
+            payload.encode(buffer);
+        }
+
+        @Override
+        public ResourceLocation id() {
+            return SyncOresPayload.ID;
+        }
+    }
+
+    private record AckPayload(AckOresPayload payload) implements CustomPacketPayload {
+        @Override
+        public void write(FriendlyByteBuf buffer) {
+            payload.encode(buffer);
+        }
+
+        @Override
+        public ResourceLocation id() {
+            return AckOresPayload.ID;
+        }
+    }
+
+    private static final class OresConfigTask implements ICustomConfigurationTask {
+        public static final Type TYPE = new Type(ExcavatedVariants.id("ores"));
+        @Override
+        public void run(Consumer<CustomPacketPayload> sender) {
+            var payload = new SyncOresPayload(ExcavatedVariants.COMPLETE_VARIANTS.stream().map(v -> v.fullId).collect(Collectors.toSet()));
+            sender.accept(new SyncPayload(payload));
+        }
+
+        @Override
+        public Type type() {
+            return TYPE;
+        }
+
+        public static void handleSync(SyncPayload payload, ConfigurationPayloadContext ctx) {
+            MutableBoolean disconnect = new MutableBoolean(false);
+            payload.payload().consumeMessage(string -> {
+                disconnect.setTrue();
+                ctx.packetHandler().disconnect(Component.literal(string));
+            });
+
+            if (!disconnect.isTrue()) {
+                ctx.replyHandler().send(new AckPayload(new AckOresPayload()));
+            }
+        }
+    }
+
+    public static void onCollectConfigTasks(final OnGameConfigurationEvent event) {
+        if (!event.getListener().getConnection().isMemoryConnection()) {
+            event.register(new OresConfigTask());
+        }
     }
 }

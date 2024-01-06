@@ -8,10 +8,60 @@ plugins {
 managedVersioning {
     versionFile.set rootProject.file('version.properties')
     metadataVersion.set libs.versions.minecraft
-    if (System.getenv('PR_NUMBER')) {
-        suffix.set("pr${System.getenv('PR_NUMBER')}")
-    } else if (System.getenv('SNAPSHOT_MAVEN_URL')) {
-        suffix.set('SNAPSHOT')
+    versionPRs()
+    versionSnapshots()
+
+    gitHubActions {
+        snapshot {
+            prettyName.set 'Snapshot'
+            workflowDispatch.set(true)
+            onBranches.add '1.*'
+            gradleJob {
+                buildCache()
+                name.set 'build'
+                gradlew 'Build', 'checkLicenses', 'build'
+                gradlew 'Publish', 'publish'
+                mavenSnapshot('github')
+            }
+        }
+        release {
+            prettyName.set 'Release'
+            workflowDispatch.set(true)
+            gradleJob {
+                buildCache()
+                name.set 'build'
+                step {
+                    setupGitUser()
+                }
+                readOnly.set false
+                gradlew 'Tag Release', 'tagRelease'
+                gradlew 'Build', 'checkLicenses', 'build'
+                step {
+                    run.set 'git push && git push --tags'
+                }
+                gradlew 'Publish', 'publish', 'modrinth', 'curseforge'
+                mavenRelease('github')
+                modPublishing()
+            }
+        }
+        build_pr {
+            prettyName.set 'Build PR'
+            pullRequest.set(true)
+            gradleJob {
+                name.set 'build'
+                gradlew 'Build', 'checkLicenses', 'build'
+                gradlew 'Publish', 'publish'
+                pullRequestArtifact()
+            }
+        }
+        publish_pr {
+            prettyName.set 'Publish PR'
+            publishPullRequestAction(
+                    'github',
+                    'dev/lukebemish/dynamicassetgenerator/dynamicassetgenerator-*',
+                    'Build PR'
+            )
+        }
     }
 }
 
