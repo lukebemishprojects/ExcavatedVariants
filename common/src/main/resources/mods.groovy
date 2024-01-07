@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 Luke Bemish and contributors
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import modsdotgroovy.Dependency
 
 /*
