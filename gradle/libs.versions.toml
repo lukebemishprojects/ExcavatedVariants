@@ -17,8 +17,8 @@ autoservice = "1.1.1"
 architectury_loom = "1.4.373"
 quilt_licenser = "2.0.1"
 
-dynassetgen = "5.1.1"
-defaultresources = "3.2.0"
+dynassetgen = "5.1.2"
+defaultresources = "3.2.1"
 
 mixinextras = "0.3.2"
 
@@ -27,7 +27,7 @@ jspecify = "0.3.0"
 
 minotaur = "2.8.3"
 
-managedversioning = "1.2.3"
+managedversioning = "1.2.4"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
