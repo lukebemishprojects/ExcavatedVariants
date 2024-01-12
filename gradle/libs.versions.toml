@@ -27,7 +27,7 @@ jspecify = "0.3.0"
 
 minotaur = "2.8.3"
 
-managedversioning = "1.2.4"
+managedversioning = "1.2.6"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }

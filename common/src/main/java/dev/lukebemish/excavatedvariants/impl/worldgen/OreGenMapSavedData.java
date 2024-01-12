@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class OreGenMapSavedData extends SavedData {
-    public static final String DATA_KEY = ExcavatedVariants.MOD_ID + ":ore_replacement";
+    public static final String DATA_KEY = ExcavatedVariants.MOD_ID + "_ore_replacement";
     private final Object2IntMap<ChunkKey> edgeCount;
     private final Set<ChunkKey> ranMap = Collections.synchronizedSet(new HashSet<>());
 
