@@ -28,6 +28,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -45,9 +46,9 @@ public final class ExcavatedVariants {
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static final List<Supplier<Item>> ITEMS = new ArrayList<>();
-    private static ModConfig CONFIG;
+    private static @Nullable ModConfig CONFIG;
     public static final DataResourceCache DATA_CACHE = ResourceCache.register(new DataResourceCache(new ResourceLocation(MOD_ID, "data")));
-    private static Map<Ore, List<Stone>> NEW_VARIANTS_MAP;
+    private static @Nullable Map<Ore, List<Stone>> NEW_VARIANTS_MAP;
     private static final List<VariantFuture> NEW_VARIANTS = new ArrayList<>();
     public static final Map<ResourceKey<Block>, List<VariantFuture>> NEEDED_KEYS = new IdentityHashMap<>();
     public static final Map<VariantFuture, List<ResourceKey<Block>>> REVERSE_NEEDED_KEYS = new IdentityHashMap<>();
@@ -55,9 +56,12 @@ public final class ExcavatedVariants {
     public static final Map<VariantFuture, ModifiedOreBlock> BLOCKS = new IdentityHashMap<>();
     public static final List<VariantFuture> COMPLETE_VARIANTS = new ArrayList<>();
     public static final RecipePlanner RECIPE_PLANNER = new RecipePlanner();
-    public static MappingsCache MAPPINGS_CACHE;
+    public static @Nullable MappingsCache MAPPINGS_CACHE;
 
     public synchronized static void setupMap() {
+        if (ModLifecycle.getLifecyclePhase() != ModLifecycle.PRE_INITIALIZATION) {
+            return;
+        }
         if (NEW_VARIANTS_MAP == null) {
             Map<Ore, List<Stone>> newVariants = new HashMap<>();
             Map<Ore, Set<Stone>> newVariantsSet = new HashMap<>();
@@ -118,7 +122,7 @@ public final class ExcavatedVariants {
 
         setupMap();
 
-        for (Map.Entry<Ore, List<Stone>> entry : NEW_VARIANTS_MAP.entrySet()) {
+        for (Map.Entry<Ore, List<Stone>> entry : Objects.requireNonNull(NEW_VARIANTS_MAP, "New variants map was not set up").entrySet()) {
             Ore ore = entry.getKey();
             List<Stone> stones = entry.getValue();
             for (Stone stone : stones) {
@@ -202,7 +206,7 @@ public final class ExcavatedVariants {
 
         // No reason to keep any of this around; this way some of it can be GCed...
         NEW_VARIANTS.clear();
-        NEW_VARIANTS_MAP.clear();
+        Objects.requireNonNull(NEW_VARIANTS_MAP, "New variants map was not set up").clear();
         NEEDED_KEYS.clear();
         REVERSE_NEEDED_KEYS.clear();
         READY_QUEUE.clear();
@@ -254,7 +258,7 @@ public final class ExcavatedVariants {
         if (getConfig().addConversionRecipes) {
             for (VariantFuture future : COMPLETE_VARIANTS) {
                 planItemTag(future.ore.getConvertibleTagKey().location(), new ResourceLocation(ExcavatedVariants.MOD_ID, future.fullId));
-                RECIPE_PLANNER.oreToBaseOreMap.put(future.ore.getConvertibleTagKey(), future.foundOreKey);
+                RECIPE_PLANNER.oreToBaseOreMap.put(future.ore.getConvertibleTagKey(), Objects.requireNonNull(future.foundOreKey));
             }
         }
 
@@ -275,7 +279,7 @@ public final class ExcavatedVariants {
 
         TAG_QUEUE.queue(tierHolder);
 
-        MAPPINGS_CACHE.update();
+        Objects.requireNonNull(MAPPINGS_CACHE, "Mappings cache was not set up").update();
         MAPPINGS_CACHE.save();
 
         ModLifecycle.setLifecyclePhase(ModLifecycle.POST);
@@ -359,10 +363,10 @@ public final class ExcavatedVariants {
         public final Stone stone;
         public final String fullId;
         public boolean done = false;
-        public Block foundStone = null;
-        public Block foundOre = null;
-        public ResourceKey<Block> foundOreKey = null;
-        public Stone foundSourceStone = null;
+        public @Nullable Block foundStone = null;
+        public @Nullable Block foundOre = null;
+        public @Nullable ResourceKey<Block> foundOreKey = null;
+        public @Nullable Stone foundSourceStone = null;
         public final Set<Flag> flags = new HashSet<>();
         public final List<BlockPropsModifier> propsModifiers = new ArrayList<>();
 

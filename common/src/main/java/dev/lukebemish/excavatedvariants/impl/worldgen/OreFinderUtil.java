@@ -38,7 +38,7 @@ public final class OreFinderUtil {
     public static void setupBlocks() {
         if (ModLifecycle.getLifecyclePhase() != ModLifecycle.POST) {
             var e = new IllegalStateException("Something has gone badly wrong with load ordering. Please report this to Excavated Variants alongside a log!");
-            ExcavatedVariants.LOGGER.error("...huh? Where are we?", e);
+            ExcavatedVariants.LOGGER.error("...huh? Where are we? Expected {}, but in {}", ModLifecycle.POST.name(), ModLifecycle.getLifecyclePhase().name(), e);
             throw e;
         }
 

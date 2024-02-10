@@ -14,6 +14,7 @@ import dev.lukebemish.excavatedvariants.impl.data.modifier.BlockPropsModifierImp
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -30,11 +31,11 @@ public class Modifier {
     ).apply(instance, (filter, properties, flags, tags) -> new Modifier(filter, properties.orElse(null), tags, flags)));
 
     public final VariantFilter variantFilter;
-    public final BlockPropsModifier properties;
+    public final @Nullable BlockPropsModifier properties;
     public final List<ResourceLocation> tags;
     public final Set<Flag> flags;
 
-    public Modifier(VariantFilter variantFilter, BlockPropsModifier properties, List<ResourceLocation> tags, Set<Flag> flags) {
+    public Modifier(VariantFilter variantFilter, @Nullable BlockPropsModifier properties, List<ResourceLocation> tags, Set<Flag> flags) {
         this.variantFilter = variantFilter;
         this.properties = properties;
         this.tags = tags;
@@ -50,8 +51,8 @@ public class Modifier {
     }
 
     public static class Builder {
-        private VariantFilter variantFilter;
-        private BlockPropsModifier properties;
+        private @Nullable VariantFilter variantFilter;
+        private @Nullable BlockPropsModifier properties;
         private final List<ResourceLocation> tags = new ArrayList<>();
         private final Set<Flag> flags = new HashSet<>();
 
