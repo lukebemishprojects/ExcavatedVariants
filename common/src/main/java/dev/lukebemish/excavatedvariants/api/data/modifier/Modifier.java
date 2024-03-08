@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Luke Bemish and contributors
+ * Copyright (C) 2023-2024 Luke Bemish and contributors
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
