@@ -10,6 +10,7 @@ import dev.lukebemish.dynamicassetgenerator.api.PathAwareInputStreamSource;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.AssetResourceCache;
+import dev.lukebemish.excavatedvariants.impl.client.ItemModelPlanner;
 import dev.lukebemish.excavatedvariants.impl.client.ResourceAssembler;
 import dev.lukebemish.excavatedvariants.impl.data.BaseOre;
 import dev.lukebemish.excavatedvariants.impl.data.BaseStone;
@@ -51,13 +52,16 @@ public final class ExcavatedVariantsClient {
         ));
         List<Pair<BaseOre, BaseStone>> toMake = new ArrayList<>();
 
+        ItemModelPlanner planner = new ItemModelPlanner();
+        ASSET_CACHE.planResetListener(planner);
+        ASSET_CACHE.planSource(planner);
+
         for (Pair<BaseOre, HashSet<BaseStone>> p : ExcavatedVariants.oreStoneList) {
             var ore = p.getFirst();
             for (BaseStone stone : p.getSecond()) {
                 String fullId = stone.id + "_" + ore.id;
                 toMake.add(new Pair<>(ore, stone));
-                ASSET_CACHE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + fullId + ".json"),
-                        (rl, context) -> JsonHelper.getItemModel(fullId));
+                planner.add(fullId);
                 LANG_BUILDER.add(fullId, stone, ore);
             }
         }
