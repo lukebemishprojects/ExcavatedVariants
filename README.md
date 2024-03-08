@@ -12,16 +12,7 @@ The main config file, `config/excavated_variants.json`, contains several options
 * **attempt\_worldgen\_replacement**: Toggles ore-gen changes; without this, ores won't be replaced during world gen.
 * **add\_conversion\_recipes**: Toggles whether to add recipes to convert variants back to the base ore.
 
-All other configuration is loaded through the `globalresources` folder. You may add new config files there directly, but if you want to extract the built-in 
-configs in order to edit them, open the `defaultresources.json` config file. It should look something like as follows:
-```json
-{
-  "extract": {
-    "excavated_variants": "unextracted"
-  }
-}
-```
-Change `unextracted` to `extract` and load the game once. Now, the default configs will be available to edit in the `globalresources` folder.
+All other configuration is loaded through the `globalresources` folder. Generally speaking, you should make your own subdirectory or archive in this folder instead of modifying the built in file.
 
 **Note**: If you just want to add more configs, you do not need to (and should not) do this. You can add new config files without extracting existing ones.
 
