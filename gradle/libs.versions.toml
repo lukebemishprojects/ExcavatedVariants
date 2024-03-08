@@ -18,7 +18,7 @@ architectury_loom = "1.4.373"
 quilt_licenser = "2.0.1"
 
 dynassetgen = "5.1.2"
-defaultresources = "3.3.1"
+defaultresources = "3.3.3"
 
 mixinextras = "0.3.2"
 

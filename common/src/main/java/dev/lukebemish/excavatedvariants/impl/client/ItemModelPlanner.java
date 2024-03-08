@@ -46,7 +46,7 @@ public class ItemModelPlanner implements PathAwareInputStreamSource, Resettable 
 
         return () -> {
             var json = baseModel.deepCopy();
-            json.addProperty("parent", ExcavatedVariants.MOD_ID + ":block/" + outRl.getPath().replace(".json", "").replace("models/item/", "") + "_0");
+            json.addProperty("parent", ExcavatedVariants.MOD_ID + ":block/" + outRl.getPath().replace(".json", "").replace("models/item/", "") + "__0");
             return new ByteArrayInputStream(ExcavatedVariants.GSON.toJson(json).getBytes());
         };
     }
