@@ -6,9 +6,11 @@
 package dev.lukebemish.excavatedvariants.impl;
 
 import dev.lukebemish.dynamicassetgenerator.api.PathAwareInputStreamSource;
+import dev.lukebemish.dynamicassetgenerator.api.Resettable;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceCache;
 import dev.lukebemish.dynamicassetgenerator.api.ResourceGenerationContext;
 import dev.lukebemish.dynamicassetgenerator.api.client.AssetResourceCache;
+import dev.lukebemish.excavatedvariants.impl.client.ItemModelPlanner;
 import dev.lukebemish.excavatedvariants.impl.client.ResourceAssembler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.IoSupplier;
@@ -24,21 +26,23 @@ public class ExcavatedVariantsClient {
 
     public static final AssetResourceCache ASSET_CACHE = ResourceCache.register(new AssetResourceCache(new ResourceLocation(ExcavatedVariants.MOD_ID, "assets")));
 
+    public static final ItemModelPlanner ITEM_MODEL_PLANNER = new ItemModelPlanner();
+
     public static void init() {
         // lang - don't bother caching
         ASSET_CACHE.planSource(new PathAwareInputStreamSource() {
             @Override
-            public @NonNull Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
+            public Set<ResourceLocation> getLocations(ResourceGenerationContext context) {
                 return LANG_BUILDER.languages().stream().map(s -> new ResourceLocation(ExcavatedVariants.MOD_ID+"_generated", "lang/" + s + ".json")).collect(Collectors.toSet());
             }
 
             @Override
-            public @Nullable IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
+            public IoSupplier<InputStream> get(ResourceLocation outRl, ResourceGenerationContext context) {
                 return LANG_BUILDER.build(outRl.getPath().substring(5, outRl.getPath().length() - 5));
             }
         });
-        ASSET_CACHE.planSource(new PathAwareInputStreamSource() {
-            ResourceAssembler assembler = null;
+        class ResourceAssemblerSource implements PathAwareInputStreamSource, Resettable {
+            @Nullable ResourceAssembler assembler = null;
 
             private synchronized void setup(ResourceGenerationContext context) {
                 if (assembler == null) {
@@ -66,12 +70,18 @@ public class ExcavatedVariantsClient {
                 setup(context);
                 return assembler.createCacheKey(outRl, context);
             }
-        });
+
+            @Override
+            public void reset(ResourceGenerationContext context) {
+                assembler = null;
+            }
+        }
+        ASSET_CACHE.planSource(new ResourceAssemblerSource());
+        ASSET_CACHE.planSource(ITEM_MODEL_PLANNER);
     }
 
     public static void setUp(ExcavatedVariants.VariantFuture future) {
-        ASSET_CACHE.planSource(new ResourceLocation(ExcavatedVariants.MOD_ID, "models/item/" + future.fullId + ".json"),
-                (rl, context) -> JsonHelper.getItemModel(future.fullId));
+        ITEM_MODEL_PLANNER.add(future.fullId);
         LANG_BUILDER.add(future.fullId, future.stone, future.ore);
     }
 }
