@@ -1,0 +1,23 @@
+{
+  mod_id: 'theurgy',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'sal_ammoniac_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'theurgy:sal_ammoniac_ore',
+        'theurgy:deepslate_sal_ammoniac_ore',
+      ],
+      lang: {
+        en_us: 'Sal Ammoniac Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}
