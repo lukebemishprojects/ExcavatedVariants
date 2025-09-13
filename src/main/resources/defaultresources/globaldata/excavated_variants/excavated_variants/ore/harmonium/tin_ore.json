@@ -1,0 +1,15 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Tin Ore"
+  },
+  "blocks": {
+    "harmonium:tin_ore": "excavated_variants:minecraft/stone",
+    "harmonium:deepslate_tin_ore": "excavated_variants:minecraft/deepslate"
+  },
+  "tags": [
+    "c:ores/tin"
+  ]
+}
