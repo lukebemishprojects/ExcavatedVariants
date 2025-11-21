@@ -32,7 +32,21 @@ public class MiningLevelTagHolder implements TagSupplier {
     }
 
     private Set<ResourceLocation> getMiningLevels() {
-        return KnownTiers.KNOWN_TIERS.keySet().stream().map(TagKey::location).map(rl -> rl.withPrefix("block/")).collect(Collectors.toSet());
+        return KnownTiers.KNOWN_TIERS.keySet().stream()
+                .filter(key -> {
+                    if (key == null) {
+                        ExcavatedVariants.LOGGER.error("Found null tier TagKey in KNOWN_TIERS");
+                        return false;
+                    }
+                    if (key.location() == null) {
+                        ExcavatedVariants.LOGGER.error("Found TagKey with null location in KNOWN_TIERS: {}", key);
+                        return false;
+                    }
+                    return true;
+                })
+                .map(TagKey::location)
+                .map(rl -> rl.withPrefix("block/"))
+                .collect(Collectors.toSet());
     }
 
     @Override
