@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Nickel Ore"
+    "en_us": "Nickel Ore",
+    "ja_jp": "%sニッケル鉱石"
   },
   "blocks": {
     "modern_industrialization:nickel_ore": "excavated_variants:minecraft/stone",

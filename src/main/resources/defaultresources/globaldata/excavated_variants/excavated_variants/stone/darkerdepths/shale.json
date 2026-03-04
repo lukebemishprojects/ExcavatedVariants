@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Shale"
+    "en_us": "Shale",
+    "ja_jp": "頁岩"
   },
   "block": "darkerdepths:shale",
   "ore_tags": [

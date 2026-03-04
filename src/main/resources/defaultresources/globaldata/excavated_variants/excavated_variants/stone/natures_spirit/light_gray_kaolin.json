@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Light Gray Kaolin",
+    "ja_jp": "薄灰色の高陵石"
+  },
+  "block": "natures_spirit:light_gray_kaolin",
+  "ore_tags": [
+    "c:ores_in_ground/light_gray_kaolin"
+  ]
+}

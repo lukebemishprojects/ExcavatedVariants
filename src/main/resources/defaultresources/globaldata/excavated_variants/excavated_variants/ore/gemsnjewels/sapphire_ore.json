@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Sapphire Ore"
+    "en_us": "Sapphire Ore",
+    "ja_jp": "%sサファイア鉱石"
   },
   "blocks": {
     "gemsnjewels:sapphire_deepslate_ore_block": "excavated_variants:minecraft/deepslate",

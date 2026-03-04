@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Soulstone Ore"
+    "en_us": "Soulstone Ore",
+    "ja_jp": "%sソウルストーン"
   },
   "blocks": {
     "malum:soulstone_ore": "excavated_variants:minecraft/stone",

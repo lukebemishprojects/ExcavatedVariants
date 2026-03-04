@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Zinc Ore"
+    "en_us": "Zinc Ore",
+    "ja_jp": "%s亜鉛鉱石"
   },
   "blocks": {
     "create:zinc_ore": {

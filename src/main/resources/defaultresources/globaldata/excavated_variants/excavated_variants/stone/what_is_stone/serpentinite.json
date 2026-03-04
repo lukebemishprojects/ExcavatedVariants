@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Serpentinite"
+    "en_us": "Serpentinite",
+    "ja_jp": "蛇紋岩"
   },
   "block": "what_is_stone:serpentinite",
   "ore_tags": [

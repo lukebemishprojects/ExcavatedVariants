@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Red Rock"
+    "en_us": "Red Rock",
+    "ja_jp": "赤岩"
   },
   "block": "byg:red_rock",
   "ore_tags": [

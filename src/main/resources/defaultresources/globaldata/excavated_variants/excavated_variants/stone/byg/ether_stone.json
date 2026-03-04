@@ -3,7 +3,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Ether Stone"
+    "en_us": "Ether Stone",
+    "ja_jp": "エーテルストーン"
   },
   "block": "byg:ether_stone",
   "ore_tags": [

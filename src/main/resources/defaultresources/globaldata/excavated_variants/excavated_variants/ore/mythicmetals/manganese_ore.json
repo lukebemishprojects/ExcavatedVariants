@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Manganese Ore"
+    "en_us": "Manganese Ore",
+    "ja_jp": "%sマンガン鉱石"
   },
   "blocks": {
     "mythicmetals:manganese_ore": "excavated_variants:minecraft/stone"

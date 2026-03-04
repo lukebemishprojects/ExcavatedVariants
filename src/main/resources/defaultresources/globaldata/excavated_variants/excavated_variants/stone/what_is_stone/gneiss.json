@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Gneiss"
+    "en_us": "Gneiss",
+    "ja_jp": "片麻岩"
   },
   "block": "what_is_stone:gneiss",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Quartz Ore"
+    "en_us": "Quartz Ore",
+    "ja_jp": "%sクォーツ鉱石"
   },
   "blocks": {
     "modern_industrialization:quartz_ore": "excavated_variants:minecraft/stone"

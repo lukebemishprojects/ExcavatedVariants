@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Prosperity Ore"
+    "en_us": "Prosperity Ore",
+    "ja_jp": "%sプロスペリティ鉱石"
   },
   "blocks": {
     "mysticalagriculture:prosperity_ore": "excavated_variants:minecraft/stone",

@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Bloodstone"
+    "en_us": "Bloodstone",
+    "ja_jp": "ブラッドストーン"
   },
   "block": "twigs:bloodstone",
   "ore_tags": [

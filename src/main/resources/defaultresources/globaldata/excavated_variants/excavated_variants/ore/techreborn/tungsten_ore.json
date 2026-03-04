@@ -3,10 +3,12 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Tungsten Ore"
+    "en_us": "Tungsten Ore",
+    "ja_jp": "%sタングステン鉱石"
   },
   "blocks": {
-    "techreborn:tungsten_ore": "excavated_variants:minecraft/end_stone"
+    "techreborn:tungsten_ore": "excavated_variants:minecraft/end_stone",
+    "techreborn:deepslate_tungsten_ore": "excavated_variants:minecraft/deepslate"
   },
   "tags": [
     "c:ores/tungsten"

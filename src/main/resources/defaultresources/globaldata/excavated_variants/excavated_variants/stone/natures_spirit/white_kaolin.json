@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "White Kaolin",
+    "ja_jp": "白色の高陵石"
+  },
+  "block": "natures_spirit:white_kaolin",
+  "ore_tags": [
+    "c:ores_in_ground/white_kaolin"
+  ]
+}

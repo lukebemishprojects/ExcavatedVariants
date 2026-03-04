@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Scoria"
+    "en_us": "Scoria",
+    "ja_jp": "スコリア"
   },
   "block": "byg:scoria_stone",
   "ore_tags": [

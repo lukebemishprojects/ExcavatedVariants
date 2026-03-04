@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Lapis Lazuli Ore"
+    "en_us": "Lapis Lazuli Ore",
+    "ja_jp": "%sラピスラズリ鉱石"
   },
   "blocks": {
     "minecraft:lapis_ore": {
@@ -35,7 +36,8 @@
     "spelunkery:andesite_lapis_ore": "excavated_variants:minecraft/andesite",
     "spelunkery:diorite_lapis_ore": "excavated_variants:minecraft/diorite",
     "spelunkery:tuff_lapis_ore": "excavated_variants:minecraft/tuff",
-    "spelunkery:sandstone_lapis_ore": "excavated_variants:minecraft/sandstone"
+    "spelunkery:sandstone_lapis_ore": "excavated_variants:minecraft/sandstone",
+    "natures_spirit:chert_lapis_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/lapis",

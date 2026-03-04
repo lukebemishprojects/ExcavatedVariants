@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Deepslate"
+    "en_us": "Deepslate",
+    "ja_jp": "深層"
   },
   "block": "minecraft:deepslate",
   "ore_tags": [

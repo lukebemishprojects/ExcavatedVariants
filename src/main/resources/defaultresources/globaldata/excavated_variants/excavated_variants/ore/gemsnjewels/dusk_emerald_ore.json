@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Dusk Emerald Ore"
+    "en_us": "Dusk Emerald Ore",
+    "ja_jp": "%sダスクエメラルド鉱石"
   },
   "blocks": {
     "gemsnjewels:emerald_ore_block": "excavated_variants:minecraft/stone",

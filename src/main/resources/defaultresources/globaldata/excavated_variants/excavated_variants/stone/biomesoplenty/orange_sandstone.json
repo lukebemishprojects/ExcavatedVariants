@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Orange Sandstone"
+    "en_us": "Orange Sandstone",
+    "ja_jp": "橙色の砂岩"
   },
   "block": "biomesoplenty:orange_sandstone",
   "ore_tags": [

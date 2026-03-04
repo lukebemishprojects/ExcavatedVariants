@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Potassium Ore"
+    "en_us": "Potassium Ore",
+    "ja_jp": "%sカリウム鉱石"
   },
   "blocks": {
     "sulfurpotassiummod:potassium_ore": "excavated_variants:minecraft/stone"

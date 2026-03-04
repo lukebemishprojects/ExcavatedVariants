@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Cincinnasite Ore"
+    "en_us": "Cincinnasite Ore",
+    "ja_jp": "%sシンシナサイト鉱石"
   },
   "blocks": {
     "betternether:cincinnasite_ore": "excavated_variants:minecraft/netherrack"

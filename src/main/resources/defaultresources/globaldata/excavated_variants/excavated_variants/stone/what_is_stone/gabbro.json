@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Gabbro"
+    "en_us": "Gabbro",
+    "ja_jp": "斑糲岩"
   },
   "block": "what_is_stone:gabbro",
   "ore_tags": [

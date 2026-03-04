@@ -3,7 +3,8 @@
     "excavated_variants:mysticalagriculture/soul"
   ],
   "translations": {
-    "en_us": "Soulium Ore"
+    "en_us": "Soulium Ore",
+    "ja_jp": "%sソウリウム鉱石"
   },
   "blocks": {
     "mysticalagriculture:soulium_ore": "excavated_variants:mysticalagriculture/soulstone"

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Prometheum Ore"
+    "en_us": "Prometheum Ore",
+    "ja_jp": "%sプロメシウム鉱石"
   },
   "blocks": {
     "mythicmetals:prometheum_ore": "excavated_variants:minecraft/stone",

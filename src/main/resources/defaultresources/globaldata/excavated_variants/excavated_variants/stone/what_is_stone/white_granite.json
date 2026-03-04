@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "White Granite"
+    "en_us": "White Granite",
+    "ja_jp": "白御影石"
   },
   "block": "what_is_stone:white_granite",
   "ore_tags": [

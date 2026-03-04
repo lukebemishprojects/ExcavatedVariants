@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Slate"
+    "en_us": "Slate",
+    "ja_jp": "スレート"
   },
   "block": "unearthed:slate",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Tanzanite Ore"
+    "en_us": "Tanzanite Ore",
+    "ja_jp": "%sタンザナイト鉱石"
   },
   "blocks": {
     "gemsnjewels:tanzanite_ore_block": "excavated_variants:minecraft/stone",

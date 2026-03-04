@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Arkosic Sandstone"
+    "en_us": "Arkosic Sandstone",
+    "ja_jp": "アルコシック砂岩"
   },
   "block": "what_is_stone:arkosic_sandstone",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Ruby Ore"
+    "en_us": "Ruby Ore",
+    "ja_jp": "%sルビー鉱石"
   },
   "blocks": {
     "enriched:ruby_ore": "excavated_variants:minecraft/stone",

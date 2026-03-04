@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Platinum Ore"
+    "en_us": "Platinum Ore",
+    "ja_jp": "%sプラチナ鉱石"
   },
   "blocks": {
     "mythicmetals:platinum_ore": "excavated_variants:minecraft/stone"

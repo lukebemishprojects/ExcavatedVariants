@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Mossy Stone"
+    "en_us": "Mossy Stone",
+    "ja_jp": "苔むした石"
   },
   "block": "byg:mossy_stone",
   "ore_tags": [

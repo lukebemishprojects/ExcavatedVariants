@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Yellorite Ore"
+    "en_us": "Yellorite Ore",
+    "ja_jp": "%sイエロライト鉱石"
   },
   "blocks": {
     "bigreactors:yellorite_ore": "excavated_variants:minecraft/stone"

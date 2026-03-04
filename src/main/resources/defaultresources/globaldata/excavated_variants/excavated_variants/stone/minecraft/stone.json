@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Stone"
+    "en_us": "Stone",
+    "ja_jp": "石"
   },
   "block": "minecraft:stone",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Haste Peridot Ore"
+    "en_us": "Haste Peridot Ore",
+    "ja_jp": "%Sヘイストペリドット鉱石"
   },
   "blocks": {
     "miningmaster:haste_peridot_ore": "excavated_variants:minecraft/stone"

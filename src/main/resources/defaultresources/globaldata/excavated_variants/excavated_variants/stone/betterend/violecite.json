@@ -3,7 +3,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Violecite"
+    "en_us": "Violecite",
+    "ja_jp": "バイオレサイト"
   },
   "block": "betterend:violecite",
   "ore_tags": [

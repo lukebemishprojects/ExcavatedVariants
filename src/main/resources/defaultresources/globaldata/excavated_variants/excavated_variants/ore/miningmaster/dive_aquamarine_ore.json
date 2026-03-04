@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Dive Aquamarine Ore"
+    "en_us": "Dive Aquamarine Ore",
+    "ja_jp": "%sダイブアクアマリン鉱石"
   },
   "blocks": {
     "miningmaster:dive_aquamarine_ore": "excavated_variants:minecraft/stone"

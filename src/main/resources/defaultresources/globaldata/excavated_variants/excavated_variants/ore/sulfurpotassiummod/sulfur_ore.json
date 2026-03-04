@@ -4,7 +4,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Sulfur Ore"
+    "en_us": "Sulfur Ore",
+    "ja_jp": "%s硫黄鉱石"
   },
   "blocks": {
     "sulfurpotassiummod:sulfur_ore": "excavated_variants:minecraft/deepslate",

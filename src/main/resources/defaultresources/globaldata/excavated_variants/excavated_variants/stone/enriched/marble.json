@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Marble"
+    "en_us": "Marble",
+    "ja_jp": "大理石"
   },
   "block": "enriched:marble",
   "ore_tags": [

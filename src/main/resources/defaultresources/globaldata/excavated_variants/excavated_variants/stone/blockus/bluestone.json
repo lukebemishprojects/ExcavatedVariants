@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Bluestone"
+    "en_us": "Bluestone",
+    "ja_jp": "ブルーストーン"
   },
   "block": "blockus:bluestone",
   "ore_tags": [

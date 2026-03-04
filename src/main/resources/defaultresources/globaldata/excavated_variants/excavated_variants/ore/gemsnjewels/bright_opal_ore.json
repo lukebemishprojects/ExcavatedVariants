@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Bright Opal Ore"
+    "en_us": "Bright Opal Ore",
+    "ja_jp": "%sブライトオパール鉱石"
   },
   "blocks": {
     "gemsnjewels:bright_opal_ore_block": "excavated_variants:minecraft/stone"

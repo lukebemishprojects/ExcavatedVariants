@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Pyrite Ore"
+    "en_us": "Pyrite Ore",
+    "ja_jp": "%s黄鉄鉱鉱石"
   },
   "blocks": {
     "techreborn:pyrite_ore": "excavated_variants:minecraft/netherrack"

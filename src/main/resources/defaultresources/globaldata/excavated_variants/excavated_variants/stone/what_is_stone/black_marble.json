@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Black Marble"
+    "en_us": "Black Marble",
+    "ja_jp": "黒い大理石"
   },
   "block": "what_is_stone:black_marble",
   "ore_tags": [

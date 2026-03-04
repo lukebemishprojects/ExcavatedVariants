@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Salt Ore"
+    "en_us": "Salt Ore",
+    "ja_jp": "%s岩塩鉱石"
   },
   "blocks": {
     "modern_industrialization:salt_ore": "excavated_variants:minecraft/stone",

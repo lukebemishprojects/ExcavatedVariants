@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Aquarium Ore"
+    "en_us": "Aquarium Ore",
+    "ja_jp": "%sアクアリウム鉱石"
   },
   "blocks": {
     "mythicmetals:aquarium_ore": "excavated_variants:minecraft/stone"

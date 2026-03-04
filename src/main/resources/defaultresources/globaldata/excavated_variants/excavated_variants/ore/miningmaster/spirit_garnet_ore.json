@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Spirit Garnet Ore"
+    "en_us": "Spirit Garnet Ore",
+    "ja_jp": "%sスピリットガーネット鉱石"
   },
   "blocks": {
     "miningmaster:spirit_garnet_ore": "excavated_variants:minecraft/stone"

@@ -3,7 +3,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Cryptic"
+    "en_us": "Cryptic",
+    "ja_jp": "クリプティック"
   },
   "block": "byg:cryptic_stone",
   "ore_tags": [

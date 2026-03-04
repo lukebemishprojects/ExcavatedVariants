@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Bauxite"
+    "en_us": "Bauxite",
+    "ja_jp": "%sボーキサイト"
   },
   "blocks": {
     "geolosys:bauxite_ore": "excavated_variants:minecraft/stone",

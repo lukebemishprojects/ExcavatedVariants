@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Netherrack"
+    "en_us": "Netherrack",
+    "ja_jp": "ネザーラック"
   },
   "block": "minecraft:netherrack",
   "ore_tags": [

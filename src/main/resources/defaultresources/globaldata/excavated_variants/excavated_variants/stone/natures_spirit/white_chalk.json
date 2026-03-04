@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "White Chalk",
+    "ja_jp": "白色の白亜"
+  },
+  "block": "natures_spirit:white_chalk",
+  "ore_tags": [
+    "c:ores_in_ground/white_chalk"
+  ]
+}

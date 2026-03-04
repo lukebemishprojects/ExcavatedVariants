@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Siltstone"
+    "en_us": "Siltstone",
+    "ja_jp": "シルト岩"
   },
   "block": "unearthed:siltstone",
   "ore_tags": [

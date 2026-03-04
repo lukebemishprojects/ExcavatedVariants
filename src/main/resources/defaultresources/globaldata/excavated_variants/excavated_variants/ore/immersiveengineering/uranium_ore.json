@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Uranium Ore"
+    "en_us": "Uranium Ore",
+    "ja_jp": "%sウラン鉱石"
   },
   "blocks": {
     "immersiveengineering:ore_uranium": "excavated_variants:minecraft/stone",

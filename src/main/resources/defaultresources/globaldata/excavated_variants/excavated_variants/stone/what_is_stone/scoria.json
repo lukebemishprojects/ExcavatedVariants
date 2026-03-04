@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Scoria"
+    "en_us": "Scoria",
+    "ja_jp": "スコリア"
   },
   "block": "what_is_stone:scoria",
   "ore_tags": [

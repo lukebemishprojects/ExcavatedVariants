@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Amethyst Ore"
+    "en_us": "Amethyst Ore",
+    "ja_jp": "%sアメジスト鉱石"
   },
   "blocks": {
     "gemsnjewels:amethyst_ore_block": "excavated_variants:minecraft/stone",

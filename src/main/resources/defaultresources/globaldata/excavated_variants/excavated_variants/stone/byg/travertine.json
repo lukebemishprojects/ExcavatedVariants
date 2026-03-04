@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Travertine"
+    "en_us": "Travertine",
+    "ja_jp": "トラバーチン"
   },
   "block": "byg:travertine",
   "ore_tags": [

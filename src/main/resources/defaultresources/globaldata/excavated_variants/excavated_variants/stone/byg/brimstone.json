@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Brimstone"
+    "en_us": "Brimstone",
+    "ja_jp": "ブリムストーン"
   },
   "block": "byg:brimstone",
   "ore_tags": [

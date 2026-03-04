@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Gleaming Ore"
+    "en_us": "Gleaming Ore",
+    "ja_jp": "%sグリーミング鉱石"
   },
   "blocks": {
     "things:gleaming_ore": "excavated_variants:minecraft/stone",

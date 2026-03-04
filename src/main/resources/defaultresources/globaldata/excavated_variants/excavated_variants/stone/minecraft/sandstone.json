@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Sandstone"
+    "en_us": "Sandstone",
+    "ja_jp": "砂岩"
   },
   "block": "minecraft:sandstone",
   "ore_tags": [

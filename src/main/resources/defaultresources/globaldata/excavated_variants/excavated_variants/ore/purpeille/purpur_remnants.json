@@ -3,7 +3,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Purpur Remnants"
+    "en_us": "Purpur Remnants",
+    "ja_jp": "%sプルプァの残骸"
   },
   "blocks": {
     "purpeille:purpur_remnants": "excavated_variants:minecraft/end_stone"

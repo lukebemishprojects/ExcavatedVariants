@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Pumice"
+    "en_us": "Pumice",
+    "ja_jp": "軽石"
   },
   "block": "what_is_stone:pumice",
   "ore_tags": [

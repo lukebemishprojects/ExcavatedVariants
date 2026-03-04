@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Yellow Kaolin",
+    "ja_jp": "黄色の高陵石"
+  },
+  "block": "natures_spirit:yellow_kaolin",
+  "ore_tags": [
+    "c:ores_in_ground/yellow_kaolin"
+  ]
+}

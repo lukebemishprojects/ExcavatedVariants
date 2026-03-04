@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Nikolite Ore"
+    "en_us": "Nikolite Ore",
+    "ja_jp": "%sニコライト鉱石"
   },
   "blocks": {
     "indrev:nikolite_ore": "excavated_variants:minecraft/stone",

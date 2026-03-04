@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Tourmaline Ore"
+    "en_us": "Tourmaline Ore",
+    "ja_jp": "%sトルマリン鉱石"
   },
   "blocks": {
     "gemsnjewels:tourmaline_ore_block": "excavated_variants:minecraft/stone",

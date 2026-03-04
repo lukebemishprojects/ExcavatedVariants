@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Weathered Rhyolite"
+    "en_us": "Weathered Rhyolite",
+    "ja_jp": "風化した流紋岩"
   },
   "block": "unearthed:weathered_rhyolite",
   "ore_tags": [

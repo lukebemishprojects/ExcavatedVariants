@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Anthracite Ore"
+    "en_us": "Anthracite Ore",
+    "ja_jp": "%s無煙炭鉱石"
   },
   "blocks": {
     "byg:anthracite_ore": "excavated_variants:byg/brimstone"

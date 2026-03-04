@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Quartzite"
+    "en_us": "Quartzite",
+    "ja_jp": "クォーツァイト"
   },
   "block": "unearthed:quartzite",
   "ore_tags": [

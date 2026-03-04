@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Redstone Ore"
+    "en_us": "Redstone Ore",
+    "ja_jp": "%sレッドストーン鉱石"
   },
   "blocks": {
     "minecraft:redstone_ore": {
@@ -35,7 +36,8 @@
     "spelunkery:andesite_redstone_ore": "excavated_variants:minecraft/andesite",
     "spelunkery:diorite_redstone_ore": "excavated_variants:minecraft/diorite",
     "spelunkery:tuff_redstone_ore": "excavated_variants:minecraft/tuff",
-    "spelunkery:calciite_redstone_ore": "excavated_variants:minecraft/calcite"
+    "spelunkery:calciite_redstone_ore": "excavated_variants:minecraft/calcite",
+    "natures_spirit:chert_redstone_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/redstone",

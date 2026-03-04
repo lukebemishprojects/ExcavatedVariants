@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Lucky Citrine Ore"
+    "en_us": "Lucky Citrine Ore",
+    "ja_jp": "幸運の%sシトリン鉱石"
   },
   "blocks": {
     "miningmaster:lucky_citrine_ore": "excavated_variants:minecraft/stone"

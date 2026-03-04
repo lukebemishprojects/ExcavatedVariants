@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Calcite"
+    "en_us": "Calcite",
+    "ja_jp": "方解石"
   },
   "block": "minecraft:calcite",
   "ore_tags": [

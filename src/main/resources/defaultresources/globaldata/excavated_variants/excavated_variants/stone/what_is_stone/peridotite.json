@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Peridotite"
+    "en_us": "Peridotite",
+    "ja_jp": "ペリドタイト"
   },
   "block": "what_is_stone:peridotite",
   "ore_tags": [

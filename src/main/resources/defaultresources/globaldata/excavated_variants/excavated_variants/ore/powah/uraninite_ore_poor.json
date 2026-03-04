@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Uraninite Ore (Poor)"
+    "en_us": "Uraninite Ore (Poor)",
+    "ja_jp": "粗い%sウラン鉱石"
   },
   "blocks": {
     "powah:uraninite_ore_poor": "excavated_variants:minecraft/stone",

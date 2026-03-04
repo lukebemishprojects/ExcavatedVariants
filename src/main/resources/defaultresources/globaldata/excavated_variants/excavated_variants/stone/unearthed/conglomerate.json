@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Conglomerate"
+    "en_us": "Conglomerate",
+    "ja_jp": "コングロマリット"
   },
   "block": "unearthed:conglomerate",
   "ore_tags": [

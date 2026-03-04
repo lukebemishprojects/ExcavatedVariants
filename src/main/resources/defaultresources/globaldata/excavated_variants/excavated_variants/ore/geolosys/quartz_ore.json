@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Quartz"
+    "en_us": "Quartz",
+    "ja_jp": "%sクォーツ"
   },
   "blocks": {
     "geolosys:quartz_ore": "excavated_variants:minecraft/stone",

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Lead Ore"
+    "en_us": "Lead Ore",
+    "ja_jp": "%s鉛鉱石"
   },
   "blocks": {
     "modern_industrialization:lead_ore": "excavated_variants:minecraft/stone",

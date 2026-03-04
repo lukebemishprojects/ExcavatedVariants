@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Uraninite Ore (Dense)"
+    "en_us": "Uraninite Ore (Dense)",
+    "ja_jp": "高密度%sウラン鉱石"
   },
   "blocks": {
     "powah:uraninite_ore_dense": "excavated_variants:minecraft/stone",

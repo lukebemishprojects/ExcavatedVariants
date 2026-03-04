@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Antimony Ore"
+    "en_us": "Antimony Ore",
+    "ja_jp": "%sアンチモン鉱石"
   },
   "blocks": {
     "modern_industrialization:antimony_ore": "excavated_variants:minecraft/stone",

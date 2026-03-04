@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Quartz Ore"
+    "en_us": "Quartz Ore",
+    "ja_jp": "%sクォーツ鉱石"
   },
   "blocks": {
     "minecraft:nether_quartz_ore": {

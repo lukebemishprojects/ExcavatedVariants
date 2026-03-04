@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Pendorite Ore"
+    "en_us": "Pendorite Ore",
+    "ja_jp": "%sペンドライト鉱石"
   },
   "blocks": {
     "byg:pendorite_ore": "excavated_variants:byg/blue_netherrack"

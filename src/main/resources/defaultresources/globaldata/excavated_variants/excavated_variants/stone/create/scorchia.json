@@ -4,7 +4,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Scorchia"
+    "en_us": "Scorchia",
+    "ja_jp": "スコルキア"
   },
   "block": "create:scorchia",
   "ore_tags": [

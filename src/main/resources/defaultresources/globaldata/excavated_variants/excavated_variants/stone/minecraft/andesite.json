@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Andesite"
+    "en_us": "Andesite",
+    "ja_jp": "安山岩"
   },
   "block": "minecraft:andesite",
   "ore_tags": [

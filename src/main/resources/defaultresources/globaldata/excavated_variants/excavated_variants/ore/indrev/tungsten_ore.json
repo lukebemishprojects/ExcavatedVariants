@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Tungsten Ore"
+    "en_us": "Tungsten Ore",
+    "ja_jp": "%sタングステン鉱石"
   },
   "blocks": {
     "indrev:tungsten_ore": "excavated_variants:minecraft/stone",

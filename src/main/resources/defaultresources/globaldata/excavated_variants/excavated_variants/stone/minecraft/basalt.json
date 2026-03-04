@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Basalt"
+    "en_us": "Basalt",
+    "ja_jp": "玄武岩"
   },
   "block": "minecraft:basalt",
   "ore_tags": [

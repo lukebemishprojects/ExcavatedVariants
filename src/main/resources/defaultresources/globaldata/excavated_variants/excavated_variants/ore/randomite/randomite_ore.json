@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Randomite Ore"
+    "en_us": "Randomite Ore",
+    "ja_jp": "%sランダマイト鉱石"
   },
   "blocks": {
     "randomite:randomite_ore": "excavated_variants:minecraft/stone",

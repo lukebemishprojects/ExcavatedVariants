@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Black Sandstone"
+    "en_us": "Black Sandstone",
+    "ja_jp": "黒い砂岩"
   },
   "block": "biomesoplenty:black_sandstone",
   "ore_tags": [

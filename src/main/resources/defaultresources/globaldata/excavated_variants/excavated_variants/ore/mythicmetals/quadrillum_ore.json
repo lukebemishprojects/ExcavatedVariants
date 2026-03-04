@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Quadrillum Ore"
+    "en_us": "Quadrillum Ore",
+    "ja_jp": "%sクアドリウム鉱石"
   },
   "blocks": {
     "mythicmetals:quadrillum_ore": "excavated_variants:minecraft/stone"

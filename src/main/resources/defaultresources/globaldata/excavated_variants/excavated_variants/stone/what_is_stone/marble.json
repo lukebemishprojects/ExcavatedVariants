@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "White Marble"
+    "en_us": "White Marble",
+    "ja_jp": "白い大理石"
   },
   "block": "what_is_stone:marble",
   "ore_tags": [

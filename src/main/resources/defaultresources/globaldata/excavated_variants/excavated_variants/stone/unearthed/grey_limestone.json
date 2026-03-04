@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Grey Limestone"
+    "en_us": "Grey Limestone",
+    "ja_jp": "灰色石灰岩"
   },
   "block": "unearthed:grey_limestone",
   "ore_tags": [

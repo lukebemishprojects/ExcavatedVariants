@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Blunite"
+    "en_us": "Blunite",
+    "ja_jp": "ブルナイト"
   },
   "block": "promenade:blunite",
   "ore_tags": [

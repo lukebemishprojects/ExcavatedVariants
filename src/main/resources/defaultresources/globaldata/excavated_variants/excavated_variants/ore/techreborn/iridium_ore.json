@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Iridium Ore"
+    "en_us": "Iridium Ore",
+    "ja_jp": "%sイリジウム鉱石"
   },
   "blocks": {
     "techreborn:iridium_ore": "excavated_variants:minecraft/stone",

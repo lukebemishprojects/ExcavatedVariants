@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Schist"
+    "en_us": "Schist",
+    "ja_jp": "片岩"
   },
   "block": "unearthed:schist",
   "ore_tags": [

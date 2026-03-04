@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Lignite"
+    "en_us": "Lignite",
+    "ja_jp": "%s亜炭"
   },
   "blocks": {
     "geolosys:lignite_ore": "excavated_variants:minecraft/stone",

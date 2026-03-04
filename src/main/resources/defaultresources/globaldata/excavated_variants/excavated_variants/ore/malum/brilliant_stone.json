@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Brilliant %s"
+    "en_us": "Brilliant %s",
+    "ja_jp": "素晴らしい%s"
   },
   "blocks": {
     "malum:brilliant_stone": "excavated_variants:minecraft/stone",

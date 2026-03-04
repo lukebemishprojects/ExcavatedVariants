@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Viridite"
+    "en_us": "Viridite",
+    "ja_jp": "ビリダイト"
   },
   "block": "blockus:viridite",
   "ore_tags": [

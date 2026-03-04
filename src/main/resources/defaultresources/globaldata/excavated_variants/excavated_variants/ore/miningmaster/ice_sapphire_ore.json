@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Ice Sapphire Ore"
+    "en_us": "Ice Sapphire Ore",
+    "ja_jp": "%sアイスサファイア鉱石"
   },
   "blocks": {
     "miningmaster:ice_sapphire_ore": "excavated_variants:minecraft/stone"

@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Kaolin",
+    "ja_jp": "高陵石"
+  },
+  "block": "natures_spirit:kaolin",
+  "ore_tags": [
+    "c:ores_in_ground/kaolin"
+  ]
+}

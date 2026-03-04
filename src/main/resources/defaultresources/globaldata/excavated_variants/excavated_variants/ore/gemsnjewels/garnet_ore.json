@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Garnet Ore"
+    "en_us": "Garnet Ore",
+    "ja_jp": "%sガーネット鉱石"
   },
   "blocks": {
     "gemsnjewels:garnet_ore_block": "excavated_variants:minecraft/stone",

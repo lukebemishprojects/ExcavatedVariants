@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "White Sandstone"
+    "en_us": "White Sandstone",
+    "ja_jp": "白い砂岩"
   },
   "block": "biomesoplenty:white_sandstone",
   "ore_tags": [

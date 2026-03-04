@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Brown Kaolin",
+    "ja_jp": "茶色の高陵石"
+  },
+  "block": "natures_spirit:brown_kaolin",
+  "ore_tags": [
+    "c:ores_in_ground/brown_kaolin"
+  ]
+}

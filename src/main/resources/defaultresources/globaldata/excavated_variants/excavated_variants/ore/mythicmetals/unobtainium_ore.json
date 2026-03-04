@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Unobtainium Ore"
+    "en_us": "Unobtainium Ore",
+    "ja_jp": "%sアンオブテイニウム鉱石"
   },
   "blocks": {
     "mythicmetals:unobtainium_ore": "excavated_variants:minecraft/stone",

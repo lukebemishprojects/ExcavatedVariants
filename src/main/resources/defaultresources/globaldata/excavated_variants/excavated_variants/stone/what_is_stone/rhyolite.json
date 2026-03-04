@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Rhyolite"
+    "en_us": "Rhyolite",
+    "ja_jp": "流紋岩"
   },
   "block": "what_is_stone:rhyolite",
   "ore_tags": [

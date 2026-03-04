@@ -4,7 +4,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Starrite Ore"
+    "en_us": "Starrite Ore",
+    "ja_jp": "%sスターライト鉱石"
   },
   "blocks": {
     "mythicmetals:end_stone_starrite_ore": "excavated_variants:minecraft/end_stone",

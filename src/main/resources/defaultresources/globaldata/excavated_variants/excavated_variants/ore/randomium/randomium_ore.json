@@ -4,7 +4,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Randomium Ore"
+    "en_us": "Randomium Ore",
+    "ja_jp": "%sランダミウム鉱石"
   },
   "blocks": {
     "randomium:randomium_ore_end": "excavated_variants:minecraft/end_stone",

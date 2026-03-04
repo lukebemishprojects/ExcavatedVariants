@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Gold Ore"
+    "en_us": "Gold Ore",
+    "ja_jp": "%s金鉱石"
   },
   "blocks": {
     "minecraft:gold_ore": {
@@ -36,7 +37,8 @@
     "spelunkery:granite_gold_ore": "excavated_variants:minecraft/granite",
     "spelunkery:andesite_gold_ore": "excavated_variants:minecraft/andesite",
     "spelunkery:diorite_gold_ore": "excavated_variants:minecraft/diorite",
-    "spelunkery:tuff_gold_ore": "excavated_variants:minecraft/tuff"
+    "spelunkery:tuff_gold_ore": "excavated_variants:minecraft/tuff",
+    "natures_spirit:chert_gold_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/gold",

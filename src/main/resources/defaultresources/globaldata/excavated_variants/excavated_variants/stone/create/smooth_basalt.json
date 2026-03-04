@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Smooth Basalt"
+    "en_us": "Smooth Basalt",
+    "ja_jp": "滑らかな玄武岩"
   },
   "block": "minecraft:smooth_basalt",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Breccia"
+    "en_us": "Breccia",
+    "ja_jp": "角礫岩"
   },
   "block": "what_is_stone:breccia",
   "ore_tags": [

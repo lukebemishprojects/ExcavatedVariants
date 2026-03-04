@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Travertine",
+    "ja_jp": "トラバーチン"
+  },
+  "block": "natures_spirit:travertine",
+  "ore_tags": [
+    "c:ores_in_ground/travertine"
+  ]
+}

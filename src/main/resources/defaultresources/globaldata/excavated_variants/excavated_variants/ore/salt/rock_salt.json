@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Rock Salt"
+    "en_us": "Rock Salt",
+    "ja_jp": "%s岩塩"
   },
   "blocks": {
     "salt:rock_salt_ore": "excavated_variants:minecraft/stone"

@@ -1,0 +1,13 @@
+{
+  "types": [
+    "excavated_variants:overworld"
+  ],
+  "translations": {
+    "en_us": "Chert",
+    "ja_jp": "チャート"
+  },
+  "block": "natures_spirit:chert",
+  "ore_tags": [
+    "c:ores_in_ground/chert"
+  ]
+}

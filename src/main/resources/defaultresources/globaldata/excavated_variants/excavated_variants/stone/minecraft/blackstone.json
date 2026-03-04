@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Blackstone"
+    "en_us": "Blackstone",
+    "ja_jp": "ブラックストーン"
   },
   "block": "minecraft:blackstone",
   "ore_tags": [

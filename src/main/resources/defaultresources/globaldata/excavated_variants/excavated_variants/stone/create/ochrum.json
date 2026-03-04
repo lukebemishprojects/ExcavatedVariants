@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Ochrum"
+    "en_us": "Ochrum",
+    "ja_jp": "オークラム"
   },
   "block": "create:ochrum",
   "ore_tags": [

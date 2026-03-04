@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Kyber Ore"
+    "en_us": "Kyber Ore",
+    "ja_jp": "%sカイバー鉱石"
   },
   "blocks": {
     "mythicmetals:calcite_kyber_ore": "excavated_variants:minecraft/calcite",

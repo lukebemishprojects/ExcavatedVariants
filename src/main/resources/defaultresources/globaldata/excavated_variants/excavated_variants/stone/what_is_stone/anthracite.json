@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Anthracite"
+    "en_us": "Anthracite",
+    "ja_jp": "無煙炭"
   },
   "block": "what_is_stone:anthracite",
   "ore_tags": [

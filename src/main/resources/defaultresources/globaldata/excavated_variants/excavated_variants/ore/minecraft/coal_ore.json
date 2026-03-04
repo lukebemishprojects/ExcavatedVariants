@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Coal Ore"
+    "en_us": "Coal Ore",
+    "ja_jp": "%s石炭鉱石"
   },
   "blocks": {
     "minecraft:coal_ore": {
@@ -34,7 +35,8 @@
     "spelunkery:granite_coal_ore": "excavated_variants:minecraft/granite",
     "spelunkery:andesite_coal_ore": "excavated_variants:minecraft/andesite",
     "spelunkery:diorite_coal_ore": "excavated_variants:minecraft/diorite",
-    "spelunkery:tuff_coal_ore": "excavated_variants:minecraft/tuff"
+    "spelunkery:tuff_coal_ore": "excavated_variants:minecraft/tuff",
+    "natures_spirit:chert_coal_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/coal",

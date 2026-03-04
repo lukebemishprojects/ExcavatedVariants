@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Morkite Ore"
+    "en_us": "Morkite Ore",
+    "ja_jp": "%sモルカイト鉱石"
   },
   "blocks": {
     "mythicmetals:morkite_ore": "excavated_variants:minecraft/stone",

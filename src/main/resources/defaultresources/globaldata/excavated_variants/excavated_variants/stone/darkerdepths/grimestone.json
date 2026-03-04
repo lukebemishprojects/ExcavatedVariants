@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Grimestone"
+    "en_us": "Grimestone",
+    "ja_jp": "グライムストーン"
   },
   "block": "darkerdepths:grimestone",
   "ore_tags": [

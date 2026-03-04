@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Iolite Ore"
+    "en_us": "Iolite Ore",
+    "ja_jp": "%sアイオライト鉱石"
   },
   "blocks": {
     "gemsnjewels:iolite_ore_block": "excavated_variants:minecraft/stone",

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Alexandrite Ore"
+    "en_us": "Alexandrite Ore",
+    "ja_jp": "%sアレキサンドライト鉱石"
   },
   "blocks": {
     "gemsnjewels:alexandrite_ore_block": "excavated_variants:minecraft/stone",

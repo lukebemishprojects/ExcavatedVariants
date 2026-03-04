@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Tuff"
+    "en_us": "Tuff",
+    "ja_jp": "凝灰岩"
   },
   "block": "minecraft:tuff",
   "ore_tags": [

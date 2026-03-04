@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Spinel Ore"
+    "en_us": "Spinel Ore",
+    "ja_jp": "%sスピネル鉱石"
   },
   "blocks": {
     "gemsnjewels:spinel_ore_block": "excavated_variants:minecraft/stone",

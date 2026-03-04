@@ -3,7 +3,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Flavolite"
+    "en_us": "Flavolite",
+    "ja_jp": "フラボライト"
   },
   "block": "betterend:flavolite",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Aridrock"
+    "en_us": "Aridrock",
+    "ja_jp": "乾燥"
   },
   "block": "darkerdepths:aridrock",
   "ore_tags": [

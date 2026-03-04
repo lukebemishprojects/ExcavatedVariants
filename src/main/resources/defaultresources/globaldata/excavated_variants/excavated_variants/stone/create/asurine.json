@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Asurine"
+    "en_us": "Asurine",
+    "ja_jp": "アシュリン"
   },
   "block": "create:asurine",
   "ore_tags": [

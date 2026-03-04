@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Rocky"
+    "en_us": "Rocky",
+    "ja_jp": "岩"
   },
   "block": "byg:rocky_stone",
   "ore_tags": [

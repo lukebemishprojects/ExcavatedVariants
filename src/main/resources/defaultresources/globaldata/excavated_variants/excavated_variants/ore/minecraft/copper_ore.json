@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Copper Ore"
+    "en_us": "Copper Ore",
+    "ja_jp": "%s銅鉱石"
   },
   "blocks": {
     "minecraft:copper_ore": {
@@ -32,7 +33,8 @@
     "spelunkery:granite_copper_ore": "excavated_variants:minecraft/granite",
     "spelunkery:andesite_copper_ore": "excavated_variants:minecraft/andesite",
     "spelunkery:diorite_copper_ore": "excavated_variants:minecraft/diorite",
-    "spelunkery:tuff_copper_ore": "excavated_variants:minecraft/tuff"
+    "spelunkery:tuff_copper_ore": "excavated_variants:minecraft/tuff",
+    "natures_spirit:chert_copper_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/copper",

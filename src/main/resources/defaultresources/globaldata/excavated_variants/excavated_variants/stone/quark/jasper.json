@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Jasper"
+    "en_us": "Jasper",
+    "ja_jp": "碧玉"
   },
   "block": "quark:jasper",
   "ore_tags": [

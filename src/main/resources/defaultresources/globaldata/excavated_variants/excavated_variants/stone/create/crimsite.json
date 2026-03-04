@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Crimsite"
+    "en_us": "Crimsite",
+    "ja_jp": "クリムサイト"
   },
   "block": "create:crimsite",
   "ore_tags": [

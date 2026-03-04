@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Phyllite"
+    "en_us": "Phyllite",
+    "ja_jp": "千枚岩"
   },
   "block": "unearthed:phyllite",
   "ore_tags": [

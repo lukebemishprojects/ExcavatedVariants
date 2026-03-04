@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Emerald Ore"
+    "en_us": "Emerald Ore",
+    "ja_jp": "%sエメラルド鉱石"
   },
   "blocks": {
     "minecraft:emerald_ore": {
@@ -32,7 +33,8 @@
     "spelunkery:granite_emerald_ore": "excavated_variants:minecraft/granite",
     "spelunkery:diorite_emerald_ore": "excavated_variants:minecraft/diorite",
     "spelunkery:tuff_emerald_ore": "excavated_variants:minecraft/tuff",
-    "spelunkery:andesite_emerald_ore": "excavated_variants:minecraft/andesite"
+    "spelunkery:andesite_emerald_ore": "excavated_variants:minecraft/andesite",
+    "natures_spirit:chert_emerald_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/emerald",

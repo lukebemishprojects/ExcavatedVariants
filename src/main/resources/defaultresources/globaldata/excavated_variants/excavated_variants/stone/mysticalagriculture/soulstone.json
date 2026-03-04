@@ -4,7 +4,8 @@
     "excavated_variants:mysticalagriculture/soul"
   ],
   "translations": {
-    "en_us": "Soulstone"
+    "en_us": "Soulstone",
+    "ja_jp": "ソウルストーン"
   },
   "block": "mysticalagriculture:soulstone",
   "ore_tags": [

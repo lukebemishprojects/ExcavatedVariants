@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Blue Netherrack"
+    "en_us": "Blue Netherrack",
+    "ja_jp": "青いネザーラック"
   },
   "block": "byg:blue_netherrack",
   "ore_tags": [

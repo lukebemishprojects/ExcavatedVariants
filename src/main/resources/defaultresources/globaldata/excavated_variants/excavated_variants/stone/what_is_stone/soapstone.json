@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Soapstone"
+    "en_us": "Soapstone",
+    "ja_jp": "ソープストーン"
   },
   "block": "what_is_stone:soapstone",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Lapis Lazuli"
+    "en_us": "Lapis Lazuli",
+    "ja_jp": "%sラピスラズリ"
   },
   "blocks": {
     "geolosys:lapis_ore": "excavated_variants:minecraft/stone",

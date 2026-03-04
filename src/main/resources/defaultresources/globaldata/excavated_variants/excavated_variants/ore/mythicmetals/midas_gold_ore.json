@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Midas Gold Ore"
+    "en_us": "Midas Gold Ore",
+    "ja_jp": "%sミダス金鉱石"
   },
   "blocks": {
     "mythicmetals:midas_gold_ore": "excavated_variants:minecraft/netherrack"

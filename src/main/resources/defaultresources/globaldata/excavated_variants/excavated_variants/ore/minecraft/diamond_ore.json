@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Diamond Ore"
+    "en_us": "Diamond Ore",
+    "ja_jp": "%sダイヤモンド鉱石"
   },
   "blocks": {
     "minecraft:diamond_ore": {
@@ -35,7 +36,8 @@
     "spelunkery:diorite_diamond_ore": "excavated_variants:minecraft/diorite",
     "spelunkery:andesite_diamond_ore": "excavated_variants:minecraft/andesite",
     "spelunkery:tuff_diamond_ore": "excavated_variants:minecraft/tuff",
-    "spelunkery:smooth_basalt_diamond_ore": "excavated_variants:minecraft/smooth_basalt"
+    "spelunkery:smooth_basalt_diamond_ore": "excavated_variants:minecraft/smooth_basalt",
+    "natures_spirit:chert_diamond_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/diamond",

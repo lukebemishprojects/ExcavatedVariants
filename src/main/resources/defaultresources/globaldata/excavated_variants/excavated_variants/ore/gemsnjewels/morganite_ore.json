@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Morganite Ore"
+    "en_us": "Morganite Ore",
+    "ja_jp": "%sモルガナイト鉱石"
   },
   "blocks": {
     "gemsnjewels:morganite_ore_block": "excavated_variants:minecraft/stone",

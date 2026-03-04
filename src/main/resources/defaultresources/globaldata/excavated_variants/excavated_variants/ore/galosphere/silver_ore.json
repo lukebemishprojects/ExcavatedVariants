@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Silver Ore"
+    "en_us": "Silver Ore",
+    "ja_jp": "%s銀鉱石"
   },
   "blocks": {
     "galosphere:deepslate_silver_ore": "excavated_variants:minecraft/deepslate",

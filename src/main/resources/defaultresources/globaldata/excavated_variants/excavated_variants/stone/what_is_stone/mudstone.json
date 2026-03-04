@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Mudstone"
+    "en_us": "Mudstone",
+    "ja_jp": "泥岩"
   },
   "block": "what_is_stone:mudstone",
   "ore_tags": [

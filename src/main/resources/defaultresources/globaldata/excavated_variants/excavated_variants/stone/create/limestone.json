@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Limestone"
+    "en_us": "Limestone",
+    "ja_jp": "石灰岩"
   },
   "block": "create:limestone",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Iron Ore"
+    "en_us": "Iron Ore",
+    "ja_jp": "%s鉄鉱石"
   },
   "blocks": {
     "minecraft:iron_ore": {
@@ -34,7 +35,8 @@
     "spelunkery:granite_iron_ore": "excavated_variants:minecraft/granite",
     "spelunkery:andesite_iron_ore": "excavated_variants:minecraft/andesite",
     "spelunkery:diorite_iron_ore": "excavated_variants:minecraft/diorite",
-    "spelunkery:tuff_iron_ore": "excavated_variants:minecraft/tuff"
+    "spelunkery:tuff_iron_ore": "excavated_variants:minecraft/tuff",
+    "natures_spirit:chert_iron_ore": "excavated_variants:natures_spirit/chert"
   },
   "tags": [
     "c:ores/iron",

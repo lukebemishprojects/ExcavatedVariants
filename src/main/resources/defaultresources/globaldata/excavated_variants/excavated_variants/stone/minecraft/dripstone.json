@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Dripstone"
+    "en_us": "Dripstone",
+    "ja_jp": "鍾乳石"
   },
   "block": "minecraft:dripstone_block",
   "ore_tags": [

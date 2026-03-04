@@ -3,7 +3,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Amber Ore"
+    "en_us": "Amber Ore",
+    "ja_jp": "%s琥珀鉱石"
   },
   "blocks": {
     "betterend:amber_ore": "excavated_variants:minecraft/end_stone"

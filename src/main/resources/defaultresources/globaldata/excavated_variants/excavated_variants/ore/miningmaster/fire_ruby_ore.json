@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Fire Ruby Ore"
+    "en_us": "Fire Ruby Ore",
+    "ja_jp": "%sファイアルビー鉱石"
   },
   "blocks": {
     "miningmaster:fire_ruby_ore": "excavated_variants:minecraft/stone"

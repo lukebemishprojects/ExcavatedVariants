@@ -3,7 +3,8 @@
     "excavated_variants:end"
   ],
   "translations": {
-    "en_us": "Ender Ore"
+    "en_us": "Ender Ore",
+    "ja_jp": "%sエンダー鉱石"
   },
   "blocks": {
     "betterend:ender_ore": "excavated_variants:minecraft/end_stone"

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Beige Limestone"
+    "en_us": "Beige Limestone",
+    "ja_jp": "ベージュ石灰岩"
   },
   "block": "unearthed:beige_limestone",
   "ore_tags": [

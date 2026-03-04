@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Malachite"
+    "en_us": "Malachite",
+    "ja_jp": "%sマラカイト"
   },
   "blocks": {
     "geolosys:malachite_ore": "excavated_variants:minecraft/stone",

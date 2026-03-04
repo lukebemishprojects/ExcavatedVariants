@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Aquamarine Ore"
+    "en_us": "Aquamarine Ore",
+    "ja_jp": "%sアクアマリン鉱石"
   },
   "blocks": {
     "gemsnjewels:aquamarine_ore_block": "excavated_variants:minecraft/stone",

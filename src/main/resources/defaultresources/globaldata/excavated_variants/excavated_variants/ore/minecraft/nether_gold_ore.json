@@ -3,7 +3,8 @@
     "excavated_variants:nether"
   ],
   "translations": {
-    "en_us": "Nether Gold Ore"
+    "en_us": "Nether Gold Ore",
+    "ja_jp": "%sネザー金鉱石"
   },
   "blocks": {
     "minecraft:nether_gold_ore": {

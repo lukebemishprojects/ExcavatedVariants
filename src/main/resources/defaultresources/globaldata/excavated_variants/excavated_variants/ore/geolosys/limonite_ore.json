@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Limonite"
+    "en_us": "Limonite",
+    "ja_jp": "%sリモナイト"
   },
   "blocks": {
     "geolosys:limonite_ore": "excavated_variants:minecraft/stone",

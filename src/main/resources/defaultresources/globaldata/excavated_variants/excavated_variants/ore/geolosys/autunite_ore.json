@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Autunite"
+    "en_us": "Autunite",
+    "ja_jp": "%sオーチュナイト"
   },
   "blocks": {
     "geolosys:autunite_ore": "excavated_variants:minecraft/stone",

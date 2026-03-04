@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Veridium"
+    "en_us": "Veridium",
+    "ja_jp": "ベリジウム"
   },
   "block": "create:veridium",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Diorite"
+    "en_us": "Diorite",
+    "ja_jp": "閃緑岩"
   },
   "block": "minecraft:diorite",
   "ore_tags": [

@@ -3,7 +3,8 @@
     "excavated_variants:overworld"
   ],
   "translations": {
-    "en_us": "Dacite"
+    "en_us": "Dacite",
+    "ja_jp": "デイサイト"
   },
   "block": "byg:dacite",
   "ore_tags": [
