@@ -1,0 +1,50 @@
+{
+  mod_id: 'astrological',
+  provided_stones: [
+    {
+      id: 'ast_purpurite',
+      lang: {
+        en_us: 'Purpurite',
+      },
+      block_id: 'astrological:purpurite',
+      types: [
+        'end',
+      ],
+    },
+	
+    {
+      id: 'ast_triphylite',
+      lang: {
+        en_us: 'Triphylite',
+      },
+      block_id: 'astrological:triphylite',
+      types: [
+        'end',
+      ],
+    },
+	
+    {
+      id: 'ast_jade',
+      lang: {
+        en_us: 'Jade',
+      },
+      block_id: 'astrological:jade',
+      types: [
+        'end',
+      ],
+    },
+	
+    {
+      id: 'ast_l_jade',
+      lang: {
+        en_us: 'Light Jade',
+      },
+      block_id: 'astrological:light_jade',
+      types: [
+        'end',
+      ],
+    },
+  ],
+  provided_ores: [
+  ],
+}

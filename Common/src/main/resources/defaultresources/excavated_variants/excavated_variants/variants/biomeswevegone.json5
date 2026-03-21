@@ -1,0 +1,103 @@
+{
+  mod_id: 'biomeswevegone',
+  provided_stones: [
+    {
+      id: 'bwg_black_sandstone',
+      lang: {
+        en_us: 'Black Sandstone',
+      },
+      block_id: 'biomeswevegone:black_sandstone',
+      types: [
+        'stone',
+      ],
+    },
+	
+	    {
+      id: 'bwg_white_sandstone',
+      lang: {
+        en_us: 'White Sandstone',
+      },
+      block_id: 'biomeswevegone:white_sandstone',
+      types: [
+        'stone',
+      ],
+    },
+	    {
+      id: 'bwg_blue_sandstone',
+      lang: {
+        en_us: 'Blue Sandstone',
+      },
+      block_id: 'biomeswevegone:blue_sandstone',
+      types: [
+        'stone',
+      ],
+    },
+	
+	    {
+      id: 'bwg_purple_sandstone',
+      lang: {
+        en_us: 'Purple Sandstone',
+      },
+      block_id: 'biomeswevegone:purple_sandstone',
+      types: [
+        'stone',
+      ],
+    },
+	
+	    {
+      id: 'bwg_windswept_sandstone',
+      lang: {
+        en_us: 'Windswept Sandstone',
+      },
+      block_id: 'biomeswevegone:windswept_sandstone',
+      types: [
+        'stone',
+      ],
+    },
+	
+	    {
+      id: 'bwg_dacite',
+      lang: {
+        en_us: 'Dacite',
+      },
+      block_id: 'biomeswevegone:dacite',
+      types: [
+        'stone',
+      ],
+    },
+	
+	    {
+      id: 'bwg_white_dacite',
+      lang: {
+        en_us: 'White Dacite',
+      },
+      block_id: 'biomeswevegone:white_dacite',
+      types: [
+        'stone',
+      ],
+    },
+	    {
+      id: 'bwg_redrock',
+      lang: {
+        en_us: 'Red Rock',
+      },
+      block_id: 'biomeswevegone:red_rock',
+      types: [
+        'stone',
+      ],
+    },
+	
+		    {
+      id: 'bwg_rocky_stone',
+      lang: {
+        en_us: 'Rocky Stone',
+      },
+      block_id: 'biomeswevegone:rocky_stone',
+      types: [
+        'stone',
+      ],
+    },
+  ],
+  provided_ores: [
+  ],
+}

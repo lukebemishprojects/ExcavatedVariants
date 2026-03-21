@@ -1,0 +1,154 @@
+{
+  mod_id: "fantasy_metals",
+  provided_stones: [],
+  provided_ores: [
+      {
+      id: 'mythril_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'fantasy_metals:mythril_ore',
+        'fantasy_metals:deepslate_mythril_ore',
+      ],
+      lang: {
+        en_us: 'Mythril Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+	      {
+      id: 'adamant_ore',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'fantasy_metals:adamant_ore',
+      ],
+      lang: {
+        en_us: 'Adamant Ore',
+      },
+      types: [
+        'end',
+      ],
+    },
+	{
+	  id: 'orichalcum_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'fantasy_metals:orichalcum_ore',
+        'fantasy_metals:deepslate_orichalcum_ore',
+      ],
+      lang: {
+        en_us: 'Orichalcum Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'carmot_ore',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'fantasy_metals:carmot_ore',
+      ],
+      lang: {
+        en_us: 'Carmot Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	{
+      id: 'sardonyx_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'fantasy_metals:sardonyx_ore',
+        'fantasy_metals:deepslate_sardonyx_ore',
+      ],
+      lang: {
+        en_us: 'Sardonyx Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+	{
+      id: 'alexandrite_ore',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'fantasy_metals:alexandrite_ore',
+        'fantasy_metals:deepslate_alexandrite_ore',
+      ],
+      lang: {
+        en_us: 'Alexandrite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+	{
+      id: 'tanzanite_ore',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'fantasy_metals:tanzanite_ore',
+      ],
+      lang: {
+        en_us: 'Tanzanite Ore',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+	{
+      id: 'black_opal_ore',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'fantasy_metals:black_opal_ore',
+      ],
+      lang: {
+        en_us: 'Black Opal Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+	{
+      id: 'tsavorite_ore',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'fantasy_metals:tsavorite_ore',
+      ],
+      lang: {
+        en_us: 'Tsavorite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}

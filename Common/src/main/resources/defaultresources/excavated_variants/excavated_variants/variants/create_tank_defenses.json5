@@ -1,0 +1,41 @@
+{
+  mod_id: 'create_tank_defenses',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'ctd_aluminum',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'create_tank_defenses:aluminum_ore',
+        'create_tank_defenses:aluminum_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Aluminum Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'ctd_titanium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'create_tank_defenses:titanium_ore',
+        'create_tank_defenses:titanium_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Titanium_ Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}

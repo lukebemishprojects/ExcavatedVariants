@@ -1,0 +1,41 @@
+{
+  mod_id: "gems_plus",
+  provided_stones: [],
+  provided_ores: [
+      {
+      id: 'gs_garnet',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'gems_plus:garnet_ore',
+        'gems_plus:deepslategarnet_ore',
+      ],
+      lang: {
+        en_us: 'Ruby Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'gt_peridot',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'gems_plus:peridotore',
+        'gems_plus:deepslateperidotore',
+      ],
+      lang: {
+        en_us: 'Peridot Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}

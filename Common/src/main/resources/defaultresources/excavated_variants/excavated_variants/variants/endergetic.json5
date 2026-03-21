@@ -1,0 +1,17 @@
+{
+  mod_id: 'endergetic',
+  provided_stones: [
+    {
+      id: 'e_eumus',
+      lang: {
+        en_us: 'Eumus',
+      },
+      block_id: 'endergetic:eumus',
+      types: [
+        'end',
+      ],
+    },
+  ],
+  provided_ores: [
+  ],
+}

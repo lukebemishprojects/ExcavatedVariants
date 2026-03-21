@@ -1,0 +1,69 @@
+{
+  mod_id: "gemsthings",
+  provided_stones: [],
+  provided_ores: [
+      {
+      id: 'gt_ruby',
+      stone: [
+        'deepslate',
+      ],
+      block_id: [
+        'gemsthings:ruby_ore',
+      ],
+      lang: {
+        en_us: 'Ruby Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'gt_opal',
+      stone: [
+        'deepslate',
+      ],
+      block_id: [
+        'gemsthings:opal_ore',
+      ],
+      lang: {
+        en_us: 'Opal Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'gt_chrysolite',
+      stone: [
+        'deepslate',
+      ],
+      block_id: [
+        'gemsthings:crysolite_ore',
+      ],
+      lang: {
+        en_us: 'Crysolite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'gt_aquamarine',
+      stone: [
+        'deepslate',
+      ],
+      block_id: [
+        'gemsthings:aquamarine_ore',
+      ],
+      lang: {
+        en_us: 'Aquamarine Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}

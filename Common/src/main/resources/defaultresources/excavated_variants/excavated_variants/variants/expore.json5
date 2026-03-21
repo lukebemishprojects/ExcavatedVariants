@@ -1,0 +1,29 @@
+{
+  mod_id: 'expore',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'exp_ore',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'expore:exp_ore',
+        'expore:deepslate_exp_ore',
+        'expore:nether_exp_ore',
+        'expore:end_exp_ore',
+      ],
+      lang: {
+        en_us: 'Exp Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+  ],
+}

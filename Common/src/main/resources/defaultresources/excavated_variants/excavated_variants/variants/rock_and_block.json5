@@ -1,0 +1,72 @@
+{
+  mod_id: 'rock_and_block',
+  provided_stones: [
+    {
+      id: 'rab_cinnabar',
+      lang: {
+        en_us: 'Cinnabar',
+      },
+      block_id: 'rock_and_block:cinnabar',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'rab_serpentine',
+      lang: {
+        en_us: 'Serpentine',
+      },
+      block_id: 'rock_and_block:serpentine',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'rab_aquamarine',
+      lang: {
+        en_us: 'Aquamarine',
+      },
+      block_id: 'rock_and_block:aquamarine',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'rab_travertine',
+      lang: {
+        en_us: 'Travertine',
+      },
+      block_id: 'rock_and_block:travertine',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'rab_yellow_limestone',
+      lang: {
+        en_us: 'Yellow Limestone',
+      },
+      block_id: 'rock_and_block:yellow_limestone',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'rab_lepidolite',
+      lang: {
+        en_us: 'Lepidolite',
+      },
+      block_id: 'rock_and_block:lepdolite',
+      types: [
+        'stone',
+      ],
+    },
+  ],
+  provided_ores: [
+  ],
+}

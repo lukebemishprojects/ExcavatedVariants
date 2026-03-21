@@ -1,0 +1,22 @@
+{
+  mod_id: 'enderlyth_and_more',
+  provided_stones: [
+  ],
+  provided_ores: [
+    {
+      id: 'enderlyth',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'enderlyth_and_more:enderlyth_ore',
+      ],
+      lang: {
+        en_us: 'Enderlyth Ore',
+      },
+      types: [
+        'end',
+      ],
+    },
+  ],
+}

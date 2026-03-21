@@ -1,0 +1,22 @@
+{
+  mod_id: 'ametrine_mod',
+  provided_stones: [
+  ],
+  provided_ores: [
+    {
+      id: 'ame_ametrine',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'ametrine_mod:ametrine_mineral',
+      ],
+      lang: {
+        en_us: 'Ametrine Mineral',
+      },
+      types: [
+        'end',
+      ],
+    },
+  ],
+}

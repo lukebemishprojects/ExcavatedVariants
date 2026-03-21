@@ -1,0 +1,43 @@
+{
+  mod_id: 'phantasm',
+  provided_stones: [
+    {
+      id: 'ph_purpur',
+      lang: {
+        en_us: 'Raw Purpur',
+      },
+      block_id: 'phantasm:raw_purpur',
+      types: [
+        'end',
+      ],
+    },
+	
+    {
+      id: 'ph_cirite',
+      lang: {
+        en_us: 'Cirite',
+      },
+      block_id: 'phantasm:cirite',
+      types: [
+        'end',
+      ],
+    },
+  ],
+  provided_ores: [
+{
+      id: 'iron_ore',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'phantasm:cirite_iron_ore',
+      ],
+      lang: {
+        en_us: 'Iron Ore',
+      },
+      types: [
+        'end',
+      ],
+    },
+  ],
+}

@@ -1,0 +1,82 @@
+{
+  mod_id: 'evenbetternether',
+  provided_stones: [
+    {
+      id: 'vox_gravelstone',
+      lang: {
+        en_us: 'Gravelstone',
+      },
+      block_id: 'voxels_nether_more_mod:gravelstone',
+      types: [
+        'nether',
+      ],
+    },
+	    {
+      id: 'vox_goldenclin',
+      lang: {
+        en_us: 'Goldenclin',
+      },
+      block_id: 'voxels_nether_more_mod:goldenclin',
+      types: [
+        'nether',
+      ],
+    },
+	    {
+      id: 'vox_withered',
+      lang: {
+        en_us: 'Withered Netherrack',
+      },
+      block_id: 'voxels_nether_more_mod:witherrack',
+      types: [
+        'nether',
+      ],
+    },
+  ],
+  provided_ores: [
+    {
+      id: 'ebn_lignite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'evenbetternether:lignite_ore',
+      ],
+      lang: {
+        en_us: 'Lignite Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+    {
+      id: 'ebn_netherruby',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'evenbetternether:nether_ruby_ore',
+      ],
+      lang: {
+        en_us: 'Nether Ruby Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+    {
+      id: 'ebn_pyrite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'evenbetternether:pyrite_ore',
+      ],
+      lang: {
+        en_us: 'Pyrite Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+  ],
+}

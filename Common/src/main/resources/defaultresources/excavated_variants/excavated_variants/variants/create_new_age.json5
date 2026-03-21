@@ -1,0 +1,21 @@
+{
+  mod_id: 'create_new_age',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'cna_thorium',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'create_new_age:thorium_ore',
+      ],
+      lang: {
+        en_us: 'Thorium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}

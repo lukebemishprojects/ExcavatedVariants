@@ -1,0 +1,748 @@
+{
+  mod_id: "pfw_aesthetic_gems",
+  provided_stones: [],
+  provided_ores: [
+      {
+      id: 'pfw_pad_saph',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:padparadsha_sapphire_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Padparadsha Sapphire',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_red_fluorite',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:red_fluorite_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Red Fluorite',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_pink_topaz',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:pink_topaz_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Pink Topaz',
+      },
+      types: [
+        'nether',
+      ],
+    },
+      {
+      id: 'pfw_red_ruby',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:red_ruby_stone_ore',
+        'pfw_aesthetic_gems:red_ruby_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Red Ruby',
+      },
+      types: [
+        'stone',
+      ],
+    },
+      {
+      id: 'pfw_bloodstone',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:bloodstone_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Bloodstone',
+      },
+      types: [
+        'nether',
+      ],
+    },
+      {
+      id: 'pfw_red_jasper',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:red_jasper_stone_ore',
+        'pfw_aesthetic_gems:red_jasper_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Red Jasper',
+      },
+      types: [
+        'stone',
+      ],
+    },
+      {
+      id: 'pfw_sunstone',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:sunstone_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Sunstone',
+      },
+      types: [
+        'end',
+      ],
+    },
+      {
+      id: 'pfw_orange_zircon',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:orange_zircon_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Orange Zircon',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_palmeira_citrine',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:palmeira_citrine_stone_ore',
+      ],
+      lang: {
+        en_us: 'Palmeira Citrine',
+      },
+      types: [
+        'stone',
+      ],
+    },
+      {
+      id: 'pfw_orange_jade',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:orange_jade_stone_ore',
+      ],
+      lang: {
+        en_us: 'Orange Jade',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_golden_citrine',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:golden_citrine_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Orange Jade',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_heliodor',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:heliodor_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Heliodor',
+      },
+      types: [
+        'end',
+      ],
+    },
+      {
+      id: 'pfw_yellow_diamond',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:yellow_diamond_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Yellow Diamond',
+      },
+      types: [
+        'nether',
+      ],
+    },
+      {
+      id: 'pfw_lime_quartz',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:lime_quartz_stone_ore',
+      ],
+      lang: {
+        en_us: 'Lime Quartz',
+      },
+      types: [
+        'nether',
+      ],
+    },
+      {
+      id: 'pfw_chrome_dravite_tourmaline',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:chrome_dravite_tourmaline_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Chrome Dravite Tourmaline',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_peridot',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:peridot_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Peridot',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_grossular_diopsite',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:grossular_diopsite_stone_ore',
+        'pfw_aesthetic_gems:grossular_diopsite_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Grossular Diopsite',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_green_emerald',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:green_emerald_stone_ore',
+      ],
+      lang: {
+        en_us: 'Green Emerald',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_praisiolite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:praisiolite_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Praisiolite',
+      },
+      types: [
+        'nether',
+      ],
+    },
+      {
+      id: 'pfw_malachite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:malachite_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Malachite',
+      },
+      types: [
+        'nether',
+      ],
+    },
+
+      {
+      id: 'pfw_green_fluorite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:green_fluorite_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Green Fluorite',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_amazonite',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:amazonite_stone_ore',
+      ],
+      lang: {
+        en_us: 'Amazonite',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_paraiba_tourmaline',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:paraiba_tourmaline_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Paraiba Tourmaline',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_euclase',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:euclase_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Euclase',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_aquamarine',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:aquamarine_stone_ore',
+        'pfw_aesthetic_gems:aquamarine_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Aquamarine',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_lapis_lazuli',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:lapis_lazuli_stone_ore',
+        'pfw_aesthetic_gems:lapis_lazuli_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Lapis Lazuli',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_kyanite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:kyanite_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Kyanite',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_blue_sapphire',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:blue_sapphire_stone_ore',
+        'pfw_aesthetic_gems:blue_sapphire_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Blue Sapphire',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_tanzanite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:tanzanite_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Tanzanite',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_purple_amethyst',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:purple_amethyst_stone_ore',
+      ],
+      lang: {
+        en_us: 'Purple Amethyst',
+      },
+      types: [
+        'stone',
+      ],
+    },
+      {
+      id: 'pfw_purple_crazy_lace_agate',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:purple_crazy_lace_agate_ore',
+      ],
+      lang: {
+        en_us: 'Purple Crazy Lace Agate',
+      },
+      types: [
+        'end',
+      ],
+    },
+      {
+      id: 'pfw_alexandrite',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:alexandrite_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Alexandrite',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_magenta_sapphire',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:magenta_sapphire_stone_ore',
+        'pfw_aesthetic_gems:magenta_sapphire_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Magenta Sapphire',
+      },
+      types: [
+        'stone',
+      ],
+    },
+      {
+      id: 'pfw_pink_spinel',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:pink_spinel_stone_ore',
+        'pfw_aesthetic_gems:pink_spinel_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Pink Spinel',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_rhodonite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:rhodonite_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Rhodonite',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_imperial_garnet',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:imperial_garnet_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Imperial Garnet',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'pfw_morganite',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:morganite_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Morganite',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_moonstone',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:moonstone_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Moonstone',
+      },
+      types: [
+        'end',
+      ],
+    },
+      {
+      id: 'pfw_ice_blue_topaz',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:ice_blue_topaz_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Ice Blue Topaz',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_violane',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:violane_stone_ore',
+        'pfw_aesthetic_gems:violane_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Violane',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_kunzite',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:kunzite_netherrack_ore',
+      ],
+      lang: {
+        en_us: 'Kunzite',
+      },
+      types: [
+        'netherrack',
+      ],
+    },
+	
+      {
+      id: 'pfw_orange_jade',
+      stone: [
+        'stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:orange_jade_stone_ore',
+      ],
+      lang: {
+        en_us: 'Orange Jade',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_rose_quartz',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:rose_quartz_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Rose Quartz',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_white_diamond',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:white_diamond_endstone_ore',
+      ],
+      lang: {
+        en_us: 'White Diamond',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'pfw_smokey_diamond',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:smokey_diamond_stone_ore',
+        'pfw_aesthetic_gems:smokey_diamond_deepslate_ore',
+      ],
+      lang: {
+        en_us: 'Smokey Diamond',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'pfw_white_onyx',
+      stone: [
+        'end_stone',
+      ],
+      block_id: [
+        'pfw_aesthetic_gems:onyx_endstone_ore',
+      ],
+      lang: {
+        en_us: 'Onyx',
+      },
+      types: [
+        'end',
+      ],
+    },
+  ],
+}

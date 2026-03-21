@@ -1,0 +1,93 @@
+{
+  mod_id: 'voxels_nether_more_mod',
+  provided_stones: [
+    {
+      id: 'vox_gravelstone',
+      lang: {
+        en_us: 'Gravelstone',
+      },
+      block_id: 'voxels_nether_more_mod:gravelstone',
+      types: [
+        'nether',
+      ],
+    },
+	    {
+      id: 'vox_goldenclin',
+      lang: {
+        en_us: 'Goldenclin',
+      },
+      block_id: 'voxels_nether_more_mod:goldenclin',
+      types: [
+        'nether',
+      ],
+    },
+	    {
+      id: 'vox_withered',
+      lang: {
+        en_us: 'Withered Netherrack',
+      },
+      block_id: 'voxels_nether_more_mod:witherrack',
+      types: [
+        'nether',
+      ],
+    },
+	
+	    {
+      id: 'vox_rough_quartz',
+      lang: {
+        en_us: 'Rough Quartz',
+      },
+      block_id: 'voxels_nether_more_mod:rough_quartz',
+      types: [
+        'nether',
+      ],
+    },
+  ],
+  provided_ores: [
+    {
+      id: 'gravore',
+      stone: [
+        'vox_gravelstone',
+      ],
+      block_id: [
+        'voxels_nether_more_mod:gravore',
+      ],
+      lang: {
+        en_us: 'Gravore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+    {
+      id: 'nethanium',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'voxels_nether_more_mod:nethanium_ore',
+      ],
+      lang: {
+        en_us: 'Nethanium Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+    {
+      id: 'diamond_ore',
+      stone: [
+		'netherrack',
+      ],
+      block_id: [
+        'voxels_nether_more_mod:deepslate_diamond_ore',
+      ],
+      lang: {
+        en_us: 'Diamond Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+  ],
+}

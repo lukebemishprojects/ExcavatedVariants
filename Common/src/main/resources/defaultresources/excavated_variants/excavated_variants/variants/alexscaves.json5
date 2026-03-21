@@ -1,0 +1,131 @@
+{
+  mod_id: 'alexscaves',
+  provided_stones: [
+    {
+      id: 'alex_galena',
+      lang: {
+        en_us: 'Galena',
+      },
+      block_id: 'alexscaves:galena',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'alex_limestone',
+      lang: {
+        en_us: 'Limestone',
+      },
+      block_id: 'alexscaves:limestone',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'alex_radrock',
+      lang: {
+        en_us: 'Radrock',
+      },
+      block_id: 'alexscaves:radrock',
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'alex_guanostone',
+      lang: {
+        en_us: 'Guanostone',
+      },
+      block_id: 'alexscaves:guanostone',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'alex_cake_layer',
+      lang: {
+        en_us: 'Cake Layer',
+      },
+      block_id: 'alexscaves:cake_layer',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'alex_chocolate',
+      lang: {
+        en_us: 'Chocolate',
+      },
+      block_id: 'alexscaves:block_of_chocolate',
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'alex_abyssmarine',
+      lang: {
+        en_us: 'Abyssmarine',
+      },
+      block_id: 'alexscaves:abyssmarine',
+      types: [
+        'stone',
+      ],
+    },
+  ],
+  provided_ores: [
+    {
+      id: 'alex_uranium_ore',
+      stone: [
+        'alex_radrock',
+      ],
+      block_id: [
+        'alexscaves:radrock_uranium_ore',
+      ],
+      lang: {
+        en_us: 'Uranium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'iron_ore',
+      stone: [
+        'alex_galena',
+      ],
+      block_id: [
+        'alexscaves:galena_iron_ore',
+      ],
+	  orename: [
+        'iron_ore',
+      ]
+      lang: {
+        en_us: 'Iron Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+    {
+      id: 'redstone_ore',
+      stone: [
+        'alex_guanostone',
+      ],
+      block_id: [
+        'alexscaves:guanostone_redstone_ore',
+      ],
+	  orename: [
+        'redstone_ore',
+      ]
+      lang: {
+        en_us: 'Redstone Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}

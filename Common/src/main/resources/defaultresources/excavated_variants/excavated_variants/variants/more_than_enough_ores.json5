@@ -1,0 +1,509 @@
+{
+  mod_id: "more_than_enough_ores",
+  provided_stones: [],
+  provided_ores: [
+      {
+      id: 'mteo_aluminium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:aluminium_ore',
+        'more_than_enough_ores:deepslate_aluminium_ore',
+        'more_than_enough_ores:nether_aluminium_ore',
+        'more_than_enough_ores:end_stone_aluminium_ore',
+      ],
+      lang: {
+        en_us: 'Bauxite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_antimony',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:antimony_ore',
+        'more_than_enough_ores:deepslate_antimony_ore',
+        'more_than_enough_ores:nether_antimony_ore',
+        'more_than_enough_ores:end_stone_antimony_ore',
+      ],
+      lang: {
+        en_us: 'Stibnite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_beryllium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:beryllium_ore',
+        'more_than_enough_ores:deepslate_beryllium_ore',
+        'more_than_enough_ores:nether_beryllium_ore',
+        'more_than_enough_ores:end_stone_beryllium_ore',
+      ],
+      lang: {
+        en_us: 'Beryl Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_bismuth',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:bismuth_ore',
+        'more_than_enough_ores:deepslate_bismuth_ore',
+        'more_than_enough_ores:nether_bismuth_ore',
+        'more_than_enough_ores:end_stone_bismuth_ore',
+      ],
+      lang: {
+        en_us: 'Bismuth Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_chromium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:chromium_ore',
+        'more_than_enough_ores:deepslate_chromium_ore',
+        'more_than_enough_ores:nether_chromium_ore',
+        'more_than_enough_ores:end_stone_chromium_ore',
+      ],
+      lang: {
+        en_us: 'Chromite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_cobalt',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:cobalt_ore',
+        'more_than_enough_ores:deepslate_cobalt_ore',
+        'more_than_enough_ores:nether_cobalt_ore',
+        'more_than_enough_ores:end_stone_cobalt_ore',
+      ],
+      lang: {
+        en_us: 'Cobaltite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_lead',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:lead_ore',
+        'more_than_enough_ores:deepslate_lead_ore',
+        'more_than_enough_ores:nether_lead_ore',
+        'more_than_enough_ores:end_stone_lead_ore',
+      ],
+      lang: {
+        en_us: 'Galena Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_lithium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:lithium_ore',
+        'more_than_enough_ores:deepslate_lithium_ore',
+        'more_than_enough_ores:nether_lithium_ore',
+        'more_than_enough_ores:end_stone_lithium_ore',
+      ],
+      lang: {
+        en_us: 'Spodumene Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_manganese',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:manganese_ore',
+        'more_than_enough_ores:deepslate_manganese_ore',
+        'more_than_enough_ores:nether_maganese_ore',
+        'more_than_enough_ores:end_stone_maganese_ore',
+      ],
+      lang: {
+        en_us: 'Pyrolusite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_molybdenum',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:molybdenum_ore',
+        'more_than_enough_ores:deepslate_molybdenum_ore',
+        'more_than_enough_ores:nether_molybdenum_ore',
+        'more_than_enough_ores:end_stone_molybdenum_ore',
+      ],
+      lang: {
+        en_us: 'Molybdenite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_nickle',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:nickle_ore',
+        'more_than_enough_ores:deepslate_nickle_ore',
+        'more_than_enough_ores:nether_nickle_ore',
+        'more_than_enough_ores:end_stone_nickle_ore',
+      ],
+      lang: {
+        en_us: 'Pentlandite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_niobium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:niobium_ore',
+        'more_than_enough_ores:deepslate_niobium_ore',
+        'more_than_enough_ores:nether_niobium_ore',
+        'more_than_enough_ores:end_stone_niobium_ore',
+      ],
+      lang: {
+        en_us: 'Pyrochlore Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_platinum',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:platinum_ore',
+        'more_than_enough_ores:deepslate_platinum_ore',
+        'more_than_enough_ores:nether_platinum_ore',
+        'more_than_enough_ores:end_stone_platinum_ore',
+      ],
+      lang: {
+        en_us: 'Sperrylite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_rhenium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:rhenium_ore',
+        'more_than_enough_ores:deepslate_rhenium_ore',
+        'more_than_enough_ores:nether_rhenium_ore',
+        'more_than_enough_ores:end_stone_rhenium_ore',
+      ],
+      lang: {
+        en_us: 'Porphyry Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_silver',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:silver_ore',
+        'more_than_enough_ores:deepslate_silver_ore',
+        'more_than_enough_ores:nether_silver_ore',
+        'more_than_enough_ores:end_stone_silver_ore',
+      ],
+      lang: {
+        en_us: 'Argentite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_tin',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:tin_ore',
+        'more_than_enough_ores:deepslate_tin_ore',
+        'more_than_enough_ores:nether_tin_ore',
+        'more_than_enough_ores:end_stone_tin_ore',
+      ],
+      lang: {
+        en_us: 'Cassiterite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_titanium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:titanium_ore',
+        'more_than_enough_ores:deepslate_titanium_ore',
+        'more_than_enough_ores:nether_titanium_ore',
+        'more_than_enough_ores:end_stone_titanium_ore',
+      ],
+      lang: {
+        en_us: 'Ilmenite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_tungsten',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:tungsten_ore',
+        'more_than_enough_ores:deepslate_tungsten_ore',
+        'more_than_enough_ores:nether_tungsten_ore',
+        'more_than_enough_ores:end_stone_tungsten_ore',
+      ],
+      lang: {
+        en_us: 'Wolframite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_uranium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:uranium_ore',
+        'more_than_enough_ores:deepslate_uranium_ore',
+        'more_than_enough_ores:nether_uranium_ore',
+        'more_than_enough_ores:end_stone_uranium_ore',
+      ],
+      lang: {
+        en_us: 'Uraninite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_vanadium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:vanadium_ore',
+        'more_than_enough_ores:deepslate_vanadium_ore',
+        'more_than_enough_ores:nether_vanadium_ore',
+        'more_than_enough_ores:end_stone_vanadium_ore',
+      ],
+      lang: {
+        en_us: 'Patronite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'mteo_zirconuim',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+        'end_stone',
+      ],
+      block_id: [
+        'more_than_enough_ores:zirconium_ore',
+        'more_than_enough_ores:deepslate_zirconium_ore',
+        'more_than_enough_ores:nether_zirconium_ore',
+        'more_than_enough_ores:end_stone_zirconium_ore',
+      ],
+      lang: {
+        en_us: 'Zircon Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+        'end',
+      ],
+    },
+  ],
+}

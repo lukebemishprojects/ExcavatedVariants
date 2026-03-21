@@ -1,0 +1,37 @@
+{
+  mod_id: 'xgsmi',
+  provided_stones: [],
+  provided_ores: [
+    {
+      id: 'sm_titanium',
+      stone: [
+        'deepslate',
+      ],
+      block_id: [
+        'xgsmi:titaniumore',
+      ],
+      lang: {
+        en_us: 'Titanium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'sm_romeum',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'xgsmi:romeumore',
+      ],
+      lang: {
+        en_us: 'Romeum Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+  ],
+}

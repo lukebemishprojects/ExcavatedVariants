@@ -1,0 +1,74 @@
+{
+  mod_id: 'palladium',
+  provided_stones: [
+  ],
+  provided_ores: [
+    {
+      id: 'pall_lead',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'palladium:lead_ore',
+        'palladium:deepslate_lead_ore',
+      ],
+      lang: {
+        en_us: 'Lead Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'pall_redstone',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'palladium:redstone_flux_crystal_geode',
+        'palladium:deepslate_redstone_flux_crystal_geode',
+      ],
+      lang: {
+        en_us: 'Redstone Flux Crystal Geode',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+    {
+      id: 'pall_titanium',
+      stone: [
+        'blackstone',
+      ],
+      block_id: [
+        'palladium:titanium_ore',
+      ],
+      lang: {
+        en_us: 'Titanium Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+    {
+      id: 'pall_vibranium',
+      stone: [
+        'blackstone',
+      ],
+      block_id: [
+        'palladium:vibranium_ore',
+      ],
+      lang: {
+        en_us: 'Vibranium Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+  ],
+}

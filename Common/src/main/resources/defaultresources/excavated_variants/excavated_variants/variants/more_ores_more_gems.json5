@@ -1,0 +1,969 @@
+{
+  mod_id: "more_ores_more_gems",
+  provided_stones: [],
+  provided_ores: [
+      {
+      id: 'momg_ruby',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:ruby_pack_ore',
+        'more_ores_more_gems:ruby_ore_deepslate',
+      ],
+      lang: {
+        en_us: 'Ruby Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_luminous_gem',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:luminous_gem_ore',
+        'more_ores_more_gems:luminous_gem_ore_deepslate',
+      ],
+      lang: {
+        en_us: 'Luminous Gem Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_titanium',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:titanium_ore',
+        'more_ores_more_gems:dsto',
+        'more_ores_more_gems:nether_titanium_ore',
+      ],
+      lang: {
+        en_us: 'Titanium Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'momg_sapphire',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:sapphire_ore',
+        'more_ores_more_gems:deepslate_sapphire_ore',
+      ],
+      lang: {
+        en_us: 'Sapphire Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_white_crystal',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:white_crystal_ore',
+        'more_ores_more_gems:deepslate_white_crystal_ore',
+      ],
+      lang: {
+        en_us: 'Crystal Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_sunflare_gem',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:sunflare_gem_ore',
+        'more_ores_more_gems:deepslate_sunflare_gem_ore',
+      ],
+      lang: {
+        en_us: 'Sunflare Gem',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_topaz',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:topaz_ore',
+        'more_ores_more_gems:deepslate_topaz_ore',
+      ],
+      lang: {
+        en_us: 'Topaz Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_mysticrain',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:mysticrain_quartz_ore',
+        'more_ores_more_gems:deepslatee_mysticrain_quartz_ore',
+      ],
+      lang: {
+        en_us: 'Mysticrain Quartz Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_aetherium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:aetherium_ore',
+        'more_ores_more_gems:deepslate_aetherium_ore',
+      ],
+      lang: {
+        en_us: 'Aetherium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_crimsonite',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:crimsonite_ore',
+        'more_ores_more_gems:deepslate_crimsonite_ore',
+        'more_ores_more_gems:nether_crimsonite_ore',
+      ],
+      lang: {
+        en_us: 'Crimsonite Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'momg_white_opal',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:white_opal_ore',
+        'more_ores_more_gems:deepslate_white_opal_ore',
+      ],
+      lang: {
+        en_us: 'White Opal Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_aetherium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:gray_opal_ore',
+        'more_ores_more_gems:deepslate_gray_opal_ore',
+      ],
+      lang: {
+        en_us: 'Gray Opal Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_black_opal',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:black_opal_ore',
+        'more_ores_more_gems:deepslate_black_opal_ore',
+      ],
+      lang: {
+        en_us: 'Black Opal Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_silver',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:silver_ore',
+        'more_ores_more_gems:deepslate_silver_ore',
+        'more_ores_more_gems:nether_silver_ore',
+      ],
+      lang: {
+        en_us: 'Silver Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'momg_jade',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:jade_ore',
+        'more_ores_more_gems:deepslate_jade_ore',
+      ],
+      lang: {
+        en_us: 'Jade Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_tanzanite',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:tanzanite_ore',
+        'more_ores_more_gems:deepslate_tanzanite_ore',
+      ],
+      lang: {
+        en_us: 'Tanzanite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_shadowite',
+      stone: [
+        'stone',
+        'deepslate',
+        'endstone',
+      ],
+      block_id: [
+        'more_ores_more_gems:shadowite_ore',
+        'more_ores_more_gems:deepslate_shadowite_ore',
+        'more_ores_more_gems:end_stone_shadowite_ore',
+      ],
+      lang: {
+        en_us: 'Shadowite Ore',
+      },
+      types: [
+        'stone',
+        'end',
+      ],
+    },
+	
+      {
+      id: 'momg_citrine',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:citrine_ore',
+        'more_ores_more_gems:deepslate_citrine_ore',
+      ],
+      lang: {
+        en_us: 'Citrine Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_ussingite',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:ussingite_ore',
+        'more_ores_more_gems:deepslate_ussingite_ore',
+      ],
+      lang: {
+        en_us: 'Ussingite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_chondrit',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:chondrit_ore',
+        'more_ores_more_gems:deepslate_chondrit_ore',
+      ],
+      lang: {
+        en_us: 'Chondrit Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_pink_opal',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:pink_opal_ore',
+        'more_ores_more_gems:deepslate_pink_opal_ore',
+      ],
+      lang: {
+        en_us: 'Pink Opal Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_titanium_quartz',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:titanium_quartz_ore',
+      ],
+      lang: {
+        en_us: 'Titanium Quartz Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'momg_opalized_quartz',
+      stone: [
+        'stone',
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:opalized_quartz_ore',
+        'more_ores_more_gems:nether_opalized_quartz_ore',
+      ],
+      lang: {
+        en_us: 'Opalized Quartz Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'momg_heliodor',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:heliodor_ore',
+        'more_ores_more_gems:deepslate_heliodor_ore',
+      ],
+      lang: {
+        en_us: 'Heliodor Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_lemonite',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:lemonite_ore',
+        'more_ores_more_gems:deepslate_lemonite_ore',
+      ],
+      lang: {
+        en_us: 'Lemonite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_nickel',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:nickel_ore',
+        'more_ores_more_gems:deepslate_nickel_ore',
+      ],
+      lang: {
+        en_us: 'Nickel Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_amethyst',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:amethyst_ore',
+        'more_ores_more_gems:deepslate_amethyst_ore',
+        'more_ores_more_gems:nether_amethyst_ore',
+      ],
+      lang: {
+        en_us: 'Amethyst Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_ametrine',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:ametrine_ore',
+        'more_ores_more_gems:deepslate_ametrine_ore',
+      ],
+      lang: {
+        en_us: 'Ametrine Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_padparascha',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:padparascha_ore',
+        'more_ores_more_gems:deepslate_padparascha_ore',
+      ],
+      lang: {
+        en_us: 'Padparascha Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_rare_sapphire',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:rare_sapphire_ore',
+        'more_ores_more_gems:deepslate_rare_sapphire_ore',
+      ],
+      lang: {
+        en_us: 'Rare Sapphire Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_uranium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:uranium_ore',
+        'more_ores_more_gems:deepslate_uranium_ore',
+      ],
+      lang: {
+        en_us: 'Uranium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_platinum',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:platinum_ore',
+        'more_ores_more_gems:deepslate_platinum_ore',
+      ],
+      lang: {
+        en_us: 'Platinum Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_ekanite',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:ekanite_ore',
+        'more_ores_more_gems:deepslate_ekanite_ore',
+      ],
+      lang: {
+        en_us: 'Ekanite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_thalassium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:thalassium_ore',
+        'more_ores_more_gems:deepslate_thalassium_ore',
+      ],
+      lang: {
+        en_us: 'Thalassium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_volcagmium',
+      stone: [
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:volcagmium_ore',
+      ],
+      lang: {
+        en_us: 'Volcagmium Ore',
+      },
+      types: [
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'momg_carnelian',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:carneliam_ore',
+        'more_ores_more_gems:deepslate_carneliam_ore',
+      ],
+      lang: {
+        en_us: 'Carnelian Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_aquamarine',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:aquamarine_ore',
+        'more_ores_more_gems:deepslate_aquamarine_ore',
+      ],
+      lang: {
+        en_us: 'Aquamarine Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_gunpowder',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:gunpowder_ore',
+        'more_ores_more_gems:deepslate_gunpowder_ore',
+      ],
+      lang: {
+        en_us: 'Gunpowder Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_fluorite_1',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:fluorite_tier_1_ore',
+        'more_ores_more_gems:fluorite_tier_1_ore_deepslate',
+      ],
+      lang: {
+        en_us: 'Fluorite Tier 1 Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_fluorite_2',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:fluorite_tier_2_ore',
+        'more_ores_more_gems:fluorite_tier_2_ore_deepslate',
+      ],
+      lang: {
+        en_us: 'Fluorite Tier 3 Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_fluorite_3',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:fluorite_tier_3_ore',
+        'more_ores_more_gems:fluorite_tier_3_ore_deepslate',
+      ],
+      lang: {
+        en_us: 'Fluorite Tier 3 Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_bromine',
+      stone: [
+        'endstone',
+      ],
+      block_id: [
+        'more_ores_more_gems:bromine_ore',
+      ],
+      lang: {
+        en_us: 'Bromine Ore',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'momg_tungsten',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:tungsten_ore',
+        'more_ores_more_gems:deepslate_tungsten_ore',
+      ],
+      lang: {
+        en_us: 'Tungsten Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_antimony',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:antimony_ore',
+        'more_ores_more_gems:deepslate_antimony_ore',
+      ],
+      lang: {
+        en_us: 'Antimony Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_adamantite',
+      stone: [
+        'endstone',
+      ],
+      block_id: [
+        'more_ores_more_gems:adamantite_ore',
+      ],
+      lang: {
+        en_us: 'Adamantite Ore',
+      },
+      types: [
+        'end',
+      ],
+    },
+	
+      {
+      id: 'momg_electrum',
+      stone: [
+        'stone',
+        'deepslate',
+        'netherrack',
+      ],
+      block_id: [
+        'more_ores_more_gems:electrum_ore',
+        'more_ores_more_gems:deepslate_electrum_ore',
+        'more_ores_more_gems:nether_electrum_ore',
+      ],
+      lang: {
+        en_us: 'Electrum Ore',
+      },
+      types: [
+        'stone',
+        'nether',
+      ],
+    },
+	
+      {
+      id: 'momg_tin',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:tin_ore',
+        'more_ores_more_gems:deepslate_tin_ore',
+      ],
+      lang: {
+        en_us: 'Tin Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_monel',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:monel_ore',
+        'more_ores_more_gems:deepslate_monel_ore',
+      ],
+      lang: {
+        en_us: Monel Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_magnesium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:magnesium_ore',
+        'more_ores_more_gems:deepslate_magnesium_ore',
+      ],
+      lang: {
+        en_us: 'Magnesium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_rhodium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:rhodium_ore',
+        'more_ores_more_gems:deepslate_rhodium_ore',
+      ],
+      lang: {
+        en_us: 'Rhodium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_autonite',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:autonite_ore',
+        'more_ores_more_gems:deepslate_autonite_ore',
+      ],
+      lang: {
+        en_us: 'Autonite Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_neptunium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:neptunium_ore',
+        'more_ores_more_gems:deepslate_neptunium_ore',
+      ],
+      lang: {
+        en_us: 'Neptunium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+	
+      {
+      id: 'momg_thorium',
+      stone: [
+        'stone',
+        'deepslate',
+      ],
+      block_id: [
+        'more_ores_more_gems:thorium_ore',
+        'more_ores_more_gems:deepslate_thorium_ore',
+      ],
+      lang: {
+        en_us: 'Thorium Ore',
+      },
+      types: [
+        'stone',
+      ],
+    },
+  ],
+}
